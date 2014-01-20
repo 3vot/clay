@@ -1,4 +1,4 @@
-#!/bin/env node
+#!/usr/bin/env node
 
 var argv = require('optimist').argv;
 var Path = require('path')
