@@ -480,7 +480,7 @@ module.exports = (function (doc) {
 },{}],6:[function(require,module,exports){
 module.exports={
   "name": "gold",
-  "version": "0.0.39",
+  "version": "0.0.40",
   "profile": "rodco",
   "private": true,
   "scripts": {
