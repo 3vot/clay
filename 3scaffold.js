@@ -16,7 +16,7 @@ _3scaffold = (function() {
     fs.mkdir( Path.join( process.cwd(), options.folder , "apps", "dependencies" ), function(){} );
     fs.mkdir( Path.join( process.cwd(), options.folder , "tmp" ), function(){}) ;
 
-    var templatesPath =  Path.join(Path.dirname(fs.realpathSync(__filename)), './templates');
+    var templatesPath =  Path.join(Path.dirname(fs.realpathSync(__filename)), 'templates');
 
     console.log(templatesPath);
   
