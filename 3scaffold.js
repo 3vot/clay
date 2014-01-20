@@ -16,9 +16,13 @@ _3scaffold = (function() {
     fs.mkdir( Path.join( process.cwd(), options.folder , "apps", "dependencies" ), function(){} );
     fs.mkdir( Path.join( process.cwd(), options.folder , "tmp" ), function(){}) ;
 
-    var _3votJSON = require( "./templates/3vot.json"  );
-    var gitIgnore = fs.readFileSync(  "./templates/.gitignore"  );
-    var pckJSON = require( "./templates/package.json"  );
+    var templatesPath =  Path.join(Path.dirname(fs.realpathSync(__filename)), './templates');
+
+    console.log(templatesPath);
+  
+    var _3votJSON = require( Path.join(  templatesPath, "3vot.json" ));
+    var gitIgnore = fs.readFileSync(  Path.join( templatesPath, ".gitignore" ), "utf-8");
+    var pckJSON = require( Path.join( templatesPath, "package.json" ));
 
     _3votJSON.key = options.key;
     _3votJSON.profile = options.profile;
