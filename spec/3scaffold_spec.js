@@ -11,7 +11,9 @@ describe('3Scaffold', function(){
   
   it('sould have files', function(){
 
-    _3scaffold.setup( "tmp", "key", "profile");
+    var options= {folder: "temp", key: "key", profile: "profile" };
+
+    _3scaffold.setup( options );
     
     var _3vot = fs.readFileSync( Path.join( process.cwd(), "tmp", "3vot.json"), "utf-8");
     var pck = fs.statSync( Path.join( process.cwd(), "tmp", "package.json"));
