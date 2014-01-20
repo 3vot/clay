@@ -11,9 +11,9 @@ describe('3Scaffold', function(){
   
   it('sould have files', function(){
 
-    _3scaffold.setup( "tmp");
+    _3scaffold.setup( "tmp", "key", "profile");
     
-    var _3vot = fs.statSync( Path.join( process.cwd(), "tmp", "3vot.json"));
+    var _3vot = fs.readFileSync( Path.join( process.cwd(), "tmp", "3vot.json"), "utf-8");
     var pck = fs.statSync( Path.join( process.cwd(), "tmp", "package.json"));
     var gitIgnore = fs.statSync( Path.join( process.cwd(), "tmp", ".gitignore"));
 
@@ -23,7 +23,9 @@ describe('3Scaffold', function(){
 
     var tmp = fs.statSync( Path.join( process.cwd(), "tmp", "tmp"));
 
-    _3vot.isFile().should.equal(true);
+    _3vot = JSON.parse(_3vot);
+    _3vot.key.should.equal("key");
+    _3vot.profile.should.equal("profile");
 
     pck.isFile().should.equal(true);
 

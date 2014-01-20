@@ -19,7 +19,7 @@ var _3builder = require("../3builder")
 // *****************
 
 if( argv._.indexOf("setup") > -1 ){
-  _3scaffold.setup(argv.folder);
+  _3scaffold.setup({folder: argv.folder, key: argv.key, profile: argv.profile});
 }
 
 if( argv._.indexOf("install") > -1 ){

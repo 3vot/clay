@@ -9,7 +9,7 @@ _3scaffold = (function() {
 
   function _3scaffold() {}
 
-  _3scaffold.setup= function (folderName){
+  _3scaffold.setup= function (folderName, key, profile){
 
     fs.mkdir( Path.join(process.cwd(), folderName ), function(){});
     fs.mkdir( Path.join(process.cwd(), folderName , "apps" ), function(){});
@@ -19,6 +19,9 @@ _3scaffold = (function() {
     var _3votJSON = require( Path.join(process.cwd(), "templates", "3vot.json"  ));
     var gitIgnore = fs.readFileSync(  Path.join(process.cwd(), "templates", ".gitignore"  ));
     var pckJSON = require( Path.join(process.cwd(), "templates", "package.json"  ));
+    
+    _3votJSON.key = key;
+    _3votJSON.profile = profile;
     
     fs.writeFileSync( Path.join(process.cwd(), folderName, "3vot.json"), JSON.stringify(_3votJSON) );
 

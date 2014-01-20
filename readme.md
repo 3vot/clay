@@ -14,7 +14,7 @@ npm install 3vot -g
 
 and setup a project:
 
-2. Setup 3VOT: 3vot setup --key [xxxxxxxxxxxxxxxxxxxx] --profile [companyName] You can obtain the Key from your Organization's Dashboard
+2. Setup 3VOT: 3vot setup --key [xxxxxxxxxxxxxxxxxxxx] --profile [companyName] --folder [folderName] You can obtain the Key from your Organization's Dashboard
 
 3. Install Dependencies: npm install .
 
