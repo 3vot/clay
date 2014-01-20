@@ -19,7 +19,7 @@ var _3builder = require("../3builder")
 // *****************
 
 if( argv._.indexOf("setup") > -1 ){
-  _3scaffold.downloadProject()
+  _3scaffold.setup()
 }
 
 if( argv._.indexOf("install") > -1 ){
