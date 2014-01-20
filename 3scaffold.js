@@ -20,8 +20,8 @@ _3scaffold = (function() {
 
     console.log(templatesPath);
   
-    var _3votJSON = require( Path.join(  templatesPath, "3vot.json" ));
-    var gitIgnore = fs.readFileSync(  Path.join( templatesPath, ".gitignore" ), "utf-8");
+    var _3votJSON = require( Path.join(  templatesPath, "_3vot.json" ));
+    var gitIgnore = fs.readFileSync(  Path.join( templatesPath, "_.gitignore" ), "utf-8");
     var pckJSON = require( Path.join( templatesPath, "package.json" ));
 
     _3votJSON.key = options.key;
