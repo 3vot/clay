@@ -10,7 +10,7 @@ var colors = require('colors');
 var _3bower = require("../3bower")
 var _3scaffold = require("../3scaffold")
 var _3pm = require("../3pm")
-var _3pmd = require("../3pmd")
+var _3download = require("../3download")
 var _3dev = require("../3dev")
 var _3builder = require("../3builder")
 
@@ -36,14 +36,15 @@ if( argv._.indexOf("server") > -1 ){
 }
 
 if( argv._.indexOf("upload") > -1 ){
-  
+  var pkg = Path.join(process.cwd(), "package.json");
   var __3pm = new _3pm( argv.app )
   __3pm.uploadApp();
 }
 
 if( argv._.indexOf("download") > -1 ){
-  var __3pmd = new _3pmd( argv.app )
-  __3pmd.downloadApp();
+  
+  var __3download = new _3download( { username: argv.profile, name: argv.app } )
+  __3download.downloadApp();
 }
 
 if( argv._.indexOf("build") > -1 ){

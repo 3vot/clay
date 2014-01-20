@@ -5,7 +5,7 @@ var App = (function() {
 
   App.metadata = require("../package")
 
-  document.body.innerHTML = fs.readFileSync("./apps/gold/templates/layout_mobile.html");
+  document.body.innerHTML = fs.readFileSync("./apps/gold/templates/layout_phone.html");
 
   function App() {
     require("../code/bootstrap");
