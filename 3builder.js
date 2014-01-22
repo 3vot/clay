@@ -1,6 +1,6 @@
 var fs = require("fs");
 var Browserify = require("browserify");
-var Q = require("Q");
+var Q = require("q");
 Q.longStackSupport = true;
 var Path = require('path');
 var _3template = require("./3template");

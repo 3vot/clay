@@ -1,7 +1,7 @@
 var bower = require("bower");
 var Path = require("path")
 var fs = require("fs")
-var Q = require("Q");
+var Q = require("q");
 Q.longStackSupport = true;
 
 _3install = (function() {

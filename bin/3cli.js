@@ -4,7 +4,7 @@ var argv = require('optimist').argv;
 var Path = require('path')
 var prompt = require("prompt")
 
-var Q = require("Q");
+var Q = require("q");
 Q.longStackSupport = true;
 var colors = require('colors');
 
@@ -25,21 +25,21 @@ var _3account = require("../3account")
 
 
 if( argv._.indexOf("account") > -1 && argv._.indexOf("register") > -1 ){
-  
+  /*
   prompt.start();
   
   prompt.get( [ 
     { name: 'name', description: 'Organization Name: ' },
-    { name: 'username', description: 'Username: ( Only Letters )', patter: /[a-z]+/ }], function (err, result) {
-    
+    { name: 'name', description: 'Organization Name: ' },
+
+    { name: 'username', description: 'Profile: ( pick your profile name ej: cocacola for 3vot.com/cocacola )', message: "Only lowercase letters, no spaces, dashes, etc", pattern: /[a-z]+/ }], function (err, result) {
 
     _3account.register( result )
+    .then( function( profile ){ _3scaffold.setup({folder: "3vot-" + result.username, key: profile.public_dev_key, profile: result.username })  }  )
     
   });
-    
-
+ */
 }
-
 
 if( argv._.indexOf("setup") > -1 ){
   
