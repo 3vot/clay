@@ -11,14 +11,12 @@ _3scaffold = (function() {
 
   _3scaffold.setup= function (options){
 
-    fs.mkdir( Path.join( process.cwd(), options.folder ), function(){} );
-    fs.mkdir( Path.join( process.cwd(), options.folder , "apps" ), function(){} );
-    fs.mkdir( Path.join( process.cwd(), options.folder , "apps", "dependencies" ), function(){} );
-    fs.mkdir( Path.join( process.cwd(), options.folder , "tmp" ), function(){}) ;
+    fs.mkdir( Path.join( options.folder ), function(){} );
+    fs.mkdir( Path.join( options.folder , "apps" ), function(){} );
+    fs.mkdir( Path.join( options.folder , "apps", "dependencies" ), function(){} );
+    fs.mkdir( Path.join( options.folder , "tmp" ), function(){}) ;
 
     var templatesPath =  Path.join(Path.dirname(fs.realpathSync(__filename)), './templates');
-
-    console.log(templatesPath);
   
     var _3votJSON = require( Path.join(  templatesPath, "_3vot.json" ));
     var gitIgnore = fs.readFileSync(  Path.join( templatesPath, "_.gitignore" ), "utf-8");
