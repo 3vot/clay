@@ -2,6 +2,7 @@
 
 var argv = require('optimist').argv;
 var Path = require('path')
+var prompt = require("prompt")
 
 var Q = require("Q");
 Q.longStackSupport = true;
@@ -13,13 +14,50 @@ var _3pm = require("../3pm")
 var _3download = require("../3download")
 var _3dev = require("../3dev")
 var _3builder = require("../3builder")
+var _3account = require("../3account")
+
+
+
 
 // *****************
 // CLI
 // *****************
 
+
+if( argv._.indexOf("account") > -1 && argv._.indexOf("register") > -1 ){
+  
+  prompt.start();
+  
+  prompt.get( [ 
+    { name: 'name', description: 'Organization Name: ' },
+    { name: 'username', description: 'Username: ( Only Letters )', patter: /[a-z]+/ }], function (err, result) {
+    
+
+    _3account.register( result )
+    
+  });
+    
+
+}
+
+
 if( argv._.indexOf("setup") > -1 ){
-  _3scaffold.setup({folder: argv.folder, key: argv.key, profile: argv.profile});
+  
+  var folder = "";
+  var key= "";
+  var profile = "";
+  
+  prompt.start();
+  
+  prompt.get( [ 
+    { name: 'profile', description: 'Profile Name: ( The Profile you want to build apps for )' },
+    { name: 'key', description: 'Developer Key: ( Your Developer Key provided by the 3VOT Admin )' },
+    { name: 'folder', description: 'Folder Name: ( The Folder where we will create the project )' } ], function (err, result) {
+    
+    _3scaffold.setup({folder: result.folder, key: result.key, profile: result.profile});
+    
+  });
+
 }
 
 if( argv._.indexOf("server") > -1 ){

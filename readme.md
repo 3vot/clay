@@ -26,20 +26,28 @@ $ npm install 3vot-cli -g
 This will install 3VOT Command Line Interface, a tool to build, download and deploy apps.
 
 Step 2:
+Create your 3VOT Profile
+
+$ 3vot account register
+
+Type your Organization's name and your profile name
+
+
+Step 3:
 From your project folder type
 
 $ 3vot setup --key [ yourkey ] --profile [ yourProfile ] --folder [ the folder name where we will create the project ]
 
 This will create the directory structure and download all required dependencies from NPM, all dependencies and code used in 3VOT is Open Source.
 
-Step 3:
+Step 4:
 Download a Sample App, courtesy of 3VOT
 
 $ 3vot download --app hello-world --profile 3vot
 
 This will create the folder structure for the App and download all dependencies from NPM and Bower.
 
-Step 4:
+Step 5:
 Run the App in you development computer
 
 $ 3vot server
@@ -47,14 +55,14 @@ $ 3vot server
 This will start a development server, just point your browser to http://localhost:3000/[yourProfile]/hello-world
 
 
-Step 5:
+Step 6:
 Make change to your app
 
 Go ahead and open the file in yourFolder/apps/hello-world/templates/layout.html 
 
 Refresh your server and you'll see the changes.
 
-Step 6:
+Step 7:
 Register and Deploy your App
 
 $ 3vot upload --app hello-world
