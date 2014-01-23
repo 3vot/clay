@@ -19,6 +19,7 @@ Requirements:
 You can try this instructions in cloud9.io or Nitrous.io if you don't want to use your computer.
 On the command line
 
+Note: You can also try 3vot.com very quickly in nitrous.io
 
 Step 1:
 $ npm install 3vot-cli -g
@@ -28,7 +29,9 @@ This will install 3VOT Command Line Interface, a tool to build, download and dep
 Step 2:
 From your project folder type
 
-$ 3vot setup --key 12345 --profile 3vot --folder 3vot_intro
+$ 3vot setup
+
+Use the following setting for a demo: --key 12345 --profile 3vot --folder 3vot_intro
 
 This will create the directory structure and download all required dependencies from NPM, all dependencies and code used in 3VOT is Open Source.
 
@@ -43,6 +46,9 @@ Step 4:
 Run the App in you development computer
 
 $ 3vot server
+
+If you are running on nitrous.io, find out your preview domain and use the --domain option
+For example: 3vot server --domain highgarden-nodejs-72443.use1.nitrousbox.com
 
 This will start a development server, just point your browser to http://localhost:3000/3vot/hello-world
 
