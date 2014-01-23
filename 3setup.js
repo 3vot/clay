@@ -38,15 +38,18 @@ _3setup = (function() {
 
     fs.writeFileSync( Path.join(process.cwd(), options.folder, "3vot.json"), JSON.stringify(_3votJSON, null, '\t') );
     fs.writeFileSync( Path.join(process.cwd(), options.folder, "package.json"), JSON.stringify(pckJSON, null, '\t') );
-    fs.writeFile( Path.join(process.cwd(), options.folder, ".gitignore"), gitIgnore, function(){ deferred.resolve()  } );
+    fs.writeFile( Path.join(process.cwd(), options.folder, ".gitignore"), gitIgnore, function(){ deferred.resolve( options )  } );
 
     return deferred.promise
 
   }
 
 
-  _3setup.installNPM= function(){
+  _3setup.installNPM= function(options){
      var deferred = Q.defer();
+     
+     process.chdir( process.cwd() + options.folder);
+     
      
      var npm = require("npm");
 
