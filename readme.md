@@ -31,12 +31,12 @@ From your project folder type
 
 $ 3vot setup
 
-Use the following setting for a demo: key: 12345
+Use the following setting for a demo: key: 123456
 
 This will create the directory structure and download all required dependencies from NPM, all dependencies and code used in 3VOT is Open Source.
 
 Step 2.1:
-$ cd 3vot_3vot
+$ cd 3vot_tutorial
 
 This will cd into the project folder
 
@@ -45,7 +45,7 @@ Download a Sample App, courtesy of 3VOT
 
 $ 3vot download
 
-User the following settings:  app: gold ,  profile: rodco
+User the following settings:  app: gold , profile: rodco
 
 This will create the folder structure for the App and download all dependencies from NPM and Bower.
 
@@ -56,27 +56,29 @@ $ 3vot server
 
 If you are running on nitrous.io, find out your preview domain and add it as an option. Else leave blank and hit enter
 
-This will start a development server, just point your browser to http://localhost:3000/myorg/gold
+This will start a development server, just point your browser to http://localhost:3000/tutorial/gold
 
-If you are using nitrous.io, point the server to NITROUS_URL/myorg/gold
+If you are using nitrous.io, point the server to NITROUS_URL/tutorial/gold
 
 Step 5:
 Make change to your app
 
-Go ahead and open the file in 3vot_3vot/apps/gold/templates/layout.html 
+Go ahead and open the file in 3vot_tutorial/apps/gold/templates/layout.html 
 
 Refresh your browser and you'll see the changes.
 
 Step 6:
 Register and Deploy your App
 
+Before uploading make sure you increment the version of the app in apps/gold/package.json;
+
 $ 3vot upload 
 
-User the following setting --app gold
+User the following setting app: gold
 
 This will upload the App to your profile, you'll later be able publish it to the world.
 
-It will also deploy a demo of your app. Visit http://demo.3vot.com/3vot/gold
+It will also deploy a demo of your app. Visit http://demo.3vot.com/tutorial/gold
 
 
 About 3VOT

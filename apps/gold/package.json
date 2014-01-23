@@ -1,7 +1,7 @@
 {
 	"name": "gold",
 	"version": "0.0.40",
-	"profile": "3vot",
+	"profile": "myorg",
 	"private": true,
 	"scripts": {
 		"start": "node app.js",

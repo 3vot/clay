@@ -148,7 +148,10 @@ _3upload = (function(){
   _3upload.prototype.validatePackage= function(results){
     packageInfo = results[0]
     originalPackageInfo = results[0]
-    if (packageInfo === undefined) packageInfo = new Packages();
+    if (packageInfo === undefined){
+      var Packages = Parse.Object.extend("Packages");
+      packageInfo = new Packages();
+    }
     if ( packageInfo.attributes.version !== undefined && !Semver.gt( appPackage.version, packageInfo.attributes.version )){
       return Q.fcall(function () {
           throw new Error("Package Version should be greater than " + packageInfo.attributes.version);
