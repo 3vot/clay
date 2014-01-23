@@ -31,7 +31,7 @@ From your project folder type
 
 $ 3vot setup
 
-Use the following setting for a demo: key: 123456
+Use the following setting for your first demo key: 123456
 
 This will create the directory structure and download all required dependencies from NPM, all dependencies and code used in 3VOT is Open Source.
 
@@ -78,8 +78,7 @@ User the following setting app: gold
 
 This will upload the App to your profile, you'll later be able publish it to the world.
 
-It will also deploy a demo of your app. Visit http://demo.3vot.com/tutorial/gold
-
+It will also deploy a demo of your app. Visit http://demo.3vot.com/tutorial/gold_0.0.xx
 
 About 3VOT
 3VOT is a company that packs the best open source modules, and the industry standard best practices into a Comercial Solution that enables every organisation to build their own apps. 
