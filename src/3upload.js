@@ -247,12 +247,12 @@ _3upload = (function(){
     var deps = walkDir( Path.join( process.cwd(), "apps", "dependencies" ) );
 
     assets.forEach( function(path){
-      path.key = username + "/" +  appName  +  "/assets/" + path.name
+      path.key = username + "/" +  appName + "_" + appPackage.version + "/assets/" + path.name
       uploadPromises.push( uploadFile( path ));
     });
   
     apps.forEach( function(path){
-      path.key = username + "/" +  appName  +  "/" + path.name
+      path.key = username + "/" +  appName  +  "_" + appPackage.version + "/" + path.name
       uploadPromises.push( uploadFile( path ) );
     });
 
@@ -279,7 +279,7 @@ _3upload = (function(){
     packageInfo.set("version", appPackage.version);
     packageInfo.addUnique("versions", appPackage.version )
     packageInfo.addUnique("versionMap", {version: appPackage.version, versionId: versionId} )
-    packageInfo.save( null, { success: function(pck){ console.log( ("App Updated Succesfully: http://demo.3vot.com/" + username + "/" + appName ).green) }  } );
+    packageInfo.save( null, { success: function(pck){ console.log( ("App Updated Succesfully: http://demo.3vot.com/" + username + "/" + appName + "_" + appPackage.version ).green) }  } );
     stages.push["updatePackageInfo"]  
   }
   
