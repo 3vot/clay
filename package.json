@@ -28,7 +28,8 @@
     "express": "~3.4.8",
     "fstream-ignore": "0.0.7",
     "3vot": "0.0.2",
-    "prompt": "~0.2.12"
+    "prompt": "~0.2.12",
+    "npm" : "*"
   },
   "devDependencies": {
     "coffeeify": "~0.5.2",

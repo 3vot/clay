@@ -9,7 +9,7 @@ Q.longStackSupport = true;
 var colors = require('colors');
 
 var _3install = require("../3install")
-var _3scaffold = require("../3scaffold")
+var _3setup = require("../3setup")
 var _3pm = require("../3pm")
 var _3download = require("../3download")
 var _3dev = require("../3dev")
@@ -52,7 +52,7 @@ if( argv._.indexOf("setup") > -1 ){
     { name: 'key', description: 'Developer Key: ( Your Developer Key provided by the 3VOT Admin )' },
     { name: 'folder', description: 'Folder Name: ( The Folder where we will create the project )' } ], function (err, result) {
     
-    _3scaffold.setup({folder: result.folder, key: result.key, profile: result.profile});
+    _3setup.setup({folder: result.folder, key: result.key, profile: result.profile});
     
   });
 
