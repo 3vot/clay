@@ -47,7 +47,11 @@ _3setup = (function() {
   _3setup.installNPM= function(options){
      var deferred = Q.defer();
      
-     process.chdir( Path.join( process.cwd() , options.folder ) );
+     var projectPath = Path.join( process.cwd() , options.folder );
+     
+     console.info(("Changing current directory to " + projectPath).yellow)
+     
+     process.chdir( projectPath );
 
      var npm = require("npm");
 

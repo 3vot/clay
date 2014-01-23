@@ -31,14 +31,14 @@ From your project folder type
 
 $ 3vot setup
 
-Use the following setting for a demo: --key 12345 --profile 3vot --folder 3vot_intro
+Use the following setting for a demo: key: 12345 , profile: myOrg , folder: 3vot_myOrg
 
 This will create the directory structure and download all required dependencies from NPM, all dependencies and code used in 3VOT is Open Source.
 
 Step 3:
 Download a Sample App, courtesy of 3VOT
 
-$ 3vot download --app hello-world --profile 3vot
+$ 3vot download --app hello-world --profile rodco
 
 This will create the folder structure for the App and download all dependencies from NPM and Bower.
 
@@ -58,7 +58,7 @@ Make change to your app
 
 Go ahead and open the file in yourFolder/apps/hello-world/templates/layout.html 
 
-Refresh your server and you'll see the changes.
+Refresh your browser and you'll see the changes.
 
 Step 6:
 Register and Deploy your App
