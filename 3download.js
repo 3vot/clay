@@ -95,13 +95,17 @@ _3download = (function(){
     
     var stream = s3.getObject(params).createReadStream().pipe(zlib.createGunzip() ).pipe( tar.Extract( Path.join( process.cwd(), 'apps'  ) ) );
     
+    stream.on("error", function(error){ deferred.reject(error) })
+    
     stream.on("end", function(){ 
+      console.info("Adjusting the package.json for your Profile".yellow)
       
       var pck = require( Path.join( process.cwd(), "apps", app.name, "package.json" )  );
       var _3vot = require( Path.join( process.cwd(), "3vot.json" )  )
       pck.profile = _3vot.profile;
-      fs.writeFileSync( Path.join( process.cwd(), "apps", app.name, "package.json" ), JSON.stringify(pck,null,'\t') )
-      
+      fs.writeFile( Path.join( process.cwd(), "apps", app.name, "package.json" ), JSON.stringify(pck,null,'\t') , function(){
+        deferred.resolve();
+      });
       
     });
 
