@@ -17,9 +17,9 @@ var Path = require('path');
 // *****************
 // CLI
 // *****************
-var _3pm;
+var _3upload;
 
-_3pm = (function(){
+_3upload = (function(){
 
   var appName = "";
   var username = "";
@@ -29,12 +29,12 @@ _3pm = (function(){
   var appPackage;
   var stages = []
 
-  function _3pm(applicationName) {
+  function _3upload(applicationName) {
     appName = applicationName;
   }
 
   // Upload App Flow
-  _3pm.prototype.uploadApp = function( ){
+  _3upload.prototype.uploadApp = function( ){
 
     appPackage = require( Path.join( process.cwd(), "apps", appName, "package.json" ))
 
@@ -74,7 +74,7 @@ _3pm = (function(){
   // Parms: appName : The Name of the App/Folder inside the "apps" folder
   // Returns: Promise
   // Desc: Simply packs all files in the folder in a tar.gz
-  _3pm.prototype.buildPackage = function(appName){
+  _3upload.prototype.buildPackage = function(appName){
     console.info(("Building App " + appName).green)
     var deferred = Q.defer();
     var appPackage = require( Path.join( process.env.PWD, "apps", appName, "package.json" ) )
@@ -100,7 +100,7 @@ _3pm = (function(){
   // Parms: 
   // Returns: Promise
   // Desc: Users the Key in 3vot.json to get the username from the 3VOT Platform
-  _3pm.prototype.checkProfile= function(){
+  _3upload.prototype.checkProfile= function(){
     var config = require(Path.join( process.env.PWD, "3vot.json") );
     var deferred = Q.defer();
     var Profiles = Parse.Object.extend("Profiles");
@@ -115,7 +115,7 @@ _3pm = (function(){
   // Parms: Results from Query
   // Returns: Promise
   // Desc: Checks to see if the Key is valid, by listing the Profile associated with it.
-  _3pm.prototype.validateProfile= function(results){
+  _3upload.prototype.validateProfile= function(results){
     if(results.length === 0){
       return Q.fcall(function () {
         return new Error("We could not find a profile with the provided key. Check Configuration in 3vot.json");
@@ -130,7 +130,7 @@ _3pm = (function(){
   // Parms: Profile from ValidateProfile
   // Returns: Promise
   // Desc: Requests the Package Master Object from 3VOT Platform
-  _3pm.prototype.checkPackage= function(profile){
+  _3upload.prototype.checkPackage= function(profile){
     username = profile.attributes.username
     var Packages = Parse.Object.extend("Packages");
     var packageQuery = new Parse.Query(Packages);
@@ -145,7 +145,7 @@ _3pm = (function(){
   // Parms: Package Results
   // Returns: Promise
   // Desc: Checks that the Package to be uploaded is valid and it's version number is incremental.
-  _3pm.prototype.validatePackage= function(results){
+  _3upload.prototype.validatePackage= function(results){
     packageInfo = results[0]
     originalPackageInfo = results[0]
     if (packageInfo === undefined) packageInfo = new Packages();
@@ -163,7 +163,7 @@ _3pm = (function(){
   // Parms: 
   // Returns: Promise
   // Desc: Uploads the Package tar.gz file to 3VOT Distibuted File Server
-  _3pm.prototype.uploadPackage= function (){
+  _3upload.prototype.uploadPackage= function (){
     console.info("Uploading Package to 3VOT App Store".yellow)
     var deferred = Q.defer();
     fs.readFile( Path.join( process.cwd(), 'tmp', appName + '.tar.gz'), function (err, data) {
@@ -184,7 +184,7 @@ _3pm = (function(){
   // Parms: 
   // Returns: Promise
   // Desc: Used in case of an error in the transaction, to delete the file that was just saved.
-  _3pm.prototype.undoUploadPackage= function(){
+  _3upload.prototype.undoUploadPackage= function(){
     if (stages.indexOf("uploadPackage") == -1){
       console.info("There is no need to undo Package Upload, never uploaded".yellow)
       return false;
@@ -206,7 +206,7 @@ _3pm = (function(){
   // Parms: 
   // Returns: Promise
   // Desc: Uploads the Application Assets to 3VOT Application Server
-  _3pm.prototype.uploadAssets = function(){
+  _3upload.prototype.uploadAssets = function(){
     var deferred = Q.defer();
     var _this = this;
 
@@ -269,7 +269,7 @@ _3pm = (function(){
   // Parms: 
   // Returns: Promise
   // Desc: Updates the Package Information in the 3VOT Platform
-  _3pm.prototype.updatePackageInfo= function(){
+  _3upload.prototype.updatePackageInfo= function(){
     stages.push["uploadAssets"]
     packageInfo.set("username", username)
     packageInfo.set("name", appPackage.name)
@@ -284,7 +284,7 @@ _3pm = (function(){
   // Parms: 
   // Returns: Promise
   // Desc: Reverts the Package Information to previous state in case of Error.
-  _3pm.prototype.undoUpdatePackageInfo= function(){
+  _3upload.prototype.undoUpdatePackageInfo= function(){
 
     if (stages.indexOf("updatePackageInfo") == -1){
       console.info("There is no need to undo Package Info Update, never updated".yellow)
@@ -297,7 +297,7 @@ _3pm = (function(){
     return true;
   }
   
-  return _3pm;
+  return _3upload;
 })();
 
-module.exports = _3pm;
+module.exports = _3upload;

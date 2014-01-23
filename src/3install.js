@@ -71,8 +71,7 @@ _3install = (function() {
       return deferred.promise;
       
   }
-  
-  
+
   return _3install;
 
 })();

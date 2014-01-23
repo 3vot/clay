@@ -26,7 +26,7 @@ _3setup = (function() {
     fs.mkdir( Path.join( process.cwd(), options.folder , "apps", "dependencies" ), function(){} );
     fs.mkdir( Path.join( process.cwd(), options.folder , "tmp" ), function(){}) ;
 
-    var templatesPath =  Path.join(Path.dirname(fs.realpathSync(__filename)), './templates');
+    var templatesPath =  Path.join(Path.dirname(fs.realpathSync(__filename)), '../templates');
   
     var _3votJSON = require( Path.join(  templatesPath, "_3vot.json" ));
     var gitIgnore = fs.readFileSync(  Path.join( templatesPath, "_.gitignore" ), "utf-8");

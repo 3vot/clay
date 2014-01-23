@@ -8,13 +8,13 @@ var Q = require("q");
 Q.longStackSupport = true;
 var colors = require('colors');
 
-var _3install = require("../3install")
-var _3setup = require("../3setup")
-var _3pm = require("../3pm")
-var _3download = require("../3download")
-var _3dev = require("../3dev")
-var _3builder = require("../3builder")
-var _3account = require("../3account")
+var _3install = require("../src/3install")
+var _3setup = require("../src/3setup")
+var _3upload = require("../src/3upload")
+var _3download = require("../src/3download")
+var _3dev = require("../src/3dev")
+var _3builder = require("../src/3builder")
+var _3account = require("../src/3account")
 
 
 // *****************
@@ -98,9 +98,8 @@ if( argv._.indexOf("download") > -1 ){
        var __3download = new _3download( { username: result.profile, name: result.app } )
        __3download.downloadApp()
        .then( function(){ return _3install.install(result.app) });
-       
+ 
    });
-  
 }
 
 if( argv._.indexOf("build") > -1 ){
