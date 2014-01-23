@@ -97,7 +97,7 @@ if( argv._.indexOf("download") > -1 ){
 
        var __3download = new _3download( { username: result.profile, name: result.app } )
        __3download.downloadApp()
-       .then( function(){ return _3install.install(return.app) });
+       .then( function(){ return _3install.install(result.app) });
        
    });
   

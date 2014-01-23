@@ -30,7 +30,6 @@ module.exports = {
     console.log(devDomain)
 
     app.get("/" + profile  + "/:appName/assets/:asset", function(req, res) {
-      res.setHeader("Content-Type", "text-javascript");
       var asset = req.params.asset;
       var appName = req.params.appName;
       fs.readFile( Path.join(  process.cwd() , "apps", appName, "app", "assets", asset ) , 
@@ -45,7 +44,7 @@ module.exports = {
     });
 
     app.get("/" + profile  + "/dependencies/:name", function(req, res) {
-      res.setHeader("Content-Type", "text-javascript");
+      res.setHeader("Content-Type", "text/javascript");
 
       fs.readFile( Path.join( process.cwd(), "apps", "dependencies", req.params.name ) , 
         function(err, file){
@@ -61,7 +60,7 @@ module.exports = {
 
     app.get("/" + profile  + "/dependencies/:appName/build", 
       function(req, res) {
-        res.setHeader("Content-Type", "text-javascript");
+        res.setHeader("Content-Type", "text/javascript");
         var appName = req.params.appName
         _3builder.buildDependency( appName )
         .then( 
@@ -73,7 +72,7 @@ module.exports = {
     );
 
     app.get("/" + profile  + "/:appName/:device", function(req, res) {
-      res.setHeader("Content-Type", "text-javascript");
+      res.setHeader("Content-Type", "text/javascript");
       var device = req.params.device;
       var appName = req.params.appName;
       fs.readFile( Path.join(  process.cwd() , "apps", appName, "app", device) , 
@@ -89,7 +88,6 @@ module.exports = {
 
     app.get("/" + profile  + "/:appName", 
       function(req, res) {
-        res.setHeader("Content-Type", "text-javascript");
         var baseDir = process.cwd();
         var appName = req.params.appName;
         pck = fs.readFileSync( Path.join( baseDir, "apps", appName, "package.json"  ), "utf-8"  );
