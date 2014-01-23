@@ -20,7 +20,6 @@ _3setup = (function() {
   _3setup.scaffold= function (options){
 
     var deferred = Q.defer();
-    
 
     fs.mkdir( Path.join( process.cwd(), options.folder ), function(){} );
     fs.mkdir( Path.join( process.cwd(), options.folder , "apps" ), function(){} );
@@ -46,9 +45,10 @@ _3setup = (function() {
 
 
   _3setup.installNPM= function(options){
+    console.log(options)
      var deferred = Q.defer();
      
-     process.chdir( process.cwd() + options.folder);
+     process.chdir( process.cwd() , options.folder);
      
      
      var npm = require("npm");
