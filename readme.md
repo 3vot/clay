@@ -38,7 +38,7 @@ This will create the directory structure and download all required dependencies 
 Step 3:
 Download a Sample App, courtesy of 3VOT
 
-$ 3vot download --app hello-world --profile rodco
+$ 3vot download --app gold --profile rodco
 
 This will create the folder structure for the App and download all dependencies from NPM and Bower.
 
