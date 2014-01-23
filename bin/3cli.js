@@ -3,7 +3,7 @@
 var argv = require('optimist').argv;
 var Path = require('path')
 var prompt = require("prompt")
-
+var fs = require("fs");
 var Q = require("q");
 Q.longStackSupport = true;
 var colors = require('colors');
@@ -21,6 +21,11 @@ var _3account = require("../src/3account")
 // CLI
 // *****************
 
+if(argv.v){
+  var pathToPackage =  Path.join(Path.dirname(fs.realpathSync(__filename)), '../package.json');
+  var pck  = require(pathToPackage);
+  console.log(pck.version);
+}
 
 if( argv._.indexOf("account") > -1 && argv._.indexOf("register") > -1 ){
   /*
