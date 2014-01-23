@@ -7,6 +7,7 @@ var fs = require("fs");
 var Q = require("q");
 Q.longStackSupport = true;
 var colors = require('colors');
+var Parse = require('parse').Parse;
 
 var _3install = require("../src/3install")
 var _3setup = require("../src/3setup")
@@ -16,6 +17,7 @@ var _3dev = require("../src/3dev")
 var _3builder = require("../src/3builder")
 var _3account = require("../src/3account")
 
+Parse.initialize( "IOcg1R4TxCDCPVsxAwLHkz8MPSOJfj2lZwdL4BU4", "jOr74Zy7C8VbatIvxoNyt2c03B9hPY7Hc32byA78" );
 
 // *****************
 // CLI

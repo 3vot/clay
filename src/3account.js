@@ -31,8 +31,6 @@ _3account = (function(){
 
     var deferred = Q.defer();
     
-    Parse.initialize( "IOcg1R4TxCDCPVsxAwLHkz8MPSOJfj2lZwdL4BU4", "jOr74Zy7C8VbatIvxoNyt2c03B9hPY7Hc32byA78" );
-    
     var key  = "" +  parseInt(Math.random() * 1000000);
     this.createProfile(options.name, options.username, key)
     .then( function( profile ){ deferred.resolve(profile)  } )

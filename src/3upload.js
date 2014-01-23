@@ -38,7 +38,6 @@ _3upload = (function(){
 
     appPackage = require( Path.join( process.cwd(), "apps", appName, "package.json" ))
 
-    Parse.initialize( "IOcg1R4TxCDCPVsxAwLHkz8MPSOJfj2lZwdL4BU4", "jOr74Zy7C8VbatIvxoNyt2c03B9hPY7Hc32byA78" );
     Aws.config.update( { accessKeyId: 'AKIAIHNBUFKPBA2LINFQ', secretAccessKey: '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' } );
     
     this.buildPackage(appName)
@@ -154,7 +153,7 @@ _3upload = (function(){
     }
     if ( packageInfo.attributes.version !== undefined && !Semver.gt( appPackage.version, packageInfo.attributes.version )){
       return Q.fcall(function () {
-          throw new Error("Package Version should be greater than " + packageInfo.attributes.version);
+          throw new Error("App Version in apps/" + appPackage.name + "/package.json should be greater than " + packageInfo.attributes.version);
       });
     }
     console.info("Package Validate Correctly".green)
@@ -252,6 +251,15 @@ _3upload = (function(){
     });
   
     apps.forEach( function(path){
+      console.log(path);
+      if(path.name == "index.html"){
+        var file = fs.readFileSync( path.path, "utf-8"  );
+        file = file.replace(
+          "_3vot.path = '//' + _3vot.domain + '/' + package.profile + '/' + package.name;",
+          "_3vot.path = '//' + _3vot.domain + '/' + package.profile + '/' + package.name + '_' + package.version;"
+        );
+        fs.writeFileSync( path.path, file );
+      }
       path.key = username + "/" +  appName  +  "_" + appPackage.version + "/" + path.name
       uploadPromises.push( uploadFile( path ) );
     });

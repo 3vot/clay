@@ -1,6 +1,6 @@
 {
 	"name": "gold",
-	"version": "0.0.40",
+	"version": "0.0.41",
 	"profile": "myorg",
 	"private": true,
 	"scripts": {

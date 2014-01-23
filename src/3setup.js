@@ -4,7 +4,6 @@ var fs = require("fs")
 var Q = require("q");
 Q.longStackSupport = true;
 
-Parse.initialize( "IOcg1R4TxCDCPVsxAwLHkz8MPSOJfj2lZwdL4BU4", "jOr74Zy7C8VbatIvxoNyt2c03B9hPY7Hc32byA78" );
 
 _3setup = (function() {
 
