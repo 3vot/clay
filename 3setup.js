@@ -45,12 +45,10 @@ _3setup = (function() {
 
 
   _3setup.installNPM= function(options){
-    console.log(options)
      var deferred = Q.defer();
      
-     process.chdir( process.cwd() , options.folder);
-     
-     
+     process.chdir( Path.join( process.cwd() , options.folder ) );
+
      var npm = require("npm");
 
       npm.load(npm.config, function (er) {
