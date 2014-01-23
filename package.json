@@ -1,6 +1,6 @@
 {
   "name": "3vot-cli",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "description": "3VOT Command Line Interface to run development task from the command line.",
   "main": "bin/3cli.js",
   "bin": {
@@ -29,7 +29,7 @@
     "fstream-ignore": "0.0.7",
     "3vot": "0.0.2",
     "prompt": "~0.2.12",
-    "npm" : "*"
+    "npm": "*"
   },
   "devDependencies": {
     "coffeeify": "~0.5.2",
