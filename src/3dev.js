@@ -29,6 +29,10 @@ module.exports = {
     
     console.log(devDomain)
 
+    app.get("/", function(req,res){
+      res.send("<h1>Congratulations 3VOT Local Server is Running</h1><h2>Now head to your app @ /YOURORG/YOURAPP</h2>");
+    });
+
     app.get("/" + profile  + "/:appName/assets/:asset", function(req, res) {
       var asset = req.params.asset;
       var appName = req.params.appName;

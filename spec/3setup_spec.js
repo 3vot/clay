@@ -2,7 +2,7 @@ var assert = require("assert")
 var should = require("should")
 
 var fs = require("fs")
-var _3scaffold = require("../3scaffold")
+var _3scaffold = require("../src/setup")
 
 
 var Path = require("path")

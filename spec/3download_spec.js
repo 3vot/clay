@@ -1,6 +1,6 @@
 var should = require("should")
 var fs = require("fs")
-var _3download = require("../3download")
+var _3download = require("../src/3download")
 
 var Path = require("path")
 

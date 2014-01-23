@@ -31,7 +31,7 @@ From your project folder type
 
 $ 3vot setup
 
-Use the following setting for a demo: key: 12345 , profile: myOrg , folder: 3vot_myOrg
+Use the following setting for a demo: key: 12345 , profile: myorg , folder: 3vot_myorg
 
 This will create the directory structure and download all required dependencies from NPM, all dependencies and code used in 3VOT is Open Source.
 
@@ -51,7 +51,9 @@ $ 3vot server
 
 If you are running on nitrous.io, find out your preview domain and add it as an option. Else leave blank and hit enter
 
-This will start a development server, just point your browser to http://localhost:3000/3vot/hello-world
+This will start a development server, just point your browser to http://localhost:3000/myorg/gold
+
+If you are using nitrous.io, point the server to NITROUS_URL/myorg/gold
 
 Step 5:
 Make change to your app
@@ -65,11 +67,11 @@ Register and Deploy your App
 
 $ 3vot upload 
 
-User the following setting --app hello-world
+User the following setting --app gold
 
 This will upload the App to your profile, you'll later be able publish it to the world.
 
-It will also deploy a demo of your app. Visit http://demo.3vot.com/[yourProfile]/hello-world
+It will also deploy a demo of your app. Visit http://demo.3vot.com/myorg/gold
 
 
 About 3VOT
