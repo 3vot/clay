@@ -2,18 +2,18 @@ var assert = require("assert")
 var should = require("should")
 
 var fs = require("fs")
-var _3scaffold = require("../src/setup")
+var _3setup = require("../src/3setup")
 
 
 var Path = require("path")
 
-describe('3Scaffold', function(){
+describe('3VOT Setup', function(){
   
   it('sould have files', function(){
 
-    var options= {folder: "temp", key: "key", profile: "profile" };
+    var options= { key: "123456" };
 
-    _3scaffold.setup( options );
+    _3setup.setup( options );
     
     var _3vot = fs.readFileSync( Path.join( process.cwd(), "tmp", "3vot.json"), "utf-8");
     var pck = fs.statSync( Path.join( process.cwd(), "tmp", "package.json"));
@@ -38,4 +38,6 @@ describe('3Scaffold', function(){
     tmp.isDirectory().should.equal(true);
 
   });
+  
+  
 });  

@@ -11,12 +11,16 @@ _3setup = (function() {
   function _3setup() {}
 
   _3setup.setup = function(options){
+    var deferred = Q.defer();
 
     _3setup.getInfo(options)
     .then( _3setup.validateProfile)
     .then( _3setup.scaffold )
     .then( _3setup.installNPM )
-    .fail( function(err){ console.error(err); } );
+    .then (function(){ return deferred.resolve() })
+    .fail( function(err){ console.error(err); return deferred.reject(err) } );
+    
+    return deferred.promise;
 
   }
 
@@ -51,7 +55,7 @@ _3setup = (function() {
     var options = {
       key: profile.attributes.public_dev_key,
       profile: profile.attributes.name,
-      folder: "3vot_" + profile.attributes.name
+      folder: "3vot_" + profile.attributes.username
     }
 
     fs.mkdir( Path.join( process.cwd(), options.folder ), function(){} );
