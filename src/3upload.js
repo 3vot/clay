@@ -251,7 +251,6 @@ _3upload = (function(){
     });
   
     apps.forEach( function(path){
-      console.log(path);
       if(path.name == "index.html"){
         var file = fs.readFileSync( path.path, "utf-8"  );
         file = file.replace(
