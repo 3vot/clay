@@ -54,7 +54,7 @@ _3setup = (function() {
 
     var options = {
       key: profile.attributes.public_dev_key,
-      profile: profile.attributes.name,
+      profile: profile.attributes.username,
       folder: "3vot_" + profile.attributes.username
     }
 
