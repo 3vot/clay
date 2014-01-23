@@ -52,7 +52,7 @@ module.exports = {
           if(err){
             //get App Name From req.Host          
             var urlParts = req.headers.referer.split("/")
-            return res.redirect("/rodco/dependencies/" + urlParts[ urlParts.length -1 ] +  "/build");
+            return res.redirect("/" + profile + "/dependencies/" + urlParts[ urlParts.length -1 ] +  "/build");
           }
           return res.send(file);    
         }

@@ -479,50 +479,49 @@ module.exports = (function (doc) {
 })(document);
 },{}],6:[function(require,module,exports){
 module.exports={
-  "name": "gold",
-  "version": "0.0.39",
-  "profile": "rodco",
-  "private": true,
-  "scripts": {
-    "start": "node app.js",
-    "test": "grunt build --verbose"
-  },
-  "threevot": {
-    "external": {
-      "angular": "angular/angular",
-      "angular-route": "angular-route/angular-route"
-    },
-    "entries": {
-      "index": [
-        "desktop",
-        "laptop"
-      ],
-      "tablet": [
-        "tablet"
-      ],
-      "phone": [
-        "phone"
-      ]
-    },
-    "extensions": [
-      ".coffee",
-      ".eco",
-      ".html"
-    ],
-    "transforms": [
-      "coffeeify",
-      "brfs"
-    ],
-    "gitDependencies": {
-      "angular": "1.2.7",
-      "angular-route": "1.2.7"
-    }
-  },
-  "dependencies": {
-    "3vot": "0.0.2"
-  }
+	"name": "gold",
+	"version": "0.0.40",
+	"profile": "3vot",
+	"private": true,
+	"scripts": {
+		"start": "node app.js",
+		"test": "grunt build --verbose"
+	},
+	"threevot": {
+		"external": {
+			"angular": "angular/angular",
+			"angular-route": "angular-route/angular-route"
+		},
+		"entries": {
+			"index": [
+				"desktop",
+				"laptop"
+			],
+			"tablet": [
+				"tablet"
+			],
+			"phone": [
+				"phone"
+			]
+		},
+		"extensions": [
+			".coffee",
+			".eco",
+			".html"
+		],
+		"transforms": [
+			"coffeeify",
+			"brfs"
+		],
+		"gitDependencies": {
+			"angular": "1.2.7",
+			"angular-route": "1.2.7"
+		}
+	},
+	"dependencies": {
+		"3vot": "0.0.2"
+	}
 }
-
 },{}],7:[function(require,module,exports){
 var _3vot = require("3vot");
 var fs = require("fs");
