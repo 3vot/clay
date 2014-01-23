@@ -34,6 +34,8 @@ _3download = (function(){
   // Upload App Flow
   _3download.prototype.downloadApp = function( ){
 
+    console.info("We will download the App from 3VOT App Store".yellow)
+    
     var deferred = Q.defer();
 
     Parse.initialize( "IOcg1R4TxCDCPVsxAwLHkz8MPSOJfj2lZwdL4BU4", "jOr74Zy7C8VbatIvxoNyt2c03B9hPY7Hc32byA78" );
@@ -61,7 +63,6 @@ _3download = (function(){
   _3download.prototype.checkPackage= function(profile){
     var Packages = Parse.Object.extend("Packages");
     var packageQuery = new Parse.Query(Packages);
-    console.log(app);
     packageQuery.equalTo("username", app.username);
     packageQuery.equalTo("name", app.name);
     console.info("Validating Package Information".grey);
@@ -94,7 +95,15 @@ _3download = (function(){
     
     var stream = s3.getObject(params).createReadStream().pipe(zlib.createGunzip() ).pipe( tar.Extract( Path.join( process.cwd(), 'apps'  ) ) );
     
-    stream.on("end", function(){ return deferred.resolve();  });
+    stream.on("end", function(){ 
+      
+      var pck = require( Path.join( process.cwd(), "apps", app.name, "package.json" )  );
+      var _3vot = require( Path.join( process.cwd(), "3vot.json" )  )
+      pck.profile = _3vot.profile;
+      fs.writeFileSync( Path.join( process.cwd(), "apps", app.name, "package.json" ), JSON.stringify(pck,null,'\t') )
+      
+      
+    });
 
     return deferred.promise;
   }

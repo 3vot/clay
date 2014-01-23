@@ -59,7 +59,7 @@ if( argv._.indexOf("setup") > -1 ){
 }
 
 if( argv._.indexOf("server") > -1 ){
-  _3dev.startServer();
+  _3dev.startServer( argv.domain  );
 }
 
 if( argv._.indexOf("upload") > -1 ){

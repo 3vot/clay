@@ -6,10 +6,13 @@ var Path = require("path");
 var http = require('http');
 var url = require("url");
 
+var argv = require('optimist').argv;
+
+var devDomain = null;
 
 module.exports = {
   
-  startServer: function(){
+  startServer: function( domain  ){
 
     var app = express();
     
@@ -22,6 +25,9 @@ module.exports = {
     app.use(express.methodOverride());
     app.use(app.router);
 
+    devDomain = domain || "localhost:" + app.get('port');
+    
+    console.log(devDomain)
 
     app.get("/" + profile  + "/:appName/assets/:asset", function(req, res) {
       res.setHeader("Content-Type", "text-javascript");
@@ -90,7 +96,7 @@ module.exports = {
         _3builder.buildApp( appName )
         .then( 
           function( html ){
-            html = html.replace("3vot.domain = 'demo.3vot.com';","3vot.domain = 'localhost:"+ app.get('port') +"';")
+            html = html.replace("3vot.domain = 'demo.3vot.com';","3vot.domain = '" + devDomain  + "';")
             return res.send( html );
           } 
         ).fail( function(error){  res.send(arguments) } );

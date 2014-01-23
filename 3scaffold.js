@@ -25,8 +25,8 @@ _3scaffold = (function() {
     _3votJSON.key = options.key;
     _3votJSON.profile = options.profile;
 
-    fs.writeFileSync( Path.join(process.cwd(), options.folder, "3vot.json"), JSON.stringify(_3votJSON) );
-    fs.writeFileSync( Path.join(process.cwd(), options.folder, "package.json"), JSON.stringify(pckJSON) );
+    fs.writeFileSync( Path.join(process.cwd(), options.folder, "3vot.json"), JSON.stringify(_3votJSON, null, '\t') );
+    fs.writeFileSync( Path.join(process.cwd(), options.folder, "package.json"), JSON.stringify(pckJSON, null, '\t') );
     fs.writeFileSync( Path.join(process.cwd(), options.folder, ".gitignore"), gitIgnore );
 
   }
