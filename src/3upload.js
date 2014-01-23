@@ -77,12 +77,12 @@ _3upload = (function(){
   _3upload.prototype.buildPackage = function(appName){
     console.info(("Building App " + appName).green)
     var deferred = Q.defer();
-    var appPackage = require( Path.join( process.env.PWD, "apps", appName, "package.json" ) )
+    var appPackage = require( Path.join( process.cwd(), "apps", appName, "package.json" ) )
     var stream = Ignore( { path: 'apps/' + appName, type: "Directory", ignoreFiles: [ ".gitignore" ] }).pipe(tar.Pack()).pipe(zlib.createGzip());
-    stream.pipe( fstream.Writer( Path.join( process.env.PWD, "tmp", appName + ".tar.gz") ) )
+    stream.pipe( fstream.Writer( Path.join( process.cwd(), "tmp", appName + ".tar.gz") ) )
 
     stream.on("end", function(){
-      var url = Path.join( process.env.PWD, "tmp", appName + ".tar.gz")
+      var url = Path.join( process.cwd(), "tmp", appName + ".tar.gz")
       console.info(("Package Build at: " + url).grey)  
       stages.push["buildPackage"]  
       deferred.resolve(url);
@@ -101,7 +101,7 @@ _3upload = (function(){
   // Returns: Promise
   // Desc: Users the Key in 3vot.json to get the username from the 3VOT Platform
   _3upload.prototype.checkProfile= function(){
-    var config = require(Path.join( process.env.PWD, "3vot.json") );
+    var config = require(Path.join( process.cwd(), "3vot.json") );
     var deferred = Q.defer();
     var Profiles = Parse.Object.extend("Profiles");
     var profileQuery = new Parse.Query(Profiles);
@@ -239,9 +239,9 @@ _3upload = (function(){
     }
 
     uploadPromises = []
-    var assets = walkDir( Path.join( process.env.PWD, "apps", appName, "app",  "assets" ) );
-    var apps = walkDir( Path.join( process.env.PWD, "apps", appName, "app" ) );
-    var deps = walkDir( Path.join( process.env.PWD, "apps", "dependencies" ) );
+    var assets = walkDir( Path.join( process.cwd(), "apps", appName, "app",  "assets" ) );
+    var apps = walkDir( Path.join( process.cwd(), "apps", appName, "app" ) );
+    var deps = walkDir( Path.join( process.cwd(), "apps", "dependencies" ) );
 
     assets.forEach( function(path){
       path.key = username + "/" +  appName  +  "/assets/" + path.name

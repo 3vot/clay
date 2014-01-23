@@ -31,9 +31,14 @@ From your project folder type
 
 $ 3vot setup
 
-Use the following setting for a demo: key: 12345 , profile: myorg , folder: 3vot_myorg
+Use the following setting for a demo: key: 12345
 
 This will create the directory structure and download all required dependencies from NPM, all dependencies and code used in 3VOT is Open Source.
+
+Step 2.1:
+$ cd 3vot_3vot
+
+This will cd into the project folder
 
 Step 3:
 Download a Sample App, courtesy of 3VOT
@@ -58,7 +63,7 @@ If you are using nitrous.io, point the server to NITROUS_URL/myorg/gold
 Step 5:
 Make change to your app
 
-Go ahead and open the file in yourFolder/apps/hello-world/templates/layout.html 
+Go ahead and open the file in 3vot_3vot/apps/gold/templates/layout.html 
 
 Refresh your browser and you'll see the changes.
 
@@ -71,7 +76,7 @@ User the following setting --app gold
 
 This will upload the App to your profile, you'll later be able publish it to the world.
 
-It will also deploy a demo of your app. Visit http://demo.3vot.com/myorg/gold
+It will also deploy a demo of your app. Visit http://demo.3vot.com/3vot/gold
 
 
 About 3VOT

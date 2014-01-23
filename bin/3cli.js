@@ -53,11 +53,9 @@ if( argv._.indexOf("setup") > -1 ){
   prompt.start();
   
   prompt.get( [ 
-    { name: 'profile', description: 'Profile Name: ( The Profile you want to build apps for )' },
-    { name: 'key', description: 'Developer Key: ( Your Developer Key provided by the 3VOT Admin )' },
-    { name: 'folder', description: 'Folder Name: ( The Folder where we will create the project )' } ], function (err, result) {
+    { name: 'key', description: 'Developer Key: ( Your Developer Key provided by the 3VOT Admin )' } ], function (err, result) {
     
-    _3setup.setup({folder: result.folder, key: result.key, profile: result.profile});
+    _3setup.setup({ key: result.key });
     
   });
 
@@ -85,8 +83,8 @@ if( argv._.indexOf("upload") > -1 ){
      { name: 'app', description: 'App: ( the name of the app you want to upload  )' }], function (err, result) {
 
        var pkg = Path.join(process.cwd(), "package.json");
-       var __3pm = new _3pm( result.app )
-       __3pm.uploadApp();
+       var __3upload = new _3upload( result.app )
+       __3upload.uploadApp();
        
    });
 

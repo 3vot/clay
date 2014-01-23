@@ -1,9 +1,10 @@
-var bower = require("bower");
-
+var Parse = require('parse').Parse;
 var Path = require("path")
 var fs = require("fs")
 var Q = require("q");
 Q.longStackSupport = true;
+
+Parse.initialize( "IOcg1R4TxCDCPVsxAwLHkz8MPSOJfj2lZwdL4BU4", "jOr74Zy7C8VbatIvxoNyt2c03B9hPY7Hc32byA78" );
 
 _3setup = (function() {
 
@@ -11,15 +12,47 @@ _3setup = (function() {
 
   _3setup.setup = function(options){
 
-    _3setup.scaffold(options)
+    _3setup.getInfo(options)
+    .then( _3setup.validateProfile)
+    .then( _3setup.scaffold )
     .then( _3setup.installNPM )
     .fail( function(err){ console.error(err); } );
 
   }
 
-  _3setup.scaffold= function (options){
+  _3setup.getInfo = function(options){
+    var deferred = Q.defer();
+    var Profiles = Parse.Object.extend("Profiles");
+    var profileQuery = new Parse.Query(Profiles);
+    profileQuery.equalTo("public_dev_key", options.key);
+    console.info("Looking for Profile for key: xxxxxxxxxx from provided options".grey);
+    return profileQuery.find();
+  }
+
+  //
+  // Parms: Results from Query
+  // Returns: Promise
+  // Desc: Checks to see if the Key is valid, by listing the Profile associated with it.
+  _3setup.validateProfile= function(results){
+    if(results.length === 0){
+      return Q.fcall(function () {
+        return new Error("We could not find a profile with the provided key. Check Configuration in 3vot.json");
+      });
+    } 
+    console.info("Profile Validated");
+    return results[0];
+  }
+
+
+  _3setup.scaffold = function (profile){
 
     var deferred = Q.defer();
+
+    var options = {
+      key: profile.attributes.public_dev_key,
+      profile: profile.attributes.name,
+      folder: "3vot_" + profile.attributes.name
+    }
 
     fs.mkdir( Path.join( process.cwd(), options.folder ), function(){} );
     fs.mkdir( Path.join( process.cwd(), options.folder , "apps" ), function(){} );
