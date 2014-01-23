@@ -38,7 +38,9 @@ This will create the directory structure and download all required dependencies 
 Step 3:
 Download a Sample App, courtesy of 3VOT
 
-$ 3vot download --app gold --profile rodco
+$ 3vot download
+
+User the following settings:  app: gold ,  profile: rodco
 
 This will create the folder structure for the App and download all dependencies from NPM and Bower.
 
@@ -47,11 +49,9 @@ Run the App in you development computer
 
 $ 3vot server
 
-If you are running on nitrous.io, find out your preview domain and use the --domain option
-For example: 3vot server --domain highgarden-nodejs-72443.use1.nitrousbox.com
+If you are running on nitrous.io, find out your preview domain and add it as an option. Else leave blank and hit enter
 
 This will start a development server, just point your browser to http://localhost:3000/3vot/hello-world
-
 
 Step 5:
 Make change to your app
@@ -63,7 +63,9 @@ Refresh your browser and you'll see the changes.
 Step 6:
 Register and Deploy your App
 
-$ 3vot upload --app hello-world
+$ 3vot upload 
+
+User the following setting --app hello-world
 
 This will upload the App to your profile, you'll later be able publish it to the world.
 

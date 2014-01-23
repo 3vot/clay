@@ -59,19 +59,48 @@ if( argv._.indexOf("setup") > -1 ){
 }
 
 if( argv._.indexOf("server") > -1 ){
-  _3dev.startServer( argv.domain  );
+  
+  prompt.start();
+  
+  prompt.get( [ 
+     { name: 'domain', description: 'Domain: ( If you are on nitrous.io type the preview domain with out http:// or trailing slashes / ) ' }], function (err, result) {
+
+      _3dev.startServer( result.domain  );
+       
+   });
+  
+  
 }
 
 if( argv._.indexOf("upload") > -1 ){
-  var pkg = Path.join(process.cwd(), "package.json");
-  var __3pm = new _3pm( argv.app )
-  __3pm.uploadApp();
+  
+  prompt.start();
+  
+  prompt.get( [ 
+     { name: 'app', description: 'App: ( the name of the app you want to upload  )' }], function (err, result) {
+
+       var pkg = Path.join(process.cwd(), "package.json");
+       var __3pm = new _3pm( result.app )
+       __3pm.uploadApp();
+       
+   });
+
 }
 
 if( argv._.indexOf("download") > -1 ){
-  var __3download = new _3download( { username: argv.profile, name: argv.app } )
-  __3download.downloadApp()
-  .then( function(){ return _3install.install(argv.app) });
+  
+  prompt.start();
+  
+  prompt.get( [ 
+     { name: 'app', description: 'App: ( The App you want to download )' },
+     { name: 'profile', description: 'Profile: ( The profile name of the owner of the app )' } ], function (err, result) {
+
+       var __3download = new _3download( { username: result.profile, name: result.app } )
+       __3download.downloadApp()
+       .then( function(){ return _3install.install(return.app) });
+       
+   });
+  
 }
 
 if( argv._.indexOf("build") > -1 ){
