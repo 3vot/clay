@@ -8,18 +8,19 @@ _3install = (function() {
 
   function _3install() {}
 
-  _3install.install = function(appName){
+  _3install.install = function( appName, destinationDir ){
     var deferred = Q.defer();
-  
-    process.chdir( process.cwd() + '/apps/' + appName);
+        
+    process.chdir( Path.join( process.cwd(), "apps", appName ) );
+        
+    //Destination DIR is always taken from the path where the node command is invoked
+    
+    var pkgPath = Path.join( process.cwd(), "package.json");
 
-    var appPath = "./apps/" + appName + "/node_modules"
-    var pkgPath = Path.join(process.cwd(), "package.json");
-
-    var pkg = require( pkgPath  )
+    var pkg = require( pkgPath )
     var gitDeps = Object.keys( pkg.threevot.gitDependencies )
   
-    _3install.installBower(appPath, gitDeps)
+    _3install.installBower(destinationDir, gitDeps)
     .then( _3install.installNPM  )
     
     .then( function() {
@@ -35,6 +36,8 @@ _3install = (function() {
 
   _3install.installBower= function(destinationDir, packagesToInstall ){
     var deferred = Q.defer();
+    
+    console.log( ( "Installing Git Components in"  + destinationDir) .yellow)
 
     bower.config.directory = destinationDir
 
@@ -54,18 +57,21 @@ _3install = (function() {
   }
   
   _3install.installNPM= function(){
+    console.log("Installing NPM Components".yellow)
+
      var deferred = Q.defer();
-     
+
      var npm = require("npm");
 
       npm.load(npm.config, function (er) {
-        if (er) return handlError(er);
+        if (er) return deferred.reject(er);
+        console.log("Current Path NPM INSTALL " + process.cwd());
         npm.commands.install(["."], function (er, data) {
           if (er) return deferred.reject(er)
           return deferred.resolve()
           // command succeeded, and data might have some info
         });
-        npm.on("log", function (message) { })
+        npm.on("log", function (message) { console.log(message) })
       });
       
       return deferred.promise;

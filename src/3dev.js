@@ -12,8 +12,8 @@ var devDomain = null;
 
 module.exports = {
   
-  startServer: function( domain  ){
-
+  startServer: function( domain, callback  ){
+    
     var app = express();
     
     var pck = require( Path.join( process.cwd(), "3vot.json" )  );
@@ -26,8 +26,6 @@ module.exports = {
     app.use(app.router);
 
     devDomain = domain || "localhost:" + app.get('port');
-    
-    console.log(devDomain)
 
     app.get("/", function(req,res){
       res.send("<h1>Congratulations 3VOT Local Server is Running</h1><h2>Now head to your app @ /YOURORG/YOURAPP</h2>");
@@ -107,6 +105,7 @@ module.exports = {
 
     http.createServer(app).listen(app.get('port'), function(){
       console.log('Express server listening on port ' + app.get('port'));
+      callback()
     });
   }
 };

@@ -124,6 +124,7 @@ module.exports = {
   // Desc: Saves a File to System
   saveFile: function(path, filename, contents ){
     var deferred = Q.defer();
+    console.log(("Saving File " + filename + " to " + path).yellow);
     fs.mkdir(path, function(){
       fs.writeFile(  Path.join(path, filename) , contents, 
         function(err){

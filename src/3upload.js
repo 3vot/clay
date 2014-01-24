@@ -35,10 +35,13 @@ _3upload = (function(){
 
   // Upload App Flow
   _3upload.prototype.uploadApp = function( ){
+    var deferred = Q.defer();
 
     appPackage = require( Path.join( process.cwd(), "apps", appName, "package.json" ))
 
     Aws.config.update( { accessKeyId: 'AKIAIHNBUFKPBA2LINFQ', secretAccessKey: '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' } );
+
+    console.log( ( "Uploading App: " + appName).yellow );
     
     this.buildPackage(appName)
     .then( this.checkProfile )
@@ -48,10 +51,12 @@ _3upload = (function(){
     .then( this.uploadPackage )
     .then( this.uploadAssets )
     .then( this.updatePackageInfo )
+    .then( function(){ return deferred.resolve() } )
     .fail( function(error){ 
       console.error("Error Building + Uploading Package and/or App".red)
       console.error(error);
       console.error("The last line contains Error Info".red.bold)
+      deferred.reject();
       Q.fcall( this.undoUploadPackage )
       .then( this.undoUpdatePackageInfo )
       .then( function() {
@@ -62,6 +67,11 @@ _3upload = (function(){
         console.error("We could not undo the error, please notify Customer Support");
       });
     })
+  
+    
+  
+    return deferred.promise;
+  
   }
 
   // **************
@@ -74,7 +84,7 @@ _3upload = (function(){
   // Returns: Promise
   // Desc: Simply packs all files in the folder in a tar.gz
   _3upload.prototype.buildPackage = function(appName){
-    console.info(("Building App " + appName).green)
+    console.log( ("Building App " + appName).green);
     var deferred = Q.defer();
     var appPackage = require( Path.join( process.cwd(), "apps", appName, "package.json" ) )
     var stream = Ignore( { path: 'apps/' + appName, type: "Directory", ignoreFiles: [ ".gitignore" ] }).pipe(tar.Pack()).pipe(zlib.createGzip());

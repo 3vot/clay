@@ -4,7 +4,6 @@ var fs = require("fs")
 var Q = require("q");
 Q.longStackSupport = true;
 
-
 _3setup = (function() {
 
   function _3setup() {}
@@ -57,10 +56,10 @@ _3setup = (function() {
       folder: "3vot_" + profile.attributes.username
     }
 
-    fs.mkdir( Path.join( process.cwd(), options.folder ), function(){} );
-    fs.mkdir( Path.join( process.cwd(), options.folder , "apps" ), function(){} );
-    fs.mkdir( Path.join( process.cwd(), options.folder , "apps", "dependencies" ), function(){} );
-    fs.mkdir( Path.join( process.cwd(), options.folder , "tmp" ), function(){}) ;
+    fs.mkdirSync( Path.join( process.cwd(), options.folder ));
+    fs.mkdirSync( Path.join( process.cwd(), options.folder , "apps" ));
+    fs.mkdirSync( Path.join( process.cwd(), options.folder , "apps", "dependencies" ));
+    fs.mkdirSync( Path.join( process.cwd(), options.folder , "tmp" )) ;
 
     var templatesPath =  Path.join(Path.dirname(fs.realpathSync(__filename)), '../templates');
   
@@ -75,10 +74,9 @@ _3setup = (function() {
     fs.writeFileSync( Path.join(process.cwd(), options.folder, "package.json"), JSON.stringify(pckJSON, null, '\t') );
     fs.writeFile( Path.join(process.cwd(), options.folder, ".gitignore"), gitIgnore, function(){ deferred.resolve( options )  } );
 
-    return deferred.promise
+    return deferred.promise;
 
   }
-
 
   _3setup.installNPM= function(options){
      var deferred = Q.defer();
@@ -92,7 +90,7 @@ _3setup = (function() {
      var npm = require("npm");
 
       npm.load(npm.config, function (er) {
-        if (er) return handlError(er);
+        if (er) return deferred.reject(er);
         npm.commands.install(["."], function (er, data) {
           if (er) return deferred.reject(er)
           return deferred.resolve()
