@@ -13,7 +13,7 @@ var devDomain = null;
 
 var _3dev = {}
 
-module.exports = 3dev;
+module.exports = _3dev;
   
 _3dev.prompt =  function(){
   prompt.start();
