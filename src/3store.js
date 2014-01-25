@@ -38,7 +38,8 @@ _3store = (function(){
 
   function _3store( options ) {}
 
-  _3store.storeTemplatePath= Path.join( process.cwd(), "templates", "store.eco" );
+  _3store.storeTemplatePath= Path.join(Path.dirname(fs.realpathSync(__filename)), '..' , 'templates' , "store.eco" );
+
 
   _3store.promptCreate = function(){
     prompt.start();
@@ -294,7 +295,7 @@ _3store = (function(){
     console.info("Generating Profile HTML".grey)
     
     var deferred = Q.defer();
-    
+    console.log( _3store.storeTemplatePath );
     var profileHTML = _3template.store(profile, stores, _3store.storeTemplatePath );
     var fileObject = { body: profileHTML, path: profile.attributes.username + "/index.html" , key: profile.attributes.username + "/index.html"  }
     _3upload.uploadFile(bucket, fileObject )
