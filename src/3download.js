@@ -40,7 +40,7 @@ _3download = (function(){
        var __3download = new _3download( { username: result.profile, name: result.app } );
        __3download.downloadApp()
        .then( function(){ 
-         var destinationDir = Path.join( process.cwd(), "apps", result.app, "node_modules" );
+         var destinationDir = Path.join( "apps", result.app, "node_modules" );
          return _3install.install(result.app, destinationDir) 
         });
      });
