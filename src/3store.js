@@ -15,7 +15,14 @@ var prompt = require("prompt")
 
 var _3profile = require("./3profile")
 
+var _3template = require("./3template")
+
+var _3upload = require("./3upload")
+
 //TODO: Must request this variables in a Safe Way
+
+Aws.config.update( { accessKeyId: 'AKIAIHNBUFKPBA2LINFQ', secretAccessKey: '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' } );
+
 
 // *****************
 // CLI
@@ -30,6 +37,8 @@ _3store = (function(){
   var stages = []
 
   function _3store( options ) {}
+
+  _3store.storeTemplatePath= Path.join( process.cwd(), "templates", "store.eco" );
 
   _3store.promptCreate = function(){
     prompt.start();
@@ -57,8 +66,11 @@ _3store = (function(){
     prompt.get( [ 
       { name: 'store', description: 'Store: ( The name of the Store you want to create )' },
       { name: 'app', description: 'App: ( The name of the App you want to add to the store )' },
-      { name: 'version', description: 'Store: ( The version number, hit enter for latest )' } ], function (err, result) {
-      _3store.addAppToStore(result.store, result.app, result.version)
+      { name: 'version', description: 'Store: ( The version number, hit enter for latest )' } ,
+      { name: 'template', description: 'Template: ( Your Custom Template, hit enter for standard )' } ], function (err, result) {
+      
+      _3store.storeTemplatePath = result.template;
+      _3store.addAppToStore("3vot.com", result.store, result.app, result.version)
       .then( function(){ console.log("App added succesfully to Store".green) } )
       .fail( function(err){ console.log("Error creating Store".red.bold); console.error(err.red); }  )
     });
@@ -70,7 +82,7 @@ _3store = (function(){
       { name: 'store', description: 'Store: ( The name of the Store you want to use )' },
       { name: 'app', description: 'App: ( The name of the App you want to remove from the store )' },
       { name: 'version', description: 'App: ( The version of the App you want to remove from the store )' } ], function (err, result) {
-      _3store.removeAppFromStore(result.store, result.app, result.version )
+      _3store.removeAppFromStore("3vot.com", result.store, result.app, result.version )
       .then( function(store){ console.log("App removed succesfully from Store".green); } )
       .fail( function(err){ console.log("Error removing App from Store".red.bold); console.error(err); }  )
     });
@@ -174,7 +186,7 @@ _3store = (function(){
    }
 
   // Upload App Flow
-   _3store.addAppToStore = function( storeName, appName, appVersion ){
+   _3store.addAppToStore = function( bucket, storeName, appName, appVersion ){
 
      console.info("We will add an App to the Store".yellow)
 
@@ -186,16 +198,17 @@ _3store = (function(){
 
      _3profile.getProfileFromKey( config.key )
      .then( function( foundProfile ){ _this.profile = foundProfile; return _3store._getStoreByName( storeName, foundProfile ) } )
-     .then( function( stores ){ _this.store = stores[0]; return _3store._getAppByNameAndProfile( appName, _this.profile ) } )
+     .then( function( stores ){ _this.stores = stores; _this.store = stores[0]; return _3store._getAppByNameAndProfile( appName, _this.profile ) } )
      .then( function( packages ){ return _3store._addAppToStore(_this.store, packages[0], appVersion )  })
-     .then( function( store ){ return deferred.resolve( store ); } )
+     .then( function( ){ return _3store.deployProfileHtml( bucket, _this.profile, _this.stores) } )
+     .then( function(){ return deferred.resolve( ); } )
      .fail(  function( err ){ return deferred.reject(err);  } )       
 
      return deferred.promise;
    }
 
    // Upload App Flow
-    _3store.removeAppFromStore = function( storeName, appName, version ){
+    _3store.removeAppFromStore = function( bucket, storeName, appName, version ){
 
       console.info("We will remove an App from the Store".yellow)
 
@@ -208,9 +221,10 @@ _3store = (function(){
 
       _3profile.getProfileFromKey( config.key )
       .then( function( foundProfile ){ _this.profile = foundProfile; return _3store._getStoreByName( storeName, foundProfile ) } )
-      .then( function( stores ){ _this.store = stores[0]; return _3store._getAppByNameAndProfile( appName, _this.profile ) } )
+      .then( function( stores ){ _this.stores = stores; _this.store = stores[0]; return _3store._getAppByNameAndProfile( appName, _this.profile ) } )
       .then( function( packages ){ return _3store._removeAppFromStore( _this.store, packages[0], version )  })
-      .then( function(store ){ return deferred.resolve( store ); } )
+      .then( function( ){ return _3store.deployProfileHtml( bucket, _this.profile, _this.stores) } )
+      .then( function( ){ return deferred.resolve( ); } )
       .fail(  function( err ){ return deferred.reject(err);  } )       
 
       return deferred.promise;
@@ -229,7 +243,6 @@ _3store = (function(){
    
    _3store._getAppByNameAndProfile  = function( appName, profile ){
      console.info("Finding App Package by Name".grey)
-     
      var packageQuery = new Parse.Query("Packages");
      packageQuery.equalTo("username", profile.attributes.username);
      packageQuery.equalTo("name", appName);
@@ -276,7 +289,21 @@ _3store = (function(){
 
        return deferred.promise;
      }
-
+     
+  _3store.deployProfileHtml = function(bucket, profile, stores){
+    console.info("Generating Profile HTML".grey)
+    
+    var deferred = Q.defer();
+    
+    var profileHTML = _3template.store(profile, stores, _3store.storeTemplatePath );
+    var fileObject = { body: profileHTML, path: profile.attributes.username + "/index.html" , key: profile.attributes.username + "/index.html"  }
+    _3upload.uploadFile(bucket, fileObject )
+    .then( function(){ return deferred.resolve()  } )
+    .fail( function(err){ return deferred.reject(err)  } )
+    
+    return deferred.promise;
+  }
+  
  return _3store;
 })();
 

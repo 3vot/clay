@@ -1,3 +1,7 @@
+var eco = require("eco")
+var fs = require("fs")
+var Path = require("path");
+
 var layout = {};
 
 module.exports = layout;
@@ -23,4 +27,13 @@ layout.html = function( pck ){
   html += '</body> </html>';
 
   return html;
+}
+
+layout.store = function( profile, stores, templatePath ){
+  
+  var store = fs.readFileSync( templatePath, "utf-8" )
+  var result = eco.render( store, { stores: stores, profile: profile } );
+
+  return result;
+  
 }

@@ -77,11 +77,9 @@ _3upload = (function(){
         console.error("We could not undo the error, please notify Customer Support");
       });
     })
-  
-    
-  
+
     return deferred.promise;
-  
+
   }
 
   // **************

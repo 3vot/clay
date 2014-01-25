@@ -16,6 +16,7 @@ describe('3VOT Store', function(){
 
   before( function runBefore( done ){
     this.timeout(20000);
+    Parse.initialize( "IOcg1R4TxCDCPVsxAwLHkz8MPSOJfj2lZwdL4BU4", "jOr74Zy7C8VbatIvxoNyt2c03B9hPY7Hc32byA78" );
 
     process.chdir( Path.join( process.cwd(), "3vot_cli_test" ) );
     done()
@@ -51,10 +52,9 @@ describe('3VOT Store', function(){
 
     this.timeout(10000);
 
-    _3store.addAppToStore("anyStore_3vot_123", "gold", "0.0.40")
+    _3store.addAppToStore("test.3vot.com","anyStore_3vot_123", "gold", "0.0.40")
     .then( 
-      function(store){ 
-        store.attributes.apps.length.should.be.above(0);
+      function(){ 
         done();
       } 
     )

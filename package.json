@@ -30,7 +30,8 @@
     "3vot": "0.0.2",
     "prompt": "~0.2.12",
     "npm": "*",
-    "rimraf": "~2.2.6"
+    "rimraf": "~2.2.6",
+    "eco": "~1.1.0-rc-3"
   },
   "devDependencies": {
     "coffeeify": "~0.5.2",

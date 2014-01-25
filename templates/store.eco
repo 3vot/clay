@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">    
+
+  </head> 
+  <body>
+    
+    <h1><%= @profile.attributes.name %></h1>
+    
+    <ul class="people_list">
+      <% for store in @stores: %>
+        <li><%= store.attributes.name %></li>
+
+        <ul class="people_list">
+        
+        <% for app in store.attributes?.apps: %>
+          <li>
+            <a href="<%= app.name %>"><%= app.name %></a>
+          </li>
+        <% end %>
+      </ul>
+        
+      <% end %>
+      
+    </ul>
+    
+  </body>
+</html>
