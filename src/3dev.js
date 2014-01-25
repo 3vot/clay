@@ -25,6 +25,8 @@ _3dev.prompt =  function(){
 },
 
 _3dev.startServer = function( domain, callback  ){
+  _3dev.serverCallback = callback;
+  
   var app = express();    
   var pck = require( Path.join( process.cwd(), "3vot.json" )  );
   var profile = pck.profile;
@@ -115,6 +117,6 @@ _3dev.startServer = function( domain, callback  ){
 
   http.createServer(app).listen(app.get('port'), function(){
     console.log('Express server listening on port ' + app.get('port'));
-    callback()
+    if(_3dev.serverCallback) _3dev.serverCallback();
   });
 }
