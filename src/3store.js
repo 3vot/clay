@@ -70,7 +70,7 @@ _3store = (function(){
       { name: 'version', description: 'Store: ( The version number, hit enter for latest )' } ,
       { name: 'template', description: 'Template: ( Your Custom Template, hit enter for standard )' } ], function (err, result) {
       
-      _3store.storeTemplatePath = result.template;
+      if(result.template) _3store.storeTemplatePath = result.template;
       _3store.addAppToStore("3vot.com", result.store, result.app, result.version)
       .then( function(){ console.log("App added succesfully to Store".green) } )
       .fail( function(err){ console.log("Error creating Store".red.bold); console.error(err.red); }  )
@@ -293,9 +293,9 @@ _3store = (function(){
      
   _3store.deployProfileHtml = function(bucket, profile, stores){
     console.info("Generating Profile HTML".grey)
+    console.log( _3store.storeTemplatePath );
     
     var deferred = Q.defer();
-    console.log( _3store.storeTemplatePath );
     var profileHTML = _3template.store(profile, stores, _3store.storeTemplatePath );
     var fileObject = { body: profileHTML, path: profile.attributes.username + "/index.html" , key: profile.attributes.username + "/index.html"  }
     _3upload.uploadFile(bucket, fileObject )
