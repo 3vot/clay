@@ -8,6 +8,14 @@ _3setup = (function() {
 
   function _3setup() {}
 
+  _3setup.prompt = function(){
+    prompt.start();
+    prompt.get( [ 
+      { name: 'key', description: 'Developer Key: ( Your Developer Key provided by the 3VOT Admin )' } ], function (err, result) {
+      _3setup.setup({ key: result.key });
+    });
+  }
+  
   _3setup.setup = function(options){
     var deferred = Q.defer();
 

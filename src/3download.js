@@ -12,7 +12,6 @@ var Parse = require('parse').Parse;
 var mime = require('mime')
 var Path = require('path');
 
-
 //TODO: Must request this variables in a Safe Way
 
 // *****************
@@ -29,6 +28,21 @@ _3download = (function(){
 
   function _3download( options ) {
     app = options;
+  }
+
+  _3download.prompt = function(){
+    prompt.start();
+    prompt.get( [ 
+       { name: 'app', description: 'App: ( The App you want to download )' },
+       { name: 'profile', description: 'Profile: ( The profile name of the owner of the app )' } ], function (err, result) {
+
+       var __3download = new _3download( { username: result.profile, name: result.app } );
+       __3download.downloadApp()
+       .then( function(){ 
+         var destinationDir = Path.join("3vot_cli_test", "apps", result.app, "node_modules" );
+         return _3install.install(result.app, destinationDir) 
+        });
+     });
   }
 
   // Upload App Flow
@@ -53,7 +67,6 @@ _3download = (function(){
     
     return deferred.promise;
   }
-
 
   //
   // Parms: Profile from ValidateProfile
@@ -92,7 +105,7 @@ _3download = (function(){
     
     var params = {Bucket: 'source.3vot.com', Key: app.username + '/' + app.name  + "_" +  packageInfo.attributes.version  + '.3vot' };
     
-    var stream = s3.getObject(params).createReadStream().pipe(zlib.createGunzip() ).pipe( tar.Extract( Path.join( process.cwd(), 'apps'  ) ) );
+    var stream = s3.getObject(params).createReadStream().pipe(zlib.createGunzip() ).pipe( tar.Extract( Path.join( process.cwd(), 'apps' ) ) );
     
     stream.on("error", function(error){ deferred.reject(error) })
     
@@ -102,6 +115,8 @@ _3download = (function(){
       var pck = require( Path.join( process.cwd(), "apps", app.name, "package.json" )  );
       var _3vot = require( Path.join( process.cwd(), "3vot.json" )  )
       pck.profile = _3vot.profile;
+      pck.version = "0.0.1"
+
       fs.writeFile( Path.join( process.cwd(), "apps", app.name, "package.json" ), JSON.stringify(pck,null,'\t') , function(){
         deferred.resolve();
       });

@@ -8,7 +8,15 @@ _3version = (function() {
 
   function _3version() {}
 
-
+  _3version.prompt = function(){
+    prompt.start();
+    prompt.get( [ 
+      { name: 'app', description: 'App: ( The Application that you want to upgrade the version by 0.0.1 )' } ], function (err, result) {
+        _3version.upgradeVersion( result.app )
+        .then( function(){ console.log("Ok".green); } )
+        .fail( function(err){ console.error(err.red); })
+    });
+  }
 
   _3version.upgradeVersion = function(appName){
     var deferred = Q.defer();

@@ -5,6 +5,7 @@ var _3builder = require("./3builder");
 var Path = require("path");
 var http = require('http');
 var url = require("url");
+var prompt = require("prompt")
 
 var argv = require('optimist').argv;
 
@@ -12,10 +13,17 @@ var devDomain = null;
 
 module.exports = {
   
+  prompt: function(){
+    prompt.start();
+    prompt.get( [ { name: 'domain', description: 'Domain: ( If you are on nitrous.io type the preview domain with out http:// or trailing slashes / ) ' }], 
+     function (err, result) {
+       _3dev.startServer( result.domain  ); 
+     }
+    );
+  },
+  
   startServer: function( domain, callback  ){
-    
-    var app = express();
-    
+    var app = express();    
     var pck = require( Path.join( process.cwd(), "3vot.json" )  );
     var profile = pck.profile;
     // all environments

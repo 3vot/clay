@@ -33,6 +33,16 @@ _3upload = (function(){
     appName = applicationName;
   }
 
+  _3upload.prompt = function(){
+    prompt.start();
+    prompt.get( [ 
+      { name: 'app', description: 'App: ( the name of the app you want to upload  )' }], function (err, result) {
+      var pkg = Path.join(process.cwd(), "package.json");
+      var __3upload = new _3upload( result.app )
+      __3upload.uploadApp();   
+    });
+  }
+
   // Upload App Flow
   _3upload.prototype.uploadApp = function( ){
     var deferred = Q.defer();
@@ -206,11 +216,26 @@ _3upload = (function(){
     var s3 = new Aws.S3();
     s3.deleteObject( { Key: username + '/' + appName  + "_" +  appPackage.version  + '.3vot', Bucket: 'source.3vot.com' }, function(s3Error, data) {
       if (s3Error) return deferred.reject(s3Error);
-      console.info(data);
       console.info("Package Version Reverted in App Store".yellow)
       deferred.resolve(data)
       stages.push["undoUploadPackage"]
     });  
+    return deferred.promise;
+  }
+
+  _3upload.uploadFile = function(bucket, fileObject){
+    console.log("Uploading File to Bucket ".grey);
+    
+    var deferred = Q.defer();
+    var s3 = new Aws.S3();
+    var rawFile = fileObject.body || fs.readFileSync(fileObject.path, "utf-8")
+    var mimetype = mime.lookup(fileObject.path)
+    s3.putObject( { CacheControl: "max-age=31536000", ContentType: mimetype , ACL: 'public-read', Body: rawFile, Key: fileObject.key , Bucket: bucket }, function(err, data) {
+      if (err) { return deferred.reject(err); }
+      console.info( ( "File Uploaded Correctly: " + fileObject.path + " to " + fileObject.key ).green );
+      deferred.resolve();
+    });
+
     return deferred.promise;
   }
 
@@ -270,7 +295,7 @@ _3upload = (function(){
         fs.writeFileSync( path.path, file );
       }
       path.key = username + "/" +  appName  +  "_" + appPackage.version + "/" + path.name
-      uploadPromises.push( uploadFile( path ) );
+      uploadPromises.push( _3upload.uploadFile( 'demo.3vot.com', path ) );
     });
 
     deps.forEach( function(path){

@@ -16,6 +16,8 @@ var _3download = require("../src/3download")
 var _3dev = require("../src/3dev")
 var _3builder = require("../src/3builder")
 var _3version = require("../src/3version")
+var _3store = require("../src/3store")
+
 
 Parse.initialize( "IOcg1R4TxCDCPVsxAwLHkz8MPSOJfj2lZwdL4BU4", "jOr74Zy7C8VbatIvxoNyt2c03B9hPY7Hc32byA78" );
 
@@ -29,54 +31,24 @@ if(argv.v){
   console.log(pck.version);
 }
 
-else if( argv._.indexOf("version") > -1 ){
-  prompt.start();
-  prompt.get( [ 
-    { name: 'app', description: 'App: ( The Application that you want to upgrade the version by 0.0.1 )' } ], function (err, result) {
-      _3version.upgradeVersion( result.app )
-      .then( function(){ console.log("Ok".green); } )
-      .fail( function(err){ console.error(err.red); })
-  });
-}
+else if( argv._.indexOf("version") > -1 ){ _3version.prompt(); }
 
-else if( argv._.indexOf("setup") > -1 ){
-  prompt.start();
-  prompt.get( [ 
-    { name: 'key', description: 'Developer Key: ( Your Developer Key provided by the 3VOT Admin )' } ], function (err, result) {
-    _3setup.setup({ key: result.key });
-  });
-}
+else if( argv._.indexOf("setup") > -1 ){ _3setup.prompt(); } 
 
-else if( argv._.indexOf("server") > -1 ){
-  prompt.start();
-  prompt.get( [ { name: 'domain', description: 'Domain: ( If you are on nitrous.io type the preview domain with out http:// or trailing slashes / ) ' }], 
-   function (err, result) {
-     _3dev.startServer( result.domain  ); 
-   }
-  );
-}
+else if( argv._.indexOf("server") > -1 ){ _3dev.prompt(); }
 
-else if( argv._.indexOf("upload") > -1 ){
-  prompt.start();
-  prompt.get( [ 
-    { name: 'app', description: 'App: ( the name of the app you want to upload  )' }], function (err, result) {
-    var pkg = Path.join(process.cwd(), "package.json");
-    var __3upload = new _3upload( result.app )
-    __3upload.uploadApp();   
-  });
-}
+else if( argv._.indexOf("upload") > -1 ){ _3upload.prompt(); }
 
-else if( argv._.indexOf("download") > -1 ){
-  prompt.start();
-  prompt.get( [ 
-     { name: 'app', description: 'App: ( The App you want to download )' },
-     { name: 'profile', description: 'Profile: ( The profile name of the owner of the app )' } ], function (err, result) {
+else if( argv._.indexOf("download") > -1 ){ _3download.prompt(); }
 
-     var __3download = new _3download( { username: result.profile, name: result.app } );
-     __3download.downloadApp()
-     .then( function(){ 
-       var destinationDir = Path.join("3vot_cli_test", "apps", result.app, "node_modules" );
-       return _3install.install(result.app, destinationDir) 
-      });
-   });
-}
+else if( argv._.indexOf("store") > -1 && argv._.indexOf("create") > -1 ){ _3store.promptCreate(); }
+
+else if( argv._.indexOf("store") > -1 && argv._.indexOf("list") > -1 ){ _3store.listStores(); }
+
+else if( argv._.indexOf("store") > -1 && argv._.indexOf("add") > -1 ){ _3store.promptAddToStore(); }
+
+else if( argv._.indexOf("store") > -1 && argv._.indexOf("remove") > -1 ){ _3store.promptRemoveFromStore(); }
+
+else if( argv._.indexOf("store") > -1 && argv._.indexOf("delete") > -1 ){ _3store.promptDelete(); }
+
+

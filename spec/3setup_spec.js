@@ -17,14 +17,12 @@ var Path = require("path")
 
 describe('3VOT Setup', function(){
   
-  it('should remove test files and folders', function(done){
-    
+  before(function remove(done){
     rimraf(  Path.join( process.cwd(), "3vot_cli_test" ) , function(err){
       done();
     })
-    
-  });
-  
+  })
+
   it('should scaffold files and install npm modules', function(done){
 
     this.timeout(90000);
