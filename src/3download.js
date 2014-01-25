@@ -11,6 +11,7 @@ var colors = require('colors');
 var Parse = require('parse').Parse;
 var mime = require('mime')
 var Path = require('path');
+var prompt = require("prompt")
 
 //TODO: Must request this variables in a Safe Way
 

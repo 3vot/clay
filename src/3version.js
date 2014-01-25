@@ -3,6 +3,7 @@ var Path = require("path")
 var fs = require("fs")
 var Q = require("q");
 Q.longStackSupport = true;
+var prompt = require("prompt")
 
 _3version = (function() {
 

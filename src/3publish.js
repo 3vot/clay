@@ -4,6 +4,7 @@ var Path = require("path")
 var fs = require("fs")
 var Q = require("q");
 Q.longStackSupport = true;
+var prompt = require("prompt")
 
 var _3profile = require("./3profile")
 var _3upload = require("./3upload")
