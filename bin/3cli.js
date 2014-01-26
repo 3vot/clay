@@ -51,4 +51,6 @@ else if( argv._.indexOf("store") > -1 && argv._.indexOf("remove") > -1 ){ _3stor
 
 else if( argv._.indexOf("store") > -1 && argv._.indexOf("delete") > -1 ){ _3store.promptDelete(); }
 
+else if( argv._.indexOf("publish") ){ _3publish.prompt(); }
+
 

@@ -18,7 +18,7 @@ _3publish = (function() {
     prompt.start();
     prompt.get( [ 
       { name: 'app', description: 'App: ( The Name of the App you want to publish )' },
-      { name: 'version', description: 'Version: ( The Verson of the App you want to publish )' } ], function (err, result) {
+      { name: 'version', description: 'Version: ( The Version of the App you want to publish )' } ], function (err, result) {
         _3publish.publishApp( "demo.3vot.com", "3vot.com", result.app, result.version )
         .then( function(){ console.log("App Published Succesfully".green); } )
         .fail( function(err){ console.log("Error Publishing App"); console.error(err); })
@@ -44,7 +44,7 @@ _3publish = (function() {
     .then( 
       function(body){
         body = _3publish.adjustIndexToProduction(body, sourceBucket, destinationBucket);
-        return _3upload.uploadFile( destinationBucket , { body: body, key: "cli_test/gold/index.html", path: sourceBucket + "/cli_test/gold_" + version + "/index.html" }  ) ;
+        return _3upload.uploadFile( destinationBucket , { body: body, key: _this.profile.attributes.username + "/" + appName + "/index.html", path: sourceBucket + "/" + _this.profile.attributes.username + "/" + appName + "_" + version + "/index.html" }  ) ;
       }
     )
     .then( function(){ return deferred.resolve() } )
