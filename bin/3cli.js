@@ -17,6 +17,7 @@ var _3dev = require("../src/3dev")
 var _3builder = require("../src/3builder")
 var _3version = require("../src/3version")
 var _3store = require("../src/3store")
+var _3publish = require("../src/3publish")
 
 
 Parse.initialize( "IOcg1R4TxCDCPVsxAwLHkz8MPSOJfj2lZwdL4BU4", "jOr74Zy7C8VbatIvxoNyt2c03B9hPY7Hc32byA78" );
@@ -51,6 +52,6 @@ else if( argv._.indexOf("store") > -1 && argv._.indexOf("remove") > -1 ){ _3stor
 
 else if( argv._.indexOf("store") > -1 && argv._.indexOf("delete") > -1 ){ _3store.promptDelete(); }
 
-else if( argv._.indexOf("publish") ){ _3publish.prompt(); }
+else if( argv._.indexOf("publish") > -1 ){ _3publish.prompt(); }
 
 
