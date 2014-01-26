@@ -39,6 +39,8 @@ _3publish = (function() {
     _3profile.getProfileFromKey( config.key )
     .then( function( foundProfile ){ _this.profile = foundProfile; return _3publish.listKeys(sourceBucket, _this.profile.attributes.username + "/" + _this.pck.name + "_" + version ) } )
     .then( function(keys){ return _3publish.copyKeys(sourceBucket, destinationBucket, keys, version); } )
+    .then( function( ){ return _3publish.listKeys(sourceBucket, _this.profile.attributes.username + "/dependencies"  ) } )
+    .then( function(keys){ return _3publish.copyKeys(sourceBucket, destinationBucket, keys, ""); } )
     .then( function(){  return _3publish.getObjectFromBucket(destinationBucket, _this.profile.attributes.username, _this.pck.name ) } )
     
     .then( 
@@ -87,19 +89,16 @@ _3publish = (function() {
     var deferred = Q.defer();
 
     var _this = this;
-    _this.indexIndex = 0;
-    _this.indexFound = false;    
     
     var indexFound = false;
      uploadPromises = []
      keys.forEach(function(key){
-       if(key.Key.indexOf("index.html") == -1 && !_this.indexFound ) { _this.indexIndex++; } else if(key.Key.indexOf("index.html") > 0) { _this.indexFound = true; };
        var newKey = key.Key.replace("_" + version, "");
        uploadPromises.push( _3publish.copyKey(destinationBucket, sourceBucket + "/" + key.Key , newKey ) );
      });
      
      Q.all( uploadPromises )
-     .then( function(results){ return deferred.resolve( {results: results , indexOfIndex: _this.indexIndex } ) })
+     .then( function(results){ return deferred.resolve( results ) })
      .fail( function(error){ return deferred.reject( error ) });
      
      return deferred.promise;
