@@ -1,7 +1,6 @@
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">    
-
+    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
   </head> 
   <body>
     
@@ -15,7 +14,7 @@
         
         <% for app in store.attributes?.apps: %>
           <li>
-            <a href="<%= app.name %>"><%= app.name %></a>
+            <a href="<%= app.name + "?store=" + store.attributes.name %>"><%= app.name %></a>
           </li>
         <% end %>
       </ul>

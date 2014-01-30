@@ -1,0 +1,29 @@
+{
+	"name": "<%= @appName %>",
+	"version": "0.0.1",
+	"profile": "<%= @profile.attributes.username %>",
+	"private": true,
+	"threevot": {
+		"external": {
+		},
+		"entries": {
+			"index": [
+				"desktop",
+				"laptop",
+				"mobile"
+			]
+		},
+		"extensions": [
+			".coffee",
+			".eco",
+			".html"
+		],
+		"transforms": [
+			"coffeeify",
+			"brfs"
+		],
+		"gitDependencies": {}
+	},
+	"dependencies": {
+	}
+}
