@@ -9,17 +9,18 @@ Q.longStackSupport = true;
 var colors = require('colors');
 var Parse = require('parse').Parse;
 
-var _3install = require("../src/3install")
-var _3setup = require("../src/3setup")
-var _3upload = require("../src/3upload")
-var _3download = require("../src/3download")
-var _3dev = require("../src/3dev")
-var _3builder = require("../src/3builder")
-var _3version = require("../src/3version")
-var _3store = require("../src/3store")
-var _3publish = require("../src/3publish")
-var _3app = require("../src/3app")
+var Download = require("../src/download")
+var Version = require("../src/version")
+var Upload = require("../src/upload")
+var Setup = require("../src/setup")
+var Install = require("../src/install")
 
+var Server = require("../src/server")
+var Publish = require("../src/publish")
+
+
+var Store = require("../src/store")
+var App = require("../src/app")
 
 Parse.initialize( "IOcg1R4TxCDCPVsxAwLHkz8MPSOJfj2lZwdL4BU4", "jOr74Zy7C8VbatIvxoNyt2c03B9hPY7Hc32byA78" );
 
@@ -33,29 +34,29 @@ if(argv.v){
   console.log(pck.version);
 }
 
-else if( argv._.indexOf("version") > -1 ){ _3version.prompt(); }
+else if( argv._.indexOf("version") > -1 ){ Version.prompt(); }
 
-else if( argv._.indexOf("setup") > -1 ){ _3setup.prompt(); } 
+else if( argv._.indexOf("setup") > -1 ){ Setup.prompt(); } 
 
-else if( argv._.indexOf("server") > -1 ){ _3dev.prompt(); }
+else if( argv._.indexOf("upload") > -1 ){ Upload.prompt(); }
 
-else if( argv._.indexOf("upload") > -1 ){ _3upload.prompt(); }
+else if( argv._.indexOf("download") > -1 ){ Download.prompt(); }
 
-else if( argv._.indexOf("download") > -1 ){ _3download.prompt(); }
+else if( argv._.indexOf("server") > -1 ){ Server.prompt(); }
 
-else if( argv._.indexOf("store") > -1 && argv._.indexOf("create") > -1 ){ _3store.promptCreate(); }
+else if( argv._.indexOf("store:create") > -1 ){ Store.promptCreate(); }
 
-else if( argv._.indexOf("store") > -1 && argv._.indexOf("list") > -1 ){ _3store.listStores(); }
+else if( argv._.indexOf("store:delete") > -1 ){ Store.promptDelete(); }
 
-else if( argv._.indexOf("store") > -1 && argv._.indexOf("add") > -1 ){ _3store.promptAddToStore(); }
+else if( argv._.indexOf("store:list") > -1 ){ Store.promptList(); }
 
-else if( argv._.indexOf("store") > -1 && argv._.indexOf("remove") > -1 ){ _3store.promptRemoveFromStore(); }
+else if( argv._.indexOf("store:add") > -1 ){ Store.promptAddToStore(); }
 
-else if( argv._.indexOf("store") > -1 && argv._.indexOf("delete") > -1 ){ _3store.promptDelete(); }
+else if( argv._.indexOf("store:remove") > -1 ){ Store.promptRemoveFromStore(); }
 
-else if( argv._.indexOf("publish") > -1 ){ _3publish.prompt(); }
+else if( argv._.indexOf("publish") > -1 ){ Publish.prompt(); }
 
-else if( argv._.indexOf("app") > -1 && argv._.indexOf("create") > -1 ){ _3app.promptCreate(); }
+else if( argv._.indexOf("app:create") > -1 ){ App.promptCreate(); }
 
-
+else if( argv._.indexOf("install") > -1 ){ Install.prompt(); }
 

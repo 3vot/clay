@@ -8,10 +8,8 @@ var http = require("http")
 Parse.initialize( "IOcg1R4TxCDCPVsxAwLHkz8MPSOJfj2lZwdL4BU4", "jOr74Zy7C8VbatIvxoNyt2c03B9hPY7Hc32byA78" );
 
 var fs = require("fs")
-var _3setup = require("../src/3setup")
-var _3download = require("../src/3download")
-var _3dev = require("../src/3dev")
-var _3install = require("../src/3install")
+var Download = require("../src/download")
+var Install = require("../src/install")
 
 var Path = require("path")
 
@@ -25,14 +23,14 @@ describe('3VOT Download', function(){
 
     this.timeout(20500);
 
-    var _3 =  new _3download({ username: "rodco", name: "gold" })
-    _3.downloadApp()
+    var download =  new Download({ username: "rodco", name: "gold" })
+    download.downloadApp()
     .then( function(){ 
       var destinationDir = Path.join("3vot_cli_test", "apps", "gold", "node_modules" );
-      return _3install.install("gold", destinationDir) 
+      return Install.install("gold", destinationDir) 
     })
     .then( function() { done() } )
-    .fail( function(err) { console.error(err); } );
+    .fail( function(err) { console.error(err); err.should.equal(null); done() } );
     
   });
   

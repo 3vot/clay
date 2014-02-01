@@ -5,21 +5,21 @@ var Q = require("q");
 Q.longStackSupport = true;
 var prompt = require("prompt")
 
-_3version = (function() {
+Version = (function() {
 
-  function _3version() {}
+  function Version() {}
 
-  _3version.prompt = function(){
+  Version.prompt = function(){
     prompt.start();
     prompt.get( [ 
       { name: 'app', description: 'App: ( The Application that you want to upgrade the version by 0.0.1 )' } ], function (err, result) {
-        _3version.upgradeVersion( result.app )
+        Version.upgradeVersion( result.app )
         .then( function(){ console.log("Ok".green); } )
         .fail( function(err){ console.error(err.red); })
     });
   }
 
-  _3version.upgradeVersion = function(appName){
+  Version.upgradeVersion = function(appName){
     var deferred = Q.defer();
     
     var pckPath = Path.join(process.cwd(), "apps", appName, "package.json" );
@@ -37,11 +37,11 @@ _3version = (function() {
     
   }
   
-  return _3version;
+  return Version;
 
 })();
 
-module.exports = _3version;
+module.exports = Version;
 
 
 

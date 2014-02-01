@@ -10,8 +10,8 @@ Parse.initialize( "IOcg1R4TxCDCPVsxAwLHkz8MPSOJfj2lZwdL4BU4", "jOr74Zy7C8VbatIvx
 
 var fs = require("fs")
 
-var _3upload = require("../src/3upload")
-var _3version = require("../src/3version")
+var Upload = require("../src/upload")
+var Vrsion = require("../src/version")
 
 var Path = require("path")
 
@@ -23,12 +23,12 @@ describe('3VOT Upload', function(){
     
     process.chdir( Path.join( process.cwd(), "3vot_cli_test" ) );
     
-    var __3upload = new _3upload( "gold" )
+    var upload = new Upload( "gold" )
     
-    _3version.upgradeVersion("gold")
-    .then( function(){ return __3upload.uploadApp(); } )
+    Version.upgradeVersion("gold")
+    .then( function(){ return upload.uploadApp(); } )
     .then( function(){ done() } )
-    .fail( function(err){ err.should.equal(null); done() } )
+    .fail( function(err){ console.log(err); err.should.equal(null); done() } )
 
   });
 });

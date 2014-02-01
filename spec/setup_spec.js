@@ -8,10 +8,7 @@ var http = require("http")
 Parse.initialize( "IOcg1R4TxCDCPVsxAwLHkz8MPSOJfj2lZwdL4BU4", "jOr74Zy7C8VbatIvxoNyt2c03B9hPY7Hc32byA78" );
 
 var fs = require("fs")
-var _3setup = require("../src/3setup")
-var _3download = require("../src/3download")
-var _3dev = require("../src/3dev")
-var _3install = require("../src/3install")
+var Setup = require("../src/setup")
 
 var Path = require("path")
 
@@ -29,8 +26,9 @@ describe('3VOT Setup', function(){
     
     var options= { key: "0" };
     var folderName = "3vot_cli_test";
-    
-    _3setup.setup( options )
+  
+    var setup = new Setup(options);
+    setup.setup()
     .then( function(){
 
       try{  
@@ -66,11 +64,12 @@ describe('3VOT Setup', function(){
 
       }
       catch(err){
+        console.error("Error in Spec Test")
         console.log(err);
       }
       
     })
-    .fail( function(err){ throw err }  )
+    .fail( function(err){ console.error(err); }  )
 
   });
   

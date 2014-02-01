@@ -1,7 +1,7 @@
 {
-	"name": "<%= @appName %>",
+	"name": "<%= @name %>",
 	"version": "0.0.1",
-	"profile": "<%= @profile.attributes.username %>",
+	"profile": "<%= @profile.get("username") %>",
 	"private": true,
 	"threevot": {
 		"external": {

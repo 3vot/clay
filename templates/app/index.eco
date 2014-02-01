@@ -5,7 +5,7 @@ var App = (function() {
 
   App.metadata = require("../package");
 
-  document.body.innerHTML = fs.readFileSync("./apps/<%= @appName %>?/templates/layout.html");
+  document.body.innerHTML = fs.readFileSync("./apps/<%= @name %>?/templates/layout.html");
 
   function App() {
     require("../code/index.js");

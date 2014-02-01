@@ -5,64 +5,65 @@ var Q = require("q");
 Q.longStackSupport = true;
 var prompt = require("prompt")
 
-_3setup = (function() {
+var AwsCredentials = require("./aws/credentials");
 
-  function _3setup() {}
+var Profile = require("./model/profile")
+var Package = require("./model/package")
 
-  _3setup.prompt = function(){
+Setup = (function() {
+
+  Setup.prompt = function(){
     prompt.start();
     prompt.get( [ 
       { name: 'key', description: 'Developer Key: ( Your Developer Key provided by the 3VOT Admin )' } ], function (err, result) {
-      _3setup.setup({ key: result.key });
+      var setupController = new Setup(result);
+      setupController.setup( result );
     });
   }
+
+  var key = "";
+  var profile = {};
+
+  function Setup( attr ) {
+    key= attr.key;
+  }
   
-  _3setup.setup = function(options){
+  Setup.prototype.setup = function(){
     var deferred = Q.defer();
 
-    _3setup.getInfo(options)
-    .then( _3setup.validateProfile)
-    .then( _3setup.scaffold )
-    .then( _3setup.installNPM )
+    this.getProfile()
+    .then( AwsCredentials.requestKeysFromProfile )
+    .then( this.scaffold )
+    .then( this.installNPM )
     .then (function(){ return deferred.resolve() })
-    .fail( function(err){ console.error(err); return deferred.reject(err) } );
+    .fail( function(err){ return deferred.reject(err) } );
     
     return deferred.promise;
 
   }
 
-  _3setup.getInfo = function(options){
+  Setup.prototype.getProfile= function(){
     var deferred = Q.defer();
-    var Profiles = Parse.Object.extend("Profiles");
-    var profileQuery = new Parse.Query(Profiles);
-    profileQuery.equalTo("public_dev_key", options.key);
-    console.info("Looking for Profile for key: xxxxxxxxxx from provided options".grey);
-    return profileQuery.find();
+    Profile.findByAttributes( { "public_dev_key": key } )
+    .then( function(results){
+      if(results.length == 0){ return deferred.reject("We could not find a profile with the provided key. Check Configuration in 3vot.json")  }
+      profile = results[0];
+      return deferred.resolve( results[0] );
+    })
+    .fail( function(err){ deferred.reject(err) } )
+    
+    return deferred.promise;
   }
 
-  //
-  // Parms: Results from Query
-  // Returns: Promise
-  // Desc: Checks to see if the Key is valid, by listing the Profile associated with it.
-  _3setup.validateProfile= function(results){
-    if(results.length === 0){
-      return Q.fcall(function () {
-        return new Error("We could not find a profile with the provided key. Check Configuration in 3vot.json");
-      });
-    } 
-    console.info("Profile Validated");
-    return results[0];
-  }
-
-
-  _3setup.scaffold = function (profile){
-
+  Setup.prototype.scaffold = function (){
     var deferred = Q.defer();
 
+    console.log("Scaffolding Projects");
+    
     var options = {
-      key: profile.attributes.public_dev_key,
-      profile: profile.attributes.username,
-      folder: "3vot_" + profile.attributes.username
+      key: profile.get("public_dev_key"),
+      profile: profile.get("username"),
+      folder: "3vot_" + profile.get("username")
     }
 
     fs.mkdirSync( Path.join( process.cwd(), options.folder ));
@@ -87,7 +88,7 @@ _3setup = (function() {
 
   }
 
-  _3setup.installNPM= function(options){
+  Setup.prototype.installNPM= function(options){
      var deferred = Q.defer();
      
      var projectPath = Path.join( process.cwd() , options.folder );
@@ -112,8 +113,8 @@ _3setup = (function() {
       
   }
   
-  return _3setup;
+  return Setup;
 
 })();
 
-module.exports = _3setup;
+module.exports = Setup;

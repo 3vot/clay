@@ -3,7 +3,7 @@ var Browserify = require("browserify");
 var Q = require("q");
 Q.longStackSupport = true;
 var Path = require('path');
-var _3template = require("./3template");
+var Template = require("./template");
 var _3vot = require("3vot");
 
 
@@ -14,7 +14,7 @@ module.exports = {
     
     var destPath = Path.join( process.cwd(), "apps", pck.name, "app","index.html" );
     
-    var html = _3template.html(JSON.stringify(pck));
+    var html = Template.html(JSON.stringify(pck));
     
     fs.writeFile( destPath, html, function(err){
       if(err) return deferred.reject(err);

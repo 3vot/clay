@@ -10,7 +10,7 @@ Parse.initialize( "IOcg1R4TxCDCPVsxAwLHkz8MPSOJfj2lZwdL4BU4", "jOr74Zy7C8VbatIvx
 
 var fs = require("fs")
 
-var _3version = require("../src/3version")
+var Version = require("../src/version")
 
 var Path = require("path")
 
@@ -25,7 +25,7 @@ describe('3VOT Version', function(){
     var versionParts = pkg.version.split(".");
     var version = versionParts[versionParts.length - 1 ];
 
-    _3version.upgradeVersion("gold")
+    Version.upgradeVersion("gold")
     .then( function(){ 
       var pckPath = Path.join( process.cwd(), "apps", "gold", "package.json");
       var pkg = require(pckPath);

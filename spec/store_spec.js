@@ -8,7 +8,7 @@ var http = require("http")
 Parse.initialize( "IOcg1R4TxCDCPVsxAwLHkz8MPSOJfj2lZwdL4BU4", "jOr74Zy7C8VbatIvxoNyt2c03B9hPY7Hc32byA78" );
 
 var fs = require("fs")
-var _3store = require("../src/3store")
+var Store = require("../src/store")
 
 var Path = require("path")
 
@@ -27,8 +27,8 @@ describe('3VOT Store', function(){
   
     this.timeout(10000);
 
-    _3store.createStore( "anyStore_3vot_123" )
-    .then( function(store) { store.attributes.name.should.equal("anyStore_3vot_123");  done() } )
+    Store.createStore( {name: "anyStore_3vot_123" } )
+    .then( function() {  done() } )
     .fail( function(err) { console.error(err); } );
     
   });
@@ -37,22 +37,34 @@ describe('3VOT Store', function(){
 
     this.timeout(10000);
 
-    _3store.listStores()
-    .then( 
-      function(stores){ 
-        stores.length.should.be.above(0);
-        done();
-      } 
+    Store.listStores( {} )
+    .then( function(){ done(); } 
     )
     .fail( function(err) { console.error(err); } );
     
   });
-  
+
   it('should add and App to Store', function(done){
 
-    this.timeout(10000);
+    this.timeout(20000);
+    Store.destinationBucket = "test.3vot.com"
 
-    _3store.addAppToStore("test.3vot.com","anyStore_3vot_123", "gold", "0.0.40")
+    Store.addAppToStore( { name: "anyStore_3vot_123", appName: "gold" } )
+    .then( 
+      function(){ 
+        done();
+      } 
+    )
+    .fail( function(err) { console.log("Error in addAppToStore".red); console.error(err); } );
+    
+  });
+  
+  it('should delete an app from store', function(done){
+  
+    this.timeout(20000);
+    Store.destinationBucket = "test.3vot.com"
+
+    Store.removeAppFromStore( { name: "anyStore_3vot_123", appName: "gold" } )
     .then( 
       function(){ 
         done();
@@ -66,10 +78,10 @@ describe('3VOT Store', function(){
   
     this.timeout(10000);
 
-    _3store.deleteStore( "anyStore_3vot_123" )
-    .then( function() { done() } )
+    Store.destroyStore( {name: "anyStore_3vot_123" } )
+    .then( function() {  done() } )
     .fail( function(err) { console.error(err); } );
     
   });
-  
+
 });

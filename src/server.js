@@ -1,7 +1,6 @@
 var express = require('express');
 var fs = require("fs");
 var less = require("less");
-var _3builder = require("./3builder");
 var Path = require("path");
 var http = require('http');
 var url = require("url");
@@ -11,21 +10,23 @@ var argv = require('optimist').argv;
 
 var devDomain = null;
 
-var _3dev = {}
+var Server = {}
+var Builder = require("./builder");
 
-module.exports = _3dev;
+
+module.exports = Server;
   
-_3dev.prompt =  function(){
+Server.prompt =  function(){
   prompt.start();
   prompt.get( [ { name: 'domain', description: 'Domain: ( If you are on nitrous.io type the preview domain with out http:// or trailing slashes / ) ' }], 
    function (err, result) {
-     _3dev.startServer( result.domain  ); 
+     Server.startServer( result.domain  ); 
    }
   );
 },
 
-_3dev.startServer = function( domain, callback  ){
-  _3dev.serverCallback = callback;
+Server.startServer = function( domain, callback  ){
+  Server.serverCallback = callback;
   
   var app = express();    
   var pck = require( Path.join( process.cwd(), "3vot.json" )  );
@@ -76,7 +77,7 @@ _3dev.startServer = function( domain, callback  ){
     function(req, res) {
       res.setHeader("Content-Type", "text/javascript");
       var appName = req.params.appName
-      _3builder.buildDependency( appName )
+      Builder.buildDependency( appName )
       .then( 
         function( contents ){
           return res.send(contents);
@@ -105,7 +106,7 @@ _3dev.startServer = function( domain, callback  ){
       var baseDir = process.cwd();
       var appName = req.params.appName;
       pck = fs.readFileSync( Path.join( baseDir, "apps", appName, "package.json"  ), "utf-8"  );
-      _3builder.buildApp( appName )
+      Builder.buildApp( appName )
       .then( 
         function( html ){
           html = html.replace("3vot.domain = 'demo.3vot.com';","3vot.domain = '" + devDomain  + "';")
@@ -117,6 +118,6 @@ _3dev.startServer = function( domain, callback  ){
 
   http.createServer(app).listen(app.get('port'), function(){
     console.log('Express server listening on port ' + app.get('port'));
-    if(_3dev.serverCallback) _3dev.serverCallback();
+    if(Server.serverCallback) Server.serverCallback();
   });
 }

@@ -1,14 +1,27 @@
 var bower = require("bower");
 var Path = require("path")
 var fs = require("fs")
+var prompt = require("prompt")
+
 var Q = require("q");
 Q.longStackSupport = true;
 
-_3install = (function() {
+Install = (function() {
 
-  function _3install() {}
+  function Install() {}
 
-  _3install.install = function( appName, destinationDir ){
+  Install.prompt = function(){
+    prompt.start();
+    prompt.get( [ 
+      { name: 'name', description: 'App: ( the name of the app you want its dependencies to be Installed  )' } ], function (err, result) {
+      var destinationDir = Path.join( "apps", result.name, "node_modules" );
+      Install.install(result.name, destinationDir)
+      .then( function(){ console.info("Installation Complete".green)  } )
+      .fail( function(err){ console.error(err); }  )   
+    });
+  }
+
+  Install.install = function( appName, destinationDir ){
     var deferred = Q.defer();
         
     process.chdir( Path.join( process.cwd(), "apps", appName ) );
@@ -20,8 +33,8 @@ _3install = (function() {
     var pkg = require( pkgPath )
     var gitDeps = Object.keys( pkg.threevot.gitDependencies )
   
-    _3install.installBower(destinationDir, gitDeps)
-    .then( _3install.installNPM  )
+    Install.installBower(destinationDir, gitDeps)
+    .then( Install.installNPM  )
     
     .then( function() {
       deferred.resolve()
@@ -34,7 +47,7 @@ _3install = (function() {
     
   }
 
-  _3install.installBower= function(destinationDir, packagesToInstall ){
+  Install.installBower= function(destinationDir, packagesToInstall ){
     var deferred = Q.defer();
     
     console.log( ( "Installing Git Components in"  + destinationDir) .yellow)
@@ -56,7 +69,7 @@ _3install = (function() {
 
   }
   
-  _3install.installNPM= function(){
+  Install.installNPM= function(){
     console.log("Installing NPM Components".yellow)
 
      var deferred = Q.defer();
@@ -78,8 +91,8 @@ _3install = (function() {
       
   }
 
-  return _3install;
+  return Install;
 
 })();
 
-module.exports = _3install;
+module.exports = Install;
