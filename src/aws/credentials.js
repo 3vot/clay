@@ -1,4 +1,4 @@
-var http = require("http");
+var request = require("superagent");
 var Q = require("q");
 var AWS = require("aws-sdk")
 
@@ -10,18 +10,13 @@ module.exports = credentials;
 credentials.requestKeysFromProfile = function( profile ){
   var deferred = Q.defer();
   
-  var req = http.get("http://backend.3vot.com/v1/tokens/developerToken?username=" + profile.get("username"), function(res){ 
-    res.setEncoding('utf8');
-    
-    res.on("data" , function(data){ 
-      var parsedData = JSON.parse(data);
-      var config = credentials._config( parsedData )
-      
-      return deferred.resolve( profile ); 
-    });
-  });
-  req.on("error", function(err){ return deferred.reject(err); })
-  
+  request.get("http://localhost:3001/v1/tokens/developerToken")
+  .query({username: profile.get("username")})
+  .on("error", function(err){ deferred.reject(err) })
+  .end(function(res){
+    var config = credentials._config( res.body )
+    return deferred.resolve( profile ); 
+  })
 
 return deferred.promise;
 

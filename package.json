@@ -32,7 +32,8 @@
     "npm": "*",
     "rimraf": "~2.2.6",
     "eco": "~1.1.0-rc-3",
-    "coffee-script": "~1.7.1"
+    "coffee-script": "~1.7.1",
+    "superagent": "~0.16.0"
   },
   "devDependencies": {
     "coffeeify": "~0.5.2",

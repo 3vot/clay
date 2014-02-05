@@ -48,8 +48,9 @@ Upload = (function(){
       { name: 'app', description: 'App: ( the name of the app you want to upload  )' }], function (err, result) {
       var pkg = Path.join(process.cwd(), "package.json");
       var upload = new Upload( result.app )
-      upload.uploadApp();   
-    });
+      upload.uploadApp()
+      .fail( function(err){console.error(err); } )
+    })
   }
 
   function Upload( appname ) {
@@ -130,11 +131,12 @@ Upload = (function(){
     Package.findByAttributes( { "username": app.username, "name": app.name  } )
     .then( function(results){
       app.packageData = results[0]
+      
       if (app.packageData === undefined){
         var Packages = Parse.Object.extend("Packages");
         app.packageData = new Packages();
-      }
-
+        app.packageData.set("version", "0.0.0");
+      }    
       if(Semver.gt( app.packageData.get("version") , app.package.version )){
         deferred.reject("App Version in apps/" + app.name + "/package.json should be greater than " + app.packageData.attributes.version)
       }
