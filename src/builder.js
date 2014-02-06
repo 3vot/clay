@@ -38,7 +38,7 @@ module.exports = {
 
     _ref = pck.threevot.transforms;
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      transform = _ref[_i];
+      transform = _ref[_i];      
       b.transform(transform);
     }
 
@@ -55,9 +55,8 @@ module.exports = {
         .fail( function(saveError){ deferred.reject(saveError)  }  )
       }
     );
-    
+
     return deferred.promise;
-    
   },
 
   //
@@ -82,7 +81,7 @@ module.exports = {
     Q.all( bundlePromises )
     .then( function(compiledEntries){ return _this.buildHtml(pck); })
     .then( function(html){ return deferred.resolve(html);  } )
-    .fail( function(error){ return deferred.reject( error ) })  
+    .fail( function(err){ return deferred.reject( err ) })  
       
     return deferred.promise;
   },

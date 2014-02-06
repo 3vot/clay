@@ -112,7 +112,7 @@ Server.startServer = function( domain, callback  ){
           html = html.replace("3vot.domain = 'demo.3vot.com';","3vot.domain = '" + devDomain  + "';")
           return res.send( html );
         } 
-      ).fail( function(error){  res.send(arguments) } );
+      ).fail( function(err){ res.send( err.toString() ) } );
     }
   );
 
