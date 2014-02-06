@@ -33,7 +33,8 @@
     "rimraf": "~2.2.6",
     "eco": "~1.1.0-rc-3",
     "coffee-script": "~1.7.1",
-    "superagent": "~0.16.0"
+    "superagent": "~0.16.0",
+    "browserify-eco": "~0.2.4"
   },
   "devDependencies": {
     "coffeeify": "~0.5.2",
