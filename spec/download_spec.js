@@ -23,7 +23,7 @@ describe('3VOT Download', function(){
 
     this.timeout(20500);
 
-    var download =  new Download({ username: "rodco", name: "gold" })
+    var download =  new Download({ username: "cli_test", name: "gold" })
     download.downloadApp()
     .then( function(){ 
       var destinationDir = Path.join("3vot_cli_test", "apps", "gold", "node_modules" );

@@ -1,0 +1,50 @@
+<html> 
+  <head>
+
+    <%- @head %>
+    
+  </head>
+
+  <body>
+
+  <div class="responsiveCheckWrapper"><div data-device="phone" class="visible-xs responsiveCheck">a</div>
+  <div data-device="tablet" class="visible-sm responsiveCheck">a</div><div data-device="laptop" class="visible-md responsiveCheck">a </div>
+  <div data-device="desktop" class="visible-lg responsiveCheck">a</div></div>
+  
+  <script id="loadarea" type="text/javascript"></script>
+  
+  <script>
+    var package = <%- @pck %>;
+    
+    var _3vot = {};
+    var entries = package.threevot.entries;
+
+    var responsiveDivs = document.getElementsByClassName("responsiveCheck");
+    
+    _3vot.device = "";
+    
+    for(var i=0; i<responsiveDivs.length; i++){ 
+      var style = getComputedStyle( responsiveDivs[i] ); 
+        if(style.display==="block"){ 
+          _3vot.device = responsiveDivs[i].dataset.device; 
+        }   
+      }
+
+      var fileToCall = '';
+      _3vot.domain = 'demo.3vot.com';
+      _3vot.path = '//' + _3vot.domain + '/' + package.profile + '/' + package.name;
+      
+      for(entryKey in entries){ 
+        var entryValue = entries[entryKey]; 
+        if(entryValue.indexOf(_3vot.device) > -1){ 
+          fileToCall = entryKey 
+          }
+        }
+        
+      document.getElementById('loadarea').src=  _3vot.path + '/' + fileToCall + '.js';
+      
+      console.log(fileToCall);
+    </script>
+    
+  </body> 
+</html>

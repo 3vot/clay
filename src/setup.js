@@ -17,7 +17,8 @@ Setup = (function() {
     prompt.get( [ 
       { name: 'key', description: 'Developer Key: ( Your Developer Key provided by the 3VOT Admin )' } ], function (err, result) {
       var setupController = new Setup(result);
-      setupController.setup( result );
+      setupController.setup( result )
+      .fail( function(err){console.error(err); } );
     });
   }
 
@@ -30,16 +31,13 @@ Setup = (function() {
   
   Setup.prototype.setup = function(){
     var deferred = Q.defer();
-
     this.getProfile()
     .then( AwsCredentials.requestKeysFromProfile )
     .then( this.scaffold )
     .then( this.installNPM )
     .then (function(){ return deferred.resolve() })
     .fail( function(err){ return deferred.reject(err) } );
-    
     return deferred.promise;
-
   }
 
   Setup.prototype.getProfile= function(){
@@ -51,7 +49,6 @@ Setup = (function() {
       return deferred.resolve( results[0] );
     })
     .fail( function(err){ deferred.reject(err) } )
-    
     return deferred.promise;
   }
 

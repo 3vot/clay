@@ -13,12 +13,19 @@ module.exports = {
     var deferred = Q.defer();
     
     var destPath = Path.join( process.cwd(), "apps", pck.name, "app","index.html" );
+    var headProbablePath = Path.join( process.cwd(), "apps", pck.name, "templates","head.html" );
     
-    var html = Template.html(JSON.stringify(pck));
-    
-    fs.writeFile( destPath, html, function(err){
-      if(err) return deferred.reject(err);
-      deferred.resolve(html);
+    var head = ""
+    fs.readFile( headProbablePath, function(err, file){
+      if(!err) head = file;
+
+      var html = Template.html( JSON.stringify(pck), head );
+
+      fs.writeFile( destPath, html, function(err){
+        if(err) return deferred.reject(err);
+        deferred.resolve(html);
+      });
+      
     });
     
     return deferred.promise;

@@ -98,6 +98,10 @@ This are the test
 To run the tests:
 $ mocha ./spec/3setup_spec.js
 
+GOTCHAS
+
+If you are using Browserify Template Transforms, make sure to add them in the App's package.json first, before other transforms.
+
 About 3VOT
 3VOT is a company that packs the best open source modules, and the industry standard best practices into a Comercial Solution that enables every organisation to build their own apps. 
 

@@ -20,7 +20,8 @@ Server.prompt =  function(){
   prompt.start();
   prompt.get( [ { name: 'domain', description: 'Domain: ( If you are on nitrous.io type the preview domain with out http:// or trailing slashes / ) ' }], 
    function (err, result) {
-     Server.startServer( result.domain  ); 
+     Server.startServer( result.domain  )
+     .fail( function(err){console.error(err); } )
    }
   );
 },

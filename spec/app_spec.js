@@ -36,6 +36,8 @@ describe('3VOT App', function(){
          var startSrc = fs.statSync( Path.join( process.cwd() , "apps", "silver" , "start" , "index.js"), "utf-8");
          var codeSrc = fs.statSync( Path.join( process.cwd() , "apps", "silver" , "code" , "index.js"), "utf-8");
          var layoutSrc = fs.statSync( Path.join( process.cwd() , "apps", "silver" , "templates" , "layout.html"), "utf-8");
+         var headSrc = fs.statSync( Path.join( process.cwd() , "apps", "silver" , "templates" , "head.html"), "utf-8");
+
          var apps = fs.statSync( Path.join( process.cwd(), "apps", "silver" ,"app"));
          var assets = fs.statSync( Path.join( process.cwd(), "apps", "silver" ,"app", "assets"));
 
@@ -45,11 +47,10 @@ describe('3VOT App', function(){
          pck.name.should.equal("silver");
          pck.version.should.equal("0.0.1");
 
-
          startSrc.isFile().should.equal(true);
          codeSrc.isFile().should.equal(true);
          layoutSrc.isFile().should.equal(true);
-
+         headSrc.isFile().should.equal(true);
 
          apps.isDirectory().should.equal(true);
          assets.isDirectory().should.equal(true);

@@ -21,7 +21,8 @@ App = (function() {
     prompt.get( [ 
       { name: 'name', description: 'App Name ( The name of the app you want to create )' } ], function (err, result) {
       var app = new App(result);
-      app.createApp();
+      app.createApp()
+      .fail( function(err){console.error(err); } )
     });
   }
   
@@ -96,15 +97,19 @@ App = (function() {
     var indexSrc = fs.readFileSync(  Path.join( templatesPath, "app", "index.eco" ), "utf-8");
     var layoutSrc = fs.readFileSync(  Path.join( templatesPath, "app", "layout.eco" ), "utf-8");
     var packageSrc = fs.readFileSync(  Path.join( templatesPath, "app", "package.eco" ), "utf-8");
+    var headSrc = fs.readFileSync(  Path.join( templatesPath, "app", "head.eco" ), "utf-8");
+
 
     var codeRender = eco.render( codeSrc , { profile: app.profile, name: app.name });
     var indexRender = eco.render( indexSrc , { profile: app.profile, name: app.name });
     var layoutRender = eco.render( layoutSrc , { profile: app.profile, name: app.name });
     var pckRender = eco.render( packageSrc , { profile: app.profile, name: app.name });
+    var headRender = eco.render( headSrc , { profile: app.profile, name: app.name });
 
     fs.writeFileSync( Path.join( process.cwd(), "apps", app.name, "code" , "index.js" ), codeRender );
     fs.writeFileSync( Path.join( process.cwd(), "apps", app.name, "start" , "index.js" ), indexRender );
     fs.writeFileSync( Path.join( process.cwd(), "apps", app.name, "templates" , "layout.html" ), layoutRender );
+    fs.writeFileSync( Path.join( process.cwd(), "apps", app.name, "templates" , "head.html" ), headRender );
     fs.writeFileSync( Path.join( process.cwd(), "apps", app.name, "package.json" ), pckRender );
 
     return true;

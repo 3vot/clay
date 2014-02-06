@@ -10,7 +10,7 @@ module.exports = credentials;
 credentials.requestKeysFromProfile = function( profile ){
   var deferred = Q.defer();
   
-  request.get("http://localhost:3001/v1/tokens/developerToken")
+  request.get("http://backend.3vot.com/v1/tokens/developerToken")
   .query({username: profile.get("username")})
   .on("error", function(err){ deferred.reject(err) })
   .end(function(res){
