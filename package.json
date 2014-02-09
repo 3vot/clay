@@ -1,6 +1,6 @@
 {
   "name": "3vot-cli",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "3VOT Command Line Interface to run development task from the command line.",
   "main": "bin/3cli.js",
   "bin": {
