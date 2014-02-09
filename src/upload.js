@@ -1,5 +1,4 @@
 var fs = require('fs');
-var Ignore = require("fstream-ignore");
 var Aws = require("aws-sdk");
 var Semver = require("semver");
 var fstream = require("fstream");
@@ -103,7 +102,15 @@ Upload = (function(){
     var deferred = Q.defer();
     app.package = require( Path.join( process.cwd(), "apps", app.name, "package.json" ) )
     
-    var stream = Ignore( { path: 'apps/' + app.name, type: "Directory", ignoreFiles: [ ".gitignore" , "./node_modules"] }).pipe(tar.Pack()).pipe(zlib.createGzip());
+    var appFolderReader = fstream.Reader({ path: 'apps/' + app.name
+                           , type: "Directory"
+                           , filter: function () {
+                                return !this.basename.match(/^\./) &&
+                                       !this.basename.match(/^node_modules$/)
+                              }
+                           })
+    
+    var stream = appFolderReader.pipe(tar.Pack()).pipe(zlib.createGzip());
     stream.pipe( fstream.Writer( Path.join( process.cwd(), "tmp", app.name + ".tar.gz") ) )
 
     stream.on("end", function(){
