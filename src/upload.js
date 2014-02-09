@@ -49,7 +49,6 @@ Upload = (function(){
       var pkg = Path.join(process.cwd(), "package.json");
       var upload = new Upload( result.app )
 
-      
       Builder.buildDependency( result.app )
       .then( function(){ return Builder.buildApp( result.app );  } )
       .then( function(){ return upload.uploadApp() } )

@@ -1,10 +1,5 @@
 var fs = require('fs');
-var Ignore = require("fstream-ignore");
 var Aws = require("aws-sdk");
-var Semver = require("semver");
-var fstream = require("fstream");
-var tar = require("tar");
-var zlib = require("zlib");
 var Q = require("q");
 Q.longStackSupport = true;
 var colors = require('colors');
