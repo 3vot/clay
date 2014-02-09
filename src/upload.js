@@ -17,6 +17,7 @@ var AwsCredentials = require("./aws/credentials");
 var AwsHelpers = require("./aws/helpers");
 
 
+var Builder = require("./builder")
 var Profile = require("./model/profile")
 var Package = require("./model/package")
 
@@ -48,8 +49,13 @@ Upload = (function(){
       { name: 'app', description: 'App: ( the name of the app you want to upload  )' }], function (err, result) {
       var pkg = Path.join(process.cwd(), "package.json");
       var upload = new Upload( result.app )
-      upload.uploadApp()
-      .fail( function(err){console.error(err); } )
+
+      
+      Builder.buildDependency( result.app )
+      .then( function(){ return Builder.buildApp( result.app );  } )
+      .then( function(){ return upload.uploadApp() } )
+      .fail( function(err){ console.error(err); } )
+
     })
   }
 
@@ -97,7 +103,7 @@ Upload = (function(){
     var deferred = Q.defer();
     app.package = require( Path.join( process.cwd(), "apps", app.name, "package.json" ) )
     
-    var stream = Ignore( { path: 'apps/' + app.name, type: "Directory", ignoreFiles: [ ".gitignore" ] }).pipe(tar.Pack()).pipe(zlib.createGzip());
+    var stream = Ignore( { path: 'apps/' + app.name, type: "Directory", ignoreFiles: [ ".gitignore" , "./node_modules"] }).pipe(tar.Pack()).pipe(zlib.createGzip());
     stream.pipe( fstream.Writer( Path.join( process.cwd(), "tmp", app.name + ".tar.gz") ) )
 
     stream.on("end", function(){
