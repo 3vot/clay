@@ -25,8 +25,7 @@
     "parse": "~1.2.13",
     "mime": "~1.2.11",
     "less": "~1.6.1",
-    "express": "~3.4.8",
-    "fstream-ignore": "0.0.7",
+    "express": "~3.4.8"
     "3vot": "0.0.2",
     "prompt": "~0.2.12",
     "npm": "*",
@@ -34,12 +33,12 @@
     "eco": "~1.1.0-rc-3",
     "coffee-script": "~1.7.1",
     "superagent": "~0.16.0",
+    "coffeeify": "~0.5.2",
+    "brfs": "0.0.8",
     "browserify-eco": "~0.2.4"
   },
   "devDependencies": {
-    "coffeeify": "~0.5.2",
     "mocha": "~1.17.0",
-    "brfs": "0.0.8",
     "should": "~3.0.1"
   }
 }
