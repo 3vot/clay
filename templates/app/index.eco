@@ -1,18 +1,17 @@
 var _3vot = require("3vot");
 var fs = require("fs");
+var app = require("../code/index.js")
 
-var App = (function() {
+document.body.innerHTML = fs.readFileSync("./apps/<%= @name %>/templates/layout.html");
 
-  App.metadata = require("../package");
+var package = require("../package")
 
-  document.body.innerHTML = fs.readFileSync("./apps/<%= @name %>/templates/layout.html");
+_3vot.init( {
+  package: package,
+  loginProviders: [ ] ,
+  app: app
+});
 
-  function App() {
-    require("../code/index.js");
-  }
 
-  return App;
 
-})();
 
-_3vot.initApp(App);

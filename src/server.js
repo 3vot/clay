@@ -5,7 +5,7 @@ var Path = require("path");
 var http = require('http');
 var url = require("url");
 var prompt = require("prompt")
-
+var _3vot = require("3vot")
 var argv = require('optimist').argv;
 
 var devDomain = null;
@@ -15,7 +15,7 @@ var Builder = require("./builder");
 
 
 module.exports = Server;
-  
+
 Server.prompt =  function(){
   prompt.start();
   prompt.get( [ { name: 'domain', description: 'Domain: ( If you are on nitrous.io type the preview domain with out http:// or trailing slashes / ) ' }], 
@@ -32,7 +32,7 @@ Server.startServer = function( domain, callback  ){
   var pck = require( Path.join( process.cwd(), "3vot.json" )  );
   var profile = pck.profile;
   // all environments
-  app.set('port', process.env.PORT || 3000);
+  app.set('port', 3000);
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
@@ -64,9 +64,18 @@ Server.startServer = function( domain, callback  ){
     fs.readFile( Path.join( process.cwd(), "apps", "dependencies", req.params.name ) , 
       function(err, file){
         if(err){
-          //get App Name From req.Host          
+          //get App Name From req.Host        
+
           var urlParts = req.headers.referer.split("/")
-          return res.redirect("/" + profile + "/dependencies/" + urlParts[ urlParts.length -1 ] +  "/build");
+          var appName = ""
+          if( urlParts[ urlParts.length -1 ] === "" ){
+            appName = urlParts[ urlParts.length -2 ]
+          }
+          else{
+            appName = urlParts[ urlParts.length -1 ]
+          }
+          
+          return res.redirect("/" + profile + "/dependencies/" + appName +  "/build");
         }
         return res.send(file);    
       }
@@ -103,13 +112,13 @@ Server.startServer = function( domain, callback  ){
 
   app.get("/" + profile  + "/:appName", 
     function(req, res) {
-      var baseDir = process.cwd();
       var appName = req.params.appName;
-      pck = fs.readFileSync( Path.join( baseDir, "apps", appName, "package.json"  ), "utf-8"  );
+      pck = require( Path.join( process.cwd(), "apps", appName, "package.json" ) );
       Builder.buildApp( appName )
       .then( 
         function( html ){
           html = html.replace("3vot.domain = 'demo.3vot.com';","3vot.domain = '" + devDomain  + "';")
+          html = _3vot.utils.replaceAll(html,"assets/", ["//" , devDomain , pck.profile, appName , "assets", ""].join("/") );
           return res.send( html );
         } 
       ).fail( function(err){ res.send( err.toString() ) } );

@@ -25,11 +25,9 @@ module.exports = {
         if(err) return deferred.reject(err);
         deferred.resolve(html);
       });
-      
     });
     
     return deferred.promise;
-    
   },
 
   bundleEntry: function(pck, entry){
@@ -116,7 +114,7 @@ module.exports = {
     b.bundle( {}, 
       function(err, src) {
         if (err) return deferred.reject(err)
-        _this.saveFile( destPath, _3vot.getDependencyName( pck ) + ".js", src )
+        _this.saveFile( destPath, _3vot.dependency.getDependencyName( pck ) + ".js", src )
         .then( function(){ deferred.resolve( src ) }  )
       }
     );

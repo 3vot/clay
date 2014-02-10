@@ -10,7 +10,8 @@
 			"index": [
 				"desktop",
 				"laptop",
-				"mobile"
+				"mobile",
+				"tablet"
 			]
 		},
 		"extensions": [
@@ -25,5 +26,6 @@
 		"gitDependencies": {}
 	},
 	"dependencies": {
+	  "3vot" : "0.0.3"
 	}
 }

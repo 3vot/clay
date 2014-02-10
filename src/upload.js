@@ -15,6 +15,7 @@ var prompt = require("prompt")
 var AwsCredentials = require("./aws/credentials");
 var AwsHelpers = require("./aws/helpers");
 
+var _3vot = require("3vot")
 
 var Builder = require("./builder")
 var Profile = require("./model/profile")
@@ -49,6 +50,7 @@ Upload = (function(){
       var pkg = Path.join(process.cwd(), "package.json");
       var upload = new Upload( result.app )
 
+      
       Builder.buildDependency( result.app )
       .then( function(){ return Builder.buildApp( result.app );  } )
       .then( function(){ return upload.uploadApp() } )
@@ -194,6 +196,12 @@ Upload = (function(){
           "_3vot.path = '//' + _3vot.domain + '/' + package.profile + '/' + package.name;",
           "_3vot.path = '//' + _3vot.domain + '/' + package.profile + '/' + package.name + '_' + package.version;"
         );
+        
+        file = _3vot.utils.replaceAll(file , 
+          [ "localhost:3000", package.profile, app.name].join("/") ,
+          [ "demo.3vot.com", package.profile , app.name + "_" + package.version ]
+        )
+        
         fs.writeFileSync( path.path, file );
       }
       path.key = app.username + "/" +  app.name  +  "_" + app.package.version + "/" + path.name

@@ -5,6 +5,7 @@ var fs = require("fs")
 var Q = require("q");
 Q.longStackSupport = true;
 var prompt = require("prompt")
+var _3vot = require("3vot")
 
 var Upload = require("./upload")
 
@@ -153,6 +154,12 @@ Publish = (function() {
       "_3vot.path = '//' + _3vot.domain + '/' + package.profile + '/' + package.name + '_' + package.version;",
       "_3vot.path = '//' + _3vot.domain + '/' + package.profile + '/' + package.name;"
     );
+    
+    indexFileContents = _3vot.utils.replaceAll( indexFileContents, 
+      [ "localhost:3000", package.profile, app.name].join("/") , 
+      [ "demo.3vot.com", package.profile , app.name + "_" + package.version ].join("/")
+    );
+    
     app.indexFileContents = indexFileContents;
     return indexFileContents;
   }
