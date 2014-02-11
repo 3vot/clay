@@ -151,10 +151,12 @@ Publish = (function() {
   Publish.prototype.adjustIndexToProduction = function(){
     console.log(("Adjusting Index File for Production " + paths.sourceBucket + " to " + paths.destinationBucket ).grey);
     app.indexFileContents = Transform.transformToProduction(app.indexFileContents, app.package);
-    return indexFileContents;
+    return app.indexFileContents;
   }
   
   Publish.prototype.uploadAjustedIndex = function(){
+    console.log(("Uploading Transformed Index File for Production ").grey);
+    
     var deferred = Q.defer();
     
     AwsHelpers.uploadFile( paths.destinationBucket , 

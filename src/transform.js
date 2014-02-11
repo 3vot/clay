@@ -31,17 +31,22 @@ function transformToDemo(indexFileContents, pck){
 }
 
 function transformToProduction(indexFileContents, pck){
-  
+
+  indexFileContents = indexFileContents.replace(
+    "_3vot.domain = 'demo.3vot.com';",
+    "_3vot.domain = '3vot.com';"
+  );
+
   indexFileContents = indexFileContents.replace(
     "_3vot.path = '//' + _3vot.domain + '/' + package.profile + '/' + package.name + '_' + package.version;",
     "_3vot.path = '//' + _3vot.domain + '/' + package.profile + '/' + package.name;"
   );
-  
+
   indexFileContents = _3vot.utils.replaceAll( indexFileContents, 
     [ "demo.3vot.com", pck.profile , pck.name + "_" + pck.version ].join("/"),
     [ "3vot.com", pck.profile, pck.name].join("/") 
   );
-  
+
   return indexFileContents;
 }
 
