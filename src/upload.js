@@ -171,7 +171,7 @@ Upload = (function(){
   Upload.prototype.uploadPackage= function (){
     console.info("Uploading Package to 3VOT App Store".yellow)
     var deferred = Q.defer();
-    var file = fs.readFileSync( Path.join( process.cwd(), 'tmp', app.name + '.tar.gz'), "utf-8");
+    var file = fs.readFileSync( Path.join( process.cwd(), 'tmp', app.name + '.tar.gz'));
     
     var s3 = new Aws.S3();
     s3.putObject( { Body: file , Key: app.username + '/' + app.name  + "_" +  app.package.version  + '.3vot', Bucket: 'source.3vot.com' }, function(s3Error, data) {

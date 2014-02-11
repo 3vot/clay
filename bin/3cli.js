@@ -33,13 +33,13 @@ if(argv.v){
   console.log(pck.version);
 }
 
-else if( argv._.indexOf("version") > -1 ){ Version.prompt(); }
-
 else if( argv._.indexOf("setup") > -1 ){ Setup.prompt(); } 
 
 else if( argv._.indexOf("app:upload") > -1 ){ Upload.prompt(); }
 
-else if( argv._.indexOf("app:download") > -1 ){ Download.prompt(); }
+else if( argv._.indexOf("app:clone") > -1 ){ Download.prompt(); }
+
+else if( argv._.indexOf("app:version") > -1 ){ Version.prompt(); }
 
 else if( argv._.indexOf("server") > -1 ){ Server.prompt(); }
 
