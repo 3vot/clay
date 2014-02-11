@@ -113,7 +113,7 @@ and choose the store you want to delete.
 
 ## Index
 
-#### - [3VOT-CLI Intro](https://github.com/3vot/3cot-cli)
-#### - [Getting Started](https://github.com/3vot/3cot-cli/blob/master/Getting%20Started!.md)
-#### - [Creating Apps and Stores](https://github.com/3vot/3cot-cli/blob/master/Creating%20Apps%20and%20Stores.md)
+#### - [3VOT-CLI Intro](https://github.com/3vot/3vot-cli)
+#### - [Getting Started](https://github.com/3vot/3vot-cli/blob/master/Getting%20Started!.md)
+#### - [Creating Apps and Stores](https://github.com/3vot/3vot-cli/blob/master/Creating%20Apps%20and%20Stores.md)
 
