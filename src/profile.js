@@ -13,9 +13,10 @@ function prompt (){
   prompt.get( [ 
     { name: 'name', description: 'Name: ( The Official Name of your profile)' } ,
     { name: 'username', description: 'username: ( The username, that appears in the url )' }], function (err, result) {
-    create(result)
-    .then( function(){ console.log("Profile Created Succesfully".green) } )
-    .fail( function(err){ console.log("Error creating Profile".red.bold); console.error(err.red); }  )
+
+      create(result)
+      .then( function(){ console.log("Profile Created Succesfully".green) } )
+      .fail( function(err){ console.log("Error creating Profile".red.bold); console.error(err.red); } )
   });
 }
 
