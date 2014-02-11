@@ -18,6 +18,8 @@ var AwsHelpers = require("./aws/helpers");
 var _3vot = require("3vot")
 
 var Builder = require("./builder")
+var Transform = require("./transform")
+
 var Profile = require("./model/profile")
 var Package = require("./model/package")
 
@@ -70,6 +72,8 @@ Upload = (function(){
     appPackage = require( Path.join( process.cwd(), "apps", app.name, "package.json" ))
 
     console.log( ( "Uploading App: " + app.name).yellow );
+    
+    console.log("Should move Builder Commands to this line")
     
     this.buildPackage(app.name)
     .then( this.getProfile )
@@ -192,16 +196,7 @@ Upload = (function(){
     apps.forEach( function(path){
       if(path.name == "index.html"){
         var file = fs.readFileSync( path.path, "utf-8"  );
-        file = file.replace(
-          "_3vot.path = '//' + _3vot.domain + '/' + package.profile + '/' + package.name;",
-          "_3vot.path = '//' + _3vot.domain + '/' + package.profile + '/' + package.name + '_' + package.version;"
-        );
-        
-        file = _3vot.utils.replaceAll(file , 
-          [ "localhost:3000", package.profile, app.name].join("/") ,
-          [ "demo.3vot.com", package.profile , app.name + "_" + package.version ]
-        )
-        
+        file = Transform.transformToDemo(file, app.package);
         fs.writeFileSync( path.path, file );
       }
       path.key = app.username + "/" +  app.name  +  "_" + app.package.version + "/" + path.name

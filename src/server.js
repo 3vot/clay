@@ -12,7 +12,7 @@ var devDomain = null;
 
 var Server = {}
 var Builder = require("./builder");
-
+var Transform = require("./transform")
 
 module.exports = Server;
 
@@ -117,8 +117,8 @@ Server.startServer = function( domain, callback  ){
       Builder.buildApp( appName )
       .then( 
         function( html ){
-          html = html.replace("3vot.domain = 'demo.3vot.com';","3vot.domain = '" + devDomain  + "';")
-          html = _3vot.utils.replaceAll(html,"assets/", ["//" , devDomain , pck.profile, appName , "assets", ""].join("/") );
+          //Tranforming Index to Localhost
+          html = Transform.transformToLocalhost(html, pck);
           return res.send( html );
         } 
       ).fail( function(err){ res.send( err.toString() ) } );

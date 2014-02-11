@@ -8,6 +8,8 @@ var prompt = require("prompt")
 var _3vot = require("3vot")
 
 var Upload = require("./upload")
+var Transform = require("./transform")
+
 
 var AwsCredentials = require("./aws/credentials");
 var AwsHelpers = require("./aws/helpers");
@@ -149,18 +151,7 @@ Publish = (function() {
   
   Publish.prototype.adjustIndexToProduction = function(){
     console.log(("Adjusting Index File for Production " + paths.sourceBucket + " to " + paths.destinationBucket ).grey);
-    var indexFileContents = app.indexFileContents.replace(paths.sourceBucket, paths.destinationBucket);
-    indexFileContents = indexFileContents.replace(
-      "_3vot.path = '//' + _3vot.domain + '/' + package.profile + '/' + package.name + '_' + package.version;",
-      "_3vot.path = '//' + _3vot.domain + '/' + package.profile + '/' + package.name;"
-    );
-    
-    indexFileContents = _3vot.utils.replaceAll( indexFileContents, 
-      [ "localhost:3000", package.profile, app.name].join("/") , 
-      [ "demo.3vot.com", package.profile , app.name + "_" + package.version ].join("/")
-    );
-    
-    app.indexFileContents = indexFileContents;
+    app.indexFileContents = Transform.transformToProduction(indexFileContents, app.package);
     return indexFileContents;
   }
   

@@ -1,6 +1,6 @@
 {
   "name": "3vot-cli",
-  "version": "0.1.11",
+  "version": "0.1.12",
   "description": "3VOT Command Line Interface to run development task from the command line.",
   "main": "bin/3cli.js",
   "bin": {
@@ -12,6 +12,7 @@
   "author": "",
   "license": "BSD",
   "dependencies": {
+    "3vot": "0.0.3",
     "colors": "~0.6.2",
     "optimist": "~0.6.0",
     "q": "~1.0.0",
@@ -26,7 +27,6 @@
     "mime": "~1.2.11",
     "less": "~1.6.1",
     "express": "~3.4.8",
-    "3vot": "0.0.3",
     "prompt": "~0.2.12",
     "npm": "*",
     "rimraf": "~2.2.6",
