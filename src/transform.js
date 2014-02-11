@@ -19,13 +19,12 @@ function transformToDemo(indexFileContents, pck){
   
   indexFileContents = _3vot.utils.replaceAll( indexFileContents, 
     "assets/", 
-    [ "//", "demo.3vot.com", pck.profile, pck.name + "_" + pck.version ]
+    [ "//", "demo.3vot.com", pck.profile, pck.name + "_" + pck.version ].join("/")
   );
-
 
   indexFileContents = _3vot.utils.replaceAll(indexFileContents , 
     [ "localhost:3000", pck.profile, pck.name].join("/") ,
-    [ "demo.3vot.com", pck.profile , pck.name + "_" + pck.version ]
+    [ "demo.3vot.com", pck.profile , pck.name + "_" + pck.version ].join("/")
   )
   
   return indexFileContents;
