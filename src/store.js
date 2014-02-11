@@ -1,7 +1,6 @@
 var fs = require('fs');
 var Aws = require("aws-sdk");
 var Q = require("q");
-Q.longStackSupport = true;
 var colors = require('colors');
 var Parse = require('parse').Parse;
 var mime = require('mime')

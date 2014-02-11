@@ -1,7 +1,6 @@
 var fs = require("fs");
 var Browserify = require("browserify");
 var Q = require("q");
-Q.longStackSupport = true;
 var Path = require('path');
 var Template = require("./template");
 var _3vot = require("3vot");

@@ -3,7 +3,6 @@ var Parse = require('parse').Parse;
 var Path = require("path")
 var fs = require("fs")
 var Q = require("q");
-Q.longStackSupport = true;
 var prompt = require("prompt")
 var _3vot = require("3vot")
 

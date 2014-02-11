@@ -5,7 +5,6 @@ var fstream = require("fstream");
 var tar = require("tar");
 var zlib = require("zlib");
 var Q = require("q");
-Q.longStackSupport = true;
 var colors = require('colors');
 var Parse = require('parse').Parse;
 var mime = require('mime')

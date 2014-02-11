@@ -5,7 +5,6 @@ var Path = require('path')
 var prompt = require("prompt")
 var fs = require("fs");
 var Q = require("q");
-Q.longStackSupport = true;
 var colors = require('colors');
 var Parse = require('parse').Parse;
 
@@ -38,9 +37,9 @@ else if( argv._.indexOf("version") > -1 ){ Version.prompt(); }
 
 else if( argv._.indexOf("setup") > -1 ){ Setup.prompt(); } 
 
-else if( argv._.indexOf("upload") > -1 ){ Upload.prompt(); }
+else if( argv._.indexOf("app:upload") > -1 ){ Upload.prompt(); }
 
-else if( argv._.indexOf("download") > -1 ){ Download.prompt(); }
+else if( argv._.indexOf("app:download") > -1 ){ Download.prompt(); }
 
 else if( argv._.indexOf("server") > -1 ){ Server.prompt(); }
 
@@ -54,7 +53,7 @@ else if( argv._.indexOf("store:add") > -1 ){ Store.promptAddToStore(); }
 
 else if( argv._.indexOf("store:remove") > -1 ){ Store.promptRemoveFromStore(); }
 
-else if( argv._.indexOf("publish") > -1 ){ Publish.prompt(); }
+else if( argv._.indexOf("app:publish") > -1 ){ Publish.prompt(); }
 
 else if( argv._.indexOf("app:create") > -1 ){ App.promptCreate(); }
 

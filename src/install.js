@@ -4,7 +4,6 @@ var fs = require("fs")
 var prompt = require("prompt")
 
 var Q = require("q");
-Q.longStackSupport = true;
 
 Install = (function() {
 
