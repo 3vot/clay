@@ -150,7 +150,7 @@ Publish = (function() {
   
   Publish.prototype.adjustIndexToProduction = function(){
     console.log(("Adjusting Index File for Production " + paths.sourceBucket + " to " + paths.destinationBucket ).grey);
-    app.indexFileContents = Transform.transformToProduction(indexFileContents, app.package);
+    app.indexFileContents = Transform.transformToProduction(app.indexFileContents, app.package);
     return indexFileContents;
   }
   
