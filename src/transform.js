@@ -38,7 +38,7 @@ function transformToProduction(indexFileContents, pck){
   );
   
   indexFileContents = _3vot.utils.replaceAll( indexFileContents, 
-    [ "demo.3vot.com", pck.profile , pck.name + "_" + package.version ].join("/"),
+    [ "demo.3vot.com", pck.profile , pck.name + "_" + pck.version ].join("/"),
     [ "3vot.com", pck.profile, pck.name].join("/") 
   );
   
