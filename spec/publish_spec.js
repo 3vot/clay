@@ -7,7 +7,6 @@ var http = require("http")
 var fs = require("fs")
 var Aws = require("aws-sdk");
 
-
 Parse.initialize( "IOcg1R4TxCDCPVsxAwLHkz8MPSOJfj2lZwdL4BU4", "jOr74Zy7C8VbatIvxoNyt2c03B9hPY7Hc32byA78" );
 
 var fs = require("fs")
@@ -23,16 +22,14 @@ describe('3VOT Publish', function(){
   })
   
   it('should publish apps', function(done){
-    this.timeout(10000);
+    this.timeout( 25000 );
 
-    var publish = new Publish( {name: "gold", version: "0.0.72"}, { sourceBucket: "demo.3vot.com", destinationBucket: "3vot.com"} );
+    var publish = new Publish( {name: "contacts" }, { sourceBucket: "demo.3vot.com", destinationBucket: "3vot.com"} );
     publish.publishApp()
     .then( function(){ 
       console.log("Test Publish Complete".green);
       done();
     })
     .fail( function(err){ console.error(err); } );
-
   });
-  
 });

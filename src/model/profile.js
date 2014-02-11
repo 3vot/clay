@@ -9,6 +9,10 @@ Profile = (function() {
 
   function Profile() {}
 
+  Profile.create = function(nameValuePairs){
+    
+  }
+
   Profile.findByAttributes = function(nameValuePairs) {
     var Profiles, deferred, error, name, profileQuery, success, value;
     

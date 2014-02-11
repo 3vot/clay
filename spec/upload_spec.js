@@ -23,9 +23,9 @@ describe('3VOT Upload', function(){
     
     process.chdir( Path.join( process.cwd(), "3vot_cli_test" ) );
     
-    var upload = new Upload( "gold" )
+    var upload = new Upload( "contacts" )
     
-    Version.upgradeVersion("gold")
+    Version.upgradeVersion("contacts")
     .then( function(){ return upload.uploadApp(); } )
     .then( function(){ done() } )
     .fail( function(err){ console.log(err); err.should.equal(null); done() } )

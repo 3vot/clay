@@ -58,4 +58,3 @@ else if( argv._.indexOf("app:publish") > -1 ){ Publish.prompt(); }
 else if( argv._.indexOf("app:create") > -1 ){ App.promptCreate(); }
 
 else if( argv._.indexOf("install") > -1 ){ Install.prompt(); }
-

@@ -23,11 +23,11 @@ describe('3VOT Download', function(){
 
     this.timeout(20500);
 
-    var download =  new Download({ username: "cli_test", name: "gold" })
+    var download =  new Download( { username: "3vot", name: "contacts" } )
     download.downloadApp()
     .then( function(){ 
-      var destinationDir = Path.join("3vot_cli_test", "apps", "gold", "node_modules" );
-      return Install.install("gold", destinationDir) 
+      var destinationDir = Path.join("3vot_cli_test", "apps", "contacts", "node_modules" );
+      return Install.install("contacts", destinationDir) 
     })
     .then( function() { done() } )
     .fail( function(err) { console.error(err); err.should.equal(null); done() } );
