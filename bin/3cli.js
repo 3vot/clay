@@ -14,6 +14,8 @@ var Upload = require("../src/upload")
 var Setup = require("../src/setup")
 var Install = require("../src/install")
 
+var Profile = require("../src/profile")
+
 var Server = require("../src/server")
 var Publish = require("../src/publish")
 
@@ -34,6 +36,8 @@ if(argv.v){
 }
 
 else if( argv._.indexOf("setup") > -1 ){ Setup.prompt(); } 
+
+else if( argv._.indexOf("profile:create") > -1 ){ Profile.promptCreate(); }
 
 else if( argv._.indexOf("app:upload") > -1 ){ Upload.prompt(); }
 
@@ -58,4 +62,3 @@ else if( argv._.indexOf("app:publish") > -1 ){ Publish.prompt(); }
 else if( argv._.indexOf("app:create") > -1 ){ App.promptCreate(); }
 
 else if( argv._.indexOf("install") > -1 ){ Install.prompt(); }
-

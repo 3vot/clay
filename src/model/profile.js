@@ -9,6 +9,42 @@ Profile = (function() {
 
   function Profile() {}
 
+
+  Profile.save = function(profile){
+
+    var deferred = Q.defer();
+
+    console.info("Saving Profile".grey)
+
+    profile.save().then(
+      function(profile){ return deferred.resolve(profile); } ,
+      function(err){ return deferred.reject(err); }
+    );
+
+    return deferred.promise;
+  }
+
+  Profile.create = function(attrs){
+    ProfileModel = Parse.Object.extend("Profiles");
+    var profile = new ProfileModel();   
+    for( attr in attrs ){
+      var value = attrs[attr];
+      profile.set(attr, value);
+    }
+    return Profile.save(profile);
+  }
+
+  Profile.destroy = function(profile){
+  // Upload App Flow
+    console.info("Deleting Profile".yellow)
+    var deferred = Q.defer();
+    profile.destroy().then(
+      function(){ deferred.resolve() },
+      function(err){ deferred.reject(err) }
+    )
+    return deferred.promise;
+  }
+
   Profile.findByAttributes = function(nameValuePairs) {
     var Profiles, deferred, error, name, profileQuery, success, value;
     

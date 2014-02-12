@@ -49,7 +49,7 @@ Install = (function() {
   Install.installBower= function(destinationDir, packagesToInstall ){
     var deferred = Q.defer();
     
-    console.log( ( "Installing Git Components in"  + destinationDir) .yellow)
+    console.log( ( "Installing Git Components in "  + destinationDir) .yellow)
 
     bower.config.directory = destinationDir
 

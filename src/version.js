@@ -13,7 +13,7 @@ Version = (function() {
     prompt.get( [ 
       { name: 'app', description: 'App: ( The Application that you want to upgrade the version by 0.0.1 )' } ], function (err, result) {
         Version.upgradeVersion( result.app )
-        .then( function(){ console.log("Ok".green); } )
+        .then( function(version){ console.log(("App Version is now " + version).green); } )
         .fail( function(err){ console.error(err.red); })
     });
   }
@@ -28,8 +28,8 @@ Version = (function() {
     pkg.version = parts.join(".");
 
     fs.writeFile(pckPath, JSON.stringify( pkg, null, '\t' ), function(err){
-      if(err) deferred.reject( err )
-      deferred.resolve();
+      if(err) deferred.reject( err );
+      deferred.resolve( pkg.version );
     });
     
     return deferred.promise;

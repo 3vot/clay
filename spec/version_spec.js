@@ -20,14 +20,14 @@ describe('3VOT Version', function(){
     
     process.chdir( Path.join( process.cwd(), "3vot_cli_test" ) );
 
-    var pckPath = Path.join( process.cwd(), "apps", "gold", "package.json" );
+    var pckPath = Path.join( process.cwd(), "apps", "contacts", "package.json" );
     var pkg = require( pckPath );
     var versionParts = pkg.version.split(".");
     var version = versionParts[versionParts.length - 1 ];
 
     Version.upgradeVersion("gold")
     .then( function(){ 
-      var pckPath = Path.join( process.cwd(), "apps", "gold", "package.json");
+      var pckPath = Path.join( process.cwd(), "apps", "contacts", "package.json");
       var pkg = require(pckPath);
       pkg.version.should.equal("0.0." + (parseInt(version) + 1) );
       done() 

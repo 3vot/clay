@@ -10,23 +10,20 @@ Parse.initialize( "IOcg1R4TxCDCPVsxAwLHkz8MPSOJfj2lZwdL4BU4", "jOr74Zy7C8VbatIvx
 
 var fs = require("fs")
 
-var Upload = require("../src/upload")
-var Vrsion = require("../src/version")
+var Profile = require("../src/profile")
+
+var ProfileModel = require("../src/model/profile")
 
 var Path = require("path")
 
 describe('3VOT Upload', function(){
 
-  it('should upload an App', function(done){
+  it('should create a profile', function(done){
     
     this.timeout( 90500 );
     
-    process.chdir( Path.join( process.cwd(), "3vot_cli_test" ) );
-    
-    var upload = new Upload( "contacts" )
-    
-    Version.upgradeVersion("contacts")
-    .then( function(){ return upload.uploadApp(); } )
+    Profile.create( { username: "eraseme", name: "erase if found" } )
+    .then( function(profile){ return ProfileModel.destroy(profile) } )
     .then( function(){ done() } )
     .fail( function(err){ console.log(err); err.should.equal(null); done() } )
 

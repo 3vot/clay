@@ -254,12 +254,29 @@ Upload = (function(){
   }
 
   Upload.prototype.updatePackageInfo= function(){
+    console.info("Updating Package Info to 3VOT Demo".yellow)
+    
+    var deferred = Q.defer();
+    
     app.packageData.set("username", app.username)
     app.packageData.set("name", app.package.name)
     app.packageData.set("version", app.package.version);
     app.packageData.addUnique("versions", app.package.version )
     app.packageData.addUnique("versionMap", { version: app.package.version } )
-    app.packageData.save( null, { success: function(pck){ console.log( ("App Updated Succesfully: http://demo.3vot.com/" + app.username + "/" + app.name + "_" + app.package.version ).green) }  } );
+    app.packageData.save( null, { 
+      success: function(pck){ 
+        console.log( ("App Updated Succesfully: http://demo.3vot.com/" + app.username + "/" + app.name + "_" + app.package.version ).green) 
+        return deferred.resolve();
+      },
+      error: function(err){ 
+        console.log("An error occured updating package");
+        console.log(err);  
+        deferred.reject(err);
+      }
+    });
+    
+    return deferred.promise;
+    
   }
   
   Upload.walkDir = function(dir) {

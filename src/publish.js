@@ -23,7 +23,7 @@ Publish = (function() {
     prompt.start();
     prompt.get( [ 
       { name: 'name', description: 'App: ( The Name of the App you want to publish )' },
-      { name: 'version', description: 'Version: ( The Version of the App you want to publish )' } ], function (err, result) {
+      { name: 'version', description: 'Version: ( The Version of the App you want to publish, enter for latest )' } ], function (err, result) {
 
         var publish = new Publish( result, { sourceBucket: "demo.3vot.com", destinationBucket: "3vot.com"} )
         publish.publishApp()
@@ -89,6 +89,9 @@ Publish = (function() {
     .then( function(results){
       if(results.length===0) return deferred.reject("App Not Found")
       app.packageData = results[0];
+
+      if( !app.version || app.version.length == 0 ) app.version = app.packageData.get("version");
+
       return deferred.resolve(app.packageData);
     })
     .fail( function(err){ deferred.reject(err) } )

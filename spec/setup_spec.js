@@ -24,7 +24,7 @@ describe('3VOT Setup', function(){
 
     this.timeout(90000);
     
-    var options= { key: "0" };
+    var options= { key: "1" };
     var folderName = "3vot_cli_test";
   
     var setup = new Setup(options);
@@ -32,7 +32,6 @@ describe('3VOT Setup', function(){
     .then( function(){
 
       try{  
-
         var _3vot = fs.readFileSync( Path.join( process.cwd() , "3vot.json"), "utf-8");
 
         var pck = fs.statSync( Path.join( process.cwd(), "package.json"));
@@ -47,7 +46,7 @@ describe('3VOT Setup', function(){
         var node_modules = fs.statSync( Path.join( process.cwd(), "node_modules"));
 
         _3vot = JSON.parse(_3vot);
-        _3vot.key.should.equal("0");
+        _3vot.key.should.equal("1");
         _3vot.profile.should.equal("cli_test");
 
         pck.isFile().should.equal(true);
@@ -61,17 +60,13 @@ describe('3VOT Setup', function(){
         node_modules.isDirectory().should.equal(true);
         
         done();
-
       }
       catch(err){
         console.error("Error in Spec Test")
         console.log(err);
-      }
-      
+      }      
     })
     .fail( function(err){ console.error(err); }  )
-
   });
-  
-  
+
 });  

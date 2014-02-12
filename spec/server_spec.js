@@ -23,9 +23,9 @@ describe('3VOT Server', function(){
     Server.startServer(null, function(){
       _this.timeout(10500);
       
-      http.get("http://localhost:3000/cli_test/gold", function(res) {
+      http.get("http://localhost:3000/cli_test/contacts", function(res) {
         console.log("Got response: " + res.statusCode);
-        var depPath = "/cli_test/dependencies/gold/build";
+        var depPath = "/cli_test/dependencies/contacts/build";
         http.get("http://localhost:3000" + depPath, function(res) {
           done();
         });
