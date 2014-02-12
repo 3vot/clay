@@ -17,7 +17,7 @@ Profile = (function() {
     console.info("Saving Profile".grey)
 
     profile.save().then(
-      function(profile){ console.log(profile.attributes); return deferred.resolve(profile); } ,
+      function(profile){ return deferred.resolve(profile); } ,
       function(err){ return deferred.reject(err); }
     );
 
