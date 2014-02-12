@@ -62,6 +62,6 @@ function createProfile(){
 }
 
 module.exports = {
-  prompt: prompt,
+  promptCreate: promptCreate,
   create: create
 };
