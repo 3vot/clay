@@ -38,8 +38,6 @@ Server.startServer = function( domain, callback  ){
   app.use(express.methodOverride());
   app.use(app.router);
 
-  devDomain = domain || "localhost:" + app.get('port');
-
   app.get("/", function(req,res){
     res.send("<h1>Congratulations 3VOT Local Server is Running</h1><h2>Now head to your app @ /YOURORG/YOURAPP</h2>");
   });
@@ -118,7 +116,7 @@ Server.startServer = function( domain, callback  ){
       .then( 
         function( html ){
           //Tranforming Index to Localhost
-          html = Transform.transformToLocalhost(html, pck);
+          html = Transform.transformToLocalhost(html, pck, domain);
           return res.send( html );
         } 
       ).fail( function(err){ res.send( err.toString() ) } );

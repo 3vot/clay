@@ -1,7 +1,7 @@
 var _3vot = require("3vot")
 
-function transformToLocalhost(indexFileContents, pck){
-  var devDomain = "localhost:3000"
+function transformToLocalhost(indexFileContents, pck, domain){
+  var devDomain = domain || "localhost:3000"
   indexFileContents = indexFileContents.replace("3vot.domain = 'demo.3vot.com';","3vot.domain = '" + devDomain  + "';")
   indexFileContents = _3vot.utils.replaceAll( indexFileContents,
     "assets", 

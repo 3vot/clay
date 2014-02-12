@@ -16,7 +16,6 @@ var Profile = require("./model/profile")
 var Package = require("./model/package")
 var Store = require("./model/store")
 
-
 // *****************
 // CLI
 // *****************
