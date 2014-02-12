@@ -43,7 +43,8 @@ Server.startServer = function( domain, callback  ){
   });
 
   app.get("/" + profile  + "/:appName/assets/:asset", function(req, res) {
-    res.sendfile(filePath)
+    var filePath = Path.join(  process.cwd() , "apps", appName, "app", "assets", asset );
+    res.sendFile(filePath);
   });
 
   app.get("/" + profile  + "/dependencies/:name", function(req, res) {
