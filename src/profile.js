@@ -15,7 +15,7 @@ function promptCreate (){
     { name: 'username', description: 'username: ( The username, that appears in the url )' }], function (err, result) {
 
       create(result)
-      .then( function(){ console.log("Profile Created Succesfully".green) } )
+      .then( function(profile){ console.log("Profile Created Succesfully".green); console.log( ( "Save your developer key: " + profile.get("private_dev_key") ).bold) } )
       .fail( function(err){ console.log("Error creating Profile".red.bold); console.error(err.red); } )
   });
 }
