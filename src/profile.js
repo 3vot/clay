@@ -39,7 +39,6 @@ function create( options ){
 } 
  
 function getProfile(){
-  var config = require(Path.join( process.cwd(), "3vot.json") );
   var deferred = Q.defer();
   Profile.findByAttributes( { "username": promptOptions.username } )
   .then( function(results){
