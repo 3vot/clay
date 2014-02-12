@@ -37,7 +37,7 @@ if(argv.v){
 
 else if( argv._.indexOf("setup") > -1 ){ Setup.prompt(); } 
 
-else if( argv._.indexOf("profile:create") > -1 ){ Profile.prompt(); }
+else if( argv._.indexOf("profile:create") > -1 ){ Profile.promptCreate(); }
 
 else if( argv._.indexOf("app:upload") > -1 ){ Upload.prompt(); }
 

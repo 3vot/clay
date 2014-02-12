@@ -8,7 +8,7 @@ var prompt = require("prompt")
 
 var Profile = require("./model/profile")
 
-function prompt (){
+function promptCreate (){
   prompt.start();
   prompt.get( [ 
     { name: 'name', description: 'Name: ( The Official Name of your profile)' } ,
