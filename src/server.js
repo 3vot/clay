@@ -46,7 +46,7 @@ Server.startServer = function( domain, callback  ){
     var asset = req.params.asset;
     var appName = req.params.appName;
     var filePath = Path.join(  process.cwd() , "apps", appName, "app", "assets", asset );
-    res.sendFile(filePath);
+    res.sendfile(filePath);
   });
 
   app.get("/" + profile  + "/dependencies/:name", function(req, res) {
