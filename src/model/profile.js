@@ -29,7 +29,6 @@ Profile = (function() {
     var profile = new ProfileModel();   
     for( attr in attrs ){
       var value = attrs[attr];
-      console.log(attr)
       profile.set(attr, value);
     }
     return Profile.save(profile);
