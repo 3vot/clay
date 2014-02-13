@@ -2,14 +2,13 @@
 
 - [Creating a New App ON YOUR CONSOLE (Mac)](#newAppConsole)
 - [Creating a New Store ON YOUR CONSOLE (Mac)](#newStoreConsole)
- 
 - [Creating a New App using NITROUS.IO](#newAppNitrous)
 - [Creating a New Store using NITROUS.IO](#newStoreNitrous)
 
 
 ## <a name="newAppConsole"></a> Creating a New App - ON YOUR CONSOLE (Mac)
 
-### Step 1 - Create the app
+### <a name="createApp1"></a> Step 1 - Create the app
 
 On your console, go inside your 3vot project folder, and create a new app simply by writing:
 ```
@@ -23,7 +22,7 @@ App Name ( The name of the app you want to create ):  appname
 
 This will create a folder with the name of the app and will make a basic scaffold for your project. 
 
-### Step 2 - Run the App
+### <a name="runApp1"></a> Step 2 - Run the App
 
 Run the server to test the app you just created.
 ```
@@ -36,7 +35,7 @@ http://localhost:3000/profile/appname
 ``Remember to change /profile/ for the name of your profile and /appname for the name of your app``
 
 
-### Step 3 - Upload the app
+### <a name="uploadApp1"></a> Step 3 - Upload the app
 After you've created your app, remember to upload it to your profile by using :
 ```
 3vot app:upload
@@ -45,7 +44,7 @@ After you've created your app, remember to upload it to your profile by using :
 This will deploy a demo of your app in ``http://demo.3vot.com/profile/appname_0.0.xx `` just change the last xx for the version of the app you want to check.
 
 
-### Step 4 - Publish the app
+### <a name="publishApp1"></a> Step 4 - Publish the app
 
 
 You'll be able to publish the app to the world by using 
@@ -64,7 +63,7 @@ http://3vot.com/profile/myapp/index.html
 Stores are a great way to manage and order your apps.
 
 
-### Step 1 - Creating the store
+### <a name="createStore1"></a> Step 1 - Creating the store
 
 To create a new store just type in your console 
 ```
@@ -85,7 +84,7 @@ You can see the list of your stores using the command:
 ```	
 This will show, not only the stores you have but also de apps that have been added to each store.
 
-### Step 2- Adding apps to a store
+### <a name="addingApp1"></a> Step 2- Adding apps to a store
 
 Now that you've created a store you can add your apps to it.
 
@@ -100,12 +99,12 @@ Stores: ( The name of the Store you want to use ): mystore
 App: ( The name of the App you want to add to the store ):  myapp
 ```	
 
-### Removing an app from a store
+### <a name="removeApp1"></a> Step 3- Removing an app from a store
 
 In the same way you add an app to a store you can remove one, using ``3vot store:remove`` , this will remove it from the store, but will not delete the app.
 
 
-### Deleting a store
+### <a name="deleteApp1"></a> Step 4- Deleting a store
 
 To delete a store just use the command ...
 ```	
