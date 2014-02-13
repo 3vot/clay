@@ -1,7 +1,7 @@
 ## 	Creating Apps and Stores with 3VOT-CLI
 
- - [Creating a New App ON YOUR CONSOLE (Mac)](#newAppConsole)
- - [Creating a New Store ON YOUR CONSOLE (Mac)](#newStoreConsole)
+- [Creating a New App ON YOUR CONSOLE (Mac)](#newAppConsole)
+- [Creating a New Store ON YOUR CONSOLE (Mac)](#newStoreConsole)
  
 - [Creating a New App using NITROUS.IO](#newAppNitrous)
 - [Creating a New Store using NITROUS.IO](#newStoreNitrous)
@@ -58,7 +58,7 @@ And then access it in
 http://3vot.com/profile/myapp/index.html
 ```
 
-## Creating a New Store
+## <a name="newStoreConsole"></a> Creating a New Store - ON YOUR CONSOLE (Mac)
 
 
 Stores are a great way to manage and order your apps.
