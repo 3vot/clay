@@ -1,27 +1,172 @@
-<html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
-  </head> 
-  <body>
-    
-    <h1><%= @profile.attributes.name %></h1>
-    
-    <ul class="people_list">
-      <% for store in @stores: %>
-        <li><%= store.attributes.name %></li>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>3VOT - <%= @profile.attributes.name %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" media="screen" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+  <style>
 
-        <ul class="people_list">
-        
-        <% for app in store.attributes?.apps: %>
-          <li>
-            <a href="<%= app.name + "?store=" + store.attributes.name %>"><%= app.name %></a>
-          </li>
-        <% end %>
-      </ul>
-        
-      <% end %>
-      
-    </ul>
-    
-  </body>
+    body {
+      background-color: #f5f5f6;
+      color: #8a8c8e;
+      padding: 50px 0;
+    }
+
+    .navbar {
+      min-height: 0;
+      padding: 3px 0;
+    }
+
+    .form-control {
+      border-radius: 0;
+      border: none;
+    }
+
+    .input-group-addon {
+      position:relative;
+      left:-40px;
+      background-color: transparent;
+      border: none;
+      color:#b3b3b3;
+    }
+
+    .btn {
+      border-radius: 0;
+      border: none;
+      color: #8a8c8e;
+    }
+
+    .btn-default {
+      -webkit-box-shadow: 0 2px 0 #e6e6e6;
+      -moz-box-shadow: 0 2px 0 #e6e6e6;
+      box-shadow: 0 2px 0 #e6e6e6;
+    }
+
+    .navbar-default {
+      background-color: #e6e6e6;
+    }
+
+    a {
+    }
+    a:hover {
+      text-decoration: none;
+    }
+
+    .appstore-app {
+        margin: 20px 10px;
+        background-color: #fff;
+        padding: 10px;
+        width: 30%;
+        display: inline-block;
+        box-shadow: 0 1px 2px rgba(0,0,0,.2);
+      }
+
+    ul {
+      padding-left: 10px;
+    }
+    ul li {
+      list-style: none
+    }
+
+
+
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="row">
+      <div class="navbar navbar-default navbar-fixed-top " role="navigation">
+        <div class="container">
+          <div class="col-md-5  ">
+            <a class="navbar-brand" href="#"><img style="height:90%; position:relative;top:-11px;" src="images/3vot-logo-darkgray.svg" alt=""></a>
+              <div class="input-group ">
+                <input type="text" class="form-control " placeholder="Buscar Empresa" value="">
+                <span class=" input-group-addon text-muted glyphicon glyphicon-search"></span>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+      <div class="row">
+        <div class="col-md-12">
+          
+          <div class="col-md-3 profile-sidebar-3vot" >
+            <div class="profile-info-3vot" data-spy="affix" data-offset-top="225">
+              <h2 class="" style="color:#1cb5ea"><%= @profile.attributes.name %></h2> 
+              <small class="text-muted">2 Tiendas - 34 Apps</small>
+              <p>Descripción</p>
+              <div style="border-bottom:1px solid #e6e6e6"><span></span></div>
+              <h3 style="color:#b3b3b3">Tiendas</h3>
+
+              <a href="" class="btn btn-default btn-block">Apps Públicas</a>
+              <a href="" class="btn btn-default btn-block">Mercadeo Rodco</a>
+
+            </div>
+          </div>
+
+          <div class="col-md-9">
+            <div class="row">
+              <div class="" style="background-color:#1cb5ea; padding: 5px 0; margin-top:15px;" data-spy="affix" data-offset-top="225">
+
+                      <h4 style="width:20%; color:#fff;margin-top:8px;" class="pull-left text-center">Apps</h4>
+                      <div class="input-group">
+                        <input type="text" class="form-control " placeholder="Buscar Apps y Tiendas de ésta empresa" value="">
+                        <span class=" input-group-addon text-muted glyphicon glyphicon-search"></span>
+                        <button class="dropdown btn btn-link pull-right" >
+                          <a href="#" class="dropdown-toggle text-muted" style="color:#fff" data-toggle="dropdown">Tiendas <b class="caret"></b></a>
+                          <ul class="dropdown-menu dropdown-menu-right">
+                            <% for store in @stores: %>
+                              <li><%= store.attributes.name %></li>
+                            <% end %>
+                          </ul>
+                        </button>
+                      </div>
+
+              </div>             
+            </div> <!-- Row -->
+
+            <section style="padding:10px 0">
+          
+              <div class="row">
+                <div class="col-md-12">
+                  <h3 style="color:#b3b3b3">Apps Públicas</h3>
+                  <div class="row">
+                      <a href="btn" class="appstore-app">
+                        <h4 style="color:#4d4d4d">testApp</h4>
+                        <p style="color:#8a8c8e">3vot Tutorial is a free demo app to start building your first apps using 3vot technology. Easy & 5x times faster.</p>
+                      </a>
+                  </div>
+                  <h3 style="color:#b3b3b3">Mercadeo Rodco</h3>
+                    <div class="row">
+                      <a href="btn" class="appstore-app">
+                        <h4 style="color:#4d4d4d">Contacts</h4>
+                        <p style="color:#8a8c8e">3vot Tutorial is a free demo app to start building your first apps using 3vot technology. Easy & 5x times faster.</p>
+                      </a>
+                    </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+        </div>
+      </div>
+  
+
+
+  </div><!-- Container -->
+
+
+  
+  
+  <script src="https://code.jquery.com/jquery.js"></script>
+  <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+  <script>
+
+
+  </script>
+</body>
 </html>
