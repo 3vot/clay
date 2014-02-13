@@ -1,7 +1,7 @@
 ## 	Creating Apps and Stores with 3VOT-CLI
 
-- [Creating a New App ON YOUR CONSOLE (Mac)](#newAppConsole)
-- [Creating a New Store ON YOUR CONSOLE (Mac)](#newStoreConsole)
+ - [Creating a New App ON YOUR CONSOLE (Mac)](#newAppConsole)
+ - [Creating a New Store ON YOUR CONSOLE (Mac)](#newStoreConsole)
  
 - [Creating a New App using NITROUS.IO](#newAppNitrous)
 - [Creating a New Store using NITROUS.IO](#newStoreNitrous)
