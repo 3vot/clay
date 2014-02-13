@@ -1,10 +1,7 @@
-<!doctype html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
   <title>3VOT - <%= @profile.attributes.name %></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" media="screen" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <link rel="stylesheet" media="screen" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
   <style>
 
     body {
@@ -101,10 +98,11 @@
               <p>Descripción</p>
               <div style="border-bottom:1px solid #e6e6e6"><span></span></div>
               <h3 style="color:#b3b3b3">Tiendas</h3>
+              <% for store in @stores: %>
 
-              <a href="" class="btn btn-default btn-block">Apps Públicas</a>
-              <a href="" class="btn btn-default btn-block">Mercadeo Rodco</a>
-
+                <a href="" class="btn btn-default btn-block"><%= store.attributes.name %></a>
+              <% end %>
+              
             </div>
           </div>
 
@@ -133,20 +131,17 @@
           
               <div class="row">
                 <div class="col-md-12">
-                  <h3 style="color:#b3b3b3">Apps Públicas</h3>
-                  <div class="row">
-                      <a href="btn" class="appstore-app">
-                        <h4 style="color:#4d4d4d">testApp</h4>
-                        <p style="color:#8a8c8e">3vot Tutorial is a free demo app to start building your first apps using 3vot technology. Easy & 5x times faster.</p>
-                      </a>
-                  </div>
-                  <h3 style="color:#b3b3b3">Mercadeo Rodco</h3>
+                  <% for store in @stores: %>
+                    <h3 style="color:#b3b3b3"><%= store.attributes.name %></h3>
                     <div class="row">
-                      <a href="btn" class="appstore-app">
-                        <h4 style="color:#4d4d4d">Contacts</h4>
-                        <p style="color:#8a8c8e">3vot Tutorial is a free demo app to start building your first apps using 3vot technology. Easy & 5x times faster.</p>
-                      </a>
+                      <% for app in store.attributes?.apps: %>
+                        <a href="<%= app.name + "?store=" + store.attributes.name %>" class="appstore-app">
+                          <h4 style="color:#4d4d4d"><%= app.name %></h4>
+                          <p style="color:#8a8c8e">Description will load soon</p>
+                        </a>
+                      <% end %>
                     </div>
+                  <% end %>
                 </div>
               </div>
             </section>
