@@ -1,9 +1,9 @@
 ﻿## Getting Started with 3VOT-CLI
-- [If you are working ON YOUR CONSOLE](#console)
-- [If you are using NITROUS.IO or cloud9](#nitrous)
+- [If you are working ON YOUR CONSOLE (Mac)](#console)
+- [If you are using NITROUS.IO](#nitrous)
 
 	
-## <a name="console"></a> Getting Started - ON YOUR CONSOLE  
+## <a name="console"></a> Getting Started - ON YOUR CONSOLE (Mac)  
 
 ### <a name="install"></a> Step 1 - Install 3vot-cli
 
