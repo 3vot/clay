@@ -114,7 +114,7 @@ and choose the store you want to delete.
 
 
 
-## <a name="newAppNitrous"></a> Creating a New App - ON YOUR CONSOLE (Mac)
+## <a name="newAppNitrous"></a> Creating a New App - using Nitrous.io
 
 ### <a name="createApp2"></a> Step 1 - Create the app
 
