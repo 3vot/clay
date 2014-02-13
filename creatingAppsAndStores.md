@@ -136,12 +136,19 @@ Run the server to test the app you just created.
 ```
  3vot server
 ```
-And check the app running by pointing your browser to : 
-```
-http://localhost:3000/profile/appname
-```
-``Remember to change /profile/ for the name of your profile and /appname for the name of your app``
 
+The console will ask for the preview domain where you can check your app, for this just select the `Boxes` option located on the top right menu of the Nitrous IDE. 
+
+Inside your Nitrous.io box should be the `Preview URI` address we need, use that one on the nitrous console without the `http://` or trailing slashes `/`. 
+
+```
+Example: Domain: ( If you are on nitrous.io type the preview domain with out http:// or trailing slashes / ) :  tutorial3vot-73872-use1.nitrousbox.com
+```
+
+This will start a development server, to check the app running using nitrous just point your browser to your `previewURI/profile/app` .
+```
+Example: tutorial3vot-73872-use1.nitrousbox.com/cli_test/gold
+```
 
 ### <a name="uploadApp2"></a> Step 3 - Upload the app
 After you've created your app, remember to upload it to your profile by using :
@@ -165,7 +172,7 @@ And then access it in
 http://3vot.com/profile/myapp/index.html
 ```
 
-## <a name="newStoreNitrous"></a> Creating a New Store - ON YOUR CONSOLE (Mac)
+## <a name="newStoreNitrous"></a> Creating a New Store - using Nitrous.io
 
 
 Stores are a great way to manage and order your apps.
