@@ -16,7 +16,6 @@ Here is the Information for the Developer to get started, but even if you are no
 #### Requirements
 
 - [NodeJS](http://nodejs.org/)
-- [Git](https://github.com/)
 
 
 ## Index
