@@ -1,4 +1,4 @@
-#### Getting Started - Index
+## 3vot-cli Getting Started - Index
 - [1- Install 3VOT CLI](#install)
 - [2- Create a 3VOT project](#create)
 - [3- Downloading an App](#download) 
