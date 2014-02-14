@@ -20,15 +20,13 @@
 
 Open the console (cmd) and install the 3vot-cli ( the tool to build, download and deploy apps )
 ```
- npm install 3vot-cli -g
+npm install 3vot-cli -g
 ```
 
 
 #### <a name="create"></a> Step 2 - Create a 3VOT project
 On your console, choose a folder to install 3vot and type:
-```
- 3vot setup
-```
+``` 3vot setup ```
 
 The console will ask for a Developer Key. If you don't have one yet you can use ' 0 ' for a demo.
 
