@@ -19,9 +19,9 @@ Here is the Information for the Developer to get started, but even if you are no
 - You can go trought this guides in you local console (Mac) or using Nitrous.io 
 
 
-## 3VOT-CLI Index
+#### 3VOT-CLI Index
 
-#### - [3VOT-CLI Intro](https://github.com/3vot/3vot-cli/)
+#### - [3VOT-CLI Intro](https://github.com/3vot/3vot-cli/blob/master/readme.md)
 #### - [Getting Started](https://github.com/3vot/3vot-cli/blob/master/gettingStarted.md)
 
 #### Hope you love your first experience with 3vot's Front End as a Service Platform!
