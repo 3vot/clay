@@ -1,5 +1,5 @@
-##[3VOT-CLI](https://github.com/3vot/3vot-cli/blob/master/readme.md)
-##Getting Started - Index
+####[3VOT-CLI](https://github.com/3vot/3vot-cli/blob/master/readme.md)
+#### Getting Started - Index
 - [1- Install 3VOT CLI](#install)
 - [2- Create a 3VOT project](#create)
 - [3- Downloading an App](#download) 
