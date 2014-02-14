@@ -16,6 +16,7 @@ Here is the Information for the Developer to get started, but even if you are no
 #### Requirements
 
 - [NodeJS](http://nodejs.org/)
+- You can go trought this Getting Started guide in you local console (Mac) or using Nitrous.io 
 
 #### Getting Started - Index
 - [1- Install 3VOT CLI](#install)
@@ -237,5 +238,5 @@ To delete a store just use the command ...
 ```	
 and choose the store you want to delete.
 
-#### Hope you love your first experience with 3vot's Front End as a Service Platform.
+#### Hope you love your first experience with 3vot's Front End as a Service Platform!
 #### For support, pair programming sessions or any feedback, please visit us at [3vot.com](http://3vot.com/)
