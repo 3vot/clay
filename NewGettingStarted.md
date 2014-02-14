@@ -88,11 +88,11 @@ Make sure you are on your Tutorial App folder '3vot_cli_test' and Run the app by
  3vot server
 ```
 
-## If you are using your local console (Mac):
+##### If you are using your local console (Mac):
 
 This will start a development server, to check the app running just point your browser to : ``http://localhost:3000/tutorial/gold``
 
-## If you are using Nitrous.io:
+##### If you are using Nitrous.io:
 
 The console will ask for the preview domain where you can check your app, for this just select the `Boxes` option located on the top right menu of the Nitrous IDE. 
 
@@ -106,7 +106,6 @@ This will start a development server, to check the app running using nitrous jus
 ```
 Example: tutorial3vot-73872-use1.nitrousbox.com/cli_test/gold
 ```
-------------------------------
 
 #### <a name="modify"></a> Step 5 - Modifying the App
 Let's make changes to your app, go ahead and change the header in the following file:  ``3vot_cli_test/apps/gold/templates/layout.html``
