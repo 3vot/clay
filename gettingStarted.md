@@ -1,19 +1,29 @@
-﻿## Getting Started with 3VOT-CLI
-- [If you are working ON YOUR CONSOLE (Mac)](#console)
-- [If you are using NITROUS.IO](#nitrous)
+#### Getting Started - Index
+- [1- Install 3VOT CLI](#install)
+- [2- Create a 3VOT project](#create)
+- [3- Downloading an App](#download) 
+- [4- Running the Tutorial App](#run) 
+- [5- Modifying the App](#modify)
+- [6- Uploading the App](#upload)
+- [7- Publishing the App](#publish)
+- [8- Create a new App](#create)
+- [9- Run, Upload and Publish again](#run2)
+- [10- Creating a new Store](#createStore)
+- [11- Listing Stores](#list)
+- [12- Adding Apps to a Store](#add)
+- [13- Removing an app from a store](#remove)
+- [14- Deleting a store](#delete)
 
-	
-## <a name="console"></a> Getting Started - ON YOUR CONSOLE (Mac)  
 
-### <a name="install"></a> Step 1 - Install 3vot-cli
+#### <a name="install"></a> Step 1 - Install 3vot-cli
 
-Open the console (cmd) and install the 3VOT-CLI ( the tool to build, download and deploy apps )
+Open the console (cmd) and install the 3vot-cli ( the tool to build, download and deploy apps )
 ```
  npm install 3vot-cli -g
 ```
 
 
-### <a name="create"></a> Step 2 - Create a 3vot project
+#### <a name="create"></a> Step 2 - Create a 3VOT project
 On your console, choose a folder to install 3vot and type:
 ```
  3vot setup
@@ -21,14 +31,14 @@ On your console, choose a folder to install 3vot and type:
 
 The console will ask for a Developer Key. If you don't have one yet you can use ' 0 ' for a demo.
 
-This step will create the folder structure of a 3vot project and download all required dependencies from NPM. 
+This step will create the folder structure of a 3VOT project and download all required dependencies from NPM. 
 
 If you used the demo key ' 0 ' , setup will download a Tutorial folder also.
 
 
-### <a name="download"></a> Step 3 - Downloading an app
+#### <a name="download"></a> Step 3 - Downloading an App
 
-3VOT Setup generates a project folder for your profile. In this case, the profile name is cli_test
+`3vot setup` generates a project folder for your profile. In this case, the profile name is cli_test
 Go inside the Test folder
 ```
  cd 3vot_cli_test
@@ -52,16 +62,33 @@ Profile: ( The profile name of the owner of the app ):  3vot
 Now you have a tutorial app in your folder with it's dependencies from NPM and Bower, next step is to Run it.
 
 
-### Step 4 - Running the Tutorial App
+#### <a name="run"></a> Step 4 - Running the Tutorial App
 
 Make sure you are on your Tutorial App folder '3vot_cli_test' and Run the app by typing `3vot server`
 ```
  3vot server
 ```
 
+##### If you are using your local console (Mac):
+
 This will start a development server, to check the app running just point your browser to : ``http://localhost:3000/tutorial/gold``
 
-### Step 5 - Modifying the App
+##### If you are using Nitrous.io:
+
+The console will ask for the preview domain where you can check your app, for this just select the `Boxes` option located on the top right menu of the Nitrous IDE. 
+
+Inside the `tutorial3vot` box we created should be the `Preview URI` address we need, use that one on the nitrous console without the `http://` or trailing slashes `/`. 
+
+```
+Example: Domain: ( If you are on nitrous.io type the preview domain with out http:// or trailing slashes / ) :  tutorial3vot-73872-use1.nitrousbox.com
+```
+
+This will start a development server, to check the app running using nitrous just point your browser to your `previewURI/profile/app` .
+```
+Example: tutorial3vot-73872-use1.nitrousbox.com/cli_test/gold
+```
+
+#### <a name="modify"></a> Step 5 - Modifying the App
 Let's make changes to your app, go ahead and change the header in the following file:  ``3vot_cli_test/apps/gold/templates/layout.html``
 
 ```
@@ -75,7 +102,7 @@ Let's make changes to your app, go ahead and change the header in the following 
 Save your changes and refresh your browser to see them.
 
 
-### Step 6 - Uploading the App
+#### <a name="upload"></a> Step 6 - Uploading the App
 If you have uploaded the app before you need to increment the version in your app's package.json file, located in `apps/gold/package.json` , this will allow you to check any running version later, if this is your first time uploading an app skip this.
 ```
 {
@@ -101,7 +128,7 @@ This will upload the App to your profile, you'll later be able to publish it to 
 
 It will also deploy a demo of your app in ``http://demo.3vot.com/tutorial/gold_0.0.xx `` just change the last xx for the version of the app you want to check.
 
-### Step 7 - Publishing the App
+#### <a name="publish"></a> Step 7 - Publishing the App
 
 When you have a demo that you think it's a winner and want to publish it to the world just type:
 ```
@@ -120,153 +147,78 @@ http://3vot.com/cli_test/gold/index.html
 
 And you're done!
 
+#### <a name="create"></a> Step 8 - Create a new App
 
-## <a name="nitrous"></a> Getting Started - USING NITROUS.IO  
-
-
-### Step 1 (On Nitrous.io) - Create a New Box
-
-Create a New Box containing Node.Js, we'll name it `tutorial3vot`.
-
-### Step 2 (On Nitrous.io) - Install 3vot-cli
-
-On Nitrous console install the 3VOT-CLI ( the tool to build, download and deploy apps )
+On your console, go inside your `3vot_cli_test` project folder, and create a new app simply by writing:
 ```
- npm install 3vot-cli -g
+3vot app:create
 ```
 
-
-### Step 3 (On Nitrous.io) - Create a 3vot project
-On the console, choose a folder to install 3vot and type:
+The console will ask for the app's name so write the name of the app you want to create
 ```
- 3vot setup
+App Name ( The name of the app you want to create ):  appname
 ```
 
-The console will ask for a Developer Key. If you don't have one yet you can use ' 0 ' for a demo.
+This will create a folder with the name of the app and will make a basic scaffold for your project. 
 
-This step will create the folder structure of a 3vot project and download all required dependencies from NPM. 
+#### <a name="run2"></a> Step 9 - Run, Upload and Publish again.
 
-If you used the demo key ' 0 ' , setup will download a Tutorial folder also.
+Run, upload and publish the app as in Steps 4, 6, and 7.
 
 
-### Step 4 (On Nitrous.io) - Downloading an app
+#### <a name="createStore"></a> Step 10 - Creating a new Store
 
-3VOT Setup generates a project folder for your profile. In this case, the profile name is cli_test
-Go inside the Test folder
+Stores are a great way to manage and order your apps after you publish them.
+
+To create a new store just type in your console 
 ```
- cd 3vot_cli_test
-```
-
-Now let’s Download the tutorial app, courtesy of 3VOT ;)
-```
- 3vot app:clone
+3vot store:create
 ```
 
-The console will ask for the name of the app you want to download, in this case select the app:  'gold'
+The console will ask for a name for your store, just like so:
 ```
-App: ( The App you want to download ):  gold
-```
+Store: ( The name of the Store you want to create ):  mystore
+```	
 
-Then it will ask for the provider of the app, in this case is '3vot'
-```
-Profile: ( The profile name of the owner of the app ):  3vot 
-```
+Write a name and this will create it instantly.
 
-Now you have a tutorial app in your folder with it's dependencies from NPM and Bower, next step is to Run it.
+#### <a name="list"></a> Step 11- Listing Stores
 
-### Step 5 (On Nitrous.io) - Running the Tutorial App
+You can see the list of your stores using the command:
+```	
+3vot store:list
+```	
+This will show, not only the stores you have but also de apps that have been added to each store.
 
+#### <a name="add"></a> Step 12- Adding Apps to a Store
 
-Make sure you are on your Tutorial App folder '3vot_cli_test' and Run the app by typing `3vot server`
-```
- 3vot server
-```
-The console will ask for the preview domain where you can check your app, for this just select the `Boxes` option located on the top right menu of the Nitrous IDE. 
+Now that you've created a store you can add your apps to it.
 
-Inside the `tutorial3vot` box we created should be the `Preview URI` address we need, use that one on the nitrous console without the `http://` or trailing slashes `/`. 
+It's really simple, add them by using:
+```	
+3vot store:add
+```	
 
-```
-Example: Domain: ( If you are on nitrous.io type the preview domain with out http:// or trailing slashes / ) :  tutorial3vot-73872-use1.nitrousbox.com
-```
+The console will ask for the name of the store you want to add the app to, and the name of the app.
+```	
+Stores: ( The name of the Store you want to use ): mystore
+App: ( The name of the App you want to add to the store ):  myapp
+```	
 
+#### <a name="remove"></a> Step 13- Removing an app from a store
 
-This will start a development server, to check the app running using nitrous just point your browser to your `previewURI/profile/app` .
-```
-Example: tutorial3vot-73872-use1.nitrousbox.com/cli_test/gold
-```
-#### Step 6 (On Nitrous.io) - Modifying the App
-Let's make changes to your app, go ahead and change the header in the following file:  
-``
-3vot_cli_test/apps/gold/templates/layout.html
-``
-
-```
-...
-<div class="row">
-            <h1>CHANGE THIS HEADER</h1>
-      <ul class="nav nav-pills nav-stacked col-md-2">
-...
-```
-
-Save your changes and refresh the app in your browser to see them.
+In the same way you add an app to a store you can remove one, using ``3vot store:remove`` , this will remove it from the store, but will not delete the app.
 
 
-### Step 7 (On Nitrous.io) - Uploading the App
-If you have uploaded the app before you need to increment the version in your app's package.json file, located in `apps/gold/package.json` , this will allow you to check any running version later, if this is your first time uploading an app skip this.
-```
-{
-	"name": "gold",
-	"version": "0.0.1",
-	"profile": "cli_test",
-	"private": true,
-	"scripts": {
-		"start": "node app.js",
-		"test": "grunt build --verbose"
-}
-```
+#### <a name="delete"></a> Step 14- Deleting a store
 
-Now Upload the app using :
-```
-3vot app:upload 
-```
-The console will ask for the name of the app you want to upload, write the name `gold` in this case.
-```
-App: ( the name of the app you want to upload ): gold
-```
-This will upload the App to your profile, you'll later be able to publish it to the world.
+To delete a store just use the command ...
+```	
+3vot store:delete
+```	
+and choose the store you want to delete.
 
-It will also deploy a demo of your app in ``http://demo.3vot.com/tutorial/gold_0.0.xx `` just change the last xx for the version of the app you want to check.
+#### Hope you love your first experience with 3vot's Front End as a Service Platform!
+#### For support, pair programming sessions or any feedback, please visit us at [3vot.com](http://3vot.com/)
 
-### Step 8 (On Nitrous.io) - Publishing the App
-
-When you have a demo that you think it's a winner and want to publish it to the world just type:
-```
-3vot app:publish 
-```
-
-The console will ask for the name of the app you want to publish, in this case let's publish our app `gold`.
-```
-gold
-```
-
-You can access your published app in `3vot.com/profile/app/index.html`
-```
-http://3vot.com/cli_test/gold/index.html
-```
-
-And you're done!
-
-
-## Index
-
-
-#### - [3VOT-CLI Intro](https://github.com/3vot/3vot-cli/)
-#### - [Getting Started](https://github.com/3vot/3vot-cli/blob/master/gettingStarted.md)
-#### - [Creating Apps and Stores](https://github.com/3vot/3vot-cli/blob/master/creatingAppsAndStores.md)
-
-
-#About 3VOT 
-3vot is a company that packs the best open source modules, and the industry standard best practices into a Comercial Solution that enables every organisation to build their own apps. 
-
-3VOT is currently in Private Beta, and we'll open and account for you if you are interested.
 
