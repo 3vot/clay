@@ -206,12 +206,12 @@ Stores: ( The name of the Store you want to use ): mystore
 App: ( The name of the App you want to add to the store ):  myapp
 ```	
 
-#### <a name="remove"></a> Step 13- Removing an app from a store
+#### <a name="remove"></a> Step 13- Removing an App from a Store
 
 In the same way you add an app to a store you can remove one, using ``3vot store:remove`` , this will remove it from the store, but will not delete the app.
 
 
-#### <a name="delete"></a> Step 14- Deleting a store
+#### <a name="delete"></a> Step 14- Deleting a Store
 
 To delete a store just use the command ...
 ```	
