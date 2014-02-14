@@ -17,21 +17,21 @@ Here is the Information for the Developer to get started, but even if you are no
 
 - [NodeJS](http://nodejs.org/)
 
-## Index
-- [Install 3VOT CLI](#install)
-- [Create a 3VOT project](#create)
-- [Donwloading an App](#download) 
-- [Running the Tutorial App](#run) 
-- [Modifying the App](#modify)
-- [Uploading the App](#upload)
-- [Publishing the App](#publish)
-- [Create a new App](#create)
-- [Run, Upload and Publish again](#run2)
-- [Creating a new Store](#createStore)
-- [Listing Stores](#list)
-- [Adding Apps to a Store](#add)
-- [Removing an app from a store](#remove)
-- [Deleting a store](#delete)
+#### Index
+- [1- Install 3VOT CLI](#install)
+- [2- Create a 3VOT project](#create)
+- [3- Downloading an App](#download) 
+- [4- Running the Tutorial App](#run) 
+- [5- Modifying the App](#modify)
+- [6- Uploading the App](#upload)
+- [7- Publishing the App](#publish)
+- [8- Create a new App](#create)
+- [9- Run, Upload and Publish again](#run2)
+- [10- Creating a new Store](#createStore)
+- [11- Listing Stores](#list)
+- [12- Adding Apps to a Store](#add)
+- [13- Removing an app from a store](#remove)
+- [14- Deleting a store](#delete)
 
 
 ### <a name="install"></a> Step 1 - Install 3vot-cli
