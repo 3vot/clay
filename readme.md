@@ -1,4 +1,4 @@
-#3VOT-CLI
+####3VOT-CLI Intro
 
 3VOT helps you build and deploy apps quicker. We call it Frontend as a Service.
 
@@ -16,10 +16,13 @@ Here is the Information for the Developer to get started, but even if you are no
 #### Requirements
 
 - [NodeJS](http://nodejs.org/)
+- You can go trought this guides in you local console (Mac) or using [Nitrous.io](https://nitrous.io)
 
 
-## Index
+#### 3VOT-CLI Index
 
-#### - [3VOT-CLI Intro](https://github.com/3vot/3vot-cli/)
-#### - [Getting Started](https://github.com/3vot/3vot-cli/blob/master/gettingStarted.md)
-#### - [Creating Apps and Stores](https://github.com/3vot/3vot-cli/blob/master/creatingAppsAndStores.md)
+- [3VOT-CLI Intro](https://github.com/3vot/3vot-cli/blob/master/readme.md)
+- [Getting Started](https://github.com/3vot/3vot-cli/blob/master/gettingStarted.md)
+
+Hope you love your first experience with 3vot's Front End as a Service Platform!
+For support, pair programming sessions or any feedback, please visit us at [3vot.com](http://3vot.com/)
