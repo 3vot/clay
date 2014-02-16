@@ -35,7 +35,6 @@ function create( options ){
   .fail( function(err){ deferred.reject(err); } );
   
   return deferred.promise;
-  
 } 
  
 function getProfile(){
@@ -49,11 +48,11 @@ function getProfile(){
 
   return deferred.promise;
 }
-   
+
 function createProfile(){
   var deferred = Q.defer();
   console.info("Creating Profile".grey)
-  Profile.create( { name: promptOptions.name , username: promptOptions.username  } )
+  Profile.create( { name: promptOptions.name , username: promptOptions.username, credits: {"small":5,"medium":0,"large":0}  } )
   .then( function(profile){ profileObject= profile;  return deferred.resolve(profile); })
   .fail( function(err){ return deferred.reject(err); } );
 

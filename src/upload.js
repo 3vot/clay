@@ -146,7 +146,15 @@ Upload = (function(){
   Upload.prototype.getPackage= function(){
     var deferred = Q.defer();
     Package.findByAttributes( { "username": app.username, "name": app.name  } )
-    .then( function(results){
+    .then( checkPackage ) 
+    .fail( deferred.reject )
+
+    function checkCredits(appSize, profileCredits){
+      if( profileCredits[appSize] == 0 ) return false;
+      return true
+    }
+
+    function checkPackage(results){
       app.packageData = results[0]
       
       if (app.packageData === undefined){
@@ -157,9 +165,10 @@ Upload = (function(){
       if(Semver.gt( app.packageData.get("version") , app.package.version )){
         deferred.reject("App Version in apps/" + app.name + "/package.json should be greater than " + app.packageData.attributes.version)
       }
-      return deferred.resolve(app.packageData);
-    })
-    .fail( function(err){ deferred.reject(err) } )
+      if( !checkCredits(app.package.threevot.size, app.profile.get("credits") ) ) deferred.reject("Your profile does not have enought credits for a " + app.package.threevot.size  + " app, purchasing more credits is easy; use 3vot credits:add")
+      
+      deferred.resolve( results[0] );
+    }
 
     return deferred.promise;
   }
@@ -257,13 +266,14 @@ Upload = (function(){
     console.info("Updating Package Info to 3VOT Demo".yellow)
     
     var deferred = Q.defer();
-    app.packageData.set("username", app.username)
-    app.packageData.set("name", app.package.name)
-    app.packageData.set("displayName", app.package.displayName || app.package.name )
-    app.packageData.set("displayDescription", app.package.displayDescription || ( app.package.name + " " app.package.version ) );
-    app.packageData.set("private", app.package.private || false );
-    app.packageData.set("privateCode", app.package.privateCode || "");
-    app.packageData.set("version", app.package.version);
+    app.packageData.set("username", app.username )
+    app.packageData.set("name", app.package.name )
+    app.packageData.set("displayName", app.package.threevot.displayName || app.package.name )
+    app.packageData.set("description", app.package.description || ( app.package.name + " " app.package.version ) );
+    app.packageData.set("private", app.package.threevot.private || false );
+    app.packageData.set("privateCode", app.package.threevot.privateCode || "" );
+    app.packageData.set("size", app.package.threevot.size );
+    app.packageData.set("version", app.package.version );
     app.packageData.addUnique("versions", app.package.version )
     app.packageData.save( null, { 
       success: function(pck){ 

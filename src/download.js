@@ -99,18 +99,15 @@ Download = (function(){
     var config = require(Path.join( process.cwd(), "3vot.json") );
     var deferred = Q.defer();
     Package.findByAttributes( { "username": app.username, "name": app.name  } )
-    .then( function(results){
-      checkPackage(results);
-    })
-    .fail( function(err){ deferred.reject(err) } )
+    .then( checkPackage )
+    .fail( deferred.reject(err) )
 
-    function checkPackage(resulets){
+    function checkPackage(results){
       //Test Existance of Package
       if(results.length == 0) return deferred.reject("We could not find the package " + app.name + " from " + app.username );
       app.package = resolve[0]
       //Test Private and Code of App, in case it's private
-      if( app.package.private && app.private.privateCode != app.code) return deferred.reject("App is private and provided code is incorrect. A private code is provided by the Private App Owner, that allows you to clone private apps");
-
+      if( app.package.threevot.private && app.package.threevot.privateCode != app.code) return deferred.reject("App is private and provided code is incorrect. A private code is provided by the Private App Owner, that allows you to clone private apps");
       deferred.resolve( results[0] );
     }
     
