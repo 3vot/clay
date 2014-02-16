@@ -268,10 +268,11 @@ Stores = (function(){
      var deferred = Q.defer();
      console.info("Adding an App to the Store".grey)
 
-
      var app = {
        name: store.appName,
-       version: store.app.get("versionPublished")
+       displayName: store.app.get("displayName"),
+       description: store.app.get("description"),
+       version: store.app.get("versionPublished"),
      };
 
      store.packageData.addUnique("apps", app);

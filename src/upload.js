@@ -257,12 +257,14 @@ Upload = (function(){
     console.info("Updating Package Info to 3VOT Demo".yellow)
     
     var deferred = Q.defer();
-    
     app.packageData.set("username", app.username)
     app.packageData.set("name", app.package.name)
+    app.packageData.set("displayName", app.package.displayName || app.package.name )
+    app.packageData.set("displayDescription", app.package.displayDescription || ( app.package.name + " " app.package.version ) );
+    app.packageData.set("private", app.package.private || false );
+    app.packageData.set("privateCode", app.package.privateCode || "");
     app.packageData.set("version", app.package.version);
     app.packageData.addUnique("versions", app.package.version )
-    app.packageData.addUnique("versionMap", { version: app.package.version } )
     app.packageData.save( null, { 
       success: function(pck){ 
         console.log( ("App Updated Succesfully: http://demo.3vot.com/" + app.username + "/" + app.name + "_" + app.package.version ).green) 

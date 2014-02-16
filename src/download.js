@@ -34,8 +34,9 @@ Download = (function(){
   Download.prompt = function(){
     prompt.start();
     prompt.get( [ 
-      { name: 'name', description: 'App: ( The App you want to Download )' },
       { name: 'username', description: 'Profile: ( The profile name of the owner of the app )' }, 
+      { name: 'name', description: 'App: ( The App you want to Download )' },
+      { name: 'code', description: "Code: ( The private code in case it's a private app )" }, 
       { name: 'version', description: 'Version: ( The App version, hit enter for latest )' } ], 
 
       function (err, result) {
@@ -55,6 +56,7 @@ Download = (function(){
       username: attr.username,
       name: attr.name,
       version: attr.version,
+      code: attr.code,
       profile: {},
       package: {}
     }
@@ -78,6 +80,7 @@ Download = (function(){
 
 
 
+
   Download.prototype.getProfile= function(){
     var config = require(Path.join( process.cwd(), "3vot.json") );
     var deferred = Q.defer();
@@ -97,13 +100,22 @@ Download = (function(){
     var deferred = Q.defer();
     Package.findByAttributes( { "username": app.username, "name": app.name  } )
     .then( function(results){
-      if(results.length == 0){ return deferred.reject("We could not find the package " + app.name + " from " + app.username )  }
-      app.package = results[0];
-      deferred.resolve( results[0] );
+      checkPackage(results);
     })
     .fail( function(err){ deferred.reject(err) } )
+
+    function checkPackage(resulets){
+      //Test Existance of Package
+      if(results.length == 0) return deferred.reject("We could not find the package " + app.name + " from " + app.username );
+      app.package = resolve[0]
+      //Test Private and Code of App, in case it's private
+      if( app.package.private && app.private.privateCode != app.code) return deferred.reject("App is private and provided code is incorrect. A private code is provided by the Private App Owner, that allows you to clone private apps");
+
+      deferred.resolve( results[0] );
+    }
     
     return deferred.promise;
+
   }
 
   //

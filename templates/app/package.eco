@@ -1,8 +1,11 @@
 {
 	"name": "<%= @name %>",
+	"displayName" : "<%= @name %>",
+	"description": "",
 	"version": "0.0.1",
 	"profile": "<%= @profile.get("username") %>",
-	"private": true,
+	"private": false,
+	"privateCode": "",
 	"threevot": {
 		"external": {
 		},
