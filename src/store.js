@@ -23,9 +23,19 @@ var Stores;
 
 Stores = (function(){
 
-  Stores.storeTemplatePath= Path.join(Path.dirname(fs.realpathSync(__filename)), '..' , 'templates' , "store.eco" );
   Stores.destinationBucket = "3vot.com"
 
+  Stores.promptPublishTemplate = function(){
+    Stores.publishTemplate()
+    .then( function(){ console.log("Template Published Succesfully".green) } )
+    .fail( function(err){ console.log("Error creating Stores".red.bold); console.error(err.red); }  )
+  }
+
+  Stores.promptPublishTemplate = function(){
+    Stores.updateTemplate()
+    .then( function(){ console.log("Template Updated Succesfully".green) } )
+    .fail( function(err){ console.log("Error creating Stores".red.bold); console.error(err.red); }  )
+  }
 
   Stores.promptCreate = function(){
     prompt.start();
@@ -163,10 +173,40 @@ Stores = (function(){
      .then( deferred.resolve )
      .fail(  function( err ){ return deferred.reject(err);  } )       
 
-     return deferred.promise;
-     
-    }
-   
+     return deferred.promise;   
+  }
+
+ // Upload App Flow
+  Stores.publishTemplate = function( options ){
+    console.info("Publising the Template ".yellow)
+    var deferred = Q.defer();
+    var storeController = new Stores( options )
+
+    storeController.getProfile()
+    .then( AwsCredentials.requestKeysFromProfile )
+    .then( storeController.deployProfileHtml )
+    .then( storeController.uploadProfileHtml )
+    .then( deferred.resolve )
+    .fail(  function( err ){ return deferred.reject(err);  } )       
+
+    return deferred.promise;
+  }
+ 
+  // Upload App Flow
+  Stores.updateTemplate = function( options ){
+   console.info("Updating the Template ".yellow)
+   var deferred = Q.defer();
+   var storeController = new Stores( options )
+
+   storeController.getProfile()
+   .then( AwsCredentials.requestKeysFromProfile )
+   .then( storeController.updateTemplate )
+   .then( deferred.resolve )
+   .fail(  function( err ){ return deferred.reject(err);  } )       
+
+   return deferred.promise;
+  }
+ 
  ////////
   // *****************************
   // INSTANCE STARTS HERE
@@ -302,9 +342,26 @@ Stores = (function(){
      return deferred.promise;
     }
      
+  Stores.prototype.updateTemplate = function(){
+    console.info("Update Latest Profile Version".grey)
+
+    var templatesPath =  Path.join(Path.dirname(fs.realpathSync(__filename)), '../templates');
+    
+    var template = fs.readFileSync( Path.join( templatesPath, "store", "template.eco" ), "utf-8" );
+    
+    var destinationTemplatePath = Path.join( process.cwd(), "store", "template.eco") ;
+
+    fs.writeFileSync( destinationTemplatePath, template);
+
+    return true;
+
+  }
+   
+     
   Stores.prototype.deployProfileHtml = function(){
     console.info("Generating Profile HTML".grey)
-    console.log( Stores.storeTemplatePath );
+    
+    var templatePath = Path.join( process.cwd(), "store", "template.eco") ;
     
     var profileHTML = Template.store(store.profile, store.list, Stores.storeTemplatePath );
 

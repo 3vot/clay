@@ -82,6 +82,7 @@ Upload = (function(){
     .then( this.uploadAppFiles )
     .then( this.uploadAssetsFiles )
     .then( this.uploadDependenciesFiles )
+    .then( this.updateProfileCredits )
     .then( this.updatePackageInfo )
     .then( deferred.resolve )
     .fail( function(error){ 
@@ -264,6 +265,20 @@ Upload = (function(){
     return deferred.promise;
     
   }
+
+  Upload.prototype.updateProfileCredits= function(){
+    app.profile.set("credits", updateProfileCredits( app.package.threevot.size, app.profile.get("credits") ) )
+    
+    return Profile.save(app.profile)
+    
+    function updateCredits(appSize, profileCredits){
+      //For backwards compatiblity
+      if(!appSize) appSize = "small"
+      profileCredits[appSize] -= 1
+      return profileCredits
+    }
+    
+  }  
 
   Upload.prototype.updatePackageInfo= function(){
     console.info("Updating Package Info to 3VOT Demo".yellow)

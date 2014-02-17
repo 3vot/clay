@@ -57,6 +57,10 @@ else if( argv._.indexOf("store:add") > -1 ){ Store.promptAddToStore(); }
 
 else if( argv._.indexOf("store:remove") > -1 ){ Store.promptRemoveFromStore(); }
 
+else if( argv._.indexOf("store:publish") > -1 ){ Store.publishTemplate(); }
+
+else if( argv._.indexOf("store:update") > -1 ){ Store.updateTemplate(); }
+
 else if( argv._.indexOf("app:publish") > -1 ){ Publish.prompt(); }
 
 else if( argv._.indexOf("app:create") > -1 ){ App.promptCreate(); }
