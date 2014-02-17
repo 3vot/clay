@@ -73,7 +73,7 @@ Download = (function(){
     .then( this.downloadPackage )
     .then( this.adjustPackage )
     .then( deferred.resolve )
-    .fail( function(error){ return deferred.reject(error); })
+    .fail( function(err){ return deferred.reject(err); })
 
     return deferred.promise;
   }
@@ -100,14 +100,14 @@ Download = (function(){
     var deferred = Q.defer();
     Package.findByAttributes( { "username": app.username, "name": app.name  } )
     .then( checkPackage )
-    .fail( deferred.reject(err) )
+    .fail( deferred.reject )
 
     function checkPackage(results){
       //Test Existance of Package
       if(results.length == 0) return deferred.reject("We could not find the package " + app.name + " from " + app.username );
-      app.package = resolve[0]
+      app.package = results[0]
       //Test Private and Code of App, in case it's private
-      if( app.package.threevot.private && app.package.threevot.privateCode != app.code) return deferred.reject("App is private and provided code is incorrect. A private code is provided by the Private App Owner, that allows you to clone private apps");
+      if( app.package.get("private") && app.package.get("privateCode") != app.code) return deferred.reject("App is private and provided code is incorrect. A private code is provided by the Private App Owner, that allows you to clone private apps");
       deferred.resolve( results[0] );
     }
     

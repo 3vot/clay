@@ -32,7 +32,7 @@ function create( options ){
   getProfile()
   .then( createProfile )
   .then( deferred.resolve )
-  .fail( function(err){ deferred.reject(err); } );
+  .fail( function(err){ return deferred.reject(err); } );
   
   return deferred.promise;
 } 

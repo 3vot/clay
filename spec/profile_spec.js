@@ -23,6 +23,7 @@ describe('3VOT Upload', function(){
     this.timeout( 90500 );
     
     Profile.create( { username: "eraseme", name: "erase if found" } )
+    .then(function(profile) { profile.get("credits").small.should.equal(5); return profile;  } )
     .then( function(profile){ return ProfileModel.destroy(profile) } )
     .then( function(){ done() } )
     .fail( function(err){ console.log(err); err.should.equal(null); done() } )

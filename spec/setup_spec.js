@@ -22,7 +22,7 @@ describe('3VOT Setup', function(){
 
   it('should scaffold files and install npm modules', function(done){
 
-    this.timeout(90000);
+    this.timeout(190000);
     
     var options= { key: "1" };
     var folderName = "3vot_cli_test";

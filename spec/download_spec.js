@@ -21,9 +21,9 @@ describe('3VOT Download', function(){
 
     console.log("current path in download spec is " + process.cwd() );
 
-    this.timeout(20500);
+    this.timeout(90500);
 
-    var download =  new Download( { username: "3vot", name: "contacts" } )
+    var download =  new Download( { username: "cli_test", name: "contacts" } )
     download.downloadApp()
     .then( function(){ 
       var destinationDir = Path.join("3vot_cli_test", "apps", "contacts", "node_modules" );

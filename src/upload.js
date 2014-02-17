@@ -106,14 +106,15 @@ Upload = (function(){
     var deferred = Q.defer();
     app.package = require( Path.join( process.cwd(), "apps", app.name, "package.json" ) )
     
-    var appFolderReader = fstream.Reader({ path: 'apps/' + app.name
-                           , type: "Directory"
-                           , filter: function () {
-                                return !this.basename.match(/^\./) &&
-                                       !this.basename.match(/^node_modules$/)
-                              }
-                           })
-    
+    var appFolderReader = fstream.Reader(
+      { path: 'apps/' + app.name, 
+        type: "Directory", 
+        filter: function () {
+          return !this.basename.match(/^\./) &&
+                 !this.basename.match(/^node_modules$/)
+        }
+     });
+
     var stream = appFolderReader.pipe(tar.Pack()).pipe(zlib.createGzip());
     stream.pipe( fstream.Writer( Path.join( process.cwd(), "tmp", app.name + ".tar.gz") ) )
 
@@ -150,6 +151,8 @@ Upload = (function(){
     .fail( deferred.reject )
 
     function checkCredits(appSize, profileCredits){
+      //For backwards compatiblity
+      if(!appSize) appSize = "small"
       if( profileCredits[appSize] == 0 ) return false;
       return true
     }
@@ -163,10 +166,10 @@ Upload = (function(){
         app.packageData.set("version", "0.0.0");
       }    
       if(Semver.gt( app.packageData.get("version") , app.package.version )){
-        deferred.reject("App Version in apps/" + app.name + "/package.json should be greater than " + app.packageData.attributes.version)
+        return deferred.reject("App Version in apps/" + app.name + "/package.json should be greater than " + app.packageData.attributes.version)
       }
-      if( !checkCredits(app.package.threevot.size, app.profile.get("credits") ) ) deferred.reject("Your profile does not have enought credits for a " + app.package.threevot.size  + " app, purchasing more credits is easy; use 3vot credits:add")
-      
+      if( !checkCredits(app.package.threevot.size, app.profile.get("credits") ) ) return deferred.reject("Your profile does not have enought credits for a " + ( app.package.threevot.size || "small")  + " app, purchasing more credits is easy; use 3vot credits:add")
+
       deferred.resolve( results[0] );
     }
 
@@ -269,10 +272,10 @@ Upload = (function(){
     app.packageData.set("username", app.username )
     app.packageData.set("name", app.package.name )
     app.packageData.set("displayName", app.package.threevot.displayName || app.package.name )
-    app.packageData.set("description", app.package.description || ( app.package.name + " " app.package.version ) );
+    app.packageData.set("description", app.package.description || ( app.package.name + " " + app.package.version ) );
     app.packageData.set("private", app.package.threevot.private || false );
     app.packageData.set("privateCode", app.package.threevot.privateCode || "" );
-    app.packageData.set("size", app.package.threevot.size );
+    app.packageData.set("size", app.package.threevot.size || "small" );
     app.packageData.set("version", app.package.version );
     app.packageData.addUnique("versions", app.package.version )
     app.packageData.save( null, { 
