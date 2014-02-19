@@ -267,7 +267,7 @@ Upload = (function(){
   }
 
   Upload.prototype.updateProfileCredits= function(){
-    app.profile.set("credits", updateProfileCredits( app.package.threevot.size, app.profile.get("credits") ) )
+    app.profile.set("credits", updateCredits( app.package.threevot.size, app.profile.get("credits") ) )
     
     return Profile.save(app.profile)
     
