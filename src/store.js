@@ -363,7 +363,7 @@ Stores = (function(){
     
     var templatePath = Path.join( process.cwd(), "store", "template.eco") ;
     
-    var profileHTML = Template.store(store.profile, store.list, Stores.storeTemplatePath );
+    var profileHTML = Template.store(store.profile, store.list, templatePath );
 
     store.indexFileObject = { 
       body: profileHTML, 
