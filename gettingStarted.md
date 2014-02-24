@@ -2,7 +2,7 @@
 #### Getting Started - Index
 - [1- Install 3VOT CLI](#install)
 - [2- Create a 3VOT profile](#profile) 
-- [3- SetUp your profile folder](#create)
+- [3- SetUp your profile folder](#setup)
 - [4- Clone an App](#download) 
 - [5- Running the Tutorial App](#run) 
 - [6- Modifying the App](#modify)
@@ -45,7 +45,7 @@ prompt: username: ( The username, that appears in the url ): myusername
 This will create your profile in the platform, please take note of your developer key and keep it safe. 
 
 
-#### <a name="create"></a> Step 3 - SetUp your profile folder
+#### <a name="setup"></a> Step 3 - SetUp your profile folder
 On your console, choose a folder to install 3vot and type:
 ``` 
 3vot setup 
