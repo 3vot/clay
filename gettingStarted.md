@@ -13,9 +13,10 @@
 - [11- Creating a new Store](#createStore)
 - [12- Listing Stores](#list)
 - [13- Adding Apps to a Store](#add)
-- [14- Removing an app from a store](#remove)
-- [15- Deleting a store](#delete)
-- [16- Modify your profile template](#template)
+- [14- Modify your profile template](#template)
+- [15- Removing an app from a store](#remove)
+- [16- Deleting a store](#delete)
+
 
 
 #### <a name="install"></a> Step 1 - Install 3vot-cli
@@ -245,9 +246,18 @@ The console will ask for the name of the store you want to add the app to, and t
 ```	
 prompt: Stores: ( The name of the Store you want to use ): mystore
 prompt: App: ( The name of the App you want to add to the store ):  hello-multi-platform 
-```	
+```
 
-#### <a name="remove"></a> Step 14- Removing an App from a Store
+#### <a name="template"></a> Step 14- Modify your profile template
+
+At the moment you a add an app to a store, for the first time, you start having a profile page located at `www.3vot.com/myusername`. Your profile is using a standard template located in `3vot_myusername/store/template.eco` in your computer. 
+
+You can modify or change your template file and update it using:
+```
+3VOT store:publish store/template.eco
+```
+
+#### <a name="remove"></a> Step 15- Removing an App from a Store
 
 In the same way you add an app to a store you can remove one, using ``3vot store:remove`` , this will remove it from the store, but will not delete the app.
 
@@ -262,7 +272,7 @@ prompt: App: ( The name of the App you want to remove from the store ):  hello-m
 ```
 
 
-#### <a name="delete"></a> Step 15- Deleting a Store
+#### <a name="delete"></a> Step 16- Deleting a Store
 
 To delete a store just use the command ...
 ```	
@@ -273,16 +283,7 @@ and enter the name the store you want to delete
 prompt: Stores: ( The name of the Stores you want to delete ): mystore
 ```
 
-#### <a name="template"></a> Step 16- Modify your profile template
-
-If you go to `www.3vot.com/myusername` you will find your profile with your published apps and stores. Your profile is using a standard template located in `3vot_myusername/store/template.eco` in your computer. 
-
-You can modify or change your template file and update it using:
-```
-3VOT store:publish store/template.eco
-```
-
 #### Hope you love your first experience with 3vot's Front End as a Service Platform!
-#### For support, pair programming sessions or any feedback, please visit us at [3vot.com](http://3vot.com/)
+#### For support, pair programming sessions or any feedback, please visit us at [www.3vot.com](http://3vot.com/)
 
 
