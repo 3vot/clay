@@ -250,7 +250,7 @@ prompt: App: ( The name of the App you want to add to the store ):  hello-multi-
 
 #### <a name="template"></a> Step 14- Modify your profile template
 
-At the moment you a add an app to a store, for the first time, you start having a profile page located at `www.3vot.com/myusername`. Your profile is using a standard template located in `3vot_myusername/store/template.eco` in your computer. 
+At the moment you add an app to a store, for the first time, you start having a profile page located at `www.3vot.com/myusername`. Your profile is using a standard template located in `3vot_myusername/store/template.eco` in your computer. 
 
 You can modify or change your template file and update it using:
 ```
