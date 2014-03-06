@@ -45,6 +45,10 @@ else if( argv._.indexOf("app:clone") > -1 ){ Download.prompt(); }
 
 else if( argv._.indexOf("app:version") > -1 ){ Version.prompt(); }
 
+else if( argv._.indexOf("app:publish") > -1 ){ Publish.prompt(); }
+
+else if( argv._.indexOf("app:create") > -1 ){ App.promptCreate(); }
+
 else if( argv._.indexOf("server") > -1 ){ Server.prompt(); }
 
 else if( argv._.indexOf("store:create") > -1 ){ Store.promptCreate(); }
@@ -61,8 +65,5 @@ else if( argv._.indexOf("store:publish") > -1 ){ Store.publishTemplate(); }
 
 else if( argv._.indexOf("store:update") > -1 ){ Store.updateTemplate(); }
 
-else if( argv._.indexOf("app:publish") > -1 ){ Publish.prompt(); }
-
-else if( argv._.indexOf("app:create") > -1 ){ App.promptCreate(); }
 
 else if( argv._.indexOf("install") > -1 ){ Install.prompt(); }

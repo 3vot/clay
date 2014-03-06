@@ -49,7 +49,6 @@ Stores = (function(){
   
   Stores.promptList = function(){
     Stores.listStores( {} )
-    .then( function(){ console.log("Store Created Succesfully".green) } )
     .fail( function(err){ console.log("Error creating Stores".red.bold); console.error(err.red); }  )
 
   }
@@ -59,7 +58,7 @@ Stores = (function(){
     prompt.get( [ 
       { name: 'name', description: 'Stores: ( The name of the Stores you want to delete )' } ], function (err, result) {
       Stores.destroyStore(result)
-      .then( function(){ console.log("Stores Created Succesfully".green) } )
+      .then( function(){ console.log("Stores Deleted Succesfully".green) } )
       .fail( function(err){ console.log("Error creating Stores".red.bold); console.error(err.red); }  )
     });
   }
@@ -68,8 +67,7 @@ Stores = (function(){
     prompt.start();
     prompt.get( [ 
       { name: 'name', description: 'Stores: ( The name of the Store you want to use )' },
-      { name: 'appName', description: 'App: ( The name of the App you want to add to the store )' },
-      { name: 'template', description: 'Template: ( Your Custom Template, hit enter for standard )' } ], function (err, result) {
+      { name: 'appName', description: 'App: ( The name of the App you want to add to the store )' } ], function (err, result) {
       
       if(result.template) Stores.storeTemplatePath = result.template;
       Stores.addAppToStore(result)

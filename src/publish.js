@@ -177,8 +177,8 @@ Publish = (function() {
   Publish.prototype.updatePackageInfo= function(){
     console.info("Saving Published Version".green)
     var deferred = Q.defer();
-    app.packageData.set("versionPublished", app.version)
-    Package.save(app.packageData)
+    app.packageData.set( "versionPublished", app.version )
+    Package.save( app.packageData )
     .then( function(){ deferred.resolve(); } )
     .fail( function(){ deferred.reject(); } )
 
