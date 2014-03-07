@@ -283,7 +283,6 @@ Stores = (function(){
      console.info( ("\nHere are the stores we found for: " + store.profile.get("name")).green);
      console.log("\n");
      store.list.forEach( function(store){
-       console.log(store)
        console.log(store.get("name").underline.yellow);
        store.get("apps").forEach( 
        function(app){
@@ -293,7 +292,7 @@ Stores = (function(){
       console.log("\n")
      });
    }
-   
+
    Stores.prototype.getAppByNameAndProfile  = function( appName, profile ){
      console.info("Finding App Package by Name".grey)
      var deferred = Q.defer();
