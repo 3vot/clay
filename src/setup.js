@@ -65,21 +65,21 @@ Setup = (function() {
     fs.mkdirSync( Path.join( process.cwd(), options.folder , "apps" ));
     fs.mkdirSync( Path.join( process.cwd(), options.folder , "apps", "dependencies" ));
     fs.mkdirSync( Path.join( process.cwd(), options.folder , "tmp" )) ;
-    fs.mkdirSync( Path.join( process.cwd(), options.folder , "store" )) ;
+//    fs.mkdirSync( Path.join( process.cwd(), options.folder , "store" )) ;
 
     var templatesPath =  Path.join(Path.dirname(fs.realpathSync(__filename)), '../templates');
     var _3votJSON = require( Path.join(  templatesPath, "_3vot.json" ));
     var gitIgnore = fs.readFileSync(  Path.join( templatesPath, "_.gitignore" ), "utf-8");
     var pckJSON = require( Path.join( templatesPath, "package.json" ));
 
-    var template = fs.readFileSync( Path.join( templatesPath, "store", "template.eco" ), "utf-8" );
+//    var template = fs.readFileSync( Path.join( templatesPath, "store", "template.eco" ), "utf-8" );
 
     _3votJSON.key = options.key;
     _3votJSON.profile = options.profile;
 
     fs.writeFileSync( Path.join(process.cwd(), options.folder, "3vot.json"), JSON.stringify(_3votJSON, null, '\t') );
     fs.writeFileSync( Path.join(process.cwd(), options.folder, "package.json"), JSON.stringify(pckJSON, null, '\t') );
-    fs.writeFileSync( Path.join(process.cwd(), options.folder, "store", "template.eco"), template );
+//    fs.writeFileSync( Path.join(process.cwd(), options.folder, "store", "template.eco"), template );
     fs.writeFile( Path.join(process.cwd(), options.folder, ".gitignore"), gitIgnore, function(){ deferred.resolve( options )  } );
 
     return deferred.promise;

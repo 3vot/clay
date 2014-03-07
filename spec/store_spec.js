@@ -15,16 +15,18 @@ var Path = require("path")
 describe('3VOT Store', function(){
 
   before( function runBefore( done ){
-    this.timeout(20000);
-
+    this.timeout(40000);
     process.chdir( Path.join( process.cwd(), "3vot_cli_test" ) );
     done()
   });
   
   
-  it('should create a store', function(done){
+  beforeEach( function runBefore(){
+  });
   
-    this.timeout(10000);
+  it('should create a store', function(done){
+    this.timeout(40000);
+  
 
     Store.createStore( {name: "anyStore_3vot_123" } )
     .then( function() {  done() } )
@@ -33,8 +35,8 @@ describe('3VOT Store', function(){
   });
   
   it('should list all stores', function(done){
+    this.timeout(40000);
 
-    this.timeout(10000);
 
     Store.listStores( {} )
     .then( function(){ done(); } 
@@ -44,8 +46,8 @@ describe('3VOT Store', function(){
   });
 
   it('should add and App to Store', function(done){
+    this.timeout(40000);
 
-    this.timeout(20000);
     Store.destinationBucket = "test.3vot.com"
 
     Store.addAppToStore( { name: "anyStore_3vot_123", appName: "contacts" } )
@@ -59,8 +61,8 @@ describe('3VOT Store', function(){
   });
   
   it('should delete an app from store', function(done){
+    this.timeout(40000);
   
-    this.timeout(20000);
     Store.destinationBucket = "test.3vot.com"
 
     Store.removeAppFromStore( { name: "anyStore_3vot_123", appName: "contacts" } )
@@ -74,8 +76,8 @@ describe('3VOT Store', function(){
   });
   
   it('should delete a store', function(done){
+    this.timeout(40000);
   
-    this.timeout(10000);
 
     Store.destroyStore( {name: "anyStore_3vot_123" } )
     .then( function() {  done() } )

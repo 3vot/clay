@@ -120,7 +120,7 @@ Stores = (function(){
 
   // Upload App Flow
   Stores.listStores = function( options  ){
-    console.info("We will list all Store in the 3VOT Platform".yellow)
+    console.info("We will list all Stores in your 3VOT Platform".yellow)
 
     var deferred = Q.defer();
     var storeController = new Stores( options )
@@ -156,7 +156,7 @@ Stores = (function(){
 
    // Upload App Flow
    Stores.removeAppFromStore = function( options ){
-     console.info("We will remove an App to the Store".yellow)
+     console.info("We will remove an App from the Store".yellow)
      var deferred = Q.defer();
      var storeController = new Stores( options )
      
@@ -283,6 +283,7 @@ Stores = (function(){
      console.info( ("\nHere are the stores we found for: " + store.profile.get("name")).green);
      console.log("\n");
      store.list.forEach( function(store){
+       console.log(store)
        console.log(store.get("name").underline.yellow);
        store.get("apps").forEach( 
        function(app){
@@ -359,17 +360,23 @@ Stores = (function(){
   Stores.prototype.deployProfileHtml = function(){
     console.info("Generating Profile HTML".grey)
     
-    var templatePath = Path.join( process.cwd(), "store", "template.eco") ;
+    var deferred = Q.defer();
     
-    var profileHTML = Template.store(store.profile, store.list, templatePath );
+    var templatePath = Path.join( process.cwd(), "profile_template.eco") ;
+    
+    Template.store(store.profile, store.list, templatePath, generateAsync );
 
-    store.indexFileObject = { 
-      body: profileHTML, 
-      path: store.profile.get("username") + "/index.html", 
-      key: store.profile.get("username") + "/index.html"  
+    function generateAsync(profileHTML){
+      store.indexFileObject = { 
+        body: profileHTML, 
+        path: store.profile.get("username") + "/index.html", 
+        key: store.profile.get("username") + "/index.html"  
+      }  
+      deferred.resolve(store);
     }
-  
-    return true;
+    
+    return deferred.promise;
+
   }
   
   Stores.prototype.uploadProfileHtml = function(){
