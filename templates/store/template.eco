@@ -1,369 +1,605 @@
 <html>
-<head>
-  <title>3VOT - <%= @profile.attributes.name %></title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" media="screen" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-  <style>
-html {
-    background-color: #fff;
-  }
 
-  body {
-      line-height: 1.5;
-      height:100%;
-      background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzIDY0NS4wMzkiPjxsaW5lYXJHcmFkaWVudCBpZD0iU1ZHSURfMV8iIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIiB4MT0iMS41IiB5MT0iNDcwLjYiIHgyPSIxLjUiIHkyPSIzLjIiPjxzdG9wIG9mZnNldD0iMCIgc3R5bGU9InN0b3AtY29sb3I6I0ZGRkZGRiIvPjxzdG9wIG9mZnNldD0iMSIgc3R5bGU9InN0b3AtY29sb3I6I0YxRjJGMiIvPjwvbGluZWFyR3JhZGllbnQ+PHJlY3QgeD0iLTAuMSIgZmlsbD0idXJsKCNTVkdJRF8xXykiIHdpZHRoPSIzLjIiIGhlaWdodD0iNjQ1Ii8+PC9zdmc+);
+  <head>
+    <title>3VOT - Profile</title>
+    <link rel='shortcut icon' type='image/x-icon' href='https://s3.amazonaws.com/3vot.com/images/favicon.ico' />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" media="screen" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+      <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  </head>
+
+  <style>
+    body {
+      background-image: url(https://s3.amazonaws.com/3vot.com/images/3vot-profile-bg.jpg);
       background-repeat: repeat-x;
-      background-attachment:fixed;
-      color: #4d4d4d;
-      padding: 40px 0;
+      background-position: top center;
+      -webkit-background-size: cover;
+      background-size: cover;
+      background-attachment: fixed;
       font-family: 'Open Sans', sans-serif;
     }
 
-    .navbar {
-      min-height: 0;
-      padding: 3px 0;
-    }
-
-    .form-control {
-      border-radius: 3px!important;
-      border: none;
-      color: #4d4d4d;
-      -webkit-box-shadow: inset 0 2px #e6e6e6;
-      -moz-box-shadow: inset 0 2px #e6e6e6;
-      box-shadow: inset 0 2px #e6e6e6;
-    }
-
-    .input-group-addon {
-      position:relative; 
-      background-color: transparent;
-      border: none;
-      color:#b3b3b3;
-    }
-
     .btn {
-      border-radius: 0;
-      border: none;
-      color: #4d4d4d;
-      -webkit-transition: all .3s;
-      -moz-transition: all .3s;
-      -ms-transition: all .3s;
-      -o-transition: all .3s;
-      transition: all .3s;
-    }
-
-    .btn-default {
-      -webkit-box-shadow: 0 2px 0 #e6e6e6;
-      -moz-box-shadow: 0 2px 0 #e6e6e6;
-      box-shadow: 0 2px 0 #e6e6e6;
-    }
-
-    .btn-default:hover, .btn-default:focus, .btn-default:active, .btn-default.active, .open .dropdown-toggle.btn-default {
-      color: #4d4d4d; 
-      background-color: #fff;
       -webkit-box-shadow: 0 2px 2px rgba(0,0,0,.2);
       -moz-box-shadow: 0 2px 2px rgba(0,0,0,.2);
       box-shadow: 0 2px 2px rgba(0,0,0,.2);
+      border: none;
     }
 
-    .btn-lg {
-      font-size:14px;
+    .btn-warning {
+      background-color: #ffb83b;
+      text-shadow: 0 1px 1px rgba(0,0,0,.2);
     }
 
-    .navbar-default {
-      background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MDAgNDIiPjxyZWN0IGZpbGw9IiM4QkQ0RTgiIHdpZHRoPSI4MDAiIGhlaWdodD0iNDIiLz48cGF0aCBmaWxsPSIjNzdDMEQ0IiBkPSJNNjE2IDBIMzkwLjExNWMxMC40MTEgNiAyNC45IDE4LjIgMzEuOCA0Mkg2MTZWMHoiLz48cmVjdCB4PSIzNjUiIGZpbGw9IiM3N0MwRDQiIHdpZHRoPSI0IiBoZWlnaHQ9IjQyIi8+PHBhdGggZmlsbD0iIzc3QzBENCIgZD0iTTIzNi4wNTggMGw2Mi45NDMgMzcuNjY2Yy0zLjYwOC0xNi43MjggMC4zNzEtMjkuMjUgNS4zNDMtMzcuNjY2SDIzNi4wNTh6Ii8+PHBvbHlnb24gZmlsbD0iIzc3QzBENCIgcG9pbnRzPSIxOTYsMjYgMTk2LDQyIDIyMCw0MiIvPjwvc3ZnPg==);
-      background-repeat: repeat-x;
-      -webkit-background-size: 800px 42px;
-      background-size: 800px 42px;
-      border-bottom: 2px solid #cccccc;
-    }
-
-    a {
-    }
-    a:hover {
-      text-decoration: none;
-    }
-
-    .appstore-search-affix {
-      width: 60%;
-      z-index: 1;
-      padding: 0px 0px 3px 15px;
-      box-shadow: 0 5px 2px rgba(245,245,245,.2);
-      background: #f3f3f3; /* Old browsers */
-background: -moz-linear-gradient(top, #f3f3f3 0%, #f5f5f5 100%); /* FF3.6+ */
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f3f3f3), color-stop(100%,#f5f5f5)); /* Chrome,Safari4+ */
-background: -webkit-linear-gradient(top, #f3f3f3 0%,#f5f5f5 100%); /* Chrome10+,Safari5.1+ */
-background: -o-linear-gradient(top, #f3f3f3 0%,#f5f5f5 100%); /* Opera 11.10+ */
-background: -ms-linear-gradient(top, #f3f3f3 0%,#f5f5f5 100%); /* IE10+ */
-background: linear-gradient(to bottom, #f3f3f3 0%,#f5f5f5 100%); /* W3C */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f3f3', endColorstr='#f5f5f5',GradientType=0 ); /* IE6-9 */
-
-    }
-
-    .scroll-toid { 
-      margin-top: -100px; 
-      padding-bottom: 100px; 
-      display: block; 
-    }
-
-    .appstore {
-      padding: 10px 20px 30px;
-    }
-
-    .appstore-app-container {
-      width: 210px;
+    .small-icon {
+      height: 15px;
       display: inline-block;
-      margin:10px;
     }
 
-    .appstore-app {
+    .navbar-inverse .navbar-brand {
       color: #fff;
-      padding: 20px;
-      width: 100%;
-      height: 210px;
-      display: inline-block;
-      box-shadow: 0 1px 2px rgba(0,0,0,.2);
-      overflow: hidden;
-      position: relative;
     }
-    .appstore-app-icon {
-      width:35%;
-      margin-top: 25px;
+    .navbar-inverse {
+      background-color: transparent;
+      border: none;
+      padding-top: 20px;
     }
-    .appstore-app-description {
-      font-size:12px;
-      margin-top: 100px;
-      opacity: 0
-    }
-    .appstore-app-icon,
-    .appstore-app-name,
-    .appstore-app-description,
-    .appstore-app-date{
-      -webkit-transition: all .5s ease-in-out ;
-      -moz-transition: all .5s ease-in-out ;
-      -ms-transition: all .5s ease-in-out ;
-      -o-transition: all .5s ease-in-out ;
-      transition: all .5s ease-in-out ;
-    }
-    .appstore-app-icon {
-      opacity: 1;
-      transition-delay: .1s;
-      -webkit-transition-delay: .1s; /* Safari */
-    }
-    .appstore-app:hover {
-      color:#fff;
+    .navbar-inverse .navbar-nav>li>a {
+      color: #fff;
+      font-size: 18px;
+      text-shadow: 0 1px 2px rgba(0,0,0,.4);
     }
 
-    .appstore-app:hover .appstore-app-icon,
-    .appstore-app:hover .appstore-app-date {
-      margin-top:-150px;
-      opacity: 0
+    .navbar-inverse .navbar-link {
+      font-size: 30px;
+      font-weight: 300;
+      color: #fff;
+      margin: 5px 20px 0;
+      text-shadow: 0 1px 2px rgba(0,0,0,.3);
     }
 
-    .appstore-app:hover .appstore-app-description{
-      margin-top: 0;
-      opacity: 1
+    .nav>li>a:hover, .nav>li>a:focus, nav>a:hover, nav>a:focus {
+      text-decoration: none;
+      background-color: transparent;
     }
 
-    .public {
-      background-color: #46c5e8;
-    }
-    .private {
-      background-color: #ed705f;
-    }
-
-    ul {
-      padding-left: 10px;
-    }
-    ul li {
-      list-style: none
-    }
-    
     .logo {
-      background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5NS44MDEgNDUuMzkzIj48Zz48Zz48Zz48cGF0aCBmaWxsPSIjRkZGRkZGIiBkPSJNNTAuNzQ0IDExLjExNWg3LjY4TDQ2LjQ5OSAzNC4xNzhMMzQuNjA3IDExLjExNWg3LjY3M2w0LjIxOCA5LjcwMUw1MC43NDQgMTEuMTE1eiIvPjxwYXRoIGZpbGw9IiNGRkZGRkYiIGQ9Ik03OS4yNTQgMjIuNzQ3YzAgNi4zNDEtNS4xNTYgMTEuNTI4LTExLjUzMSAxMS41MjhjLTYuMzcxIDAtMTEuNTMxLTUuMTg4LTExLjUzMS0xMS41MjggYzAtNi4zNzYgNS4xNi0xMS41MzQgMTEuNTMxLTExLjUzNEM3NC4wOTggMTEuMiA3OS4zIDE2LjQgNzkuMyAyMi43NDd6IE03Mi42ODkgMjIuNzQ3YzAtMi45OC0yLjMzOC01LjI4Ny00Ljk2Ny01LjI4NyBjLTIuNjI3IDAtNC45NjUgMi4zMDctNC45NjUgNS4yODdjMCAzLjEgMi4zIDUuMyA1IDUuMjUxQzcwLjM1MiAyOCA3Mi43IDI1LjkgNzIuNyAyMi43NDd6Ii8+PHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTk1LjgwMSAxNi42MzdoLTVWMzQuMjRoLTYuNjZWMTYuNjM3aC00Ljk2OXYtNS41MjFoNC45NjloNi42Nmg1VjE2LjYzN3oiLz48L2c+PHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTIyLjE4IDE1Ljk5bDYuNjA5LTYuNjE2YzAuNDU0LTAuMzU0IDAuODQyLTAuNzcxIDEuMTU0LTEuMjQ5YzEuNDUzLTIuMDA3IDEuMjgyLTQuODE4LTAuNTIzLTYuNjI2IEMyOC40MTggMC41IDI3LjEgMCAyNS44IDBDMjUuMyAwIDI0LjggMC4xIDI0LjMgMC4yMDlINS4yNjFjLTIuODM0IDAtNS4xMyAyLjI5NC01LjEzIDUuMSBjMCAyLjggMi4zIDUuMSA1LjEgNS4xMjZoNy45NDdsLTUuNDUxIDUuNDUyYy0wLjE4MSAwLjE4My0wLjM0MSAwLjM3MS0wLjQ4NCAwLjU2N2MtMC43NzQgMC45NjItMS4xMTQgMi4yNS0wLjk5OSAzLjUgYzAgMCAwIDAgMCAwLjAzNWMwLjA2OSAwLjcgMC4yIDEuMyAwLjYgMS44OTZjMC4yMyAwLjQgMC41IDAuOCAwLjkgMS4yIGMwLjAxNCAwIDAgMCAwIDAuMDUzYzAuOTk3IDEgMi4zIDEuNSAzLjYgMS41MDFjMS4wOTEgMCAyLjE4My0wLjM1NCAzLjEtMS4wNDYgYzAuMzc4IDAgMC43IDAuMSAxLjIgMC4xMDRjMy40MTggMCA1LjkgMi44IDUuOSA2LjE5MmMwIDMuNDE0LTIuNzggNi4xOS02LjE5MyA2LjIgYy0zLjIgMC01LjkxLTIuNDkxLTYuMTctNS42NzJjLTAuMTk2LTIuMzg3LTIuMjMtNC4yNi00LjYyNy00LjI2Yy0wLjEyOCAwLTAuMjYgMC4wMDMtMC4zODYgMCBjLTEuMjM0IDAuMTA3LTIuMzU1IDAuNjg1LTMuMTU2IDEuNjNjLTAuODA0IDAuOTQ1LTEuMTg5IDIuMTUtMS4wOSAzLjM5QzAuNjcxIDM5LjIgNy40IDQ1LjQgMTUuNCA0NS40IGM4LjUzNCAwIDE1LjQ3OC02LjkzOSAxNS40NzgtMTUuNDc3QzMwLjkxOCAyMy44IDI3LjMgMTguNSAyMi4yIDE1Ljk5eiBNMTQuMjg2IDIyLjQgYy0wLjc3NyAwLjc3OC0xLjgwOCAxLjIwNC0yLjkwNSAxLjIwNGMtMS4wOTcgMC0yLjEzLTAuNDI2LTIuOTA3LTEuMjA0Yy0xLjYwMy0xLjYwMy0xLjYwMy00LjIwOSAwLTUuODEyTDIyLjg4OCAyLjIgYzAuNzc0LTAuNzc1IDEuODExLTEuMjAyIDIuOTA1LTEuMjAyYzEuMSAwIDIuMSAwLjQgMi45IDEuMjAyYzEuNjAxIDEuNiAxLjYgNC4yIDAgNS44MTJMMTQuMjg2IDIyLjQ0NHogTTUuMjYxIDkuNCBjLTIuMjY4IDAtNC4xMDctMS44NDQtNC4xMDctNC4xMDdjMC0yLjI2NyAxLjg0LTQuMTA4IDQuMTA3LTQuMTA4SDIyLjQ3Yy0wLjEwMiAwLjA4OC0wLjIwNCAwLjE3OS0wLjMwNCAwLjI3MmwtNy45NDQgNy45IEg1LjI2MXogTTE1LjQ0MSA0NC4zNzdjLTcuNDY4IDAtMTMuNzk1LTUuODI0LTE0LjQwOS0xMy4yNjFjLTAuMDgxLTAuOTY4IDAuMjE4LTEuOTAxIDAuODQ1LTIuNjQ2IGMwLjYzLTAuNzM4IDEuNTAyLTEuMTg4IDIuNDY2LTEuMjcxYzAuMDk5LTAuMDA1IDAuMjAyLTAuMDE1IDAuMzAyLTAuMDE1YzEuODcgMCAzLjUgMS41IDMuNiAzLjMgYzAuMzA5IDMuNyAzLjUgNi42IDcuMiA2LjYwN2MzLjk3NiAwIDcuMjExLTMuMjM1IDcuMjExLTcuMjEyYzAtNC4wNDUtMy4wNTQtNy4yMS02Ljk1OS03LjIxIGMtMC4wNzggMC0wLjE1LTAuMDA4LTAuMjIyLTAuMDEzbDUuOTQzLTUuOTRjNS4wMDMgMi4zIDguNSA3LjMgOC41IDEzLjE2NEMyOS45MDEgMzcuOSAyMy40IDQ0LjQgMTUuNCA0NC4zNzd6Ii8+PGcgZGlzcGxheT0ibm9uZSI+PHBhdGggZGlzcGxheT0iaW5saW5lIiBmaWxsPSIjRkZGRkZGIiBkPSJNNDEuMjY0IDQwLjUxNGwwLjMyOS0wLjAyNmMwLjAxMiAwLjEgMC4xIDAuMiAwLjEgMC4zIGMwLjA2IDAuMSAwLjEgMC4xIDAuMyAwLjJzMC4yNTIgMC4xIDAuNCAwLjA3OWMwLjEzMiAwIDAuMjU0LTAuMDIyIDAuMzUtMC4wNjJjMC4xMDMtMC4wMzYgMC4xNzktMC4wOTMgMC4yMjgtMC4xNTkgYzAuMDQ4LTAuMDcgMC4wNy0wLjE0NiAwLjA3LTAuMjI5YzAtMC4wNzktMC4wMjItMC4xNTQtMC4wNjktMC4yMTJjLTAuMDQ2LTAuMDYzLTAuMTIzLTAuMTE0LTAuMjM0LTAuMTU4IGMtMC4wNjktMC4wMjItMC4yMjMtMC4wNjQtMC40NjMtMC4xMjVjLTAuMjQzLTAuMDU5LTAuNDA5LTAuMTA4LTAuNTA2LTAuMTY0Yy0wLjEyMy0wLjA2My0wLjIxOC0wLjE0Ni0wLjI4MS0wLjIzOSBjLTAuMDU5LTAuMS0wLjA4OS0wLjIwNC0wLjA4OS0wLjMyNmMwLTAuMTI5IDAuMDM3LTAuMjUgMC4xMTEtMC4zNjljMC4wNzctMC4xMTMgMC4xODUtMC4yMDEgMC4zMjYtMC4yNjIgYzAuMTQ0LTAuMDYgMC4zMDctMC4wODUgMC40NzktMC4wODVjMC4xOTUgMCAwLjQgMCAwLjUgMC4wOTVjMC4xNSAwLjEgMC4zIDAuMSAwLjMgMC4zIGMwLjA4MSAwLjEgMC4xIDAuMyAwLjEgMC40MTFsLTAuMzMgMC4wMjRjLTAuMDIxLTAuMTYzLTAuMDgxLTAuMjg4LTAuMTg0LTAuMzc1Yy0wLjEwMS0wLjA4Mi0wLjI1Ny0wLjEyMS0wLjQ1NS0wLjEyMSBjLTAuMjEgMC0wLjM2NCAwLjAzOS0wLjQ2IDAuMTExYy0wLjA5MyAwLjA3My0wLjE0NCAwLjE3LTAuMTQ0IDAuMjcyYzAgMC4xIDAgMC4yIDAuMSAwLjIgYzAuMDY5IDAuMSAwLjIgMC4xIDAuNSAwLjE4OGMwLjI3OSAwLjEgMC41IDAuMSAwLjYgMC4xNjZjMC4xNTIgMC4xIDAuMyAwLjIgMC4zIDAuMyBjMC4wNzUgMC4xIDAuMSAwLjIgMC4xIDAuMzY0YzAgMC4xNDMtMC4wNDIgMC4yNzEtMC4xMjEgMC4zOTZjLTAuMDc5IDAuMTIzLTAuMTkyIDAuMjE5LTAuMzQzIDAuMyBjLTAuMTQ2IDAuMDYzLTAuMzE1IDAuMTAyLTAuNTAyIDAuMTAyYy0wLjIzNCAwLTAuNDM2LTAuMDM1LTAuNTk3LTAuMTAyYy0wLjE1Ni0wLjA3MS0wLjI4My0wLjE3NC0wLjM3Mi0wLjMxNCBDNDEuMzE2IDQwLjggNDEuMyA0MC43IDQxLjMgNDAuNTE0eiIvPjxwYXRoIGRpc3BsYXk9ImlubGluZSIgZmlsbD0iI0ZGRkZGRiIgZD0iTTQ0LjkxOSA0MS4zNTR2LTIuNjA4aDEuODgzdjAuMzA3aC0xLjU0MXYwLjgwMWgxLjQ0NnYwLjMwOGgtMS40NDZ2MC44ODloMS42MDR2MC4zMTEgaC0xLjk0NlY0MS4zNTR6Ii8+PHBhdGggZGlzcGxheT0iaW5saW5lIiBmaWxsPSIjRkZGRkZGIiBkPSJNNDkuMTAyIDQxLjM1NHYtMi4zMDVoLTAuODU0di0wLjMwN2gyLjA2NXYwLjMwN2gtMC44NjR2Mi4zMDVINDkuMTAyeiIvPjxwYXRoIGRpc3BsYXk9ImlubGluZSIgZmlsbD0iI0ZGRkZGRiIgZD0iTTUyLjQyOCA0MS4zNTR2LTIuMzA1aC0wLjg2MXYtMC4zMDdoMi4wN3YwLjMwN2gtMC44NjV2Mi4zMDVINTIuNDI4eiIvPjxwYXRoIGRpc3BsYXk9ImlubGluZSIgZmlsbD0iI0ZGRkZGRiIgZD0iTTU1LjE0MyA0MS4zNTR2LTIuNjA4aDAuMzQ3djIuNjA4SDU1LjE0M3oiLz48cGF0aCBkaXNwbGF5PSJpbmxpbmUiIGZpbGw9IiNGRkZGRkYiIGQ9Ik01Ny4xODggNDEuMzU0di0yLjYwOGgwLjM1NWwxLjM3MyAyLjA0OXYtMi4wNDloMC4zM3YyLjYwOGgtMC4zNTVsLTEuMzY5LTIuMDU1djIuMDU1IEg1Ny4xODh6Ii8+PHBhdGggZGlzcGxheT0iaW5saW5lIiBmaWxsPSIjRkZGRkZGIiBkPSJNNjIuMTQ1IDQwLjMyOXYtMC4zMTFoMS4xMDR2MC45NzJjLTAuMTY2IDAuMTMzLTAuMzQzIDAuMjMyLTAuNTIzIDAuMyBjLTAuMTggMC4wNjMtMC4zNjEgMC4xMDItMC41NTUgMC4xMDJjLTAuMjU2IDAtMC40ODgtMC4wNTUtMC42OTUtMC4xNjRjLTAuMjExLTAuMTA2LTAuMzY3LTAuMjcxLTAuNDc3LTAuNDc1IGMtMC4xMDUtMC4yMDktMC4xNi0wLjQ0Mi0wLjE2LTAuN2MwLTAuMjUxIDAuMDUxLTAuNDg5IDAuMTYtMC43MWMwLjEwNC0wLjIyMyAwLjI1Ni0wLjM4NSAwLjQ1Ny0wLjQ5NCBjMC4xOTUtMC4xMDQgMC40MzQtMC4xNTIgMC42ODktMC4xNTJjMC4xODYgMCAwLjQgMCAwLjUgMC4wODljMC4xNTQgMC4xIDAuMyAwLjEgMC40IDAuMyBjMC4wODYgMC4xIDAuMiAwLjIgMC4yIDAuNDI3bC0wLjMxNCAwLjA4NWMtMC4wMzctMC4xMzMtMC4wOS0wLjIzOS0wLjE0Ni0wLjMxM2MtMC4wNjItMC4wNzctMC4xNDYtMC4xMzgtMC4yNS0wLjE4NSBjLTAuMTA0LTAuMDQ1LTAuMjI5LTAuMDY1LTAuMzU2LTAuMDY1Yy0wLjE1NiAwLTAuMjk3IDAuMDIxLTAuNDEyIDAuMDdjLTAuMTE0IDAuMDUtMC4yMDUgMC4xMDgtMC4yNzggMC4yIGMtMC4wNjUgMC4wNzYtMC4xMjMgMC4xNjMtMC4xNjQgMC4yNTdjLTAuMDY1IDAuMTYtMC4xMDEgMC4zMzgtMC4xMDEgMC41MjVjMCAwLjIgMCAwLjQgMC4xIDAuNiBjMC4wODQgMC4yIDAuMiAwLjMgMC40IDAuMzU0YzAuMTQ4IDAuMSAwLjMgMC4xIDAuNSAwLjExM2MwLjE1MiAwIDAuMjk3LTAuMDI5IDAuNDQxLTAuMDg3IGMwLjE0My0wLjA2IDAuMjQ4LTAuMTIgMC4zMjItMC4xODZWNDAuMzNMNjIuMTQ1IDQwLjMyOUw2Mi4xNDUgNDAuMzI5eiIvPjxwYXRoIGRpc3BsYXk9ImlubGluZSIgZmlsbD0iI0ZGRkZGRiIgZD0iTTY3LjYzMSA0MS4zNTR2LTEuMTA0bC0xLjAxLTEuNTA0aDAuNDIybDAuNTIgMC44IGMwLjA5OCAwLjEgMC4yIDAuMyAwLjMgMC40NDJjMC4wNzYtMC4xMzYgMC4xNzYtMC4yOTIgMC4yODMtMC40NmwwLjUwOC0wLjc2OGgwLjQwNGwtMS4wNDUgMS41MDR2MS4xMDRMNjcuNjMxIDQxLjQgTDY3LjYzMSA0MS4zNTR6Ii8+PHBhdGggZGlzcGxheT0iaW5saW5lIiBmaWxsPSIjRkZGRkZGIiBkPSJNNzAuMzIgNDAuMDgyYzAtMC40MzYgMC4xMTUtMC43NzMgMC4zNTItMS4wMjFjMC4yMjktMC4yNDggMC41MzEtMC4zNjkgMC44OTgtMC4zNjkgYzAuMjM4IDAgMC41IDAuMSAwLjcgMC4xNzNjMC4xOTcgMC4xIDAuMyAwLjMgMC40IDAuNDhjMC4xMDQgMC4yIDAuMiAwLjQgMC4yIDAuNyBjMCAwLjI2NC0wLjA1MSAwLjQ5OS0wLjE2IDAuNzA4Yy0wLjEwNCAwLjIxMy0wLjI1OCAwLjM2Ny0wLjQ1NSAwLjQ3NmMtMC4xOTMgMC4xMDYtMC40MDYgMC4xNjEtMC42MzUgMC4yIGMtMC4yNDQgMC0wLjQ2Ny0wLjA1OS0wLjY1Ni0wLjE3N2MtMC4xOTMtMC4xMTgtMC4zNDItMC4yODMtMC40NDEtMC40ODdDNzAuMzY5IDQwLjUgNzAuMyA0MC4zIDcwLjMgNDAuMDgyeiBNNzAuNjc2IDQwLjA4NmMwIDAuMyAwLjEgMC42IDAuMyAwLjc0NGMwLjE3IDAuMiAwLjQgMC4zIDAuNiAwLjI3MWMwLjI2MiAwIDAuNDc3LTAuMDkzIDAuNjQ2LTAuMjcxIGMwLjE2OC0wLjE4NyAwLjI1Mi0wLjQ0MSAwLjI1Mi0wLjc4MWMwLTAuMjExLTAuMDMzLTAuMzk3LTAuMTA5LTAuNTU2Yy0wLjA3LTAuMTYtMC4xNzQtMC4yNzktMC4zMTQtMC4zNjcgYy0wLjEzNy0wLjA5MS0wLjI5My0wLjEzMi0wLjQ2NS0wLjEzMmMtMC4yNDQgMC0wLjQ1NyAwLjA4My0wLjYzMyAwLjI1MkM3MC43NjYgMzkuNCA3MC43IDM5LjcgNzAuNyA0MC4wODZ6Ii8+PHBhdGggZGlzcGxheT0iaW5saW5lIiBmaWxsPSIjRkZGRkZGIiBkPSJNNzYuMDcgMzguNzQyaDAuMzQ4djEuNTA2YzAgMC4yNjQtMC4wMjUgMC40NzMtMC4wODggMC42IGMtMC4wNjMgMC4xNTEtMC4xNjYgMC4yOC0wLjMxOSAwLjM3OWMtMC4xNTUgMC4wOTUtMC4zNTggMC4xNDMtMC42MTQgMC4xNDNjLTAuMjQyIDAtMC40NDEtMC4wNDEtMC42MDItMC4xMjcgYy0wLjE1NC0wLjA4Mi0wLjI2NS0wLjIwNS0wLjMzLTAuMzY4Yy0wLjA2Ni0wLjE1NC0wLjEwMS0wLjM3Ni0wLjEwMS0wLjY1di0xLjUwNmgwLjM0N3YxLjUwNGMwIDAuMiAwIDAuNCAwLjEgMC41IGMwLjA0MSAwLjEgMC4xIDAuMiAwLjIgMC4yNWMwLjEwNCAwLjEgMC4yIDAuMSAwLjQgMC4wODdjMC4yNSAwIDAuNDMxLTAuMDU3IDAuNTQxLTAuMTc1IGMwLjEwNS0wLjExNiAwLjE1OC0wLjMzNyAwLjE1OC0wLjY2NVYzOC43NDJMNzYuMDcgMzguNzQyeiIvPjxwYXRoIGRpc3BsYXk9ImlubGluZSIgZmlsbD0iI0ZGRkZGRiIgZD0iTTgwLjIwOSA0MS4zNTR2LTIuNjA4aDEuNzY0djAuMzA3aC0xLjQxMnYwLjgwOGgxLjIyNXYwLjMxMWgtMS4yMjV2MS4xODggTDgwLjIwOSA0MS4zNTRMODAuMjA5IDQxLjM1NHoiLz48cGF0aCBkaXNwbGF5PSJpbmxpbmUiIGZpbGw9IiNGRkZGRkYiIGQ9Ik04My41MjUgNDEuMzU0di0yLjYwOGgxLjE1NmMwLjIzMiAwIDAuNCAwIDAuNSAwLjEgYzAuMTIxIDAuMSAwLjIgMC4xIDAuMyAwLjI0OWMwLjA3NiAwLjEgMC4xIDAuMiAwLjEgMC4zOTVjMCAwLjE4OC0wLjA1OCAwLjM0NC0wLjE3OCAwLjUgYy0wLjExNyAwLjEyNS0wLjMwOSAwLjIwOS0wLjU1NyAwLjI0MmMwLjA5MiAwIDAuMiAwLjEgMC4yIDAuMTMxYzAuMTA0IDAuMSAwLjIgMC4yIDAuMyAwLjM0N2wwLjQ1MSAwLjcgaC0wLjQzNmwtMC4zNDgtMC41NDRjLTAuMTAyLTAuMTU3LTAuMTg2LTAuMjc2LTAuMjQ4LTAuMzU3Yy0wLjA2NC0wLjA4NC0wLjEyNy0wLjE0Ni0wLjE3NC0wLjE4MSBjLTAuMDU1LTAuMDI4LTAuMTA0LTAuMDU3LTAuMTU4LTAuMDY0Yy0wLjA0MS0wLjAwNy0wLjEwNy0wLjAxMy0wLjE5My0wLjAxM2gtMC4zOTZ2MS4xNTlMODMuNTI1IDQxLjM1NEw4My41MjUgNDEuMzU0eiBNODMuODczIDM5Ljg5M2gwLjc0MWMwLjE1NSAwIDAuMjc4LTAuMDE2IDAuMzY4LTAuMDUxYzAuMDk0LTAuMDI5IDAuMTU0LTAuMDg0IDAuMjAzLTAuMTUxIGMwLjA0Ny0wLjA3NCAwLjA3Mi0wLjE0OSAwLjA3Mi0wLjIzNWMwLTAuMTI0LTAuMDQ5LTAuMjI3LTAuMTM5LTAuMzFjLTAuMDkyLTAuMDc5LTAuMjI5LTAuMTEzLTAuNDI2LTAuMTEzSDgzLjg3djAuODZIODMuODczeiIvPjxwYXRoIGRpc3BsYXk9ImlubGluZSIgZmlsbD0iI0ZGRkZGRiIgZD0iTTg3LjI1NCA0MS4zNTR2LTIuNjA4aDEuODg5djAuMzA3aC0xLjUzOXYwLjgwMWgxLjQzOXYwLjMwOGgtMS40Mzl2MC44ODloMS42MDR2MC4zMTEgaC0xLjk1MUw4Ny4yNTQgNDEuMzU0TDg3LjI1NCA0MS4zNTR6Ii8+PHBhdGggZGlzcGxheT0iaW5saW5lIiBmaWxsPSIjRkZGRkZGIiBkPSJNOTAuNzgzIDQxLjM1NHYtMi42MDhoMS44OTF2MC4zMDdIOTEuMTN2MC44MDFoMS40NDJ2MC4zMDhIOTEuMTN2MC44ODloMS42MDF2MC4zMTEgaC0xLjk0Nkw5MC43ODMgNDEuMzU0TDkwLjc4MyA0MS4zNTR6Ii8+PC9nPjwvZz48L2c+PC9zdmc+);
+      background: url(https://s3.amazonaws.com/3vot.com/images/3vot-logo-white.png);
       background-repeat: no-repeat;
+      -webkit-background-size: cover;
+      background-size: cover;
      }
+
+     .navbar-brand  {
+      width:82px;
+      height:42px;
+      margin-top: 5px;
+     }
+
+     .market-item {
+      position: relative;
+     }
+
+     .market-item .market-popover{
+      opacity: 0;
+      position: absolute;
+      -webkit-transition: all .2s;
+      -moz-transition: all .2s;
+      -ms-transition: all .2s;
+      -o-transition: all .2s;
+      transition: all .2s;
+      background: #fff;
+      height: 0px;
+      -webkit-border-radius: 8px;
+      -moz-border-radius: 8px;
+      border-radius: 8px;
+      width: 260px;
+      right: 0;
+      text-align: center;
+      overflow: hidden;
+      border-bottom: 2px solid rgba(0,0,0,.4);
+      border-top: 1px solid rgba(255,255,255,0.1);
+      -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.3);
+      -moz-box-shadow: 0 5px 10px rgba(0,0,0,.3);
+      box-shadow: 0 5px 10px rgba(0,0,0,.3);
+
+     }
+
+     .market-item:hover .market-popover {
+      opacity: 1;
+      height:150px;
+     }
+     .market-popover .popover-header {
+      background-color: #ffb83b;
+      background-image:url(https://s3.amazonaws.com/3vot.com/images/3vot-market-popover-bg.jpg);
+      background-repeat: repeat;
+      -webkit-background-size: 260px auto;
+      background-size: 260px auto;
+      color: #fff;
+      -webkit-box-shadow: inset 0 10px 10px rgba(255,255,255,.3);
+      -moz-box-shadow: inset 0 10px 10px rgba(255,255,255,.3);
+      box-shadow: inset 0 10px 10px rgba(255,255,255,.3);
+      animation:bgloop 10s;
+      -moz-animation:bgloop 10s linear infinite; 
+      -webkit-animation:bgloop 10s linear infinite; 
+     }
+
+     .popover-header h3 {
+      margin:0; 
+      line-height:82px; 
+      font-weight:300;
+      font-size: 30px;
+      text-shadow: 0 1px 2px rgba(0,0,0,.2);
+     }
+
+     .market-popover p {
+      color: #77787b;
+      font-size: 12px;
+      padding: 7px 10px;
+     }
+
+     .market-disabled {
+      opacity: .5;
+     }
+
+      @-moz-keyframes bgloop /* Firefox */
+        {
+          0%   {background-position:0px 0px ;}
+          100%   {background-position:0px 179px;}
+        }
+
+      @-webkit-keyframes bgloop /* Safari and Chrome */
+        {
+          0%   {background-position:0px 0px ;}
+          100%   {background-position:0px 179px;}
+        }
      
-     .icon-marketplace {
-       background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxOC4xMTMgMzEuMjI2Ij48Zz48cGF0aCBmaWxsPSIjRkZGRkZGIiBkPSJNMTIuMjEgMjAuMDM2YzAtMC4yMzEgMC02LjUxIDUtMTAuNjg4djE4LjgzOWwtNSAzLjAzOFYyMC4wMzZ6Ii8+PHBvbHlnb24gZmlsbD0iI0ZGRkZGRiIgcG9pbnRzPSIwLDI0LjMgLTAuMSwxMS41IDExLjIsMTguMSAxMS4yLDMwLjkiLz48Zz48cGF0aCBmaWxsPSIjRkZGRkZGIiBkPSJNMTAuOTQ2IDMuMTIzYy0wLjAyNi0wLjA5Mi0wLjA1LTAuMTgzLTAuMDctMC4yNzFDMTAuODk2IDIuOSAxMC45IDMgMTAuOSAzLjEyM3oiLz48cGF0aCBmaWxsPSIjRkZGRkZGIiBkPSJNMTUuOTgzIDcuMDY4YzAuMzc1LTAuMzQ3IDAuNDkyLTAuOTMzIDAuMzMtMS42NTNjLTAuMTQzLTAuNjMzLTAuNTM1LTEuMjk2LTEuMDI2LTEuOTAxIGMtMC4wMDggMC4wMi0wLjA3NyAwLjA0MS0wLjA3NyAwLjA1NHYwLjAwMWwtMi4zOTYgMi4zOTJjLTAuMDM3IDAuMDM1LTAuMDY5IDAuMDQ0LTAuMTMyIDAgYzAuNzcgMC43IDEuNSAxLjEgMi4xIDEuMzY2QzE1LjI3MiA3LjQgMTUuNyA3LjMgMTYgNy4wNjh6Ii8+PHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTE1LjIxIDMuMDFjMC0wLjAxNC0wLjE3Mi0wLjAyMS0wLjE1LTAuMDI3Yy0wLjU2NC0wLjU0OC0xLjMwOC0wLjk0OS0xLjkzLTEuMTQyIGMtMC42OTEtMC4yMTUtMS4zMy0wLjE0Ni0xLjcwMSAwLjE5OGMtMC4yOTMgMC4yNzMtMC40NTEgMC42OTMtMC40MiAxLjIwOGMwLjE5OSAwLjYgMC41IDEuNCAxLjIgMi4yIGMwLjAwMy0wLjA2MyAwLjIxOS0wLjExOCAwLjI1Mi0wLjE1MmwyLjc4NS0yLjI0N1YzLjAxeiIvPjxwYXRoIGZpbGw9IiNGRkZGRkYiIGQ9Ik0xOC4wMTcgNS4wMzFjLTAuNDYzLTIuMDYyLTIuNDY1LTQuMjM3LTQuNDcxLTQuODYzYy0xLjE1Mi0wLjM2LTIuMDUzLTAuMTI0LTIuNTIzIDAuNSBjLTAuMTQxIDAuMzA1LTAuMzczIDEuMDA3LTAuMTc0IDIuMDI2YzAuMDU5LTAuMzI2IDAuMTk5LTAuNjAyIDAuNDE4LTAuODA1YzAuNDE4LTAuMzgzIDEuMDU5LTAuNDY1IDEuODA5LTAuMjMyIGMwLjczNiAwLjIgMS41IDAuNyAyLjEgMS40MjdDMTUuODQ5IDMuOCAxNi4zIDQuNiAxNi41IDUuMzhjMC4xNzYgMC44IDAgMS40MTgtMC4zNzggMS44IGMtMC4yMTYgMC4xOTgtMC40ODkgMC4zMTItMC44MDkgMC4zNDljMC45OSAwLjMgMS43IDAuMSAyLjAxNy0wLjAxMkMxNy45ODMgNy4xIDE4LjMgNi4yIDE4IDUuMDMxeiBNMTYuODk3IDcuNiBjLTAuMDIgMC4wMi0wLjA0NSAwLjAzNC0wLjA2NiAwLjA1M2MtMC4xMDUgMC4wMTctMC4yMjEgMC4wMzEtMC4zNDkgMC4wMzljMC4xMS0wLjA1OCAwLjIxNC0wLjEyNSAwLjMwNi0wLjIwOSBjMC40NzMtMC40MzYgMC42MjEtMS4xNyAwLjQxOC0yLjA3Yy0wLjIwNy0wLjkxNi0wLjc1LTEuODg1LTEuNTI5LTIuNzI5Yy0wLjc3My0wLjgzNi0xLjY4NC0xLjQ0OS0yLjU2NC0xLjcyMyBjLTAuODY5LTAuMjcxLTEuNjA0LTAuMTgzLTIuMDcgMC4yNWMtMC4wOTYgMC4wODYtMC4xNzQgMC4xOS0wLjI0MiAwLjI5OWMwLjAyLTAuMTMxIDAuMDQ1LTAuMjQ3IDAuMDcyLTAuMzUyIGMwLjAyMS0wLjAyMiAwLjA0LTAuMDQ1IDAuMDYzLTAuMDY2YzAuNTExLTAuNDcyIDEuMjk5LTAuNTcyIDIuMjI0LTAuMjg1YzAuOTA5IDAuMyAxLjggMC45IDIuNiAxLjggYzAuNzk5IDAuOSAxLjQgMS45IDEuNiAyLjgwM0MxNy41NzkgNi4zIDE3LjQgNy4xIDE2LjkgNy41OXoiLz48L2c+PGc+PHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTE2LjA5NyA3LjY3OWwtMC4xMzMtMC4wNzdjLTAuMDA2IDAuMDIxLTAuMDIgMC4wNDItMC4wMjUgMC4wNjNDMTUuOTkyIDcuNyAxNiA3LjcgMTYuMSA3LjY3OXogIi8+PHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTE1Ljg0MSA3LjkxNmMtMC4xNTggMC4yOTgtMC40NDEgMC41OC0wLjg0OCAwLjgxNWMtMS4zNDggMC43NzktMy41NDUgMC43NzQtNC45MDItMC4wMDkgQzkuMzMzIDguMyA5IDcuNyA5LjEgNy4xMjZjMCAwIDAuMjE2LTEuMDkxIDEuNzc0LTEuNTc1Yy0wLjE0My0wLjMyNS0wLjI1Mi0wLjY5OS0wLjMzMi0xLjA5Nkw1LjUyMSAxLjYgQzEuMjQ3IDQuNSAwLjQgOC45IDAuMiAxMC41MjNsMTEuNDE0IDYuNjFjMC4zMjQtMS45NDggMS40NDktNS44MjcgNS4zNTgtOC45NDVsLTAuNTU4LTAuMzIzIEMxNi4yMzUgNy45IDE2IDcuOSAxNS44IDcuOTE2eiIvPjwvZz48L2c+PC9zdmc+);
-       background-repeat: no-repeat;
-       background-size:cover;
+
+     .profile-container {
+      background-color: #f5f5f6;
+      background-image: url(https://s3.amazonaws.com/3vot.com/images/3vot-profile-grad-bg.jpg);
+      background-position: top left;
+      background-repeat: repeat-x;
+      margin-top: 130px;
+      -webkit-box-shadow: 0 -2px 10px rgba(0,0,0,.1) ,0 -30px 50px rgba(0,0,0,.1);
+      -moz-box-shadow: 0 -2px 10px rgba(0,0,0,.1) ,0 -30px 50px rgba(0,0,0,.1);
+      box-shadow: 0 -2px 10px rgba(0,0,0,.1) ,0 -30px 50px rgba(0,0,0,.1);
+      padding-bottom: 50px;
      }
-    
-    .icon-store {
-      background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NS4zNTQgNTUuNjA1IiA+PGc+PGxpbmVhckdyYWRpZW50IGlkPSJTVkdJRF8xXyIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiIHgxPSItNTAzLjQiIHkxPSIyNjMuNCIgeDI9Ii01MDkiIHkyPSIyNTQiIGdyYWRpZW50VHJhbnNmb3JtPSJtYXRyaXgoMSAwIDAgLTEgNTM5LjA0IDI5OC45NDQ4KSI+PHN0b3Agb2Zmc2V0PSIwIiBzdHlsZT0ic3RvcC1jb2xvcjojRkZGRkZGO3N0b3Atb3BhY2l0eTowIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdHlsZT0ic3RvcC1jb2xvcjojQjNCM0IzIi8+PC9saW5lYXJHcmFkaWVudD48cG9seWdvbiBmaWxsPSJ1cmwoI1NWR0lEXzFfKSIgcG9pbnRzPSIzNyw0OS40IDQ2LjMsNDQuMSAyNy42LDMzLjIgMTguNiwzNy43Ii8+PHBhdGggZmlsbD0iI0NDQ0NDQyIgZD0iTTM3LjM3NCAxNC4yMDh2MzUuMjk1bC0xMC40ODggNi4xMDRWMzIuMzNDMjYuODg2IDMyLjMgMjYuOCAyMS4zIDM3LjQgMTQuMjA4eiIvPjxwYXRoIGZpbGw9IiNGRkZGRkYiIGQ9Ik00Ljc1NSAzMS4zMjZMNC43MTYgNDIuNzc5bDIyLjE3IDEyLjgyNlY0My43NHYtMC4wMjlMNC43NzMgMzAuOSBDNC43NTcgMzEuMiA0LjggMzEuMyA0LjggMzEuMzI2eiIvPjxnPjxwYXRoIGZpbGw9IiNDQ0NDQ0MiIGQ9Ik00Ljc3MyAyMC4yMTljLTAuMDE3IDAuMjY2LTAuMDE5IDAuNDI3LTAuMDE5IDAuNDI3TDQuNzE2IDMyLjFsMC4zMjYgMC4xODhsMTEuODMzLTcuNzAyTDQuNzczIDIwLjIxOXoiLz48cG9seWdvbiBmaWxsPSIjRjFGMkYyIiBwb2ludHM9IjE3LjIsMjQuNiA1LjUsMzIuMyAyNy42LDQ0LjkgMjcuNiwyOS43IDI3LjYsMjkuNyIvPjwvZz48cGF0aCBmaWxsPSIjRkZCODNCIiBkPSJNMC45OTQgMTkuODQ0bDIyLjE2NSAxMi44MmM5LjM1NC02IDE0LjYwNC0xNi45NSAxNC43MTYtMTkuMDM2TDE1Ljc2MyAwLjggQzE1Ljc1NSAxLjEgMTEuMyAxMi44IDEgMTkuODQ0eiIvPjxnPjxwYXRoIGZpbGw9IiNFNkU2RTYiIGQ9Ik0zMC42MzQgOS4xN2MzLjI1MiAwIDYgMy40IDYgMy40MjRjMC4wMTUgMC44ODktMC41NjMgMS43NzItMS43MzMgMi40IGMtMi4zMjYgMS4zNDMtNi4xMDQgMS4zMzUtOC40NDgtMC4wMTVjLTEuMzA0LTAuNzU0LTEuODg2LTEuNzctMS43MzctMi43NDlDMjQuNjg2IDEyLjMgMjUuMyA5LjIgMzAuNiA5LjE3eiIvPjxnPjxwYXRoIGZpbGw9IiNDQ0NDQ0MiIGQ9Ik0zNS4yODEgMTMuMTQ3Yy0zLjQ1OC0xLjA3Ni02LjkwNi00LjgyMy03LjcwMy04LjM3NWMtMC44MDEtMy41NDkgMS4zNDYtNS41NTkgNC44MDQtNC40ODEgYzMuNDU0IDEuMSA2LjkgNC44IDcuNyA4LjM3OEM0MC44ODMgMTIuMiAzOC43IDE0LjIgMzUuMyAxMy4xNDd6Ii8+PGxpbmVhckdyYWRpZW50IGlkPSJTVkdJRF8yXyIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiIHgxPSItMTA1Ny41IiB5MT0iMjc2LjYiIHgyPSItMTA1OS43IiB5Mj0iMjcyLjkiIGdyYWRpZW50VHJhbnNmb3JtPSJtYXRyaXgoMC42NzgyIDAuNzM0OSAwLjczNDkgLTAuNjc4MiA1NDguOTI4OCA5NzQuODAyNCkiPjxzdG9wIG9mZnNldD0iMCIgc3R5bGU9InN0b3AtY29sb3I6I0ZGRkZGRjtzdG9wLW9wYWNpdHk6MCIvPjxzdG9wIG9mZnNldD0iMSIgc3R5bGU9InN0b3AtY29sb3I6I0IzQjNCMyIvPjwvbGluZWFyR3JhZGllbnQ+PHBvbHlnb24gZmlsbD0idXJsKCNTVkdJRF8yXykiIHBvaW50cz0iMzAuNywxMC41IDM0LjcsMTEuOSAzNC4yLDEwLjYgMzAuMyw5LjMiLz48cGF0aCBmaWxsPSIjRTZFNkU2IiBkPSJNMjcuOTY0IDUuNjIxYy0wLjA2My0wLjkwMSAwLjE2Ny0xLjYzMyAwLjY3Ni0yLjEwNmMwLjY0Ni0wLjU5NSAxLjY1NC0wLjcxMiAyLjg0OC0wLjM0MSBjMS4yMiAwLjQgMi41IDEuMiAzLjUgMi4zODFjMS4wODEgMS4yIDEuOCAyLjUgMi4xIDMuNzc0YzAuMjc3IDEuMiAwLjEgMi4yNS0wLjU2NyAyLjggYy0wLjQ5NCAwLjQ1OC0xLjIxNyAwLjYzMy0yLjA2NiAwLjUxN2MwLjI5OSAwLjEgMC42IDAuMiAwLjkgMC4yOTNjMC41NTMtMC4wNjMgMS4wMjktMC4yNiAxLjQwMS0wLjYwNCBjMC43MjgtMC42NjggMC45NTMtMS43NzEgMC42NS0zLjExMWMtMC4yOTEtMS4zMTMtMS4wNjgtMi42OTYtMi4xOC0zLjkwMWMtMS4xLTEuMTkxLTIuMzk4LTIuMDY1LTMuNjY0LTIuNDYgYy0xLjI5LTAuNC0yLjQwMi0wLjI2LTMuMTE3IDAuNDAxYy0wLjM4NiAwLjM1NC0wLjYyOCAwLjgzNC0wLjcyNCAxLjQwNkMyNy43ODIgNSAyNy45IDUuMyAyOCA1LjYyMXoiLz48Zz48cGF0aCBmaWxsPSIjRTZFNkU2IiBkPSJNMjcuNjUxIDIuNTg0YzAuMTEzLTAuMTg4IDAuMjUxLTAuMzY3IDAuNDEzLTAuNTE4YzAuODA1LTAuNzQ0IDIuMDY5LTAuODk2IDMuNTY2LTAuNDI4IGMxLjUyMiAwLjUgMy4xIDEuNSA0LjQgMi45NjdjMS4zNCAxLjUgMi4zIDMuMSAyLjYgNC43MDNjMC4zNDggMS42IDAuMSAyLjgxNS0wLjcyMyAzLjYgYy0wLjE1MiAwLjE0Ni0wLjMzNiAwLjI2LTAuNTI1IDAuMzYxYzAuMjI0LTAuMDE3IDAuNDIxLTAuMDM4IDAuNjA0LTAuMDY3YzAuMDMzLTAuMDM0IDAuMDc2LTAuMDU4IDAuMTExLTAuMDkyIGMwLjg4Ni0wLjgxOSAxLjE3NC0yLjE3NyAwLjgwMS0zLjgzMmMtMC4zNjUtMS42MjQtMS4zMjYtMy4zMzgtMi42OTgtNC44MjdjLTEuMzYtMS40NzctMi45NzYtMi41Ni00LjU0LTMuMDQ2IGMtMS41OTktMC40OTYtMi45NTktMC4zMjMtMy44MzcgMC40OWMtMC4wNCAwLjAzNi0wLjA3MyAwLjA3Ni0wLjEwNCAwLjExM0MyNy43MjcgMi4yIDI3LjcgMi40IDI3LjcgMi41ODR6Ii8+PC9nPjxnPjxnPjxwYXRoIGZpbGw9IiNGMUYyRjIiIGQ9Ik0zMC4wNzggOS4wNTVjLTAuMDg1IDAuMDg2LTAuMTI0IDAuMjI3LTAuMDc5IDAuNDA3YzAuMDc5IDAuNCAwLjQgMC44IDAuOCAwLjkgYzAuMTc2IDAuMSAwLjMgMCAwLjQxNC0wLjA1M2w0LjIxNS00LjEyMWwtMC44OTEtMC45NjVMMzAuMDc4IDkuMDU1eiIvPjxwYXRoIGZpbGw9IiNFNkU2RTYiIGQ9Ik0zNS4wODkgNi4xOTFjLTAuMjgxLTAuMDg5LTAuNTYzLTAuMzk0LTAuNjI5LTAuNjgyYy0wLjA2NC0wLjI4NyAwLjEwOS0wLjQ1MyAwLjM5My0wLjM2MyBjMC4yODEgMC4xIDAuNiAwLjQgMC42IDAuNjc5QzM1LjU0MiA2LjEgMzUuNCA2LjMgMzUuMSA2LjE5MXoiLz48L2c+PGNpcmNsZSBmaWxsPSIjRkZCODNCIiBjeD0iMzUuNCIgY3k9IjUuMiIgcj0iMC44Ii8+PHBhdGggZmlsbD0iI0YxRjJGMiIgZD0iTTM5LjEyNCAxMi44MjRjMCAwLTMuNTM5IDIuMDY1LTguNjg1LTIuOTVjLTQuNTg4LTUuNTM0LTIuMjQ1LTguOS0yLjI0NS04LjkgYy0xLjg5IDEuNzQ0LTEuNTggNy44IDAuNCAxMC4xMTV2MC4wMDFoMC4wMDhsMC4wMDIgMC4wMDd2LTAuMDA0QzMwLjgwMyAxMy4zIDM3LjIgMTQuNiAzOS4xIDEyLjgyNHoiLz48L2c+PC9nPjwvZz48Zz48cGF0aCBmaWxsPSIjRkZCODNCIiBkPSJNOS4zMDQgNDEuMjcxYzAgMC40MjctMC4xMzUgMC42ODQtMC40IDAuNzY4Yy0wLjI3IDAuMDgzLTAuNjM1LTAuMDA3LTEuMDk1LTAuMjcxIGMtMC40OTctMC4yODktMC44ODItMC41ODQtMS4xNTItMC44OWwwLjAwMy0wLjU0NGMwLjE3MiAwLjIgMC40IDAuNCAwLjYgMC41MjRjMC4yMDMgMC4yIDAuNCAwLjMgMC42IDAuNCBjMC4zMjQgMC4yIDAuNiAwLjMgMC43IDAuMjExYzAuMTY2LTAuMDQ3IDAuMjQ4LTAuMTk5IDAuMjQ1LTAuNDUzYzAuMDAzLTAuMTY5LTAuMDI3LTAuMzI0LTAuMDg3LTAuNDY1IGMtMC4wNTktMC4xNDMtMC4xNTMtMC4yOTctMC4yOTQtMC40NjdjLTAuMTM2LTAuMTctMC4zNDUtMC4zOTQtMC42MjYtMC42N2MtMC4zOTEtMC4zODktMC42NzEtMC43NDItMC44NC0xLjA2MiBjLTAuMTY2LTAuMzE3LTAuMjUtMC42NTYtMC4yNS0xLjAxMmMwLTAuMzc1IDAuMTIzLTAuNjA0IDAuMzYzLTAuNjg2YzAuMjQ3LTAuMDc4IDAuNTY3LTAuMDAzIDEgMC4yIGMwLjQyIDAuMiAwLjggMC42IDEuMiAwLjkzMmwtMC4xNTIgMC40MDNjLTAuMzQ2LTAuMzY4LTAuNjg2LTAuNjQ2LTEuMDExLTAuODM3Yy0wLjI1OS0wLjE1LTAuNDYyLTAuMjAzLTAuNjA4LTAuMTU4IGMtMC4xNDQgMC4wNDUtMC4yMTcgMC4xOC0wLjIxNyAwLjQwOWMwIDAuMiAwIDAuMyAwLjEgMC40NmMwLjA1MiAwLjEgMC4xIDAuMyAwLjMgMC41IGMwLjEzMSAwLjIgMC4zIDAuNCAwLjYgMC42MzVjMC40NDEgMC40IDAuNyAwLjggMC45IDEuMTExQzkuMjIyIDQwLjYgOS4zIDQwLjkgOS4zIDQxLjI3MXoiLz48cGF0aCBmaWxsPSIjRkZCODNCIiBkPSJNMTEuNDYgNDMuODA4bC0wLjQ4Ny0wLjI4M3YtNC4zNTZsLTEuMzMyLTAuNzd2LTAuNTAybDMuMTU0IDEuODJsLTAuMDAzIDAuNTAxbC0xLjMzMi0wLjc2OFY0My44MDh6Ii8+PHBhdGggZmlsbD0iI0ZGQjgzQiIgZD0iTTE3LjA3OSA0NC42MTRjMCAwLjc3OC0wLjE3IDEuMjkyLTAuNTEgMS41NDFjLTAuMzQxIDAuMjQ4LTAuODE0IDAuMTk4LTEuNDItMC4xNTIgYy0wLjYyLTAuMzU3LTEuMTAzLTAuODUzLTEuNDM4LTEuNDg0Yy0wLjMzNi0wLjYzMy0wLjUwNi0xLjM0OS0wLjUwNC0yLjE0NmMtMC4wMDItMC43OTEgMC4xNzEtMS4zMDcgMC41MDgtMS41NDcgczAuODE3LTAuMTgyIDEuNCAwLjE3OGMwLjYwNCAwLjMgMS4xIDAuOCAxLjQgMS40ODFDMTYuOTA5IDQzLjEgMTcuMSA0My44IDE3LjEgNDQuNjE0eiBNMTMuNzI3IDQyLjcgYzAgMC43IDAuMSAxLjIgMC40IDEuNzA4YzAuMjQ1IDAuNSAwLjYgMC45IDEuMSAxLjExOWMwLjQ2OCAwLjMgMC44IDAuMyAxLjEgMC4xIGMwLjIzNy0wLjIwMSAwLjM1OC0wLjYzMiAwLjM1NC0xLjI5M2MwLTAuNjUzLTAuMTE3LTEuMjE4LTAuMzU0LTEuNjkyYy0wLjIzNy0wLjQ3NS0wLjU4OC0wLjg0Ni0xLjA1Mi0xLjExNCBjLTAuNDY5LTAuMjY5LTAuODItMC4zMDMtMS4wNjUtMC4xMDRDMTMuODQ4IDQxLjYgMTMuNyA0MiAxMy43IDQyLjY3OXoiLz48cGF0aCBmaWxsPSIjRkZCODNCIiBkPSJNMTguNTA4IDQ1Ljg1NXYyLjAyMWwtMC40ODktMC4yODR2LTQuODU3bDEuMTUzIDAuNjY4YzAuNTE4IDAuMyAwLjkgMC42IDEuMSAxIGMwLjI0NyAwLjQgMC40IDAuOCAwLjQgMS4yNDNjMCAwLjY0My0wLjI4IDAuOTE1LTAuODQ2IDAuODEzbDEuMTQzIDIuODQ1bC0wLjU3NC0wLjMzNGwtMS4wMjEtMi42MDlMMTguNTA4IDQ1Ljg1NXogTTE4LjUwNyA0NS4zNjlsMC42NzMgMC4zODljMC4zNDMgMC4yIDAuNiAwLjMgMC44IDAuMmMwLjE2LTAuMDY0IDAuMjQyLTAuMjU3IDAuMjQyLTAuNTczIGMwLTAuMzItMC4wODItMC42MDEtMC4yNDctMC44MzdjLTAuMTYzLTAuMjM2LTAuNDI5LTAuNDYtMC43OTItMC42NjlsLTAuNjM0LTAuMzY2TDE4LjUwNyA0NS4zNjl6Ii8+PHBhdGggZmlsbD0iI0ZGQjgzQiIgZD0iTTI0LjAwOSA1MS4wNTJsLTIuMzQ4LTEuMzU1bDAuMDAyLTQuODU4bDIuMzQ2IDEuMzU0bC0wLjAwMSAwLjUwMmwtMS44NTUtMS4wNzN2MS41NjZsMS43NDMgMS4wMDh2MC40OTggbC0xLjc0My0xLjAwOHYxLjc4OGwxLjg1NiAxLjA3MVY1MS4wNTJ6Ii8+PC9nPjwvZz48L3N2Zz4K);
-      background-repeat: no-repeat;
-      background-size:cover;
+
+     header {
+      margin-top: -150px;
+      text-align: center;
+     }
+
+     .profile-img-container {
+      width:20%; 
+      display:inline-block
+     }
+
+     .profile-img {
+      width: 100%;
+     }
+
+     .text-inverse {
+        color:#fff;
+     }
+
+     .header-details {
+      display: inline-block;
+      margin: 0 10px;
+      width: 70px;
+     }
+
+     .page-header {
+      color:#333333;
+      border: none;
+      font-weight: 300;
+      margin: 10px 0 0px;
+      text-shadow: 0 2px 0 #fff;
+     }
+      .stores {
+      padding-top: 10px;
+      max-width: 1000px;
+      margin: auto;
+      text-align: center;
+     }
+
+/*
+     .store-list {
+      list-style: none;
+      padding: 0;
+      line-height: 40px
+     }
+
+     .store-list a {
+      color: #cccccc;
+      font-weight: 600;
+      border-bottom: 1px solid #cccccc;
+      display: block;
+      font-size: 18px; 
+      text-shadow: 0 3px 0 #fff;
+      -webkit-transition: all  .2s;
+       -moz-transition: all  .2s;
+       -ms-transition: all  .2s;
+       -o-transition: all  .2s;
+       transition: all  .2s; 
+     }
+     .store-list a:hover, .store-list a:focus, .store-list a.active {
+      text-decoration: none;
+      color: #77787b;
+      border-bottom: 1px solid #77787b;
+     }
+*/
+
+    .store-menu, .store-menu-mobile {
+      min-height: 42px;
+      height: 42px;
+      margin-bottom: 30px;
+      text-align: left;
     }
-    
-    .icon-app {
-      background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NS4zNTQgNTUuNjA1Ij48Zz48Zz48bGluZWFyR3JhZGllbnQgaWQ9IlNWR0lEXzFfIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9Ii01MDQuNCIgeTE9IjI2My40IiB4Mj0iLTUxMCIgeTI9IjI1NC4xIiBncmFkaWVudFRyYW5zZm9ybT0ibWF0cml4KDEgMCAwIC0xIDUzOS4wNCAyOTguOTQ0OCkiPjxzdG9wIG9mZnNldD0iMCIgc3R5bGU9InN0b3AtY29sb3I6I0ZGRkZGRjtzdG9wLW9wYWNpdHk6MCIvPjxzdG9wIG9mZnNldD0iMSIgc3R5bGU9InN0b3AtY29sb3I6I0IzQjNCMztzdG9wLW9wYWNpdHk6MC44Ii8+PC9saW5lYXJHcmFkaWVudD48cG9seWdvbiBmaWxsPSJ1cmwoI1NWR0lEXzFfKSIgcG9pbnRzPSIzNiw0OS4zIDQ1LjQsNDQgMjYuNiwzMy4xIDE3LjYsMzcuNiIvPjxnPjxwYXRoIGZpbGw9IiNDQ0NDQ0MiIGQ9Ik0zNi4zOCAxNC4xMTRWNDkuNDFsLTEwLjQ4NiA2LjEwM1YzMi4yMzZDMjUuODk0IDMyLjIgMjUuOCAyMS4yIDM2LjQgMTQuMTE0eiIvPjxwYXRoIGZpbGw9IiMxQ0I1RUEiIGQ9Ik0zNi40MjUgMTQuMDY3TDE0LjI1OCAxLjI0N2MtOS4zNTQgNi0xMC4zNyAxNS42MS0xMC40NzkgMTcuNjk2bDIyLjExNCAxMi44IEMyNS44OTkgMzEuNCAyNi4xIDIxLjEgMzYuNCAxNC4wNjd6Ii8+PHBhdGggZmlsbD0iI0ZGRkZGRiIgZD0iTTMuNzYxIDE5LjM2OUwzLjcyMiA0Mi42ODZsMjIuMTcxIDEyLjgyNlYzMS43ODN2LTAuMDI5TDMuNzgxIDE4LjkgQzMuNzYzIDE5LjIgMy44IDE5LjQgMy44IDE5LjM2OXoiLz48Zz48cGF0aCBmaWxsPSIjRTZFNkU2IiBkPSJNMjYuMzg2IDkuMjY0YzMuMjUyIDAgNiAzLjQgNiAzLjQyNGMwLjAxNSAwLjg4Ny0wLjU2NSAxLjc3MS0xLjczMyAyLjQgYy0yLjMyOCAxLjM0NC02LjEwNCAxLjMzNS04LjQ0OS0wLjAxNWMtMS4zMDUtMC43NTUtMS44ODUtMS43NjktMS43MzgtMi43NUMyMC40MzkgMTIuNCAyMSA5LjMgMjYuNCA5LjI2NHoiLz48Zz48cGF0aCBmaWxsPSIjQ0NDQ0NDIiBkPSJNMzEuMDMyIDEzLjI0MWMtMy40NTUtMS4wNzYtNi45MDMtNC44MjMtNy43MDItOC4zNzVjLTAuODAyLTMuNTQ5IDEuMzQ4LTUuNTU4IDQuODA0LTQuNDgxIGMzLjQ1NSAxLjEgNi45IDQuOCA3LjcgOC4zNzhDMzYuNjM0IDEyLjMgMzQuNSAxNC4zIDMxIDEzLjI0MXoiLz48bGluZWFyR3JhZGllbnQgaWQ9IlNWR0lEXzJfIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9Ii0xMDYwLjMiIHkxPSIyNzMuNCIgeDI9Ii0xMDYyLjUiIHkyPSIyNjkuNyIgZ3JhZGllbnRUcmFuc2Zvcm09Im1hdHJpeCgwLjY3ODIgMC43MzQ5IDAuNzM0OSAtMC42NzgyIDU0OC45Mjg4IDk3NC44MDI0KSI+PHN0b3Agb2Zmc2V0PSIwIiBzdHlsZT0ic3RvcC1jb2xvcjojRkZGRkZGO3N0b3Atb3BhY2l0eTowIi8+PHN0b3Agb2Zmc2V0PSIxIiBzdHlsZT0ic3RvcC1jb2xvcjojQjNCM0IzIi8+PC9saW5lYXJHcmFkaWVudD48cG9seWdvbiBmaWxsPSJ1cmwoI1NWR0lEXzJfKSIgcG9pbnRzPSIyNi41LDEwLjYgMzAuNCwxMiAyOS45LDEwLjcgMjYuMSw5LjQiLz48cGF0aCBmaWxsPSIjRTZFNkU2IiBkPSJNMjMuNzE3IDUuNzE0Yy0wLjA2My0wLjg5OSAwLjE2Ni0xLjYzMiAwLjY3Ni0yLjEwNmMwLjY0Ni0wLjU5MyAxLjY1My0wLjcxMSAyLjg0OC0wLjMzOSBjMS4yMTkgMC40IDIuNSAxLjIgMy41IDIuMzc5YzEuMDgyIDEuMiAxLjggMi41IDIuMSAzLjc3NWMwLjI3NyAxLjIgMC4xIDIuMjQ5LTAuNTY5IDIuOCBjLTAuNDkyIDAuNDU4LTEuMjEzIDAuNjMzLTIuMDY0IDAuNTE2YzAuMjk5IDAuMSAwLjYgMC4yIDAuOSAwLjI5M2MwLjU1My0wLjA2MiAxLjAyOC0wLjI2IDEuMzk5LTAuNjA0IGMwLjcyOC0wLjY2OCAwLjk1My0xLjc3MiAwLjY1Mi0zLjExMmMtMC4yOTEtMS4zMTMtMS4wNy0yLjY5Ni0yLjE4My0zLjkwMUMyOS44OSA0LjMgMjguNiAzLjQgMjcuMyAzIGMtMS4yOTMtMC4zOTgtMi40MDMtMC4yNi0zLjExOCAwLjQwMkMyMy44MiAzLjggMjMuNiA0LjIgMjMuNSA0LjgxQzIzLjUzNyA1LjEgMjMuNiA1LjQgMjMuNyA1LjcxNHoiLz48Zz48cGF0aCBmaWxsPSIjRTZFNkU2IiBkPSJNMjMuNDAyIDIuNjc3YzAuMTE1LTAuMTg4IDAuMjUyLTAuMzY3IDAuNDE0LTAuNTE4YzAuODA2LTAuNzQ1IDIuMDY5LTAuODk1IDMuNTY1LTAuNDI3IGMxLjUyMiAwLjUgMy4xIDEuNSA0LjQgMi45NjZjMS4zNCAxLjUgMi4zIDMuMSAyLjYgNC43MDNjMC4zNDcgMS42IDAuMSAyLjgxNS0wLjcyMSAzLjYgYy0wLjE1NCAwLjE0Ni0wLjMzOCAwLjI2MS0wLjUyNSAwLjM2MWMwLjIyMi0wLjAxNiAwLjQyLTAuMDM4IDAuNjAzLTAuMDY2YzAuMDM1LTAuMDM0IDAuMDc2LTAuMDU5IDAuMTEzLTAuMDkyIGMwLjg4NS0wLjgxOSAxLjE3Mi0yLjE3NyAwLjc5OS0zLjgzMmMtMC4zNjMtMS42MjQtMS4zMjYtMy4zMzgtMi42OTktNC44MjhjLTEuMzU5LTEuNDc3LTIuOTc1LTIuNTYtNC41MzktMy4wNDUgYy0xLjYtMC40OTYtMi45NTgtMC4zMjEtMy44MzcgMC40OWMtMC4wMzcgMC4wMzYtMC4wNyAwLjA3NS0wLjEwNCAwLjExM0MyMy40OCAyLjMgMjMuNCAyLjUgMjMuNCAyLjY3N3oiLz48L2c+PGc+PGc+PHBhdGggZmlsbD0iI0YxRjJGMiIgZD0iTTI1LjgyOSA5LjE0OGMtMC4wODQgMC4wODUtMC4xMjMgMC4yMjgtMC4wNzYgMC40MDljMC4wNzYgMC40IDAuNCAwLjggMC44IDAuOSBjMC4xNzYgMC4xIDAuMyAwIDAuNDE2LTAuMDUzbDQuMjE1LTQuMTJsLTAuODkxLTAuOTY2TDI1LjgyOSA5LjE0OHoiLz48cGF0aCBmaWxsPSIjRTZFNkU2IiBkPSJNMzAuODQxIDYuMjg1Yy0wLjI4MS0wLjA4OS0wLjU2MS0wLjM5My0wLjYyNy0wLjY4Yy0wLjA2Ni0wLjI4OSAwLjEwNi0wLjQ1NSAwLjM5My0wLjM2NSBjMC4yNzkgMC4xIDAuNiAwLjQgMC42IDAuNjc4QzMxLjI5NiA2LjIgMzEuMSA2LjQgMzAuOCA2LjI4NXoiLz48L2c+PHBhdGggZmlsbD0iI0ZGQjgzQiIgZD0iTTMxLjY5NiA1LjkwMWMtMC4zMTEgMC4yODUtMC43ODggMC4yNjYtMS4wNzUtMC4wNDVzLTAuMjY3LTAuNzkyIDAuMDQ1LTEuMDc3IGMwLjMwNS0wLjI4OCAwLjc4Ny0wLjI3IDEuMSAwLjA0MkMzMi4wMjYgNS4xIDMyIDUuNiAzMS43IDUuOTAxeiIvPjxwYXRoIGZpbGw9IiNGMUYyRjIiIGQ9Ik0zNC44NzggMTIuOTE3YzAgMC0zLjU0MSAyLjA2NS04LjY4Ny0yLjk1Yy00LjU4Ny01LjUzMy0yLjI0Mi04Ljg5OS0yLjI0Mi04Ljg5OSBjLTEuODkgMS43NDQtMS41ODMgNy44IDAuNCAxMC4xMTZ2MC4wMDFoMC4wMDZsMC4wMDUgMC4wMDZ2LTAuMDAzQzI2LjU1OCAxMy40IDMzIDE0LjcgMzQuOSAxMi45MTd6Ii8+PC9nPjwvZz48L2c+PGc+PHBhdGggZmlsbD0iIzFDQjVFQSIgZD0iTTEwLjU4OCAzNi4xNjRMNy42NCAzNC40NjNsLTAuNjYyIDEuNjc5bC0wLjU0OS0wLjMxNGwyLjQ0My01Ljk3OWwwLjQ5OSAwLjI5bDIuNDMgOC43ODdsLTAuNTUtMC4zMTcgTDEwLjU4OCAzNi4xNjR6IE03LjgxNiAzNC4wMjNsMi41OTggMS41MDFsLTEuMjc5LTQuNzM5bC0wLjAzLTAuMDE2TDcuODE2IDM0LjAyM3oiLz48cGF0aCBmaWxsPSIjMUNCNUVBIiBkPSJNMTMuMzEgMzYuNzN2My4wNjVsLTAuNTIxLTAuMzAxdi03LjM5MUwxNSAzMy4zODVjMC42NzkgMC40IDEuMiAwLjkgMS42IDEuNSBjMC4zNjYgMC42IDAuNiAxLjIgMC42IDEuODg2YzAgMC42NTctMC4xODggMS4wNzUtMC41NTQgMS4yNTJjLTAuMzcyIDAuMTgyLTAuODk1IDAuMDcxLTEuNTctMC4zMTZMMTMuMzEgMzYuNzN6IE0xMy4zMSAzNi4yMTFMMTUgMzcuMTg4YzAuNTI3IDAuMyAwLjkgMC40IDEuMiAwLjIyNWMwLjI2Ni0wLjE1MiAwLjM5OC0wLjQ2OSAwLjM5OC0wLjkzOCBjMC0wLjQ3NC0wLjEzLTAuOTQyLTAuMzk4LTEuNDA4Yy0wLjI2NS0wLjQ2Ny0wLjY2Mi0wLjg1NC0xLjE5OC0xLjE2MmwtMS42OS0wLjk3M1YzNi4yMTF6Ii8+PHBhdGggZmlsbD0iIzFDQjVFQSIgZD0iTTE4LjkxNiAzOS45NjN2My4wNzJMMTguMzkgNDIuNzN2LTcuMzlsMi4yMTYgMS4yODFjMC42NzUgMC40IDEuMiAwLjkgMS42IDEuNSBjMC4zNyAwLjYgMC42IDEuMiAwLjYgMS44ODVjMCAwLjY1NC0wLjE4NyAxLjA3NC0wLjU1NyAxLjI1MmMtMC4zNzIgMC4xNzktMC44OTYgMC4wNzItMS41NjgtMC4zMTVMMTguOTE2IDM5Ljk2M3ogTTE4LjkxNiAzOS40NDVsMS42ODggMC45NzdjMC41MzMgMC4zIDAuOSAwLjQgMS4yIDAuMjI2YzAuMjcxLTAuMTU0IDAuNDAyLTAuNDY3IDAuNDAyLTAuOTM4IGMwLTAuNDc1LTAuMTMyLTAuOTQyLTAuMzk5LTEuNDA4Yy0wLjI2MS0wLjQ2OS0wLjY2My0wLjg1NC0xLjE5Ni0xLjE2MWwtMS42ODgtMC45NzhWMzkuNDQ1eiIvPjwvZz48L2c+PC9nPjwvZz48L3N2Zz4=);
-      background-repeat: no-repeat;
-      background-size:cover;
+
+    .navbar-default , .store-menu-mobile .form-control {
+      background-color: #f8f8f8;
+      background-image:linear-gradient(#fff, #f5f5f6);
+      -webkit-box-shadow: 0 2px 2px rgba(0,0,0,.2);
+      -moz-box-shadow: 0 2px 2px rgba(0,0,0,.2);
+      box-shadow: 0 2px 2px rgba(0,0,0,.2);
+      -webkit-border-radius: 10px;
+      -moz-border-radius: 10px;
+      border-radius: 10px;
+      border-bottom: 1px solid #fff; 
+      border: none;    
     }
-   
+    .navbar-default .navbar-nav>li>a {
+      color:#cccccc;
+      font-size: 18px;
+      text-shadow: 0 1px 0 #fff;
+      font-weight: 400;
+      padding: 10px 15px 11px;
+    }
+    .navbar-default .navbar-nav >li>a.disabled {
+      color: #8a8c8e;
+      padding-right: 20px;
+      border-right: 1px solid #e6e6e6;
+    }
+    .navbar-default .navbar-nav>li>a.active, .store-menu-mobile .form-control {
+      font-weight: 600;
+      color: #636466;
+    }
+
+     .appstore-app {
+      display: inline-block;
+      cursor: pointer;
+      width: 225px;
+      height: 160px;
+      background: #fff;
+      padding: 10px;
+      text-align: left;
+      border-bottom: 2px solid #f1f2f2;
+      -webkit-box-shadow: 0 2px 2px rgba(0,0,0,.3);
+      -moz-box-shadow: 0 2px 2px rgba(0,0,0,.3);
+      box-shadow: 0 2px 2px rgba(0,0,0,.3);
+      -webkit-border-radius: 5px;
+      -moz-border-radius: 5px;
+      border-radius: 5px;
+      margin: 0 1% 30px;
+      -webkit-transition: all .2s;
+      -moz-transition: all .2s;
+      -ms-transition: all .2s;
+      -o-transition: all .2s;
+      transition: all .2s;
+     }
+
+     .appstore-app:hover {
+      -webkit-transform: scale(1.1);
+     }
+     .appstore-app div {
+      display: inline-block;
+      vertical-align: top;
+     }
+
+     .app-header {
+      display: inline-block;
+      width: 120px;
+      padding-bottom: 5px;
+     }
+
+     .appstore-app h3 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+      display: block;
+      overflow: hidden;
+      height: 40px;
+      line-height: 1.2;
+      text-transform: uppercase;
+      margin-bottom: 7px;
+     }
+
+     .app-icon {
+      -webkit-background-size: cover;
+      background-size: cover;
+      width: 69px;
+      height: 69px;
+      margin-right: 10px
+     }
+
+     .app-icon-blue {
+        background-image: url(https://s3.amazonaws.com/3vot.com/images/app-icon-blue.png);   
+     }
+     .app-icon-red {
+        background-image: url(https://s3.amazonaws.com/3vot.com/images/app-icon-red.png);   
+     }
+     .app-icon-green {
+        background-image: url(https://s3.amazonaws.com/3vot.com/images/app-icon-green.png);   
+     }
+
+     .appstore-app p {
+      font-size: 10px;
+      color: #77787b;
+      border-top: 1px solid #e6e6e6;
+      padding-top: 5px;
+      margin-top: 10px;
+     }
+
+     .store-menu-mobile {
+      display: none;
+
+     }
+
+    @media (max-width: 1200px) and (min-width: 0px) {
+      .container {
+        width: 95%;
+      }
+      .navbar-nav {
+        display: inline-block;
+        margin: 0;
+      }
+      .navbar-nav li {
+        display: inline-block;
+      }
+
+      .apps-container {
+        text-align: center;
+      }
+      .appstore-app {
+        text-align: left
+      }
+      .profile-img-container {
+        width: 230px;
+      }
+    }
+
+    @media (max-width: 1024px) and (min-width: 0px){
+      .container {
+        width:90%;
+      }
+
+      .apps-container {
+        display: inline-block;
+        vertical-align: top;
+        text-align: center;
+      }
+      
+      .appstore-app {
+        margin: 0 1% 20px;
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 767px) and (min-width: 0px) {
+      .navbar-header {
+        display: inline-block;
+        float: left
+      }
+      .navbar-right {
+        float: right;
+      }
+      .store-menu {
+        display: none;
+      }
+      .store-menu-mobile{
+        display: block;
+      }
+
+      .market-disabled span {
+        display: none;
+      }
+
+      .apps-container {
+        text-align: center;
+        width:100%;
+      }
+      .appstore-app {
+        text-align: left;
+        width: 47%;
+        height: auto;
+        padding: 10px;
+      }
+      .appstore-app .app-header {
+        width: 58%;
+      }
+      .appstore-app h3 {
+        height: 38px;
+        display: inline-block;
+      }
+      .appstore-app .app-header a {
+        padding: 5px 10px;
+        font-size: 16px;
+      }
+      .appstore-app p {
+        font-size: 12px;
+        margin-bottom: 0;
+      }
+    }
+
+    @media (max-width:480px) and (min-width:0px) {
+      .navbar-inverse {
+        padding: 0;
+      }
+      .navbar-profile-name {
+        display: none;
+      }
+      .navbar-header {
+        display: block;
+        float: none;
+        text-align: center;
+      }
+      .navbar-brand {
+        float: none;
+        display: inline-block;
+        width: 60px;
+        height: 33px;
+        right: 4px;
+        position: relative;
+      }
+      .navbar-right {
+        float: right;
+      }
+      .profile-img-container {
+        width:120px; 
+      }
+      
+      .market-item .market-popover{
+        right: 10px
+      }
+      .profile-container{
+        margin-top: 55px;
+      }
+      header {
+        margin-top: -88px;
+      }
+      .page-header {
+        margin: 5px 0 0px;
+      }
+
+      .market-popover p span{
+        display: block;
+      }
+      .appstore-app .app-icon {
+        width: 80px;
+        height: 80px;
+      }
+      .header-details {
+        margin: 0;
+        width: 25%;
+        text-align: center;
+      }
+      .appstore-app {
+        width: 95%;
+        padding: 20px;
+      }
+
+
+    }
+
   </style>
-</head>
-<body>
-<div class="container">
 
-    <div class="row">
-      <div class="navbar navbar-default navbar-fixed-top " role="navigation">
+  <body>
+    <div class="page">
+
+      <div class="container">
+        <div class="row">
+          <nav class="navbar navbar-inverse col-md-12 col-sm-12 col-xs-12" role="navigation">
+            <div class="navbar-header">
+              <a class="navbar-brand logo" href="#"></a>
+            </div>
+            <a href="" class="navbar-link pull-left navbar-profile-name" style="cursor:text"><%= @profile.attributes.name %></a>
+          </nav><!-- Navbar -->
+        </div><!--Row-->
+      </div><!--Nav .Container-->
+
+      <div class="profile-container">
         <div class="container">
-          <div class="col-md-12 col-sm-12">
-            <div class="col-md-3 col-sm-3">
-             <a class="navbar-brand logo" style="top:-12px;width: 75px;" href="#"></a>
-              <a href="#" class="navbar-link pull-left" style="position:relative; top:2px; font-size:12px; color: #fff">Marketplace <span class="icon-marketplace" style="margin:0 10px;height: 29px;width: 17px;display: inline-block;vertical-align: middle;"></span></a>
-            </div>
-            <div class="input-group col-md-9 col-sm-9">
-              <input type="text" class="form-control " placeholder="Search for Organizations and Enterprises" value="">
-              <span class="input-group-addon text-muted glyphicon glyphicon-search" style="display: inline-block;top: 4px;margin-left:-40px;"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          <header>
 
-
-      <div class="row">
-        <div class="col-md-12 col-sm-12">
-          
-          <div class="col-md-3 col-sm-3 profile-sidebar-3vot" >
-            <div class="profile-info-3vot" data-spy="affix" data-offset-top="0">
-              <div class="row">
-                <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
-                  <h2 class="" style=""><%= @profile.attributes.name %></h2>
-                  <br>
-                </div>
+            <div class="row">
+              <div class="text-center text-inverse header-details" >
+                <img src="https://s3.amazonaws.com/3vot.com/images/3vot-icon-cloud.png" alt="" style="width:25px; display:block; margin:auto">
+                <span>Apps</span>
               </div>
-
-              <div class="row">
-                <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
-                  <div class="text-center pull-left" style="margin: 0 5%">
-                    <div class="icon-store" style="height: 40px;width: 30px;margin: auto;"></div>
-                    <span style="color:#ffb83b; font-size:12px">2 Stores</span>
-                  </div>
-                  <div class=" text-center pull-left" style="margin: 0 5%">
-                   <div class="icon-app" style="height: 40px;width: 30px;margin: auto;"></div>
-                    <span style="color:#1cb5ea; font-size:12px">2 Apps</span>
-                  </div>
-                </div>
+              <div class="text-center profile-img-container">                
+                <img class="profile-img" src="https://s3.amazonaws.com/3vot.com/images/3vot-profile-img.png" alt="">
               </div>
+              <div class="text-center text-inverse header-details" >
+                <img src="https://s3.amazonaws.com/3vot.com/images/3vot-icon-cloud.png" alt="" style="width:35px; display:block; margin:auto">
+                <span>Stores</span>
+              </div>
+            </div><!-- Row -->
 
-              <div class="row">
-                <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1" >
-                  <p class="text-muted">
-                    <br>                
-                    Write a small introduction  for your profle &nbsp;  <span class="glyphicon glyphicon-pencil"></span>
-                    <br><br>
+            <div class="row">
+              <h1 class="page-header"><%= @profile.attributes.name %></h1>
+              <p style="font-size: 18px;color: #8a8c8e;">Welcome to our profile. <span>Select the app you want to use.</span></p>
+            </div><!-- Row -->
+
+          </header>
+
+          <section class="stores">
+            
+            <div class="row">
+              <div class="store-menu navbar navbar-default col-md-12" role="navigation">
+                <ul class="nav navbar-nav">
+                  <li><a href="#" class="disabled">Stores</a></li>
+                </ul>
+                <ul class="nav navbar-nav">
+                  <% for store in @stores: %>
+                    <li><a href=""><%= store.attributes.name %></a></li>
+                  <% end %>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                  <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                      <img class="small-icon" src="https://s3.amazonaws.com/3vot.com/images/3vot-icon-arrowdown.png" alt="">
+                    </a>
+                    <ul class="dropdown-menu">
+                       <% for store in @stores: %>
+                        <li><a href=""><%= store.attributes.name %></a></li>
+                      <% end %>
+                    </ul>
+                  </li>
+                </ul>
+              </div><!-- Store Menu Navbar -->
+
+              <div class="store-menu-mobile">
+                <select name="" id="input" class="form-control">
+                  <option value="">All Apps</option>
+                   <% for store in @stores: %>
+                    <option value=""><%= store.attributes.name %></option>
+                  <% end %>
+                </select>
+              </div><!-- Store Menu Mobile-->
+
+            </div>
+            <div class="row">
+              <div class="apps-container">
+              
+                <% for app in store.attributes?.apps: %>
+                <div class="appstore-app">
+                  <div class="app-icon app-icon-blue"></div>
+                  <div class="app-header">
+                    <h3><%= app.name %></h3>
+                    <a href="" class="btn btn-xs btn-warning">Open App <img class="small-icon" src="https://s3.amazonaws.com/3vot.com/images/3vot-icon-arrowright.png" alt=""></a>
+                  </div>
+                  <p><%= app.description %>
                   </p>
                 </div>
+                <% end %>
+                
               </div>
-
-              <div class="row">
-                <div class="col-md-10 col-md-offset-1 col-sm-offset-1" style="border-bottom:1px solid #e6e6e6"><span></span></div>
+               
               </div>
-
-              <div class="row">
-                <div class="col-md-12 text-center col-sm-10">
-                  <br>
-                  <div class="icon-store" style="display: inline-block; width: 50px; height: 60px; vertical-align: middle;"></div>
-                  <h4 style="color:#ffb83b;display: inline-block;">Stores</h4>
-                  <br><br>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
-                  <% for store in @stores: %>
-
-                    <a href="#<%= store.attributes.name %>"class="btn btn-default btn-block"><%= store.attributes.name %></a>
-                  <% end %>
-                </div>
-              </div>
-
             </div>
-          </div>
-          
-          <div class="col-md-9 col-sm-9" >
-              <div class="appstore-search" data-spy="affix" data-offset-top="0"><!-- Affix -->
-              <div class="" style="margin-top:15px;" >
-                <div class="row">
-                  <div class="" >
-                    <h4 style="margin-top:8px; color:#1cb5ea;" class="pull-left">
-                      <span class="glyphicon glyphicon-search pull-left" style="margin: 0 10px;"></span>
-                      Search for Apps &nbsp;
-                    </h4>
-                  </div>
-                  <div class="input-group">
-                    <input type="text" class="form-control " placeholder="Write an the name of an app or category" value="">
-                    <span class="input-group-addon glyphicon glyphicon-search" style="position:relative; left:-40px; top: 1px;"></span>
-                  </div>
-                </div>
-              </div> 
-              </div>
 
-            <section style="padding-top:70px;padding-bottom:200px">
-          
-              <div class="row">
-                <div class="col-md-12 col-sm-12">
-                  <% for store in @stores: %>
-
-                  <div class="row">
-                    <div class="col-md-12 col-sm-12">
-                      <h5 style="font-weight:600;" class="appstore-name"><span class="scroll-toid" id="<%= store.attributes.name %>"> &nbsp;</span><span class="icon-store" style="height: 40px;width: 30px;display: inline-block;vertical-align: middle;margin: 0 10px;"></span><%= store.attributes.name %></h5>
-                    </div>
-                  </div>
-
-                  <div class="appstore">
-                     <div class="row">
-                      <div class="col-md-12 col-sm-12">
-
-                      <% for app in store.attributes?.apps: %>
-
-                        <div class="appstore-app-container">
-                          <a href="<%= app.name + "?store=" + store.attributes.name %>" class="appstore-app public text-center" >
-                            <span class="appstore-app-icon icon-app" style="height: 65px;width: 55px;display: inline-block;"></span>
-                            <h4 class="appstore-app-name"><%= app.name %></h4>
-                            <p class="appstore-app-description"><%= app.description %></p>
-                          </a>
-                          <h6 class="text-muted text-center" style="margin:0px; color:#cccccc"><%= @profile.attributes.name %></h6>
-                        </div>
-
-                      <% end %>
-
-                      </div>
-                    </div>
-                  </div>
-
-                  <% end %>
-                 
-                </div>
-              </div>
-
-            </section>
-          </div>
+          </section>
 
         </div>
+          
       </div>
-  </div><!-- Container -->
+
+    </div><!-- Container -->
 
     <script src="https://code.jquery.com/jquery.js"></script>
-  <script>
-
-    $( document ).ready(function() {
- 
-      $('.appstore-search').on('affix.bs.affix', function (e) {
-        $('.appstore-search').addClass('appstore-search-affix');
-      })
-
-      $('.appstore-search').on('affixed-top.bs.affix', function (e) {
-        $('.appstore-search').removeClass('appstore-search-affix');
-      })
- 
-    });
-
-  </script>
-  <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-</body>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+  </body>
 </html>
