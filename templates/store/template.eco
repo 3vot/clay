@@ -1,7 +1,7 @@
 <html>
 
   <head>
-    <title>3VOT - Profile</title>
+    <title>3VOT - <%= @profile.marketing.name %></title>
     <link rel='shortcut icon' type='image/x-icon' href='https://s3.amazonaws.com/3vot.com/images/favicon.ico' />
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link rel="stylesheet" media="screen" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
@@ -505,7 +505,7 @@
             <div class="navbar-header">
               <a class="navbar-brand logo" href="#"></a>
             </div>
-            <a href="" class="navbar-link pull-left navbar-profile-name" style="cursor:text"><%= @profile.attributes.name %></a>
+            <a href="" class="navbar-link pull-left navbar-profile-name" style="cursor:text"><%= @profile.marketing.name %></a>
           </nav><!-- Navbar -->
         </div><!--Row-->
       </div><!--Nav .Container-->
@@ -529,7 +529,7 @@
             </div><!-- Row -->
 
             <div class="row">
-              <h1 class="page-header"><%= @profile.attributes.name %></h1>
+              <h1 class="page-header"><%= @profile.marketing.name %></h1>
               <p style="font-size: 18px;color: #8a8c8e;">Welcome to our profile. <span>Select the app you want to use.</span></p>
             </div><!-- Row -->
 
@@ -544,7 +544,7 @@
                 </ul>
                 <ul class="nav navbar-nav">
                   <% for store in @stores: %>
-                    <li><a href=""><%= store.attributes.name %></a></li>
+                    <li><a href=""><%= store.marketing.name %></a></li>
                   <% end %>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -554,7 +554,7 @@
                     </a>
                     <ul class="dropdown-menu">
                        <% for store in @stores: %>
-                        <li><a href=""><%= store.attributes.name %></a></li>
+                        <li><a href=""><%= store.marketing.name %></a></li>
                       <% end %>
                     </ul>
                   </li>
@@ -565,7 +565,7 @@
                 <select name="" id="input" class="form-control">
                   <option value="">All Apps</option>
                    <% for store in @stores: %>
-                    <option value=""><%= store.attributes.name %></option>
+                    <option value=""><%= store.marketing.name %></option>
                   <% end %>
                 </select>
               </div><!-- Store Menu Mobile-->

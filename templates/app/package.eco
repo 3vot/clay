@@ -1,10 +1,10 @@
 {
-	"name": "<%= @name %>",
+	"name": "<%= @app.name %>",
 	"description": "",
-	"version": "0.0.1",
-	"profile": "<%= @profile.get("username") %>",
+	"version": "1",
+	"profile": "<%= @options.user_name %>",
 	"threevot": {
-	  "displayName" : "<%= @name %>",
+	  "displayName" : "<%= @app.name %>",
     "size" : "small",
   	"private": false,
   	"privateCode": "",

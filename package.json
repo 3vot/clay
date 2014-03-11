@@ -34,10 +34,13 @@
     "superagent": "~0.16.0",
     "coffeeify": "~0.5.2",
     "brfs": "0.0.8",
-    "browserify-eco": "~0.2.4"
+    "browserify-eco": "~0.2.4",
+    "3vot-model": "0.0.20"
   },
   "devDependencies": {
     "mocha": "~1.17.0",
-    "should": "~3.0.1"
+    "should": "~3.0.1",
+    "nock": "~0.27.2",
+    "sinon": "~1.9.0"
   }
 }

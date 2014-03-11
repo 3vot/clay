@@ -2,7 +2,7 @@ var _3vot = require("3vot");
 var fs = require("fs");
 var app = require("../code/index.js")
 
-document.body.innerHTML = fs.readFileSync("./apps/<%= @name %>/templates/layout.html");
+document.body.innerHTML = fs.readFileSync("./apps/<%= @app.name %>/templates/layout.html");
 
 var package = require("../package")
 
