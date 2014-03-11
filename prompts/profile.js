@@ -1,7 +1,9 @@
+var prompt = require("prompt")
+var LoadPackage = require("../app/utils/package_loader")
+
 var setup = require("../app/actions/profile_setup")
 var create = require("../app/actions/profile_create")
 
-var prompt = require("prompt")
 
 function setup(){
   var options = [ 

@@ -8,7 +8,7 @@ var fs = require("fs");
 var Q = require("q");
 var colors = require('colors');
 
-var Profile = require("../prompts/profile")
+var ProfileQ = require("../prompts/profile")
 
 var Server = require("../src/server")
 
@@ -31,9 +31,9 @@ if(argv.v){
   console.log(pck.version);
 }
 
-else if( argv._.indexOf("profile:setup") > -1 ){ Profile.setup(); } 
+else if( argv._.indexOf("profile:setup") > -1 ){ ProfileQ.setup(); } 
 
-else if( argv._.indexOf("profile:create") > -1 ){ Profile.create(); }
+else if( argv._.indexOf("profile:create") > -1 ){ ProfileQ.create(); }
 
 else if( argv._.indexOf("app:create") > -1 ){ App.create(); }
 
