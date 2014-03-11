@@ -2,9 +2,12 @@ var Path = require("path")
 var fs = require("fs")
 var Q = require("q");
 
-var AwsCredentials = require("../aws/credentials");
 
 var Profile = require("../models/profile")
+
+
+var AwsCredentials = require("../aws/credentials");
+
 
 var profile = {};
 

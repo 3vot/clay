@@ -1,40 +1,25 @@
 #!/usr/bin/env node
 
+require("coffee-script")
 var argv = require('optimist').argv;
 var Path = require('path')
 var prompt = require("prompt")
 var fs = require("fs");
 var Q = require("q");
 var colors = require('colors');
-var Parse = require('parse').Parse;
-
-var Download = require("../src/download")
-var Version = require("../src/version")
-var Upload = require("../src/upload")
-var Setup = require("../src/setup")
-var Install = require("../src/install")
-
-//var Profile = require("../src/profile")
 
 var Profile = require("../prompts/profile")
 
 var Server = require("../src/server")
-var Publish = require("../src/publish")
-
-
-//var Store = require("../src/store")
 
 var Store = require("../prompts/store")
 
 var App = require("../prompts/app")
-//var App = require("../src/app")
 
 var _3Model = require("3vot-model")
 
 _3Model.Model.host = "http://localhost:3002/v1"
 
-
-Parse.initialize( "IOcg1R4TxCDCPVsxAwLHkz8MPSOJfj2lZwdL4BU4", "jOr74Zy7C8VbatIvxoNyt2c03B9hPY7Hc32byA78" );
 
 // *****************
 // CLI

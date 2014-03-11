@@ -2,7 +2,10 @@ _3Model = require("3vot-model")
 
 _3Ajax = require("3vot-model/lib/ajax")
 
+
 Q = require("q")
+
+
 
 class Profile extends _3Model.Model
   @configure "Profile", "user_name", "marketing", "security", "contacts"
