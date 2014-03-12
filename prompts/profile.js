@@ -12,8 +12,7 @@ function setup(){
   
   prompt.start();
   prompt.get( options, function (err, result) {
-    LoadPackage(result)
-    .then(Setup)
+    .then(result)
     .then( function(){ "ok" } )
     .fail( function(err){console.error(err); } );
   });
