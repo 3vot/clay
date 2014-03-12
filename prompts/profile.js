@@ -26,8 +26,7 @@ function create(){
     { name: 'user_name', description: 'username: ( The username, that appears in the url )' }, 
     { name: 'email', description: 'email: ( Your Email, required in order to administer your profile )' }],
     function (err, result) {
-      LoadPackage(result)
-      .then(Create)
+      Create()
       .then( function(profile){ console.log("Profile Created Succesfully".green); console.log( ( "Save your developer key: " + profile.security.public_dev_key ).bold) } )
       .fail( function(err){ console.log("Error creating Profile".red.bold); console.error(err.red); } )
   });
