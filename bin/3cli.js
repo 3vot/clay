@@ -18,9 +18,9 @@ var App = require("../prompts/app")
 
 var _3Model = require("3vot-model")
 
-_3Model.Model.host = "http://localhost:3002/v1"
+//_3Model.Model.host = "http://localhost:3002/v1"
 
-//_3Model.Model.host = "http://threevot-api.herokuapp.com/v1"
+_3Model.Model.host = "http://threevot-api.herokuapp.com/v1"
 
 // *****************
 // CLI
