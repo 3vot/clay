@@ -12,7 +12,7 @@ function setup(){
   
   prompt.start();
   prompt.get( options, function (err, result) {
-    .then(result)
+    Setup(result)
     .then( function(){ "ok" } )
     .fail( function(err){console.error(err); } );
   });
