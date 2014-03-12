@@ -9,11 +9,12 @@ Path = require("path");
 describe '3VOT App', ->
 
   nock.recorder.rec();
-  
+
   it 'should create a profile setup action', (done) ->
     Create( { user_name: "cli_2_test", marketing: { name: "CLI Testing Procedures" }, email: "rr@rr.com" } )
     .fail (error) =>  
-        error.should.equal(""); 
+      throw error
+      error.should.equal(""); 
     .done ->
       done()
       

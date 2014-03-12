@@ -11,25 +11,53 @@ var AwsCredentials = require("../aws/credentials");
 
 var profile = {};
 
+var promptOptions = {
+  public_dev_key: null
+}
+
+var tempVars = {
+  profile: null
+}
+
 function execute(options){
     var deferred = Q.defer();
-    Profile.queryProfile(options.key)
-    .then( function(srcProfile){ profile = srcProfile; return srcProfile; })
+    promptOptions = options;
+    getProfile()
     .then( scaffold )
     .then( installNPM )
     .then (function(){ return deferred.resolve() })
-    .fail( function(err){ return deferred.reject(err) } );
+    .fail( function(err){ throw err; return deferred.reject(err) } );
     return deferred.promise;
   }
+
+function getProfile(){
+  var deferred = Q.defer();
+  
+  
+  callbacks = {
+    done: function(profile){
+      Profile.refresh(profile)
+      tempVars.profile = Profile.last()
+      deferred.resolve(profile);
+    },
+    fail: function(err){
+      deferred.reject(err);
+    }
+  }
+  Profile.callView( "authenticate", { public_dev_key: promptOptions.public_dev_key }, callbacks )
+  
+  return deferred.promise;
+  
+}
 
 function scaffold(){
     console.log("Scaffolding Projects");
     var deferred = Q.defer();
     
     var options = {
-      public_dev_key: profile.security.public_dev_key,
-      user_name: profile.user_name,
-      folder: "3vot_" + profile.get("user_name")
+      public_dev_key: tempVars.profile.security.public_dev_key,
+      user_name: tempVars.profile.user_name,
+      folder: "3vot_" + tempVars.profile.user_name
     }
 
     fs.mkdirSync( Path.join( process.cwd(), options.folder ));
@@ -42,8 +70,8 @@ function scaffold(){
     var gitIgnore = fs.readFileSync(  Path.join( templatesPath, "_.gitignore" ), "utf-8");
     var pckJSON = require( Path.join( templatesPath, "package.json" ));
 
-    _3votJSON.key = options.key;
-    _3votJSON.profile = options.profile;
+    _3votJSON.public_dev_key = tempVars.profile.security.public_dev_key;
+    _3votJSON.user_name = tempVars.profile;
 
     fs.writeFileSync( Path.join(process.cwd(), options.folder, "3vot.json"), JSON.stringify(_3votJSON, null, '\t') );
     fs.writeFileSync( Path.join(process.cwd(), options.folder, "package.json"), JSON.stringify(pckJSON, null, '\t') );
