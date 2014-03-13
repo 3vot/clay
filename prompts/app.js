@@ -24,7 +24,7 @@ function create(callback){
 function download(callback){
   prompt.start();
   prompt.get( [ 
-    { name: 'user_name', description: 'Profile: ( The profile name of the owner of the app )' }, 
+    { name: 'app_user_name', description: 'Profile: ( The profile name of the owner of the app )' }, 
     { name: 'app_name', description: 'App: ( The App you want to Download )' },
     { name: 'app_version', description: 'Version: ( The App version, hit enter for latest )' } ], 
     function (err, result) {
@@ -82,10 +82,10 @@ function install(callback){
 function build(callback){
   prompt.start();
   prompt.get( [ 
-    { name: 'app_name', description: 'App Name ( The name of the app you want to create )' } ], 
+    { name: 'app_name', description: 'App Name ( The name of the app you want to create )' },
+    { name: 'target', description: 'Build Target ( localhost, demo, production )' } ], 
     function (err, result) {
-      LoadPackage(result)
-      .then( Build )
+      Build(result.app_name, result.target)
       .then( function(){ console.log("App Created Succesfully".green); } )
       .then( function(){ if(callback) return callback(); })
       .fail( function(err){console.error(err); } )

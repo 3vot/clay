@@ -38,13 +38,10 @@ function execute(options){
   .then( function(){ return copyKeys(tempVars.app_keys) })
   .then( listDepKeys )
   .then( function(){ return copyKeys(tempVars.dep_keys) })
-  .then( getObjectFromBucket )
-  .then( adjustIndexToProduction )
-  .then( uploadAjustedIndex )
+  .then( listAssetKeys )
+  .then( transformKeys )
   .then(function(){ return deferred.resolve(tempVars.app) } )
-  .fail( 
-    function(err){ return deferred.reject(err); }  
-  )
+  .fail( function(err){ return deferred.reject(err); } )
 
   return deferred.promise;
 }
@@ -81,25 +78,14 @@ function listAppKeys(){
   return deferred.promise;
 }
 
-function listDepKeys(){
-  console.log("Listing Dependency Keys")
-  
-  var deferred = Q.defer();
-  var marker= promptOptions.user_name + "/dependencies" 
-  AwsHelpers.listKeys( promptOptions.paths.demoBucket, marker )
-  .then( function( keys ){ tempVars.dep_keys = keys; return deferred.resolve(keys);  })
-  .fail( function(err){ return deferred.reject(keys); }  );
-  
-  return deferred.promise;
-}
 
-function copyKeys(keys){
+function copyKeys(){
   console.log(("Copying all Keys in Bucket " + promptOptions.paths.demoBucket + " to " + promptOptions.paths.productionBucket ).grey);
   
   var deferred = Q.defer();
   var indexFound = false;
    uploadPromises = []
-   keys.forEach(function(key){
+   tempVars.app_keys.forEach(function(key){
      var newKey = key.Key.replace("_" + promptOptions.app_version, "");
      uploadPromises.push( AwsHelpers.copyKey( promptOptions.paths.productionBucket, promptOptions.paths.demoBucket + "/" + key.Key , newKey ) );
    });
@@ -110,33 +96,84 @@ function copyKeys(keys){
    
    return deferred.promise;
 }
+
+function listAssetKeys(){
+  console.log("Listing Asset Keys")
   
-function getObjectFromBucket(){
+  var deferred = Q.defer();
+  var marker= promptOptions.user_name + "/" + tempVars.app.name + "_" + promptOptions.app_version + "/assets"
+  AwsHelpers.listKeys( promptOptions.paths.demoBucket, marker )
+  .then( function( keys ){ tempVars.asset_keys = keys; return deferred.resolve(keys);  })
+  .fail( function(err){ return deferred.reject(keys); }  );
+  
+  return deferred.promise;
+}
+
+function transformKeys(){
+  var deferred = Q.defer();
+  var transformPromises = []
+  tempVars.asset_keys.forEach(function(key){
+    var productionKey = key.Key.replace("_" + promptOptions.app_version, "");
+
+    if(productionKey.indexOf(".html") > 0 || productionKey.indexOf(".js") > 0 || productionKey.indexOf(".css") > 0 ){
+      transformPromises.push(updateObjectToProduction(productionKey)); 
+    }
+  });
+  
+  tempVars.app_keys.forEach(function(key){
+    var productionKey = key.Key.replace("_" + promptOptions.app_version, "");
+
+    if(productionKey.indexOf(".html") > 0 || productionKey.indexOf(".js") > 0 || productionKey.indexOf(".css") > 0 ){
+      transformPromises.push(updateObjectToProduction(productionKey)); 
+    }
+  });
+  
+  Q.all( transformPromises )
+  .then( function(results){ return deferred.resolve( results ) })
+  .fail( function(error){ return deferred.reject( error ) });
+  
+  return deferred.promise;
+}
+  
+function updateObjectToProduction(key){
+  var deferred = Q.defer();
+  
+  getObjectFromBucket(productionKey)
+  .then( adjustObjectToProduction )
+  .then( uploadObjectToProduction )
+  .then( deferred.resolve )
+  .fail( deferred.reject )  
+  
+  return deferred.promise;
+  
+}
+  
+function getObjectFromBucket(key){
   var deferred = Q.defer();
 
-  AwsHelpers.getObjectFromBucket( promptOptions.paths.productionBucket, promptOptions.user_name + "/" + tempVars.app.name + "/index.html" )
-  .then( function(data){ tempVars.indexFileContents = data; return deferred.resolve(data)  }  )
+  AwsHelpers.getObjectFromBucket( promptOptions.paths.productionBucket, key )
+  .then( function(data){ return deferred.resolve( { data: data, key: key })  }  )
   .fail( function(err){ return deferred.reject(err)  }  )
   
   return deferred.promise;
 }
   
-function adjustIndexToProduction(){
-  console.log(("Adjusting Index File for Production " + promptOptions.paths.demoBucket + " to " +  promptOptions.paths.productionBucket ).grey);
-  tempVars.indexFileContents = Transform.transformToProduction(tempVars.indexFileContents, promptOptions.user_name ,tempVars.app);
-  return tempVars.indexFileContents;
+function adjustObjectToProduction(fileObject){
+  console.log(("Adjusting File for Production " + promptOptions.paths.demoBucket + " to " +  promptOptions.paths.productionBucket ).grey);
+  fileObject.data = Transform.production(fileObject.data, promptOptions.user_name ,tempVars.app);
+  return fileObject;
 }
   
-function uploadAjustedIndex(){
-  console.log(("Uploading Transformed Index File for Production ").grey);
+function uploadObjectToProduction( fileObject ){
+  console.log( ("Uploading Transformed File for Production " ).grey);
   
   var deferred = Q.defer();
   
   AwsHelpers.uploadFile( promptOptions.paths.productionBucket , 
     { 
-      body: tempVars.indexFileContents, 
-      key: promptOptions.user_name + "/" + tempVars.app.name + "/index.html", 
-      path: promptOptions.paths.productionBucket + "/" + promptOptions.user_name + "/" + tempVars.app.name + "_" + promptOptions.app_version + "/index.html" 
+      body: fileObject.data,
+      key: fileObject.key,
+      path: promptOptions.paths.productionBucket + fileObject.key
     }
   ).then(  function(){ return deferred.resolve()  } )
   .fail(  function(){ return deferred.reject()  } )    

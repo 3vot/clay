@@ -32,7 +32,7 @@
 
       var fileToCall = '';
       _3vot.domain = 'demo.3vot.com';
-      _3vot.path = '//' + _3vot.domain + '/' + package.profile + '/' + package.name;
+      _3vot.path = '//' + _3vot.domain + '/<%= @user_name %>/' + package.name;
       
       for(entryKey in entries){ 
         var entryValue = entries[entryKey]; 

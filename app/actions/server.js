@@ -13,6 +13,8 @@ var devDomain = null;
 var Server = {}
 var Builder = require("../utils/builder");
 var Transform = require("../utils/transform")
+var WalkDir = require("../utils/walk")
+var AppBuild = require("./app_build")
 
 module.exports = Server;
 
@@ -42,10 +44,10 @@ Server.startServer = function( domain, callback  ){
     res.send("<h1>Congratulations 3VOT Local Server is Running</h1><h2>Now head to your app @ /YOURORG/YOURAPP</h2>");
   });
 
-  app.get("/" + profile  + "/:appName/assets/:asset", function(req, res) {
+  app.get("/" + profile  + "/:app_name/assets/:asset", function(req, res) {
     var asset = req.params.asset;
-    var appName = req.params.appName;
-    var filePath = Path.join(  process.cwd() , "apps", appName, "app", "assets", asset );
+    var app_name = req.params.app_name;
+    var filePath = Path.join(  process.cwd() , "apps", app_name, "app", "assets", asset );
     res.sendfile(filePath);
   });
 
@@ -58,26 +60,26 @@ Server.startServer = function( domain, callback  ){
           //get App Name From req.Host        
 
           var urlParts = req.headers.referer.split("/")
-          var appName = ""
+          var app_name = ""
           if( urlParts[ urlParts.length -1 ] === "" ){
-            appName = urlParts[ urlParts.length -2 ]
+            app_name = urlParts[ urlParts.length -2 ]
           }
           else{
-            appName = urlParts[ urlParts.length -1 ]
+            app_name = urlParts[ urlParts.length -1 ]
           }
           
-          return res.redirect("/" + profile + "/dependencies/" + appName +  "/build");
+          return res.redirect("/" + profile + "/dependencies/" + app_name +  "/build");
         }
         return res.send(file);    
       }
     );
   });
 
-  app.get("/" + profile  + "/dependencies/:appName/build", 
+  app.get("/" + profile  + "/dependencies/:app_name/build", 
     function(req, res) {
       res.setHeader("Content-Type", "text/javascript");
-      var appName = req.params.appName
-      Builder.buildDependency( appName )
+      var app_name = req.params.app_name
+      Builder.buildDependency( app_name )
       .then( 
         function( contents ){
           return res.send(contents);
@@ -86,33 +88,24 @@ Server.startServer = function( domain, callback  ){
     }
   );
 
-  app.get("/" + profile  + "/:appName/:device", function(req, res) {
+  app.get("/" + profile  + "/:app_name/:entry", function(req, res) {
     res.setHeader("Content-Type", "text/javascript");
-    var device = req.params.device;
-    var appName = req.params.appName;
-    fs.readFile( Path.join(  process.cwd() , "apps", appName, "app", device) , 
-      function(err, contents){
-        if(err){
-          res.status(500);
-          return res.send(err);
-        }
-        res.send(contents)
-      }
-    );
+    var entry = req.params.entry;
+    var app_name = req.params.app_name;
+    var filePath = Path.join(  process.cwd() , "apps", app_name, "app", entry );
+    res.sendfile(filePath);
   });
 
-  app.get("/" + profile  + "/:appName", 
+  app.get("/" + profile  + "/:app_name", 
     function(req, res) {
-      var appName = req.params.appName;
-      pck = require( Path.join( process.cwd(), "apps", appName, "package.json" ) );
-      Builder.buildApp( appName )
-      .then( 
-        function( html ){
-          //Tranforming Index to Localhost
-          html = Transform.transformToLocalhost(html, pck, domain);
-          return res.send( html );
-        } 
-      ).fail( function(err){ res.send( err.toString() ) } );
+      var html = ""
+      var app_name = req.params.app_name;
+      AppBuild( app_name, "localhost", false )
+      .then( function(){ 
+        var filePath = Path.join(  process.cwd() , "apps", app_name, "app", "index.html" );
+        return res.sendfile(filePath);
+      })
+      .fail( function(err){ res.send( err.toString() ) });
     }
   );
 

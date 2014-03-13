@@ -1,58 +1,61 @@
 var _3vot = require("3vot")
 
-function transformToLocalhost(indexFileContents, pck, domain){
+function localhost(fileContents, user_name, app_name, domain){
   var devDomain = domain || "localhost:3000"
-  indexFileContents = indexFileContents.replace("3vot.domain = 'demo.3vot.com';","3vot.domain = '" + devDomain  + "';")
-  indexFileContents = _3vot.utils.replaceAll( indexFileContents,
-    "assets", 
-    ["//" , devDomain , pck.profile, pck.name , "assets"].join("/") 
+
+  //transform domain
+  fileContents = fileContents.replace("3vot.domain = 'demo.3vot.com';","3vot.domain = '" + devDomain  + "';")
+
+  //tranform assets
+  fileContents = _3vot.utils.replaceAll( fileContents,
+    "*/assets", 
+    ["/" , devDomain , user_name, app_name , "assets"].join("/") 
   );
 
-  return indexFileContents;
+  return fileContents;
 }
 
-function transformToDemo(indexFileContents, user_name, app){
-  indexFileContents = indexFileContents.replace(
-    "_3vot.path = '//' + _3vot.domain + '/' + package.profile + '/' + package.name;",
-    "_3vot.path = '//' + _3vot.domain + '/' + package.profile + '/' + package.name + '_' + package.version;"
-  );
-
-  indexFileContents = _3vot.utils.replaceAll( indexFileContents, 
-    "assets", 
-    [ "//", "demo.3vot.com", user_name, app.name + "_" + app.version, "assets"].join("/")
-  );
-
-  indexFileContents = _3vot.utils.replaceAll(indexFileContents , 
-    [ "localhost:3000", user_name, app.name].join("/") ,
-    [ "demo.3vot.com", user_name, app.name + "_" + app.version ].join("/")
-  )
+function demo(fileContents, user_name, app){
   
-  return indexFileContents;
+  //transform path to demo with version number
+  fileContents = fileContents.replace(
+    "_3vot.path = '//' + _3vot.domain + '/cli_2_test/' + package.name;",
+    "_3vot.path = '//' + _3vot.domain + '/" + user_name +" /' + package.name + '_' + package.version;"
+  );
+  
+  //tranform assets
+  fileContents = _3vot.utils.replaceAll( fileContents,
+    "*/assets", 
+    ["//demo.3vot.com" , user_name, app.name + "_" + app.version , "assets"].join("/") 
+  );
+  
+  return fileContents;
 }
 
-function transformToProduction(indexFileContents, user_name, app){
+function production(fileContents, user_name, app){
 
-  indexFileContents = indexFileContents.replace(
+  fileContents = fileContents.replace(
     "_3vot.domain = 'demo.3vot.com';",
     "_3vot.domain = '3vot.com';"
   );
 
-  indexFileContents = indexFileContents.replace(
-    "_3vot.path = '//' + _3vot.domain + '/' + package.profile + '/' + package.name + '_' + package.version;",
-    "_3vot.path = '//' + _3vot.domain + '/' + package.profile + '/' + package.name;"
+  //tranform assets
+  fileContents = _3vot.utils.replaceAll( fileContents,
+    "*/assets", 
+    ["//3vot.com" , user_name, app.name , "assets"].join("/") 
   );
 
-  indexFileContents = _3vot.utils.replaceAll( indexFileContents, 
+  fileContents = _3vot.utils.replaceAll( fileContents, 
     [ "demo.3vot.com", user_name , app.name + "_" + app.version ].join("/"),
     [ "3vot.com", user_name, app.name].join("/") 
   );
 
-  return indexFileContents;
+  return fileContents;
 }
 
 
 module.exports = {
-  transformToProduction: transformToProduction,
-  transformToDemo: transformToDemo,
-  transformToLocalhost: transformToLocalhost
+  production: production,
+  demo: demo,
+  localhost: localhost
 }

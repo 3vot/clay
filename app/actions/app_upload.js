@@ -22,6 +22,9 @@ var _3vot = require("3vot")
 
 var Builder = require("../utils/builder")
 var Transform = require("../utils/transform")
+var AppBuild = require("./app_build")
+
+var WalkDir = require("../utils/walk")
 
 var App = require("../models/app")
 
@@ -46,8 +49,7 @@ function execute(options){
     createApp()
     .then( adjustPackage )
     .then( function(){ return AwsCredentials.requestKeysFromProfile( promptOptions.user_name) })
-    .then( function(){ return Builder.buildApp(promptOptions.app_name) })
-    .then( function(){ return Builder.buildDependency(promptOptions.app_name) })
+    .then( function(){ return AppBuild( promptOptions.app_name, "demo", true ) })
     .then( buildPackage )
     .then( uploadSourceCode )
     .then( uploadAppFiles )
@@ -87,8 +89,8 @@ function adjustPackage(){
   console.info("Adjusting the package.json for your Profile".yellow)
   var pck = require( Path.join( process.cwd(), "apps", tempVars.app.name, "package.json" )  );
   var vot = require( Path.join( process.cwd(), "3vot.json" )  )
-  pck.user_name = vot.user_name;
-  pck.version = "0.0." + tempVars.app.version
+  pck.version = "0.0." + tempVars.app.version;
+  pck.threevot.version = ""+ tempVars.app.version;
 
   fs.writeFile( Path.join( process.cwd(), "apps", tempVars.app.name, "package.json" ), JSON.stringify(pck,null,'\t') , function(err){
     if(err) return deferred.reject(err);
@@ -143,22 +145,15 @@ function uploadSourceCode(){
   return deferred.promise;
 }
 
-
 function uploadAppFiles(){
   console.info("Uploading App to 3VOT Demo".yellow)
   
   var deferred = Q.defer();
-  var _this = this;
 
   uploadPromises = []
-  var apps = walkDir( Path.join( process.cwd(), "apps", tempVars.app.name, "app" ) );
+  var apps = WalkDir( Path.join( process.cwd(), "apps", tempVars.app.name, "app" ) );
 
   apps.forEach( function(path){
-    if(path.name == "index.html"){
-      var file = fs.readFileSync( path.path, "utf-8"  );
-      file = Transform.transformToDemo(file, promptOptions.user_name, tempVars.app);
-      fs.writeFileSync( path.path, file );
-    }
     path.key = promptOptions.user_name + "/" +  tempVars.app.name  +  "_" + tempVars.app.version + "/" + path.name
     uploadPromises.push( AwsHelpers.uploadFile( promptOptions.paths.demoBucket, path ) );
   });
@@ -176,7 +171,7 @@ function uploadAssetsFiles(){
   var deferred = Q.defer();
   var uploadPromises = []
  
-  var assets = walkDir( Path.join( process.cwd(), "apps", tempVars.app.name, "app",  "assets" ) );
+  var assets = WalkDir( Path.join( process.cwd(), "apps", tempVars.app.name, "app",  "assets" ) );
  
   assets.forEach( function(path){
     path.key = promptOptions.user_name + "/" +  tempVars.app.name + "_" + tempVars.app.version + "/assets/" + path.name
@@ -196,7 +191,7 @@ function uploadDependenciesFiles(){
   var deferred = Q.defer();
   var uploadPromises = []
  
-  var deps = walkDir( Path.join( process.cwd(), "apps", "dependencies" ) );
+  var deps = WalkDir( Path.join( process.cwd(), "apps", "dependencies" ) );
  
   deps.forEach( function(path){
     path.key = promptOptions.user_name + "/dependencies/" + path.name
@@ -211,16 +206,6 @@ function uploadDependenciesFiles(){
   
 }
 
-function walkDir(dir) {
-  var results = [];
-  var list = fs.readdirSync(dir);
-  list.forEach(function(sourceFile) {
-    file = Path.join( dir, sourceFile );
-    var stat = fs.statSync(file);
-    if (stat && stat.isDirectory()){ }
-    else{ results.push({path: file, name: sourceFile }); }
-  })
-  return results;
-}
+
 
 module.exports = execute;

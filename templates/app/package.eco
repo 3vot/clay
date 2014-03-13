@@ -2,7 +2,6 @@
 	"name": "<%= @app.name %>",
 	"description": "",
 	"version": "0.0.1",
-	"profile": "<%= @options.user_name %>",
 	"threevot": {
 	  "displayName" : "<%= @app.name %>",
     "size" : "small",
@@ -14,7 +13,7 @@
 			"index": [
 				"desktop",
 				"laptop",
-				"mobile",
+				"phone",
 				"tablet"
 			]
 		},
