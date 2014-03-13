@@ -30,7 +30,7 @@ Server.startServer = function( domain, callback  ){
   
   var app = express();    
   var pck = require( Path.join( process.cwd(), "3vot.json" )  );
-  var profile = pck.profile;
+  var profile = pck.username;
   // all environments
   app.set('port', 3000);
   app.use(express.logger('dev'));
