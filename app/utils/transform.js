@@ -11,7 +11,7 @@ function transformToLocalhost(indexFileContents, pck, domain){
   return indexFileContents;
 }
 
-function transformToDemo(indexFileContents, pck){
+function transformToDemo(indexFileContents, tempVars){
   indexFileContents = indexFileContents.replace(
     "_3vot.path = '//' + _3vot.domain + '/' + package.profile + '/' + package.name;",
     "_3vot.path = '//' + _3vot.domain + '/' + package.profile + '/' + package.name + '_' + package.version;"
@@ -19,12 +19,12 @@ function transformToDemo(indexFileContents, pck){
 
   indexFileContents = _3vot.utils.replaceAll( indexFileContents, 
     "assets", 
-    [ "//", "demo.3vot.com", pck.profile, pck.name + "_" + pck.version, "assets"].join("/")
+    [ "//", "demo.3vot.com", tempVars.options.user_name, tempVars.app.name + "_" + tempVars.app.version, "assets"].join("/")
   );
 
   indexFileContents = _3vot.utils.replaceAll(indexFileContents , 
-    [ "localhost:3000", pck.profile, pck.name].join("/") ,
-    [ "demo.3vot.com", pck.profile , pck.name + "_" + pck.version ].join("/")
+    [ "localhost:3000", tempVars.options.user_name, tempVars.app.name].join("/") ,
+    [ "demo.3vot.com", tempVars.options.user_name, tempVars.app.name + "_" + tempVars.app.version ].join("/")
   )
   
   return indexFileContents;

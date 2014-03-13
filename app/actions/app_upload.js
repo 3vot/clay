@@ -34,7 +34,8 @@ var promptOptions = {
 }
 
 var tempVars = {
-  app: null
+  app: null,
+  options: null
 }
 
 function execute(options){
@@ -42,7 +43,8 @@ function execute(options){
 
     if( !options.paths ) options.paths = { sourceBucket: "source.3vot.com", productionBucket: "3vot.com", demoBucket: "demo.3vot.com"}
     promptOptions= options;
-
+    tempVars.options = options;
+    
     createApp()
     .then( adjustPackage )
     .then( function(){ return AwsCredentials.requestKeysFromProfile( promptOptions.user_name) })
@@ -156,7 +158,7 @@ function uploadAppFiles(){
   apps.forEach( function(path){
     if(path.name == "index.html"){
       var file = fs.readFileSync( path.path, "utf-8"  );
-      file = Transform.transformToDemo(file, tempVars.app.package);
+      file = Transform.transformToDemo(file, tempVars);
       fs.writeFileSync( path.path, file );
     }
     path.key = promptOptions.user_name + "/" +  tempVars.app.name  +  "_" + tempVars.app.version + "/" + path.name

@@ -1,6 +1,6 @@
-module.exports = (function(){
+module.exports = function(){
   console.log("The App Running!!!")
-})();
+}
 
 // Here you can require other files
 //require('./app');
