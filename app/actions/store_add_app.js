@@ -9,7 +9,7 @@ var Profile = require("../models/profile")
 var Store = require("../models/store")
 
 var promptOptions = {
-  app: null,
+  app_name: null,
   name: null,
   user_name: null,
   public_dev_key: null
@@ -19,7 +19,7 @@ var profile = {}
 
 function add( options ){
   promptOptions = options;
-  console.info("Adding an app in your 3VOT Store".yellow)
+  console.info("Adding an app to your 3VOT Store".yellow)
   var deferred = Q.defer();
 
   callbacks = {
@@ -31,7 +31,7 @@ function add( options ){
     }
   }
 
-  Store.callAction( "addAppToStore", { app: promptOptions.app, name: options.name, user_name: promptOptions.user_name, public_dev_key: options.public_dev_key }, callbacks )  
+  Store.callAction( "addAppToStore", { app: promptOptions.app_name, name: promptOptions.name, user_name: promptOptions.user_name, public_dev_key: options.public_dev_key }, callbacks )  
   
   return deferred.promise;
 } 

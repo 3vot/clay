@@ -217,7 +217,7 @@ function walkDir(dir) {
   list.forEach(function(sourceFile) {
     file = Path.join( dir, sourceFile );
     var stat = fs.statSync(file);
-    if (stat && stat.isDirectory()){ console.log("Avoiding directory" + file);  }
+    if (stat && stat.isDirectory()){ }
     else{ results.push({path: file, name: sourceFile }); }
   })
   return results;

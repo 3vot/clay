@@ -1,5 +1,3 @@
-_3Model = require("3vot-model")
-_3Model.Model.host = "http://localhost:3002/v1"
 
 Create = require("../../app/actions/store_create")
 Destroy = require("../../app/actions/store_destroy")
@@ -17,29 +15,34 @@ Path = require("path");
 
 #nock.recorder.rec();
 
-key = "mdfxUOz49nG2ABz"
-
-describe '3VOT App', ->
+describe '3VOT Store', ->
 
   before (done) ->
     projectPath = Path.join( process.cwd() , "3vot_cli_2_test" );
-    console.info("Changing current directory to " + projectPath)
+    console.info("Changing current directory in profile before to " + projectPath)
     process.chdir( projectPath );
     done()
 
-  it 'should create a store', (done) ->
+  after () ->
+    projectPath = Path.join( process.cwd(), ".." );
+    console.info("Restoring current directory in profile after to");
+    process.chdir( projectPath );
 
-    Create( { name: "cli_2_test_store", user_name: "cli_2_test", public_dev_key: key } )
+  it 'should create a store', (done) ->
+    @timeout(20000)
+
+    Create( { name: "cli_2_test_store", user_name: "cli_2_test", public_dev_key: process.env.public_dev_key } )
     .fail (error) =>  
-        error.should.equal(""); 
+      error.should.equal(""); 
     .done ->
       done()
 
   it 'should add an app to store', (done) ->
+    @timeout(20000)
 
-    AddApp( { name: "cli_2_test_store", user_name: "cli_2_test", public_dev_key: key , app: "cli_2_test_app_1" } )
+    AddApp( { name: "cli_2_test_store", user_name: "cli_2_test", public_dev_key: process.env.public_dev_key , app_name: "cli_2_test_app_1" } )
     .fail (error) =>  
-        error.should.equal(""); 
+      error.should.equal(""); 
     .done ->
       done()
 
@@ -47,30 +50,33 @@ describe '3VOT App', ->
     @timeout(20000)
     Generate( user_name: "cli_2_test", public_dev_key: "mdfxUOz49nG2ABz" )
     .fail (error) =>  
-      throw error
       error.should.equal(""); 
     .done ->
       done()
 
   it "should list all stores and apps", (done) ->
+    @timeout(20000)
+    
     List( { user_name: "cli_2_test" } )
     .fail (error) =>  
         error.should.equal(""); 
     .done ->
       done()
-    
-    
-  it 'should remove an app from store', (done) ->
 
-    RemoveApp( { name: "cli_2_test_store", user_name: "cli_2_test", public_dev_key: key , app: "cli_2_test_app_1" } )
+  it 'should remove an app from store', (done) ->
+    @timeout(20000)
+
+    RemoveApp( { name: "cli_2_test_store", user_name: "cli_2_test", public_dev_key: process.env.public_dev_key , app_name: "cli_2_test_app_1" } )
     .fail (error) =>  
-        error.should.equal(""); 
+      error.should.equal(""); 
     .done ->
-          done()
+      done()
     
   it 'should Destroy a store', (done) ->
-    Destroy( { name: "cli_2_test_store", user_name: "cli_2_test", public_dev_key: key } )
+    @timeout(20000)
+    
+    Destroy( { name: "cli_2_test_store", user_name: "cli_2_test", public_dev_key: process.env.public_dev_key } )
     .fail (error) =>  
-        error.should.equal(""); 
+      error.should.equal(""); 
     .done ->
       done()

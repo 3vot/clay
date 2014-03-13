@@ -8,7 +8,7 @@ var Build = require("../app/actions/app_build")
 var Publish = require("../app/actions/app_publish")
 var Install = require("../app/actions/app_install")
 
-function create(){
+function create(callback){
   prompt.start();
   prompt.get( [ 
     { name: 'app_name', description: 'App Name ( The name of the app you want to create )' } ], 
@@ -16,11 +16,12 @@ function create(){
       LoadPackage(result)
       .then( Create )
       .then( function(){ console.log("App Created Succesfully".green); } )
+      .then( function(){ if(callback) return callback(); })
       .fail( function(err){console.error(err); } )
   });
 }
 
-function download(){
+function download(callback){
   prompt.start();
   prompt.get( [ 
     { name: 'user_name', description: 'Profile: ( The profile name of the owner of the app )' }, 
@@ -29,12 +30,13 @@ function download(){
     function (err, result) {
       LoadPackage(result)
       .then( Download )
-      .then( function(){ console.log("App Downloades Succesfully".green); } )
+      .then( function(){ console.log("App Downloaded Succesfully".green); } )
+      .then( function(){ if(callback) return callback(); })
       .fail( function(err){ console.error(err); } )  
    });
 }
 
-function publish(){
+function publish(callback){
   prompt.start();
   prompt.get( [ 
     { name: 'app_name', description: 'App: ( The Name of the App you want to publish )' },
@@ -43,11 +45,12 @@ function publish(){
       LoadPackage(result)
       .then( Publish )
       .then( function(){ console.log("App Published Succesfully".green); } )
+      .then( function(){ if(callback) return callback(); })
       .fail( function(err){ console.log("Error Publishing App"); console.error(err); })
   });
 }
 
-function upload(){
+function upload(callback){
   prompt.start();
   prompt.get( [ 
     { name: 'app_name', description: 'App: ( the name of the app you want to upload  )' }], 
@@ -56,12 +59,13 @@ function upload(){
     LoadPackage(result)
     .then( Upload )
     .then( function(){ console.log("App Uploades Succesfully".green); } )
+    .then( function(){ if(callback) return callback(); })
     .fail( function(err){ console.error(err); } )
 
   })
 }
 
-function install(){
+function install(callback){
   prompt.start();
   prompt.get( [ 
     { name: 'app_name', description: 'App Name ( The name of the app you want to create )' } ], 
@@ -69,12 +73,13 @@ function install(){
       LoadPackage(result)
       .then( Install )
       .then( function(){ console.log("App Created Succesfully".green); } )
+      .then( function(){ if(callback) return callback(); })
       .fail( function(err){console.error(err); } )
   });
 }
 
 
-function build(){
+function build(callback){
   prompt.start();
   prompt.get( [ 
     { name: 'app_name', description: 'App Name ( The name of the app you want to create )' } ], 
@@ -82,6 +87,7 @@ function build(){
       LoadPackage(result)
       .then( Build )
       .then( function(){ console.log("App Created Succesfully".green); } )
+      .then( function(){ if(callback) return callback(); })
       .fail( function(err){console.error(err); } )
   });
 }

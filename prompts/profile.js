@@ -5,7 +5,7 @@ var Setup = require("../app/actions/profile_setup")
 var Create = require("../app/actions/profile_create")
 
 
-function setup(){
+function setup(callback){
   var options = [ 
     { name: 'public_dev_key', description: 'Developer Key: ( Your Developer Key provided by the 3VOT Admin )' } 
   ];
@@ -14,11 +14,12 @@ function setup(){
   prompt.get( options, function (err, result) {
     Setup(result)
     .then( function(){ "ok" } )
+    .then( function(){ if(callback) return callback(); })
     .fail( function(err){console.error(err); } );
   });
 }
 
-function create(){
+function create(callback){
   prompt.start();
   prompt.get( [ 
     { name: 'name', description: 'Name: ( The Official Name of your profile)' } ,
@@ -27,6 +28,7 @@ function create(){
     function (err, result) {
       Create(result)
       .then( function(profile){ console.log("Profile Created Succesfully".green); console.log( ( "Save your developer key: " + profile.security.public_dev_key ).bold) } )
+      .then( function(){ if(callback) return callback(); })
       .fail( function(err){ console.log("Error creating Profile".red.bold); console.error(err.red); } )
   });
 }

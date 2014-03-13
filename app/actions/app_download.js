@@ -17,8 +17,6 @@ var Install = require("../utils/install")
 
 var Builder = require("../utils/builder")
 
-//var Install = require("./install")
-
 var App = require("../models/app")
 
 var promptOptions= { 
@@ -94,7 +92,7 @@ function adjustPackage(){
   var pck = require( Path.join( process.cwd(), "apps", tempVars.app.name, "package.json" )  );
   var vot = require( Path.join( process.cwd(), "3vot.json" )  )
   pck.profile = vot.profile;
-  pck.version = "1"
+  pck.version = "0.0.1"
 
   fs.writeFile( Path.join( process.cwd(), "apps", tempVars.app.name, "package.json" ), JSON.stringify(pck,null,'\t') , function(err){
     if(err) return deferred.reject(err);

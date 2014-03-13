@@ -22,11 +22,12 @@ var tempVars = {
 function execute(options){
     var deferred = Q.defer();
     promptOptions = options;
+    
     getProfile()
     .then( scaffold )
     .then( installNPM )
     .then (function(){ return deferred.resolve() })
-    .fail( function(err){ throw err; return deferred.reject(err) } );
+    .fail( function(err){ return deferred.reject(err) } );
     return deferred.promise;
   }
 
@@ -36,12 +37,11 @@ function getProfile(){
   
   callbacks = {
     done: function(profile){
-      Profile.refresh(profile)
-      tempVars.profile = Profile.last()
-      deferred.resolve(profile);
+      tempVars.profile = profile
+      return deferred.resolve(profile);
     },
     fail: function(err){
-      deferred.reject(err);
+      return deferred.reject(err);
     }
   }
   Profile.callView( "authenticate", { public_dev_key: promptOptions.public_dev_key }, callbacks )
@@ -60,6 +60,7 @@ function scaffold(){
       folder: "3vot_" + tempVars.profile.user_name
     }
 
+
     fs.mkdirSync( Path.join( process.cwd(), options.folder ));
     fs.mkdirSync( Path.join( process.cwd(), options.folder , "apps" ));
     fs.mkdirSync( Path.join( process.cwd(), options.folder , "apps", "dependencies" ));
@@ -71,7 +72,7 @@ function scaffold(){
     var pckJSON = require( Path.join( templatesPath, "package.json" ));
 
     _3votJSON.public_dev_key = tempVars.profile.security.public_dev_key;
-    _3votJSON.user_name = tempVars.profile;
+    _3votJSON.user_name = tempVars.profile.user_name;
 
     fs.writeFileSync( Path.join(process.cwd(), options.folder, "3vot.json"), JSON.stringify(_3votJSON, null, '\t') );
     fs.writeFileSync( Path.join(process.cwd(), options.folder, "package.json"), JSON.stringify(pckJSON, null, '\t') );
@@ -83,9 +84,7 @@ function scaffold(){
 function installNPM(options){
   var deferred = Q.defer();
   var projectPath = Path.join( process.cwd() , options.folder );
-
-  console.info("Changing current directory to " + projectPath)
-
+  console.info("Changing current directory in Profile Setup to " + projectPath)
   process.chdir( projectPath );
 
   try{
@@ -95,6 +94,7 @@ function installNPM(options){
       if (er) return deferred.reject(er);
       npm.commands.install(["."], function (er, data) {
         if (er) return deferred.reject(er)
+        restoreCWD()
         return deferred.resolve()
         // command succeeded, and data might have some info
       });
@@ -104,10 +104,17 @@ function installNPM(options){
   catch(e){
     console.log("*** WARNING: ***")
     console.log("PLEASE INSTALL NPM MANUALLY by running npm install");
+    restoreCWD()
     return deferred.resolve()
   }
 
   return deferred.promise;      
   }
+
+function restoreCWD(){
+  var projectPath = Path.join( process.cwd() , ".." );
+  console.info("Restoring current directory in Profile Setup")
+  process.chdir( projectPath );
+}
 
 module.exports = execute;

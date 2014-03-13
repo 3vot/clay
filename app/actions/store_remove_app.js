@@ -31,7 +31,7 @@ function add( options ){
     }
   }
 
-  Store.callAction( "removeAppFromStore", { app: promptOptions.app, name: options.name, user_name: promptOptions.user_name, public_dev_key: options.public_dev_key }, callbacks )  
+  Store.callAction( "removeAppFromStore", { app: promptOptions.app_name, name: options.name, user_name: promptOptions.user_name, public_dev_key: options.public_dev_key }, callbacks )  
   
   return deferred.promise;
 } 

@@ -23,6 +23,7 @@ function execute(options){
     var deferred = Q.defer();
 
     promptOptions= options;
+    
     tempVars.options = options;
 
     createApp()
@@ -42,7 +43,8 @@ function createApp(){
     done: function(){
       return deferred.resolve(this);
     },
-    fail: function(error){        
+    fail: function(error){   
+      console.log(this.attributes())     
       return deferred.reject( error )
     }
   }

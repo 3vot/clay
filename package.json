@@ -7,7 +7,7 @@
     "3vot": "bin/3cli.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node ./tests/integration.js"
   },
   "author": "",
   "license": "BSD",

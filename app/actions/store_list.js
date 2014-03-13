@@ -23,15 +23,18 @@ function list( options ){
 
   callbacks = {
     done: function(profile){
+      if(profile.length == 0) return  deferred.reject("Profile not found");
       var app, store, _i, _j, _len, _len1, _ref, _ref1;
       _ref = profile.stores;
+      if(!profile.stores) return deferred.resolve("There are no stores");
+      
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         store = _ref[_i];
-        console.log(store.name);
+        console.log(store.name.underline.bold);
         _ref1 = store.full_apps;
         for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
           app = _ref1[_j];
-          console.log(app.name);
+          console.log("  " + app.name);
         }
       }
 

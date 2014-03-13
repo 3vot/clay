@@ -19,10 +19,10 @@ function create( options ){
 
   callbacks = {
     done: function(){
-      deferred.resolve(this);
+      return deferred.resolve(this);
     },
     fail: function(err){
-      deferred.reject(err);
+      return deferred.reject(err);
     }
   }
 

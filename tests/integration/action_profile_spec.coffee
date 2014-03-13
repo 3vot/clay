@@ -1,20 +1,29 @@
-_3Model = require("3vot-model")
-_3Model.Model.host = "http://localhost:3002/v1"
 Create = require("../../app/actions/profile_create")
 
 should = require("should")
 nock = require("nock")
 Path = require("path");
 
-describe '3VOT App', ->
+describe '3VOT Profile', ->
 
-  nock.recorder.rec();
+  #nock.recorder.rec();
 
-  it 'should create a profile setup action', (done) ->
-    Create( { user_name: "cli_2_test", marketing: { name: "CLI Testing Procedures" }, email: "rr@rr.com" } )
-    .fail (error) =>  
-      throw error
-      error.should.equal(""); 
-    .done ->
-      done()
-      
+  it 'should create a profile', (donefn) ->
+    @timeout(20000)
+    
+    console.log("executing setup with key " + process.env.public_dev_key)
+    
+    
+    res = Create( { user_name: "cli_2_test", marketing: { name: "CLI Testing Procedures" }, email: "rr@rr.com" } )
+
+    res.fail (error) =>  
+      okError = "Error: duplicate key value violates unique constraint \"profile_user_name_found\"";
+      if JSON.parse(error).message == okError
+        console.log("Warning: Profile Already Created")
+        
+        return donefn()
+      return error.should.equal(""); 
+    
+    res.then (profile) ->
+      process.env.public_dev_key = profile.security.public_dev_key
+      donefn()
