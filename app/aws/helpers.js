@@ -70,3 +70,21 @@ Helpers.uploadFile = function(bucket, fileObject){
   );
   return deferred.promise;
 }
+
+
+Helpers.uploadFileRaw = function(bucket, fileObject){
+  // FileObjet: body , path, key, cache
+
+  var deferred = Q.defer();
+  var s3 = new AWS.S3();
+  var rawFile = fileObject.body || fs.readFileSync(fileObject.path )
+  var mimetype = mime.lookup(fileObject.path)
+  s3.putObject( { CacheControl: "max-age=" + fileObject.cache || 31536000, ContentType: mimetype , ACL: 'public-read', Body: rawFile, Key: fileObject.key , Bucket: bucket }, 
+    function(err, data) {
+      if (err) { console.error("Error Uploading File: " + err); return deferred.reject(err); }
+      //console.info( ( "File Uploaded Correctly: " + fileObject.path + " to " + fileObject.key ).green );
+      deferred.resolve();
+    }
+  );
+  return deferred.promise;
+}

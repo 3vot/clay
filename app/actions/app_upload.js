@@ -34,8 +34,7 @@ var promptOptions = {
 }
 
 var tempVars = {
-  app: null,
-  options: null
+  app: null
 }
 
 function execute(options){
@@ -43,7 +42,6 @@ function execute(options){
 
     if( !options.paths ) options.paths = { sourceBucket: "source.3vot.com", productionBucket: "3vot.com", demoBucket: "demo.3vot.com"}
     promptOptions= options;
-    tempVars.options = options;
     
     createApp()
     .then( adjustPackage )
@@ -90,7 +88,7 @@ function adjustPackage(){
   var pck = require( Path.join( process.cwd(), "apps", tempVars.app.name, "package.json" )  );
   var vot = require( Path.join( process.cwd(), "3vot.json" )  )
   pck.user_name = vot.user_name;
-  pck.version = tempVars.app.version
+  pck.version = "0.0." + tempVars.app.version
 
   fs.writeFile( Path.join( process.cwd(), "apps", tempVars.app.name, "package.json" ), JSON.stringify(pck,null,'\t') , function(err){
     if(err) return deferred.reject(err);
@@ -158,7 +156,7 @@ function uploadAppFiles(){
   apps.forEach( function(path){
     if(path.name == "index.html"){
       var file = fs.readFileSync( path.path, "utf-8"  );
-      file = Transform.transformToDemo(file, tempVars);
+      file = Transform.transformToDemo(file, promptOptions.user_name, tempVars.app);
       fs.writeFileSync( path.path, file );
     }
     path.key = promptOptions.user_name + "/" +  tempVars.app.name  +  "_" + tempVars.app.version + "/" + path.name
@@ -182,7 +180,7 @@ function uploadAssetsFiles(){
  
   assets.forEach( function(path){
     path.key = promptOptions.user_name + "/" +  tempVars.app.name + "_" + tempVars.app.version + "/assets/" + path.name
-    uploadPromises.push( AwsHelpers.uploadFile( promptOptions.paths.demoBucket, path ));
+    uploadPromises.push( AwsHelpers.uploadFileRaw( promptOptions.paths.demoBucket, path ));
   });
   
    Q.all( uploadPromises )
