@@ -91,7 +91,7 @@ function adjustPackage(){
   console.info("Adjusting the package.json for your Profile".yellow)
   var pck = require( Path.join( process.cwd(), "apps", tempVars.app.name, "package.json" )  );
   var vot = require( Path.join( process.cwd(), "3vot.json" )  )
-  pck.profile = vot.profile;
+  pck.profile = vot.user_name;
   pck.version = "0.0.1"
 
   fs.writeFile( Path.join( process.cwd(), "apps", tempVars.app.name, "package.json" ), JSON.stringify(pck,null,'\t') , function(err){

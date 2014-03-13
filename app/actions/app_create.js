@@ -16,7 +16,8 @@ var promptOptions = {
 }
 
 var tempVars = {
-  app: null
+  app: null,
+  options: promptOptions
 }
 
 function execute(options){

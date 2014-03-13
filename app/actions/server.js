@@ -11,8 +11,8 @@ var argv = require('optimist').argv;
 var devDomain = null;
 
 var Server = {}
-var Builder = require("./builder");
-var Transform = require("./transform")
+var Builder = require("../utils/builder");
+var Transform = require("../utils/transform")
 
 module.exports = Server;
 
@@ -30,7 +30,7 @@ Server.startServer = function( domain, callback  ){
   
   var app = express();    
   var pck = require( Path.join( process.cwd(), "3vot.json" )  );
-  var profile = pck.username;
+  var profile = pck.user_name;
   // all environments
   app.set('port', 3000);
   app.use(express.logger('dev'));

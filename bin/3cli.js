@@ -10,7 +10,7 @@ var colors = require('colors');
 
 var ProfileQ = require("../prompts/profile")
 
-var Server = require("../src/server")
+var Server = require("../app/actions/server")
 
 var Store = require("../prompts/store")
 
