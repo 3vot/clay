@@ -65,6 +65,7 @@ function scaffold(){
 
   fs.mkdirSync( Path.join( process.cwd(), "apps", tempVars.app.name ));
   fs.mkdirSync( Path.join( process.cwd(), "apps", tempVars.app.name , "app" ));
+  fs.mkdirSync( Path.join( process.cwd(), "apps", tempVars.app.name , "assets" ));
   fs.mkdirSync( Path.join( process.cwd(), "apps", tempVars.app.name , "app", "assets" ));
   fs.mkdirSync( Path.join( process.cwd(), "apps", tempVars.app.name , "code" ));
   fs.mkdirSync( Path.join( process.cwd(), "apps", tempVars.app.name , "start" ));
