@@ -19,7 +19,7 @@ function demo(fileContents, user_name, app){
   
   //transform path to demo with version number
   fileContents = fileContents.replace(
-    "_3vot.path = '//' + _3vot.domain + '/cli_2_test/' + package.name;",
+    "_3vot.path = '//' + _3vot.domain + '/" + user_name + "/' + package.name;",
     "_3vot.path = '//' + _3vot.domain + '/" + user_name + "/' + package.name + '_" + app.version + "';"
   );
   
