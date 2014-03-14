@@ -17,7 +17,7 @@ var tempVars={
   app: null
 }
 
-function execute( app_name, target, buildDependency ){
+function execute( app_name, target, buildDependency, domain ){
   console.info("Building " + app_name.yellow)
 
   var deferred = Q.defer();
@@ -28,7 +28,8 @@ function execute( app_name, target, buildDependency ){
     app_name: app_name,
     target: target,
     buildDependency: buildDependency || false,
-    package: pck
+    package: pck,
+    domain: domain
   }
   
   Builder.buildApp( promptOptions.app_name, pck.user_name )
@@ -78,7 +79,7 @@ function transformAssets(app_name){
     if(path.name.indexOf(".html") > 0 || path.name.indexOf(".js") > 0 || path.name.indexOf(".css") > 0){
       file = fs.readFileSync( path.path, "utf-8");
       if(promptOptions.target == "localhost"){
-        file = Transform[promptOptions.target](file, promptOptions.package.user_name, app_name);
+        file = Transform[promptOptions.target](file, promptOptions.package.user_name, app_name, promptOptions.domain);
       }
       else{
         file = Transform[promptOptions.target](file, promptOptions.package.user_name, tempVars.app);
@@ -98,7 +99,7 @@ function transformFiles(app_name){
     if(path.name.indexOf(".html") > 0 || path.name.indexOf(".js") > 0 || path.name.indexOf(".css")){
       var file = fs.readFileSync( path.path, "utf-8"  );
       if(promptOptions.target == "localhost"){
-        file = Transform[promptOptions.target](file, promptOptions.package.user_name, app_name);
+        file = Transform[promptOptions.target](file, promptOptions.package.user_name, app_name, promptOptions.domain );
       }
       else{
         file = Transform[promptOptions.target](file, promptOptions.package.user_name, tempVars.app);

@@ -100,7 +100,7 @@ Server.startServer = function( domain, callback  ){
     function(req, res) {
       var html = ""
       var app_name = req.params.app_name;
-      AppBuild( app_name, "localhost", false )
+      AppBuild( app_name, "localhost", false, domain )
       .then( function(){ 
         var filePath = Path.join(  process.cwd() , "apps", app_name, "app", "index.html" );
         return res.sendfile(filePath);
