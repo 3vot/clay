@@ -43,7 +43,7 @@ describe '3VOT App', ->
       
   it 'should build an app', (done) ->
     @timeout(90000)
-    Build( { app_name: "cli_2_test_app_1" } )
+    Build( "cli_2_test_app_1", 'localhost', false )
     .fail (error) ->
       console.log("error: " + error)
       error.should.equal("")
@@ -68,7 +68,7 @@ describe '3VOT App', ->
   it 'should download an app', (done) ->
     @timeout(90000)
 
-    Download( { app_name: "cli_2_test_app_1", user_name: "cli_2_test", public_dev_key: process.env.public_dev_key } )
+    Download( { app_name: "cli_2_test_app_1", app_user_name: "cli_2_test", user_name: "cli_2_test", public_dev_key: process.env.public_dev_key } )
     .fail (error) ->
       console.log(error.toString())
       error.should.equal("")

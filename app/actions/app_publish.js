@@ -79,6 +79,18 @@ function listAppKeys(){
 }
 
 
+function listDepKeys(){
+  console.log("Listing App Keys")
+  var deferred = Q.defer();
+
+  var marker= promptOptions.user_name + "/dependency"
+  AwsHelpers.listKeys( promptOptions.paths.demoBucket, marker )
+  .then( function( keys ){ tempVars.app_keys = keys; return deferred.resolve(keys);  })
+  .fail( function(err){ return deferred.reject(keys); }  );
+  
+  return deferred.promise;
+}
+
 function copyKeys(){
   console.log(("Copying all Keys in Bucket " + promptOptions.paths.demoBucket + " to " + promptOptions.paths.productionBucket ).grey);
   

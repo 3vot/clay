@@ -80,6 +80,8 @@ function downloadApp(){
 
     var key = promptOptions.app_user_name + '/' + tempVars.app.name  + "_" +  tempVars.app.version + '.3vot';
     
+    
+    
     var params = {Bucket: promptOptions.paths.sourceBucket , Key: key };
     s3.getObject(params).createReadStream().pipe(zlib.createGunzip() ).pipe( tar.Extract( Path.join( process.cwd(), 'apps' ) ) )
     .on("end", function(){ deferred.resolve(); })
