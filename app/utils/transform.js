@@ -34,9 +34,9 @@ function demo(fileContents, user_name, app){
 
 function production(fileContents, user_name, app){
 
-  fileContents = fileContents.replace(
-    "_3vot.domain = 'demo.3vot.com';",
-    "_3vot.domain = '3vot.com';"
+  fileContents = _3vot.utils.replaceAll( fileContents,
+    "demo.3vot.com",
+    "3vot.com"
   );
 
   //tranform assets
@@ -46,8 +46,8 @@ function production(fileContents, user_name, app){
   );
 
   fileContents = _3vot.utils.replaceAll( fileContents, 
-    [ "demo.3vot.com", user_name , app.name + "_" + app.version ].join("/"),
-    [ "3vot.com", user_name, app.name].join("/") 
+    [ user_name , app.name + "_" + app.version ].join("/"),
+    [ user_name, app.name ].join("/") 
   );
 
   return fileContents;
