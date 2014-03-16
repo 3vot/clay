@@ -16,7 +16,7 @@
     "colors": "~0.6.2",
     "optimist": "~0.6.0",
     "q": "~1.0.0",
-    "browserify": "~3.20.0",
+    "browserify": "~3.20.2",
     "bower": "~1.2.8",
     "aws-sdk": "~2.0.0-rc8",
     "semver": "~2.2.1",
@@ -35,7 +35,8 @@
     "coffeeify": "~0.5.2",
     "brfs": "0.0.8",
     "browserify-eco": "~0.2.4",
-    "3vot-model": "0.0.20"
+    "3vot-model": "0.0.20",
+    "3vot-db": "0.0.1"
   },
   "devDependencies": {
     "mocha": "~1.17.0",

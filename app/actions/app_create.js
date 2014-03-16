@@ -28,7 +28,6 @@ function execute(options){
     tempVars.options = options;
 
     createApp()
-    .then( storeApp )
     .then( scaffold )
     .then( deferred.resolve )
     .fail( function(err){ return deferred.reject(err); } );
@@ -42,10 +41,10 @@ function createApp(){
   
   callbacks={
     done: function(){
+      tempVars.app = this;
       return deferred.resolve(this);
     },
     fail: function(error){   
-      console.log(this.attributes())     
       return deferred.reject( error )
     }
   }
@@ -53,11 +52,6 @@ function createApp(){
   App.create( { billing: { size: promptOptions.size }, name: promptOptions.app_name, public_dev_key: promptOptions.public_dev_key, user_name: promptOptions.user_name, marketing: { name: promptOptions.app_name } }, callbacks )
   
   return deferred.promise;
-}
-
-function storeApp(app){
-  tempVars.app = app;
-  return app;
 }
 
 function scaffold(){

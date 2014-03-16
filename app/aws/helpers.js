@@ -8,7 +8,7 @@ var mime = require('mime')
 module.exports = Helpers;
 
 Helpers.listKeys = function( sourceBucket, marker ){
-  console.log(("Listing Keys for Bucket " + sourceBucket + " and marker " + marker ).grey);
+  //console.log(("Listing Keys for Bucket " + sourceBucket + " and marker " + marker ).grey);
   var deferred = Q.defer();
   var allKeys = [];
   var s3 = new AWS.S3();
@@ -39,7 +39,7 @@ Helpers.copyKey = function(destinationBucket, sourceKey, destinationKey){
 
 //app.profile.get("username") + "/" + app.name + "/index.html"
 Helpers.getObjectFromBucket = function(destinationBucket, key){
-  console.log(("Getting object from bucket " + destinationBucket + " with key " + key ).grey);
+  //console.log(("Getting object from bucket " + destinationBucket + " with key " + key ).grey);
 
   var deferred = Q.defer();
   

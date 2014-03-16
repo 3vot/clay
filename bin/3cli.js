@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-require("coffee-script")
+require("coffee-script/register")
 var argv = require('optimist').argv;
 var Path = require('path')
 var prompt = require("prompt")
@@ -13,6 +13,9 @@ var ProfileQ = require("../prompts/profile")
 var Server = require("../app/actions/server")
 
 var Store = require("../prompts/store")
+
+var Db = require("../prompts/db")
+
 
 var App = require("../prompts/app")
 
@@ -53,7 +56,10 @@ else{
 
   else if( argv._.indexOf("app:clone") > -1 ){ App.download(callback); }
 
-  else if( argv._.indexOf("app:publish") > -1 ){ App.publish(callback); }
+  else if( argv._.indexOf("app:publish") > -1 ){ 
+    //if(argv.store){ callback = Store.addAutoApp(callback) }
+    App.publish(callback); 
+  }
 
   else if( argv._.indexOf("app:build") > -1 ){ App.build(callback); }
 
@@ -72,6 +78,12 @@ else{
   else if( argv._.indexOf("store:destroy") > -1 ){ Store.destroy(callback); }
 
   else if( argv._.indexOf("store:publish") > -1 ){ Store.generate(); }
+
+  else if( argv._.indexOf("db:create") > -1 ){ Db.create(); }
+
+  else if( argv._.indexOf("db:build") > -1 ){ Db.build(); }
+
+  else if( argv._.indexOf("db:deploy") > -1 ){ Db.deploy(); }
 
   else if( argv._.indexOf("server") > -1 ){ Server.prompt(callback); }
 }

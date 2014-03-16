@@ -14,7 +14,7 @@ function getPackage(options){
   
   var pck = require(packagePath)
   
-
+  
   process.nextTick(function(){
     deferred.resolve( extend(options, pck ) )
   })

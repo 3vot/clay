@@ -1,1 +1,24 @@
-{ "public_dev_key": "", "user_name": "" }
+{  
+  db: {
+    "development": {
+      "host": "localhost",
+      "database": "",
+      "user": "",
+      "password": "",
+      "port": 5432
+    },
+    "test": {
+      "host": "",
+      "database": "",
+      "user": "",
+      "password": ""
+    },
+    "production": {
+      "host": "",
+      "port" : "",
+      "database": "",
+      "user": "",
+      "password": ""
+    }
+  }
+}

@@ -7,8 +7,11 @@ var Transform = require("../utils/transform")
 
 var AwsCredentials = require("../aws/credentials");
 var AwsHelpers = require("../aws/helpers");
+var LoadPackage = require("../utils/package_loader")
 
 var App = require("../models/app")
+
+var AddApp = require("./store_add_app")
 
 var promptOptions = {
   user_name: null,
@@ -67,7 +70,7 @@ function getApp(){
 }
 
 function listAppKeys(){
-  console.log("Listing App Keys")
+  console.log("Searching for App Files in Demo")
   var deferred = Q.defer();
 
   var marker= promptOptions.user_name + "/" + tempVars.app.name + "_" + promptOptions.app_version
@@ -80,7 +83,7 @@ function listAppKeys(){
 
 
 function listDepKeys(){
-  console.log("Listing App Keys")
+  console.log("Finding App Dependency in Demo")
   var deferred = Q.defer();
 
   var marker= promptOptions.user_name + "/dependency"
@@ -92,7 +95,7 @@ function listDepKeys(){
 }
 
 function copyKeys(){
-  console.log(("Copying all Keys in Bucket " + promptOptions.paths.demoBucket + " to " + promptOptions.paths.productionBucket ).grey);
+  console.log(("Copying App Files").grey);
   
   var deferred = Q.defer();
   var indexFound = false;
@@ -110,7 +113,7 @@ function copyKeys(){
 }
 
 function listAssetKeys(){
-  console.log("Listing Asset Keys")
+  console.log("Searching Asset like images and css")
   
   var deferred = Q.defer();
   var marker= promptOptions.user_name + "/" + tempVars.app.name + "_" + promptOptions.app_version + "/assets"
@@ -171,13 +174,13 @@ function getObjectFromBucket(key){
 }
   
 function adjustObjectToProduction(fileObject){
-  console.log(("Adjusting File for Production " + promptOptions.paths.demoBucket + " to " +  promptOptions.paths.productionBucket ).grey);
+  //console.log(("Adjusting File for Production " + promptOptions.paths.demoBucket + " to " +  promptOptions.paths.productionBucket ).grey);
   fileObject.data = Transform.production(fileObject.data, promptOptions.user_name ,tempVars.app);
   return fileObject;
 }
   
 function uploadObjectToProduction( fileObject ){
-  console.log( ("Uploading Transformed File for Production " ).grey);
+  //console.log( ("Uploading Transformed File for Production " ).grey);
   
   var deferred = Q.defer();
   
