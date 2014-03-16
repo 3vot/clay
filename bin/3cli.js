@@ -32,6 +32,9 @@ var callback = function(){
   console.log("---- 3VOT ----".bold)
 }
 
+if(argv.d){
+  _3Model.Model.host = "http://localhost:3002/v1"
+}
 
 if(argv.v){
   var pathToPackage =  Path.join(Path.dirname(fs.realpathSync(__filename)), '../package.json');
