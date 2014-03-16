@@ -32,7 +32,7 @@ function create(callback){
         console.log( ( "Save your developer key: " + options.public_dev_key ).bold) 
         if(callback) return callback(options);
       })
-      .fail( function(err){ console.log("Error creating Profile".red.bold); console.error(err.red); } )
+      .fail( function(err){ console.log("Error creating Profile".red.bold); console.error(err); } )
   });
 }
 

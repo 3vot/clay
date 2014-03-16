@@ -12,7 +12,7 @@ function generate(options){
   LoadPackage(options)
   .then(Generate)
   .then( function(){ console.log("Store Created Succesfully".green) } )
-  .fail( function(err){ console.log("Error generating Store Profile".red.bold); console.error(err.red); }  )   
+  .fail( function(err){ console.log("Error generating Store Profile".red.bold); console.error(err); }  )   
  }
 
 function create(callback){

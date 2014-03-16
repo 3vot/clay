@@ -6,7 +6,7 @@ var fs = require("fs")
 var eco = require("eco")
 
 var templatesPath =  Path.join(Path.dirname(fs.realpathSync(__filename)), '../../templates');
-var appPath = Path.join( process.cwd(), "3vot_backend", "app" , "index.js");
+var appPath = Path.join( process.cwd(), "3vot_backend", "index.js");
 var testPath = Path.join( process.cwd(), "3vot_backend", "test" , "index.js");
 var destPath = Path.join( process.cwd(), "3vot_backend", "dist" );
 
