@@ -14,7 +14,6 @@ describe '3VOT Profile Setup', ->
     @timeout(100000)
     Setup( public_dev_key: process.env.public_dev_key )
     .fail (error) =>
-      throw error
       error.should.equal("");
     .done ->
       done()

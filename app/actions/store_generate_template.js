@@ -66,7 +66,6 @@ function deployProfileHtml(){
   
   var templatePath = Path.join( process.cwd(), "profile_template.eco") ;
   
-  console.log(templatePath)
   Template.store(tempVars.profile, tempVars.stores, templatePath, generateAsync );
 
   function generateAsync(profileHTML){
@@ -87,6 +86,7 @@ function uploadProfileHtml(){
   var deferred = Q.defer();
   
   AwsHelpers.uploadFile( promptOptions.paths.productionBucket , tempVars.indexFileObject )
+  .then( function(){ console.log("Profile is available at: http://3vot.com/" + promptOptions.user_name )  } )
   .then( function(){ return deferred.resolve()  } )
   .fail( function(err){ return deferred.reject(err)  } );
   

@@ -21,7 +21,7 @@ function create( options ){
 
   callbacks = {
     done: function(){
-      deferred.resolve(this);
+      deferred.resolve(promptOptions);
     },
     fail: function(err){
       deferred.reject(err);

@@ -44,32 +44,32 @@ else if( argv.h ){
 }
 
 else{
-  if(argv.u){ callback = Store.generate; }
+  if(argv.u){ callback = Store.generate }
   
-  if( argv._.indexOf("profile:setup") > -1 ){ ProfileQ.setup(callback); } 
+  if( argv._.indexOf("profile:setup") > -1 ){ ProfileQ.setup(); } 
 
-  else if( argv._.indexOf("profile:create") > -1 ){ ProfileQ.create(callback); }
+  else if( argv._.indexOf("profile:create") > -1 ){ ProfileQ.create( Store.generate ); }
 
-  else if( argv._.indexOf("app:create") > -1 ){ App.create(callback); }
+  else if( argv._.indexOf("app:create") > -1 ){ App.create(); }
 
   else if( argv._.indexOf("app:upload") > -1 ){ App.upload(callback); }
 
-  else if( argv._.indexOf("app:clone") > -1 ){ App.download(callback); }
+  else if( argv._.indexOf("app:clone") > -1 ){ App.download(); }
 
   else if( argv._.indexOf("app:publish") > -1 ){ 
     //if(argv.store){ callback = Store.addAutoApp(callback) }
     App.publish(callback); 
   }
 
-  else if( argv._.indexOf("app:build") > -1 ){ App.build(callback); }
+  else if( argv._.indexOf("app:build") > -1 ){ App.build(); }
 
-  else if( argv._.indexOf("app:install") > -1 ){ App.install(callback); }
+  else if( argv._.indexOf("app:install") > -1 ){ App.install(); }
 
   else if( argv._.indexOf("store:create") > -1 ){ Store.create(callback); }
 
   else if( argv._.indexOf("store:destroy") > -1 ){ Store.destroy(callback); }
 
-  else if( argv._.indexOf("store:list") > -1 ){ Store.list(callback); }
+  else if( argv._.indexOf("store:list") > -1 ){ Store.list(); }
 
   else if( argv._.indexOf("store:app:add") > -1 ){ Store.addApp(callback); }
 

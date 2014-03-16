@@ -8,11 +8,10 @@ var List = require("../app/actions/store_list")
 var prompt = require("prompt")
 var LoadPackage = require("../app/utils/package_loader")
 
-function generate(callback){
-  LoadPackage()
+function generate(options){
+  LoadPackage(options)
   .then(Generate)
   .then( function(){ console.log("Store Created Succesfully".green) } )
-  .then( function(){ if(callback) return callback(); })
   .fail( function(err){ console.log("Error generating Store Profile".red.bold); console.error(err.red); }  )   
  }
 
@@ -22,8 +21,10 @@ function create(callback){
      { name: 'name', description: 'Store: ( The name of the Store you want to create )' } ], function (err, result) {
      LoadPackage(result)
      .then( Create )
-     .then( function(){ console.log("Store Created Succesfully".green) } )
-     .then( function(){ if(callback) return callback(); })
+     .then( function(options){ 
+       console.log("Store Created Succesfully".green) 
+        if(callback) return callback(options);
+      })
      .fail( function(err){ console.log("Error Creating Stores".red.bold); console.error(err); }  )
    });
  }
@@ -41,8 +42,10 @@ function destroy(callback){
      { name: 'name', description: 'Stores: ( The name of the Stores you want to delete )' } ], function (err, result) {
      LoadPackage(result)
      .then(Destroy)
-     .then( function(){ console.log("Stores Deleted Succesfully".green) } )
-     .then( function(){ if(callback) return callback(); })
+     .then( function(options){ 
+       console.log("Stores Deleted Succesfully".green) 
+       if(callback) return callback();
+     })
      .fail( function(err){ console.log("Error destroying Stores".red.bold); console.error(err.red); }  )
    });
  }
@@ -55,8 +58,10 @@ function addApp(callback){
 
      LoadPackage(result)
      .then(AddApp)
-     .then( function(){ console.log("App added succesfully to Stores".green) } )
-     .then( function(){ if(callback) return callback(); })
+     .then( function(options){ 
+       console.log("App added succesfully to Stores".green) 
+        if(callback) return callback(options);
+     })
      .fail( function(err){ console.log("Error addin an app to a Store".red.bold); console.error(err); }  )
    });
  }
@@ -69,8 +74,10 @@ function removeApp(callback){
      
      LoadPackage(result)
      .then(RemoveApp)
-     .then( function(store){ console.log("App removed succesfully from Store".green); } )
-     .then( function(){ if(callback) return callback(); })
+     .then( function(options){ 
+       console.log("App removed succesfully from Store".green); 
+        if(callback) return callback(options);
+      })
      .fail( function(err){ console.log("Error removing an App from a Store".red.bold); console.error(err); }  )
    });
  }

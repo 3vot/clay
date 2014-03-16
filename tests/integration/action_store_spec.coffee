@@ -46,20 +46,20 @@ describe '3VOT Store', ->
     .done ->
       done()
 
-  it 'should generate a store', (done) ->
+  it "should list all stores and apps", (done) ->
     @timeout(20000)
-    Generate( user_name: "cli_2_test", public_dev_key: "mdfxUOz49nG2ABz" )
+
+    List( { user_name: "cli_2_test",  public_dev_key: process.env.public_dev_key } )
     .fail (error) =>  
-      error.should.equal(""); 
+        error.should.equal(""); 
     .done ->
       done()
 
-  it "should list all stores and apps", (done) ->
+  it 'should generate a store', (done) ->
     @timeout(20000)
-    
-    List( { user_name: "cli_2_test" } )
-    .fail (error) =>  
-        error.should.equal(""); 
+    Generate( { user_name: "cli_2_test",  public_dev_key: process.env.public_dev_key } )
+    .fail (error) =>
+      error.should.equal(""); 
     .done ->
       done()
 

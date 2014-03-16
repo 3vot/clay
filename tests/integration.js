@@ -22,7 +22,7 @@ request.get(_3Model.Model.host + "/prepare_test").end(function(err, res){
   if(res.status > 250) return console.log(res.body)
   if( !res.body.security ) return executeTest("all")
   process.env.public_dev_key = res.body.security.public_dev_key
-  executeTest("all")
+  executeTest( getTestName() )
 })
 
 function executeTest(name){
@@ -37,5 +37,9 @@ function executeTest(name){
       process.exit(failures);
     });
   });
+}
 
+function getTestName(){
+  if(process.argv.length >= 2 && process.argv[2]) return process.argv[2]
+  return "all"
 }

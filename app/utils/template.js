@@ -16,13 +16,13 @@ function store( profile, stores, templatePath, callback ){
   var store = ""
   console.log("trying custom template")
   store = fs.readFile( templatePath,'utf-8', function(err,body){
-    if(err) return getDefaultTemplate();
-      console.log("using custom template")
+    if(err) return getDefaultTemplate(profile, stores, templatePath, callback );
+    console.log("using custom template")
     callback(eco.render( body, { stores: stores, profile: profile } ) );
   });
 }
 
-function getDefaultTemplate(){
+function getDefaultTemplate(profile, stores, templatePath, callback){
   console.log("using standard template")
   
   var options = { host: '3vot.com', path: '/store.eco' };
@@ -35,8 +35,7 @@ function getDefaultTemplate(){
     });
     res.on('end', function () {
       callback(eco.render( store, { stores: stores, profile: profile } ) );
-    });
-    
+    });  
   }
 
   var req = http.request(options, callback2).end();

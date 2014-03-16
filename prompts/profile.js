@@ -27,8 +27,11 @@ function create(callback){
     { name: 'email', description: 'email: ( Your Email, required in order to administer your profile )' }],
     function (err, result) {
       Create(result)
-      .then( function(profile){ console.log("Profile Created Succesfully".green); console.log( ( "Save your developer key: " + profile.security.public_dev_key ).bold) } )
-      .then( function(){ if(callback) return callback(); })
+      .then( function(options){ 
+        console.log("Profile Created Succesfully".green); 
+        console.log( ( "Save your developer key: " + options.public_dev_key ).bold) 
+        if(callback) return callback(options);
+      })
       .fail( function(err){ console.log("Error creating Profile".red.bold); console.error(err.red); } )
   });
 }

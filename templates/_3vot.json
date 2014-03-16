@@ -1,5 +1,5 @@
 {  
-  db: {
+  "db": {
     "development": {
       "host": "localhost",
       "database": "",
