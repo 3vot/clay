@@ -579,7 +579,7 @@
                   <div class="app-icon app-icon-blue"></div>
                   <div class="app-header">
                     <h3><%= app.name %></h3>
-                    <a href="" class="btn btn-xs btn-warning">Open App <img class="small-icon" src="https://s3.amazonaws.com/3vot.com/images/3vot-icon-arrowright.png" alt=""></a>
+                    <a href="<%= app.name + "?store=" + store.attributes.name %>" class="btn btn-xs btn-warning">Open App <img class="small-icon" src="https://s3.amazonaws.com/3vot.com/images/3vot-icon-arrowright.png" alt=""></a>
                   </div>
                   <p><%= app.description %>
                   </p>
