@@ -23,7 +23,7 @@ function execute(options){
   promptOptions.version = options.version || _findLastVersion()
   promptOptions.file = Path.join( destPath, "v_" + promptOptions.version  + ".sql" ); 
 
-  command = 'PGPASSWORD="=' + promptOptions.password + '" psql sslmode=require -U ' + promptOptions.user  + ' -q -d ' + promptOptions.database + '  -h ' + promptOptions.host + ' -p ' + promptOptions.port + ' --file=' + promptOptions.file
+  command = 'PGPASSWORD="' + promptOptions.password + '" psql sslmode=require -U ' + promptOptions.user  + ' -q -d ' + promptOptions.database + '  -h ' + promptOptions.host + ' -p ' + promptOptions.port + ' --file=' + promptOptions.file
 
   child = spawn.exec(command,  function (error, stdout, stderr) {
     if(error) return deferred.reject(error)
