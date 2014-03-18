@@ -62,8 +62,7 @@ function execute(options){
     .fail( function(err){ return deferred.reject(err); } );
     
     return deferred.promise;
-  }
-
+}
 
 function createApp(){
   var deferred = Q.defer();

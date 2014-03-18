@@ -11,10 +11,14 @@ function getPackage(options){
   if(!options) options = {}
   
   var packagePath = Path.join(process.cwd(), "3vot.json")
-  
-  var pck = require(packagePath)
-  
-  
+
+  var pck;
+  try{
+    pck = require(packagePath)
+  }catch(e){
+    pck = {}
+  }
+
   process.nextTick(function(){
     deferred.resolve( extend(options, pck ) )
   })
