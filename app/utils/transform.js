@@ -26,7 +26,7 @@ function demo(fileContents, user_name, app){
   //tranform assets
   fileContents = _3vot.utils.replaceAll( fileContents,
     "*/assets", 
-    ["//demo.3vot.com" , user_name, app.name + "_" + app.version , "assets"].join("/") 
+    ["//3vot.com" , user_name, app.name + "_" + app.version , "assets"].join("/") 
   );
   
   return fileContents;

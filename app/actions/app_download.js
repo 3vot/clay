@@ -60,6 +60,7 @@ function getApp(){
     done: function(response){
       if(response.body.length == 0) return deferred.reject("App not found")
       tempVars.app = App.last()
+      promptOptions.app_version = promptOptions.app_version || tempVars.app.version
       return deferred.resolve( this ) 
     },
     fail: function(error){        
@@ -78,9 +79,7 @@ function downloadApp(){
     var deferred = Q.defer();
     var s3 = new Aws.S3();
 
-    var key = promptOptions.app_user_name + '/' + tempVars.app.name  + "_" +  tempVars.app.version + '.3vot';
-    
-    console.log(key)
+    var key = promptOptions.app_user_name + '/' + tempVars.app.name  + "_" +  promptOptions.app_version + '.3vot';
     
     var params = {Bucket: promptOptions.paths.sourceBucket , Key: key };
     s3.getObject(params).createReadStream().pipe(zlib.createGunzip() ).pipe( tar.Extract( Path.join( process.cwd(), 'apps' ) ) )

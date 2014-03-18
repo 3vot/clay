@@ -31,7 +31,7 @@
       }
 
       var fileToCall = '';
-      _3vot.domain = 'demo.3vot.com';
+      _3vot.domain = '3vot.com';
       _3vot.path = '//' + _3vot.domain + '/<%= @user_name %>/' + package.name;
       
       for(entryKey in entries){ 

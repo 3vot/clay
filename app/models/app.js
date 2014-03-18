@@ -20,8 +20,6 @@ App = (function(_super) {
 
   App.extend(_3Ajax.Auto);
 
-  App.querySimpleByName = "select id,sales,version,name from apps where name = $1";
-
   App.querySimpleByNameAndProfileSecurity = "select apps.id,apps.sales,apps.name, apps.version from apps inner join profiles on (apps.profile_id = profiles.id) where profiles.user_name = $1  and apps.name =  $2";
 
   return App;

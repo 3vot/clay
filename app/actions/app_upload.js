@@ -7,7 +7,6 @@ var prompt = require("prompt")
 var Profile = require("../models/profile")
 var App = require("../models/app")
 
-
 var Aws = require("aws-sdk");
 var fstream = require("fstream");
 var tar = require("tar");
@@ -37,7 +36,9 @@ var promptOptions = {
 }
 
 var tempVars = {
-  app: null
+  app: null,
+  package_json: null,
+  app_version: 1
 }
 
 function execute(options){
@@ -46,7 +47,7 @@ function execute(options){
     if( !options.paths ) options.paths = { sourceBucket: "source.3vot.com", productionBucket: "3vot.com", demoBucket: "demo.3vot.com"}
     promptOptions= options;
     
-    createApp()
+    getAppVersion()
     .then( adjustPackage )
     .then( function(){ return AwsCredentials.requestKeysFromProfile( promptOptions.user_name) })
     .then( function(){ return AppBuild( promptOptions.app_name, "demo", true ) })
@@ -55,8 +56,9 @@ function execute(options){
     .then( uploadAppFiles )
     .then( uploadAssetsFiles )
     .then( uploadDependenciesFiles )
+    .then( createApp )
     .then( function(){ 
-      console.log("App Available at: http://" + promptOptions.paths.demoBucket + "/" + promptOptions.user_name + "/" + promptOptions.app_name +  "_" + tempVars.app.version )
+      console.log("App Available at: http://" + promptOptions.paths.productionBucket + "/" + promptOptions.user_name + "/" + promptOptions.app_name +  "_" + tempVars.app.version )
       return deferred.resolve( tempVars.app ) ;
     })
     .fail( function(err){ return deferred.reject(err); } );
@@ -64,20 +66,21 @@ function execute(options){
     return deferred.promise;
 }
 
-function createApp(){
+function getAppVersion(){
   var deferred = Q.defer();
   
   callbacks={
-    done: function(){
-      tempVars.app = this;
+    done: function(response){
+      if(response.body.length == 0) return deferred.resolve()
+      tempVars.app_version = App.last().version + 1
       return deferred.resolve( this ) 
     },
     fail: function(error){        
       return deferred.reject( error )
     }
   }
-
-  App.create( { billing: { size: promptOptions.size }, name: promptOptions.app_name, public_dev_key: promptOptions.public_dev_key, user_name: promptOptions.user_name, marketing: { name: promptOptions.app_name } }, callbacks )
+  
+  App.fetch( { query: { select: App.querySimpleByNameAndProfileSecurity, values: [ promptOptions.user_name, promptOptions.app_name ] }  }, callbacks )
   
   return deferred.promise;
 }
@@ -86,12 +89,12 @@ function createApp(){
 function adjustPackage(){
   var deferred = Q.defer();
   console.info("Adjusting the package.json for your Profile".yellow)
-  var pck = require( Path.join( process.cwd(), "apps", tempVars.app.name, "package.json" )  );
+  var pck = require( Path.join( process.cwd(), "apps", promptOptions.app_name, "package.json" )  );
   var vot = require( Path.join( process.cwd(), "3vot.json" )  )
-  pck.version = "0.0." + tempVars.app.version;
-  pck.threevot.version = ""+ tempVars.app.version;
-
-  fs.writeFile( Path.join( process.cwd(), "apps", tempVars.app.name, "package.json" ), JSON.stringify(pck,null,'\t') , function(err){
+  pck.version = "0.0." + tempVars.app_version;
+  pck.threevot.version = ""+ tempVars.app_version;
+  tempVars.package_json = pck;
+  fs.writeFile( Path.join( process.cwd(), "apps", promptOptions.app_name, "package.json" ), JSON.stringify(pck,null,'\t') , function(err){
     if(err) return deferred.reject(err);
     deferred.resolve()
   });
@@ -99,12 +102,12 @@ function adjustPackage(){
   return deferred.promise;
 }
 function buildPackage(){
-  console.log( ("Building App " + tempVars.app.name).green);
+  console.log( ("Building App " + promptOptions.app_name).green);
   var deferred = Q.defer();
-  tempVars.app.package = require( Path.join( process.cwd(), "apps", tempVars.app.name, "package.json" ) )
+  tempVars.package_json = require( Path.join( process.cwd(), "apps", promptOptions.app_name, "package.json" ) )
   
   var appFolderReader = fstream.Reader(
-    { path: 'apps/' + tempVars.app.name, 
+    { path: 'apps/' + promptOptions.app_name, 
       type: "Directory", 
       filter: function () {
         return !this.basename.match(/^\./) &&
@@ -113,10 +116,10 @@ function buildPackage(){
    });
 
   var stream = appFolderReader.pipe(tar.Pack()).pipe(zlib.createGzip());
-  stream.pipe( fstream.Writer( Path.join( process.cwd(), "tmp", tempVars.app.name + ".tar.gz") ) )
+  stream.pipe( fstream.Writer( Path.join( process.cwd(), "tmp", promptOptions.app_name + ".tar.gz") ) )
 
   stream.on("end", function(){
-    var url = Path.join( process.cwd(), "tmp", tempVars.app.name + ".tar.gz")
+    var url = Path.join( process.cwd(), "tmp", promptOptions.app_name + ".tar.gz")
     return deferred.resolve(url);
   });
 
@@ -126,13 +129,12 @@ function buildPackage(){
   return deferred.promise;
 }
 
-
 function uploadSourceCode(){
   console.info("Uploading Package to 3VOT App Store".yellow)
   var deferred = Q.defer();
-  var file = fs.readFileSync( Path.join( process.cwd(), 'tmp', tempVars.app.name + '.tar.gz'));
+  var file = fs.readFileSync( Path.join( process.cwd(), 'tmp', promptOptions.app_name + '.tar.gz'));
 
-  var key = promptOptions.user_name + '/' + tempVars.app.name  + "_" +  tempVars.app.version  + '.3vot';
+  var key = promptOptions.user_name + '/' + promptOptions.app_name  + "_" +  tempVars.app_version  + '.3vot';
 
   var s3 = new Aws.S3();
   s3.putObject( { Body: file , Key: key, Bucket: promptOptions.paths.sourceBucket }, function(s3Error, data) {
@@ -150,11 +152,11 @@ function uploadAppFiles(){
   var deferred = Q.defer();
 
   uploadPromises = []
-  var apps = WalkDir( Path.join( process.cwd(), "apps", tempVars.app.name, "app" ) );
+  var apps = WalkDir( Path.join( process.cwd(), "apps", promptOptions.app_name, "app" ) );
 
   apps.forEach( function(path){
-    path.key = promptOptions.user_name + "/" +  tempVars.app.name  +  "_" + tempVars.app.version + "/" + path.name
-    uploadPromises.push( AwsHelpers.uploadFile( promptOptions.paths.demoBucket, path ) );
+    path.key = promptOptions.user_name + "/" +  promptOptions.app_name  +  "_" + tempVars.app_version + "/" + path.name
+    uploadPromises.push( AwsHelpers.uploadFile( promptOptions.paths.productionBucket, path ) );
   });
 
   Q.all( uploadPromises )
@@ -170,11 +172,11 @@ function uploadAssetsFiles(){
   var deferred = Q.defer();
   var uploadPromises = []
  
-  var assets = WalkDir( Path.join( process.cwd(), "apps", tempVars.app.name, "app",  "assets" ) );
+  var assets = WalkDir( Path.join( process.cwd(), "apps", promptOptions.app_name, "app",  "assets" ) );
  
   assets.forEach( function(path){
-    path.key = promptOptions.user_name + "/" +  tempVars.app.name + "_" + tempVars.app.version + "/assets/" + path.name
-    uploadPromises.push( AwsHelpers.uploadFileRaw( promptOptions.paths.demoBucket, path ));
+    path.key = promptOptions.user_name + "/" +  promptOptions.app_name + "_" + tempVars.app_version + "/assets/" + path.name
+    uploadPromises.push( AwsHelpers.uploadFileRaw( promptOptions.paths.productionBucket, path ));
   });
   
    Q.all( uploadPromises )
@@ -194,7 +196,7 @@ function uploadDependenciesFiles(){
  
   deps.forEach( function(path){
     path.key = promptOptions.user_name + "/dependencies/" + path.name
-    uploadPromises.push( AwsHelpers.uploadFile( promptOptions.paths.demoBucket, path ) );
+    uploadPromises.push( AwsHelpers.uploadFile( promptOptions.paths.productionBucket, path ) );
   });
   
    Q.all( uploadPromises )
@@ -203,6 +205,24 @@ function uploadDependenciesFiles(){
   
   return deferred.promise;
   
+}
+
+function createApp(){
+  var deferred = Q.defer();
+  
+  callbacks={
+    done: function(){
+      tempVars.app = this;
+      return deferred.resolve( this ) 
+    },
+    fail: function(error){        
+      return deferred.reject( error )
+    }
+  }
+
+  App.create( { billing: { size: promptOptions.size }, name: promptOptions.app_name, public_dev_key: promptOptions.public_dev_key, user_name: promptOptions.user_name, marketing: { name: tempVars.package_json.threevot.displayName, description: tempVars.package_json.description  } }, callbacks )
+  
+  return deferred.promise;
 }
 
 
