@@ -67,8 +67,8 @@ function getApp(){
       return deferred.reject( error )
     }
   }
-    
-  App.fetch( { query: { select: App.querySimpleByName, values: [ promptOptions.app_name ] }  }, callbacks )
+
+  App.fetch( { query: { select: App.querySimpleByNameAndProfileSecurity, values: [ promptOptions.app_user_name, promptOptions.app_name ] }  }, callbacks )
   
   return deferred.promise;
 }

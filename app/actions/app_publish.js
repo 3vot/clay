@@ -74,7 +74,8 @@ function listAppKeys(){
   var deferred = Q.defer();
 
   var marker= promptOptions.user_name + "/" + tempVars.app.name + "_" + promptOptions.app_version
-  AwsHelpers.listKeys( promptOptions.paths.demoBucket, marker )
+  
+  AwsHelpers.listKeys( promptOptions.paths.productionBucket, marker )
   .then( function( keys ){ tempVars.app_keys = keys; return deferred.resolve(keys);  })
   .fail( function(err){ return deferred.reject(keys); }  );
   
@@ -87,7 +88,7 @@ function listDepKeys(){
   var deferred = Q.defer();
 
   var marker= promptOptions.user_name + "/dependency"
-  AwsHelpers.listKeys( promptOptions.paths.demoBucket, marker )
+  AwsHelpers.listKeys( promptOptions.paths.productionBucket, marker )
   .then( function( keys ){ tempVars.app_keys = keys; return deferred.resolve(keys);  })
   .fail( function(err){ return deferred.reject(keys); }  );
   
@@ -102,7 +103,7 @@ function copyKeys(){
    uploadPromises = []
    tempVars.app_keys.forEach(function(key){
      var newKey = key.Key.replace("_" + promptOptions.app_version, "");
-     uploadPromises.push( AwsHelpers.copyKey( promptOptions.paths.productionBucket, promptOptions.paths.demoBucket + "/" + key.Key , newKey ) );
+     uploadPromises.push( AwsHelpers.copyKey( promptOptions.paths.productionBucket, promptOptions.paths.productionBucket + "/" + key.Key , newKey ) );
    });
    
    Q.all( uploadPromises )
@@ -117,7 +118,7 @@ function listAssetKeys(){
   
   var deferred = Q.defer();
   var marker= promptOptions.user_name + "/" + tempVars.app.name + "_" + promptOptions.app_version + "/assets"
-  AwsHelpers.listKeys( promptOptions.paths.demoBucket, marker )
+  AwsHelpers.listKeys( promptOptions.paths.productionBucket, marker )
   .then( function( keys ){ tempVars.asset_keys = keys; return deferred.resolve(keys);  })
   .fail( function(err){ return deferred.reject(keys); }  );
   
@@ -153,7 +154,7 @@ function transformKeys(){
 function updateObjectToProduction(key){
   var deferred = Q.defer();
   
-  getObjectFromBucket(productionKey)
+  getObjectFromBucket(key)
   .then( adjustObjectToProduction )
   .then( uploadObjectToProduction )
   .then( deferred.resolve )
