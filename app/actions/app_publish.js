@@ -43,6 +43,7 @@ function execute(options){
   .then( function(){ return copyKeys(tempVars.dep_keys) })
   .then( listAssetKeys )
   .then( transformKeys )
+  .then(function(){ return console.log("App Available in http://3vot.com/" + promptOptions.user_name + "/" + promptOptions.app_name ) } )
   .then(function(){ return deferred.resolve(tempVars.app) } )
   .fail( function(err){ return deferred.reject(err); } )
 

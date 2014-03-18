@@ -44,7 +44,7 @@ function publish(callback){
     function (err, result) {
       LoadPackage(result)
       .then( Publish )
-      .then( function(){ console.log("App Published Succesfully".green); } )
+      .then( function(){ console.log( "App Published Succesfully".green ) } )
       .then( function(){ if(callback) return callback(); })
       .fail( function(err){ console.log("Error Publishing App"); console.error(err); })
   });
