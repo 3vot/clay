@@ -19,6 +19,7 @@ function create( options ){
 
   callbacks = {
     done: function(){
+      console.log(this)
       promptOptions.public_dev_key = this.security.public_dev_key;
       return deferred.resolve(promptOptions);
     },

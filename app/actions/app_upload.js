@@ -58,7 +58,7 @@ function execute(options){
     .then( uploadDependenciesFiles )
     .then( createApp )
     .then( function(){ 
-      console.log("App Available at: http://" + promptOptions.paths.productionBucket + "/" + promptOptions.user_name + "/" + promptOptions.app_name +  "_" + tempVars.app.version )
+      console.log("App Available at: http://" + promptOptions.paths.productionBucket + "/" + promptOptions.user_name + "/" + promptOptions.app_name +  "_" + tempVars.app_version )
       return deferred.resolve( tempVars.app ) ;
     })
     .fail( function(err){ return deferred.reject(err); } );
@@ -71,8 +71,12 @@ function getAppVersion(){
   
   callbacks={
     done: function(response){
-      if(response.body.length == 0) return deferred.resolve()
-      tempVars.app_version = App.last().version + 1
+      if(response.body.length == 0){
+        tempVars.app_version
+      }
+      else{
+        tempVars.app_version = App.last().version + 1
+      }
       return deferred.resolve( this ) 
     },
     fail: function(error){        
@@ -213,6 +217,7 @@ function createApp(){
   callbacks={
     done: function(){
       tempVars.app = this;
+      console.log(this.toString())
       return deferred.resolve( this ) 
     },
     fail: function(error){        
@@ -220,7 +225,8 @@ function createApp(){
     }
   }
 
-  App.create( { billing: { size: promptOptions.size }, name: promptOptions.app_name, public_dev_key: promptOptions.public_dev_key, user_name: promptOptions.user_name, marketing: { name: tempVars.package_json.threevot.displayName, description: tempVars.package_json.description  } }, callbacks )
+  values = { billing: { size: promptOptions.size }, name: promptOptions.app_name, public_dev_key: promptOptions.public_dev_key, user_name: promptOptions.user_name, marketing: { name: tempVars.package_json.threevot.displayName, description: tempVars.package_json.description  } }
+  App.create( values, callbacks )
   
   return deferred.promise;
 }

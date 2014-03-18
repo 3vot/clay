@@ -24,19 +24,20 @@ function execute( app_name, target, buildDependency, domain ){
   var pkgPath = Path.join( process.cwd(), "3vot.json");
   var pck  = require(pkgPath);
 
+  var appPkgPath = Path.join( process.cwd(), "apps", app_name, "package.json");
+  var appPkg  = require(appPkgPath);
+
+
   promptOptions= { 
     app_name: app_name,
     target: target,
     buildDependency: buildDependency || false,
     package: pck,
+    app_package: appPkg,
     domain: domain
   }
   
   Builder.buildApp( promptOptions.app_name, pck.user_name )
-  .then( function(){
-    if(target == "localhost") return true
-    return getApp();
-  })
   .then( function(){ 
     if(promptOptions.buildDependency){ 
       return Builder.buildDependency(promptOptions.app_name);
@@ -53,25 +54,6 @@ function execute( app_name, target, buildDependency, domain ){
   return deferred.promise;
 }
 
-function getApp(){
-  var deferred = Q.defer();
-  
-  callbacks={
-    done: function(response){
-      if(response.body.length == 0) throw "App not found " 
-      tempVars.app = App.last()
-      return deferred.resolve( this ) 
-    },
-    fail: function(error){        
-      return deferred.reject( error )
-    }
-  }
-
-  App.fetch( { query: { select: App.querySimpleByNameAndProfileSecurity, values: [ promptOptions.package.user_name, promptOptions.app_name ] }  }, callbacks )
-  
-  return deferred.promise;
-}
-
 function transformAssets(app_name){
   var assets = WalkDir( Path.join( process.cwd(), "apps", app_name, "assets" ) );
 
@@ -83,7 +65,7 @@ function transformAssets(app_name){
         file = Transform[promptOptions.target](file, promptOptions.package.user_name, app_name, promptOptions.domain);
       }
       else{
-        file = Transform[promptOptions.target](file, promptOptions.package.user_name, tempVars.app);
+        file = Transform[promptOptions.target](file, promptOptions.package.user_name, app_name, promptOptions.app_package.threevot.version );
       }
     }
     else{
@@ -103,7 +85,7 @@ function transformFiles(app_name){
         file = Transform[promptOptions.target](file, promptOptions.package.user_name, app_name, promptOptions.domain );
       }
       else{
-        file = Transform[promptOptions.target](file, promptOptions.package.user_name, tempVars.app);
+        file = Transform[promptOptions.target](file, promptOptions.package.user_name, app_name, promptOptions.app_package.threevot.version );
       }      
       fs.writeFileSync( path.path, file );
     }

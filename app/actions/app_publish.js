@@ -177,7 +177,7 @@ function getObjectFromBucket(key){
   
 function adjustObjectToProduction(fileObject){
   //console.log(("Adjusting File for Production " + promptOptions.paths.demoBucket + " to " +  promptOptions.paths.productionBucket ).grey);
-  fileObject.data = Transform.production(fileObject.data, promptOptions.user_name ,tempVars.app);
+  fileObject.data = Transform.production(fileObject.data, promptOptions.user_name, promptOptions.app_name, promptOptions.app_version);
   return fileObject;
 }
   
