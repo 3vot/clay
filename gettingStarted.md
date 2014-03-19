@@ -33,8 +33,8 @@
 
 #### <a name="requirements"></a> Requirements
 
-- [NodeJS](http://nodejs.org/)
-- You can go trought this guides in you local console (Mac or Linux) or using [Nitrous.io](https://nitrous.io)
+- You can go trought this guides in you local console (Mac or Linux) or using [Nitrous.io](https://nitrous.io).
+- [NodeJS](http://nodejs.org/) installed locally. If using Nitrous.io create a new box and pick node.js as template.
 
 [<< Back to Index](#index)
 
