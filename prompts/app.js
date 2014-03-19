@@ -68,7 +68,7 @@ function upload(callback){
 function install(callback){
   prompt.start();
   prompt.get( [ 
-    { name: 'app_name', description: 'App Name ( The name of the app you want to create )' } ], 
+    { name: 'app_name', description: 'App Name ( The name of the app you want to install )' } ], 
     function (err, result) {
       LoadPackage(result)
       .then( Install )

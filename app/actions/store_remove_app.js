@@ -9,7 +9,7 @@ var Profile = require("../models/profile")
 var Store = require("../models/store")
 
 var promptOptions = {
-  app: null,
+  app_name: null,
   name: null,
   user_name: null,
   public_dev_key: null
@@ -31,7 +31,8 @@ function add( options ){
     }
   }
 
-  Store.callAction( "removeAppFromStore", { app: promptOptions.app_name, name: options.name, user_name: promptOptions.user_name, public_dev_key: options.public_dev_key }, callbacks )  
+
+  Store.callAction( "removeAppFromStore", { app_name: promptOptions.app_name, name: options.name, user_name: promptOptions.user_name, public_dev_key: options.public_dev_key }, callbacks )  
   
   return deferred.promise;
 } 
