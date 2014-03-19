@@ -1,10 +1,13 @@
 ####[3VOT-CLI Intro](https://github.com/3vot/3vot-cli/blob/master/readme.md)
-#### Getting Started - Index
+
+#### <a name="index"></a> Getting Started - Index
+- [Intro to 3VOT's Profile & Marketplace](#intro)
+- [Requirements](#requirements)
 - [1- Install 3VOT CLI](#install)
 - [2- Create a 3VOT profile](#profile) 
-- [3- SetUp your profile folder](#setup)
+- [3- Set Up your profile folder](#setup)
 - [4- Clone an App](#download) 
-- [5- Running the Tutorial App](#run) 
+- [5- Running the Test App](#run) 
 - [6- Modifying the App](#modify)
 - [7- Uploading the App](#upload)
 - [8- Publishing the App](#publish)
@@ -13,22 +16,42 @@
 - [11- Creating a new Store](#createStore)
 - [12- Listing Stores](#list)
 - [13- Adding Apps to a Store](#add)
-- [14- Modify your profile template](#template)
-- [15- Removing an app from a store](#remove)
-- [16- Deleting a store](#delete)
+- [14- Removing an app from a store](#remove)
+- [15- Deleting a store](#delete)
 
 
+
+#### <a name="intro"></a> Intro to 3VOT, Profile & Marketplace
+
+3VOT is a Front-End as a Service to build Apps 5X faster with reusable [NPM](https://www.npmjs.org/) components and the best of the modern web architectures. 
+
+3VOT provides you with a Profile for your organization, there you can publish your apps and organize them by Stores, so that you can share them with your team, partners or customers. You can clone your Apps in other organization's profiles or promote them in our Marketplace. Take a look at [this video](http://www.youtube.com/watch?v=ewhugA219m0) to see how your profile will look.
+
+3vot-cli is the local component you will use to create your apps, profile and stores. It will also let you publish your apps instantly so you don't have to worry about servers, infraestruture or other complex decisions.
+
+[<< Back to Index](#index)
+
+#### <a name="requirements"></a> Requirements
+
+- [NodeJS](http://nodejs.org/)
+- You can go trought this guides in you local console (Mac or Linux) or using [Nitrous.io](https://nitrous.io)
+
+[<< Back to Index](#index)
 
 #### <a name="install"></a> Step 1 - Install 3vot-cli
 
-Open the console (cmd) and install the 3vot-cli ( the tool to build, download and deploy apps )
+Open your local console and install the 3vot-cli ( the command line interface to operate 3VOT )
 ```
-npm install 3vot-cli -g
+npm install 3vot-cli@0.3.25 -g
 ```
+
+`3vot -h` will display a commands list and `3vot -v` will display the version of 3vot-cli.
+
+[<< Back to Index](#index)
 
 #### <a name="profile"></a> Step 2 - Create a 3VOT profile
 
-Create you organization profile in 3vot:
+Create you organization's profile in 3vot:
 ```
 3vot profile:create
 ```
@@ -43,24 +66,34 @@ Then it will ask for the username of your profile, that's the one the will appea
 prompt: username: ( The username, that appears in the url ): myusername
 ```
 
+Finally will ask for the Admin email:
+````
+prompt: email: ( Your Email, required in order to administer your profile ):  myemail@mydomain.com
+````
+
 This will create your profile in the platform, please take note of your developer key and keep it safe. 
 
+You can access your profile in `3vot.com/myusername`. Each Profile includes a default App called [Hangouts](http://3vot.com/3vot/hangouts), take a look at it, is to schedule an introductory hangout with Roberto Rodríguez, our main architect and cofounder, in 30 minutes he will share his insights on 3vot's philosophy and modern web architecture.
 
-#### <a name="setup"></a> Step 3 - SetUp your profile folder
+[<< Back to Index](#index)
+
+#### <a name="setup"></a> Step 3 - Set Up your profile folder
 On your console, choose a folder to install 3vot and type:
 ``` 
-3vot setup 
+3vot profile:setup 
 ```
 
 The console will ask for your Developer Key. 
 
 This step will create, in your computer, the folder structure of your 3VOT profile and download all required dependencies from NPM. 
 
+[<< Back to Index](#index)
 
 #### <a name="download"></a> Step 4 - Clone an App
 
-`3vot setup` generates a project folder for your profile. 
-Go inside the Test folder
+`3vot profile:setup` generates a project folder for your profile.
+
+Go inside the created project folder
 ```
  cd 3vot_myusername
 ```
@@ -75,15 +108,9 @@ The console will ask for the name of the owner of the app you want to download, 
 prompt: Profile: ( The profile name of the owner of the app ): 3vot
 ```
 
-Then it will ask for the name of the app you want to clone, in this case is 'hello-multi-platform'
+Then it will ask for the name of the app you want to clone, in this case is 'Welcome'
 ```
-Profile: ( The profile name of the owner of the app ):  hello-multi-platform 
-```
-
-It will ask for the private code in case you are clonning a private app, this one is a public up, so just hit enter: 
-
-```
-prompt: Code: ( The private code in case it's a private app ):                                                          
+Profile: ( The App you want to Download ):  Welcome 
 ```
 
 Finally it will ask for the version of the app you want to clone, for the last just hit enter:
@@ -91,25 +118,26 @@ Finally it will ask for the version of the app you want to clone, for the last j
 prompt: Version: ( The App version, hit enter for latest ):
 ```
 
-Now you have a tutorial app in your apps folder with it's dependencies from NPM, next step is to Run it.
+Now you have a Welcome app in your apps folder with it's dependencies from NPM, next step is to Run it.
 
+[<< Back to Index](#index)
 
-#### <a name="run"></a> Step 5 - Running the Tutorial App
+#### <a name="run"></a> Step 5 - Running the Welcome App
 
 Make sure you are on your profile folder '3vot_myusername' and Run the app by typing `3vot server`
 ```
  3vot server
 ```
 
-##### If you are using your local console (Mac):
+##### If you are using your local console (Mac or Linux):
 
-This will start a development server, to check the app running just point your browser to : ``http://localhost:3000/myusername/hello-multi-platform``
+This will start a development server, to check the app running just point your browser to : ``http://localhost:3000/myusername/Welcome``
 
 ##### If you are using Nitrous.io:
 
-The console will ask for the preview domain where you can check your app, for this just select the `Boxes` option located on the top right menu of the Nitrous IDE. 
+The console will ask for the preview domain where you can check your app, for this just select the `Boxes` tab located on the top right menu of the Nitrous IDE. 
 
-Inside the Nitous-io box you created should be the `Preview URI` address you need, use that one on the nitrous console without the `http://` or trailing slashes `/`. 
+Inside the Nitous-io box you are using it should be the `Preview URI` address you need, use that one on the nitrous console without the `http://` or trailing slashes `/`. 
 
 ```
 Example: Domain: ( If you are on nitrous.io type the preview domain with out http:// or trailing slashes / ) :  tutorial3vot-73872-use1.nitrousbox.com
@@ -117,40 +145,40 @@ Example: Domain: ( If you are on nitrous.io type the preview domain with out htt
 
 This will start a development server, to check the app running using nitrous just point your browser to your `previewURI/profile/app` .
 ```
-Example: tutorial3vot-73872-use1.nitrousbox.com/myusername/hello-multi-platform
+Example: tutorial3vot-73872-use1.nitrousbox.com/myusername/Welcome
 ```
 
+[<< Back to Index](#index)
+
 #### <a name="modify"></a> Step 6 - Modifying the App
-Let's make changes to your app, go ahead and change the header in the following file:  ``3vot_myusername/apps/hello-multi-platform/templates/layouts/desktop.eco``
+Let's make changes to your app, go ahead and change the header in the following file:  ``3vot_myusername/apps/Welcome/templates/layout.html``
 
 ```
 ...
-<div class="container">
-
-  <div class=" content-header">
-    <h2>CHANGE SOMETHING INSIDE THIS HEADER</h2>
-  </div>
+  </div><!--Row-->
+    
+    <h3 class=" text-inverse text-center">Welcome to 3vot's CHANGE SOMETHING INSIDE THIS HEADER!!!</h3>
+    <h1 class="text-center text-inverse page-header">Resource Guide</h1>
+    <br><br>
+    
+    <div class="col-md-10 col-md-offset-1">
 ...
 ```
 
 Save your changes and refresh your browser to see them.
 
+Stop the server using `ctrl+c`.
+
+[<< Back to Index](#index)
 
 #### <a name="upload"></a> Step 7 - Uploading the App
-If you have uploaded the app before you need to increment the version in your app's package.json file, located in `apps/hello-multi-platform/package.json` , this will allow you to check any running version later, if this is your first time uploading an app skip this.
+In your app's package.json file, located in `apps/Welcome/package.json` , you will be able to add a description of your app, 140 characters max.
 
 ```
 {
-	"name": "hello-multi-platform",
+	"name": "WelcomeApp",
+	"description": "ADD SOMETHING HERE",
 	"version": "0.0.1",
-	"profile": "myusername",
-	"description": "A simple app with the SpineJS framework that loads JSON from a Google Spreadsheet, it showcases how to build a multiplatform App.",
-	"threevot": {
-		"displayName": "Multiplatform Hello World",
-		"private": false,
-		"privateCode": "",
-		"size": "small",
-		"external": {},
 ...
 ```
 
@@ -158,24 +186,24 @@ Now Upload the app using :
 ```
 3vot app:upload 
 ```
-The console will ask for the name of the app you want to upload, write the name `hello-multi-platform` in this case.
+The console will ask for the name of the app you want to upload, write the name `Welcome` in this case.
 ```
-App: ( the name of the app you want to upload ): hello-multi-platform
+App: ( the name of the app you want to upload ): Welcome
 ```
-This will upload the App to your profile, you'll later be able to publish it to the world.
+This will upload the App to your profile as a demo, you'll be able to publish it to the world later, access the demo app in ``http://3vot.com/myusername/Welcome_1``. The integer at the end of the url is the version number, each time you upload the app again that integer will be upgraded.
 
-It will also deploy a demo of your app in ``http://demo.3vot.com/armova6/hello-multi-platform_0.0.xx `` just change the last xx for the version of the app you want to check.
+[<< Back to Index](#index)
 
 #### <a name="publish"></a> Step 8 - Publishing the App
 
 When you have a demo that you think it's a winner and want to publish it to the world just type:
 ```
-3vot app:publish 
+3vot app:publish
 ```
 
-The console will ask for the name of the app you want to publish, in this case let's publish our app `hello-multi-platform`.
+The console will ask for the name of the app you want to publish, in this case let's publish our app `Welcome`.
 ```
-prompt: App: ( The Name of the App you want to publish ):  hello-multi-platform  
+prompt: App: ( The Name of the App you want to publish ):  Welcome 
 ```
 
 The console will ask for the version of the app to be published, to publish the last just hit enter:
@@ -183,12 +211,16 @@ The console will ask for the version of the app to be published, to publish the 
 prompt: Version: ( The Version of the App you want to publish, enter for latest ):
 ```
 
-You can access your published app in `3vot.com/profile/app/index.html`
+You can access your published app in `3vot.com/profile/app`
 ```
-http://3vot.com/myusername/hello-multi-platform/index.html
+http://3vot.com/myusername/Welcome
 ```
 
 And you're done!
+
+Later we will show you how to publish your app in a store in `3vot.com/myusername` (steps 11-13).
+
+[<< Back to Index](#index)
 
 #### <a name="create"></a> Step 9 - Create a new App
 
@@ -204,10 +236,13 @@ App Name ( The name of the app you want to create ):  appname
 
 This will create a folder with the name of the app and will make a basic scaffold for your project. 
 
+[<< Back to Index](#index)
+
 #### <a name="run2"></a> Step 10 - Run, Upload and Publish again.
 
-Run, upload and publish the app as in Steps 4, 6, and 7.
+Run, upload and publish the app as in Steps 5, 6, and 7.
 
+[<< Back to Index](#index)
 
 #### <a name="createStore"></a> Step 11 - Creating a new Store
 
@@ -215,7 +250,7 @@ Stores are a great way to manage and order your apps after you publish them.
 
 To create a new store just type in your console 
 ```
-3vot store:create
+3vot store:create -u 
 ```
 
 The console will ask for a name for your store, just like so:
@@ -225,6 +260,10 @@ Store: ( The name of the Store you want to create ):  mystore
 
 Write a name and this will create it instantly.
 
+You can see the Store in your profile in `3vot.com/myusername`, this profile is being updated automatically because we used the `-u` option after the command `store:create`.
+
+[<< Back to Index](#index)
+
 #### <a name="list"></a> Step 12- Listing Stores
 
 You can see the list of your stores using the command:
@@ -233,33 +272,30 @@ You can see the list of your stores using the command:
 ```	
 This will show, not only the stores you have but also de apps that have been added to each store.
 
+[<< Back to Index](#index)
+
 #### <a name="add"></a> Step 13- Adding Apps to a Store
 
 Now that you've created a store you can add your apps to it.
 
 It's really simple, add them by using:
 ```	
-3vot store:add
+3vot store:app:add -u
 ```	
 
 The console will ask for the name of the store you want to add the app to, and the name of the app.
 ```	
 prompt: Stores: ( The name of the Store you want to use ): mystore
-prompt: App: ( The name of the App you want to add to the store ):  hello-multi-platform 
+prompt: App: ( The name of the App you want to add to the store ):  Welcome 
 ```
 
-#### <a name="template"></a> Step 14- Modify your profile template
+If you do `3vot store:list` or go to `3vot.com/myusername` you will see the updates.
 
-At the moment you add an app to a store, for the first time, you start having a profile page located at `www.3vot.com/myusername`. Your profile is using a standard template located in `3vot_myusername/store/template.eco` in your computer. 
+[<< Back to Index](#index)
 
-You can modify or change your template file and update it using:
-```
-3VOT store:publish store/template.eco
-```
+#### <a name="remove"></a> Step 14- Removing an App from a Store
 
-#### <a name="remove"></a> Step 15- Removing an App from a Store
-
-In the same way you add an app to a store you can remove one, using ``3vot store:remove`` , this will remove it from the store, but will not delete the app.
+In the same way you add an app to a store you can remove one, using ``3vot store:app:remove -u`` , this will remove it from the store, but will not delete the app.
 
 The console will ask the name of the store from wich you will remove an app:
 ```
@@ -268,22 +304,28 @@ prompt: Store: ( The name of the Store you want to use ): mystore
 
 Then it will ask for the name of the app to be removed:
 ```
-prompt: App: ( The name of the App you want to remove from the store ):  hello-multi-platform 
+prompt: App: ( The name of the App you want to remove from the store ):  WelcomeApp 
 ```
 
+[<< Back to Index](#index)
 
-#### <a name="delete"></a> Step 16- Deleting a Store
+#### <a name="delete"></a> Step 15- Deleting a Store
 
 To delete a store just use the command ...
 ```	
-3vot store:delete
+3vot store:destroy -u
 ```	
 and enter the name the store you want to delete
 ```
 prompt: Stores: ( The name of the Stores you want to delete ): mystore
 ```
 
+[<< Back to Index](#index)
+
+
 #### Hope you love your first experience with 3vot's Front End as a Service Platform!
-#### For support, pair programming sessions or any feedback, please visit us at [www.3vot.com](http://3vot.com/)
+#### Don't forget to use the [Hangouts App](http://3vot.com/3vot/hangouts) to schedule a deeper discussion on how to become a 3VOT master.
+
+
 
 
