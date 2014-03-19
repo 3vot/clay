@@ -21,7 +21,7 @@
 
 
 
-#### <a name="intro"></a> Intro to 3VOT, Profile & Marketplace
+## <a name="intro"></a> Intro to 3VOT, Profile & Marketplace
 
 3VOT is a Front-End as a Service to build Apps 5X faster with reusable [NPM](https://www.npmjs.org/) components and the best of the modern web architectures. 
 
@@ -31,14 +31,14 @@
 
 [<< Back to Index](#index)
 
-#### <a name="requirements"></a> Requirements
+## <a name="requirements"></a> Requirements
 
 - You can go trought this guides in you local console (Mac or Linux) or using [Nitrous.io](https://nitrous.io).
 - [NodeJS](http://nodejs.org/) installed locally. If using Nitrous.io create a new box and pick node.js as template.
 
 [<< Back to Index](#index)
 
-#### <a name="install"></a> Step 1 - Install 3vot-cli
+## <a name="install"></a> Step 1 - Install 3vot-cli
 
 Open your local console and install the 3vot-cli ( the command line interface to operate 3VOT )
 ```
@@ -49,7 +49,7 @@ npm install 3vot-cli@0.3.25 -g
 
 [<< Back to Index](#index)
 
-#### <a name="profile"></a> Step 2 - Create a 3VOT profile
+## <a name="profile"></a> Step 2 - Create a 3VOT profile
 
 Create you organization's profile in 3vot:
 ```
@@ -77,7 +77,7 @@ You can access your profile in `3vot.com/myusername`. Each Profile includes a de
 
 [<< Back to Index](#index)
 
-#### <a name="setup"></a> Step 3 - Set Up your profile folder
+## <a name="setup"></a> Step 3 - Set Up your profile folder
 On your console, choose a folder to install 3vot and type:
 ``` 
 3vot profile:setup 
@@ -89,7 +89,7 @@ This step will create, in your computer, the folder structure of your 3VOT profi
 
 [<< Back to Index](#index)
 
-#### <a name="download"></a> Step 4 - Clone an App
+## <a name="download"></a> Step 4 - Clone an App
 
 `3vot profile:setup` generates a project folder for your profile.
 
@@ -122,7 +122,7 @@ Now you have a Welcome app in your apps folder with it's dependencies from NPM, 
 
 [<< Back to Index](#index)
 
-#### <a name="run"></a> Step 5 - Running the Welcome App
+## <a name="run"></a> Step 5 - Running the Welcome App
 
 Make sure you are on your profile folder '3vot_myusername' and Run the app by typing `3vot server`
 ```
@@ -150,7 +150,7 @@ Example: tutorial3vot-73872-use1.nitrousbox.com/myusername/Welcome
 
 [<< Back to Index](#index)
 
-#### <a name="modify"></a> Step 6 - Modifying the App
+## <a name="modify"></a> Step 6 - Modifying the App
 Let's make changes to your app, go ahead and change the header in the following file:  ``3vot_myusername/apps/Welcome/templates/layout.html``
 
 ```
@@ -171,7 +171,7 @@ Stop the server using `ctrl+c`.
 
 [<< Back to Index](#index)
 
-#### <a name="upload"></a> Step 7 - Uploading the App
+## <a name="upload"></a> Step 7 - Uploading the App
 In your app's package.json file, located in `apps/Welcome/package.json` , you will be able to add a description of your app, 140 characters max.
 
 ```
@@ -194,7 +194,7 @@ This will upload the App to your profile as a demo, you'll be able to publish it
 
 [<< Back to Index](#index)
 
-#### <a name="publish"></a> Step 8 - Publishing the App
+## <a name="publish"></a> Step 8 - Publishing the App
 
 When you have a demo that you think it's a winner and want to publish it to the world just type:
 ```
@@ -222,7 +222,7 @@ Later we will show you how to publish your app in a store in `3vot.com/myusernam
 
 [<< Back to Index](#index)
 
-#### <a name="create"></a> Step 9 - Create a new App
+## <a name="create"></a> Step 9 - Create a new App
 
 On your console, go inside your `3vot_myusername` profile folder, and create a new app simply by writing:
 ```
@@ -238,13 +238,13 @@ This will create a folder with the name of the app and will make a basic scaffol
 
 [<< Back to Index](#index)
 
-#### <a name="run2"></a> Step 10 - Run, Upload and Publish again.
+## <a name="run2"></a> Step 10 - Run, Upload and Publish again.
 
 Run, upload and publish the app as in Steps 5, 6, and 7.
 
 [<< Back to Index](#index)
 
-#### <a name="createStore"></a> Step 11 - Creating a new Store
+## <a name="createStore"></a> Step 11 - Creating a new Store
 
 Stores are a great way to manage and order your apps after you publish them.
 
@@ -264,7 +264,7 @@ You can see the Store in your profile in `3vot.com/myusername`, this profile is 
 
 [<< Back to Index](#index)
 
-#### <a name="list"></a> Step 12- Listing Stores
+## <a name="list"></a> Step 12- Listing Stores
 
 You can see the list of your stores using the command:
 ```	
@@ -274,7 +274,7 @@ This will show, not only the stores you have but also de apps that have been add
 
 [<< Back to Index](#index)
 
-#### <a name="add"></a> Step 13- Adding Apps to a Store
+## <a name="add"></a> Step 13- Adding Apps to a Store
 
 Now that you've created a store you can add your apps to it.
 
@@ -293,7 +293,7 @@ If you do `3vot store:list` or go to `3vot.com/myusername` you will see the upda
 
 [<< Back to Index](#index)
 
-#### <a name="remove"></a> Step 14- Removing an App from a Store
+## <a name="remove"></a> Step 14- Removing an App from a Store
 
 In the same way you add an app to a store you can remove one, using ``3vot store:app:remove -u`` , this will remove it from the store, but will not delete the app.
 
@@ -309,7 +309,7 @@ prompt: App: ( The name of the App you want to remove from the store ):  Welcome
 
 [<< Back to Index](#index)
 
-#### <a name="delete"></a> Step 15- Deleting a Store
+## <a name="delete"></a> Step 15- Deleting a Store
 
 To delete a store just use the command ...
 ```	
