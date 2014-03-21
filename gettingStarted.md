@@ -42,7 +42,7 @@
 
 Open your local console and install the 3vot-cli ( the command line interface to operate 3VOT )
 ```
-npm install 3vot-cli@0.3.25 -g
+npm install 3vot-cli@0.3.27 -g
 ```
 
 `3vot -h` will display a commands list and `3vot -v` will display the version of 3vot-cli.
