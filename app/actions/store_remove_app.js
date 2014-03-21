@@ -32,7 +32,7 @@ function add( options ){
   }
 
 
-  Store.callAction( "removeAppFromStore", { app_name: promptOptions.app_name, name: options.name, user_name: promptOptions.user_name, public_dev_key: options.public_dev_key }, callbacks )  
+  Store.callAction( "removeAppFromStore", { app_name: promptOptions.app_name, name: promptOptions.name, user_name: promptOptions.user_name, public_dev_key: options.public_dev_key }, callbacks )  
   
   return deferred.promise;
 } 
