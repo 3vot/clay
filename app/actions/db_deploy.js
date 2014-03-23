@@ -18,10 +18,11 @@ var destPath = Path.join( process.cwd(), "3vot_backend", "dist");
 
 function execute(options){
   var deferred = Q.defer();
-
   promptOptions = options.db[options.target];
-  promptOptions.version = options.version || _findLastVersion()
-  promptOptions.file = Path.join( destPath, "v_" + promptOptions.version  + ".sql" ); 
+
+  if(!options.developmentMode) promptOptions.version = options.version || _findLastVersion()
+
+  promptOptions.file = getFilename(options.developmentMode)
 
   command = 'PGPASSWORD="' + promptOptions.password + '" psql sslmode=require -U ' + promptOptions.user  + ' -q -d ' + promptOptions.database + '  -h ' + promptOptions.host + ' -p ' + promptOptions.port + ' --file=' + promptOptions.file
 
@@ -30,13 +31,18 @@ function execute(options){
     console.log('stdout: ' + stdout);
     console.log('stderr: ' + stderr);
   });
-  
+
   child.on("close", function(){
     deferred.resolve()
   })
 
   return deferred.promise;
 
+}
+
+function getFilename(developmentMode){
+  if(developmentMode) return Path.join( destPath, "development", "dev.sql");
+  return Path.join( destPath, "v_" + promptOptions.version  + ".sql" );
 }
 
 function _findLastVersion(){

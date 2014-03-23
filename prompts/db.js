@@ -10,7 +10,7 @@ function create(callback){
 }
 
 function build(callback){
-  return Build()
+  return Build({})
 }
 
 function deploy(callback){
@@ -28,8 +28,22 @@ function deploy(callback){
   });
 }
 
+function develop(callback){
+  var result= {
+   target: "development" 
+  }
+  LoadPackage(result)
+  .then( function(){ return Build({ developmentMode: true } ) } )
+  .then( function(){ result.developmentMode = true; return Deploy(result) } )
+  .then( function(){ console.log("DB App Deployed Succesfully".green); } )
+  .then( function(){ if(callback) return callback(); })
+  .fail( function(err){ console.log("Error Deploying App"); console.error(err); })
+}
+
+
 module.exports = {
   create: create,
   build: build,
-  deploy: deploy
+  deploy: deploy,
+  develop: develop
 }

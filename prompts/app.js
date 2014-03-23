@@ -1,6 +1,7 @@
 var prompt = require("prompt")
 var LoadPackage = require("../app/utils/package_loader")
 
+var Update = require("../app/actions/app_update")
 var Create = require("../app/actions/app_create")
 var Download = require("../app/actions/app_download")
 var Upload = require("../app/actions/app_upload")
@@ -16,6 +17,19 @@ function create(callback){
       LoadPackage(result)
       .then( Create )
       .then( function(){ console.log("App Created Succesfully".green); } )
+      .then( function(){ if(callback) return callback(); })
+      .fail( function(err){console.error(err); } )
+  });
+}
+
+function update(callback){
+  prompt.start();
+  prompt.get( [ 
+    { name: 'app_name', description: 'App Name ( The name of the app you want to update )' } ], 
+    function (err, result) {
+      LoadPackage(result)
+      .then( Update )
+      .then( function(){ console.log("App Updated Succesfully".green); } )
       .then( function(){ if(callback) return callback(); })
       .fail( function(err){console.error(err); } )
   });
@@ -95,6 +109,7 @@ function build(callback){
 
 module.exports = {
   create: create,
+  update: update,
   upload: upload,
   download: download,
   publish: publish,

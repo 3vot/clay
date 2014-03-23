@@ -6,7 +6,7 @@ create table if not exists plv8_sources (
 );
 
 -- insert source so assert can give meaningful code context
-\set code `cat <%= @destPath + "/" + "v_" + @version + ".js" %>`
+\set code `cat <%= @destPath %>`
 delete from plv8_sources where filename = 'plv8_startup';
 insert into plv8_sources
   (filename, code)

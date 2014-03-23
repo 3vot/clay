@@ -1,4 +1,6 @@
 
+Update = require("../../app/actions/app_update")
+
 Upload = require("../../app/actions/app_upload")
 Create = require("../../app/actions/app_create")
 
@@ -12,6 +14,7 @@ nock = require("nock")
 rimraf = require("rimraf");
 Path = require("path");
 
+fs = require("fs")
 request = require("superagent")
 
 
@@ -21,7 +24,7 @@ describe '3VOT App', ->
 
   before (done) ->
     projectPath = Path.join( process.cwd() , "3vot_cli_2_test" );
-    console.info("Changing current directory to in app Before" + projectPath)
+    console.info("Changing current directory to app Before " + projectPath)
     process.chdir( projectPath );
 
     rimraf Path.join( process.cwd(), "apps", "cli_2_test_app_1"  ) , (err) -> 
@@ -36,6 +39,20 @@ describe '3VOT App', ->
   it 'should create an app', (done) ->
     @timeout(90000)
     Create( { app_name: "cli_2_test_app_1", user_name: "cli_2_test",  public_dev_key: process.env.public_dev_key, size: "small" } )
+    .fail (error) ->
+      error.should.equal("")
+    .done (app) ->
+      done()
+      
+  it 'should update an app', (done) ->
+    @timeout(90000)
+    
+    path = Path.join( process.cwd(), "apps", "cli_2_test_app_1", "package.json"  )
+    pck = require(path)
+    pck.description = "ok"
+    fs.writeFileSync path, JSON.stringify(pck)
+    
+    Update( { app_name: "cli_2_test_app_1", user_name: "cli_2_test",  public_dev_key: process.env.public_dev_key, size: "small" } )
     .fail (error) ->
       error.should.equal("")
     .done (app) ->

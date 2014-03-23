@@ -10,11 +10,15 @@ var appPath = Path.join( process.cwd(), "3vot_backend", "index.js");
 var testPath = Path.join( process.cwd(), "3vot_backend", "test" , "index.js");
 var destPath = Path.join( process.cwd(), "3vot_backend", "dist" );
 
-var dbVersion = 1;
+var promptOptions = {
+  developmentMode: null,
+  dbVersion: 1
+}
 
-function execute(entry){
+function execute(options){
   var deferred = Q.defer();
-  var entryName = entry + ".js";
+  promptOptions = options;
+  
   
   var b = Browserify( [appPath, testPath] , { extensions: [ ".coffee", ".eco", ".html" ] } )
   
@@ -23,12 +27,13 @@ function execute(entry){
 
   b.require("./3vot_backend/test/microspec")
   b.require("./3vot_backend/test")
-  
-  dbVersion = _findLastVersion();
+
+  if( options.developmentMode ) destPath = Path.join( destPath, "development" );
+  else promptOptions.dbVersion = _findLastVersion(); 
   
   bundle(b)
   .then( function(src){ return saveBundle(src, ".js") } )
-  .then( saveTemplate )
+  .then( function(src){ return saveBundle( generateTemplate(src), ".sql" ) })
   .then( deferred.resolve )
   .fail( function(error){ console.log(error); deferred.reject(error); }  )
   return deferred.promise;
@@ -43,21 +48,15 @@ function bundle(b){
        deferred.resolve(src)
      }
    );
-  
   return deferred.promise;
 }
 
-function saveTemplate( src ){
-  var template = fs.readFileSync(  Path.join( templatesPath, "db", "app.eco" ), "utf-8");
-  var sql = eco.render( template, { body: src, destPath: destPath, version: dbVersion  }  )
-  return saveBundle( sql, ".sql" )
-}
 
-// Desc: Saves a File to System
+// Desc: Saves JS a File to System
 function saveBundle( contents, type ){
   var deferred = Q.defer();
   fs.mkdir(destPath, function(){
-    fs.writeFile(  Path.join( destPath, "v_" + dbVersion  + type) , contents, 
+    fs.writeFile( Path.join( destPath, getFileName(type) ) , contents, 
       function(err){
         if(err) return deferred.reject(err);
         return deferred.resolve(contents);
@@ -65,6 +64,17 @@ function saveBundle( contents, type ){
     )
   });
   return deferred.promise;
+}
+
+function getFileName(type){
+  if(promptOptions.developmentMode) return "dev" + type;
+  return "v_" + promptOptions.dbVersion  + type;
+}
+
+function generateTemplate(src){
+  var template = fs.readFileSync(  Path.join( templatesPath, "db", "app.eco" ), "utf-8");
+  var sql = eco.render( template, { body: src, destPath: Path.join( destPath, getFileName(".js") ) , version: promptOptions.dbVersion  }  );
+  return sql;  
 }
 
 function _findLastVersion(){

@@ -14,7 +14,7 @@ App = (function(_super) {
     return App.__super__.constructor.apply(this, arguments);
   }
 
-  App.configure("App", "name", "billing", "marketing", "version", "user_name", "public_dev_key");
+  App.configure("App", "name", "app_name", "billing", "marketing", "version", "user_name", "public_dev_key");
 
   App.extend(_3Ajax);
 
