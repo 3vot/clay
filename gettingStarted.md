@@ -25,7 +25,7 @@
 
 3VOT is a Front-End as a Service to build Apps 5X faster with reusable [NPM](https://www.npmjs.org/) components and the best of the modern web architectures. 
 
-3VOT provides you with a Profile for your organization, there you can publish your apps and organize them by Stores, so that you can share them with your team, partners or customers. You can clone your Apps in other organization's profiles or promote them in our Marketplace. Take a look at [this video](http://www.youtube.com/watch?v=ewhugA219m0) to see how your profile will look.
+3VOT provides you with a Profile for your organization, there you can publish your apps and organize them by Stores, so that you can share them with your team, partners or customers. You can clone your Apps in other organization's profiles or promote them in our Marketplace. Take a look at [this video](http://www.youtube.com/watch?v=0SYxho_32m4) to see how your profile will look.
 
 3vot-cli is the local component you will use to create your apps, profile and stores. It will also let you publish your apps instantly so you don't have to worry about servers, infraestruture or other complex decisions.
 
