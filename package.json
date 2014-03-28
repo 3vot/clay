@@ -36,12 +36,17 @@
     "brfs": "0.0.8",
     "browserify-eco": "~0.2.4",
     "3vot-model": "0.0.20",
-    "3vot-db": "0.0.1"
+    "3vot-db": "0.0.1",
+    "uglifyify": "~2.0.0"
   },
-  "devDependencies": {
+  "testDependencies": {
     "mocha": "~1.17.0",
     "should": "~3.0.1",
     "nock": "~0.27.2",
     "sinon": "~1.9.0"
-  }
+  },
+  "readme": "####3VOT-CLI Intro\n\n3VOT helps you build and deploy apps quicker. We call it Frontend as a Service.\n\nYou can build apps with any javascript framework and style them the best way you can. \n\n3VOT embraces the concept of modules and web components, you can re-use any component from NPM and Bower. It's an amazing way to build Quality Apps in a few days, that's 5x faster.\n\n3VOT is also a community so you can simply copy an app for free, to your profile and start using as you own; or make a few changes to make it a perfect fit. Developers and Entrepreneurs can also build, customize and sell you amazing apps;\n\nHere is the Information for the Developer to get started, but even if you are not a developer: give it a try.\n\n\n<iframe width=\"560\" height=\"315\" src=\"//www.youtube.com/embed/Tcf_FBbIRpM?rel=0\" frameborder=\"0\" allowfullscreen></iframe>\n\n#### Requirements\n\n- [NodeJS](http://nodejs.org/)\n- You can go trought this guides in you local console (Mac) or using [Nitrous.io](https://nitrous.io)\n\n\n#### 3VOT-CLI Index\n\n- [3VOT-CLI Intro](https://github.com/3vot/3vot-cli/blob/master/readme.md)\n- [Getting Started](https://github.com/3vot/3vot-cli/blob/master/gettingStarted.md)\n\nHope you love your first experience with 3vot's Front End as a Service Platform!\nFor support, pair programming sessions or any feedback, please visit us at [3vot.com](http://3vot.com/)\n",
+  "readmeFilename": "readme.md",
+  "_id": "3vot-cli@0.3.28",
+  "_from": "3vot-cli@"
 }

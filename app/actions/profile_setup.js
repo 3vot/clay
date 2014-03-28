@@ -26,6 +26,7 @@ function execute(options){
     getProfile()
     .then( scaffold )
     .then( installNPM )
+    .then( function(){ return console.log("Setup Complete: Now 'CD' into 3vot_" + tempVars.profile.user_name) } )
     .then (function(){ return deferred.resolve() })
     .fail( function(err){ return deferred.reject(err) } );
     return deferred.promise;
@@ -59,7 +60,6 @@ function scaffold(){
       user_name: tempVars.profile.user_name,
       folder: "3vot_" + tempVars.profile.user_name
     }
-
 
     fs.mkdirSync( Path.join( process.cwd(), options.folder ));
     fs.mkdirSync( Path.join( process.cwd(), options.folder , "apps" ));

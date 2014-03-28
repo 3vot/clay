@@ -2,9 +2,8 @@ var _3vot = require("3vot")
 
 function localhost(fileContents, user_name, app_name, domain){
   var devDomain = domain || "localhost:3000"
-
-  //transform domain
-  fileContents = fileContents.replace("3vot.domain = '3vot.com';","3vot.domain = '" + devDomain  + "';")
+  
+  fileContents = fileContents.replace('//3vot.com', '//' + devDomain )
 
   //tranform assets
   fileContents = _3vot.utils.replaceAll( fileContents,
@@ -17,10 +16,19 @@ function localhost(fileContents, user_name, app_name, domain){
 
 function demo(fileContents, user_name, app_name, app_version){
   
+  fileContents = fileContents.replace( "//3vot.com", "//daulau2emlz5i.cloudfront.net"  )
+  
+  
+  fileContents = fileContents.replace( user_name+"/"+app_name, user_name+"/"+app_name+"_"+app_version  )
+
+
+  
   //transform path to demo with version number
   fileContents = fileContents.replace(
-    "_3vot.path = '//' + _3vot.domain + '/" + user_name + "/' + package.name;",
-    "_3vot.path = '//' + _3vot.domain + '/" + user_name + "/' + package.name + '_" + app_version + "';"
+    
+ 
+    '_3vot.path=_3vot.domain+"/' + user_name + '/"+package.name',
+    '_3vot.path=_3vot.domain+"/' + user_name + '/"+package.name+"_'+app_version+'"'
   );
   
   //tranform assets

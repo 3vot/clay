@@ -10,7 +10,7 @@ var Parse = require('parse').Parse;
 var mime = require('mime')
 var Path = require('path');
 var prompt = require("prompt")
-
+var eco = require("eco")
 var AwsCredentials = require("../aws/credentials");
 
 var Install = require("../utils/install")
@@ -44,6 +44,7 @@ function execute( options ){
   .then( function(){ return AwsCredentials.requestKeysFromProfile(promptOptions.user_name) })
   .then( downloadApp )
   .then( adjustPackage )
+  .then( adjust3vot )
   .then( installDependencies )
   .then( function(){ return Builder.buildApp(promptOptions.app_name, promptOptions.user_name) })
   .then( function(){ return Builder.buildDependency(promptOptions.app_name) })
@@ -106,6 +107,22 @@ function adjustPackage(){
   }
 
   fs.writeFile( Path.join( process.cwd(), "apps", tempVars.app.name, "package.json" ), JSON.stringify(pck,null,'\t') , function(err){
+    if(err) return deferred.reject(err);
+    deferred.resolve()
+  });
+
+  return deferred.promise;
+}
+
+
+function adjust3vot(){
+  var deferred = Q.defer();
+  
+  var templatesPath =  Path.join(Path.dirname(fs.realpathSync(__filename)), '../../templates' , "app" , "3vot.eco");
+  templatePath = fs.readFileSync( templatesPath, "utf-8");
+
+  var templateRender = eco.render( templatePath , { options: promptOptions });
+  fs.writeFile( Path.join( process.cwd(), "apps", tempVars.app.name, "start", "3vot.js" ), templateRender, function(err){
     if(err) return deferred.reject(err);
     deferred.resolve()
   });

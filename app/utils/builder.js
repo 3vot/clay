@@ -19,7 +19,9 @@ function buildApp(appName, user_name){
   for( entry in pck.threevot.entries ){
     bundlePromises.push(bundleEntry(pck, entry));
   }
-  
+
+  bundlePromises.push(bundleEntry(pck, "3vot"));
+
   Q.all( bundlePromises )
   .then( function(compiledEntries){ return buildHtml(pck, user_name); })
   .then( function(html){ return deferred.resolve(html);  } )
@@ -27,7 +29,6 @@ function buildApp(appName, user_name){
     
   return deferred.promise;
 }
-
 
   //Builds the Dependencies identified in threevot.external of package.json
 function buildDependency(appName){
@@ -105,7 +106,7 @@ function buildHtml(pck, user_name){
     fs.readFile( headProbablePath, function(err, file){
       if(!err) head = file;
 
-      var html = Template.html( JSON.stringify(pck), user_name, head );
+      var html = Template.html( pck, user_name, head );
 
       fs.writeFile( destPath, html, function(err){
         if(err) return deferred.reject(err);
@@ -133,5 +134,6 @@ function saveFile(path, filename, contents ){
 
 module.exports = {
   buildApp: buildApp,
-  buildDependency: buildDependency
+  buildDependency: buildDependency,
+  buildHtml: buildHtml
 }

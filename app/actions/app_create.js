@@ -64,29 +64,31 @@ function scaffold(){
   fs.mkdirSync( Path.join( process.cwd(), "apps", tempVars.app.name , "code" ));
   fs.mkdirSync( Path.join( process.cwd(), "apps", tempVars.app.name , "start" ));
   fs.mkdirSync( Path.join( process.cwd(), "apps", tempVars.app.name , "templates" ));
+
+  renderAndSave(Path.join( "app", "code.eco" ) , Path.join( "code" , "index.js" ), tempVars )
   
-  var templatesPath =  Path.join(Path.dirname(fs.realpathSync(__filename)), '../../templates');
+  renderAndSave(Path.join( "app", "desktop.eco" ) , Path.join( "start" , "desktop.js" ), tempVars )
+  renderAndSave(Path.join( "app", "tablet.eco" ) , Path.join( "start" , "tablet.js" ), tempVars )
+  renderAndSave(Path.join( "app", "phone.eco" ) , Path.join( "start" , "phone.js" ), tempVars )
+  
+  renderAndSave(Path.join( "app", "layout.eco" ) , Path.join( "templates" , "layout.html" ), tempVars )
+  renderAndSave(Path.join( "app", "head.eco" ) , Path.join( "templates" , "head.html" ), tempVars )
 
-  var codeSrc = fs.readFileSync(  Path.join( templatesPath, "app", "code.eco" ), "utf-8");
-  var indexSrc = fs.readFileSync(  Path.join( templatesPath, "app", "index.eco" ), "utf-8");
-  var layoutSrc = fs.readFileSync(  Path.join( templatesPath, "app", "layout.eco" ), "utf-8");
-  var packageSrc = fs.readFileSync(  Path.join( templatesPath, "app", "package.eco" ), "utf-8");
-  var headSrc = fs.readFileSync(  Path.join( templatesPath, "app", "head.eco" ), "utf-8");
+  renderAndSave(Path.join( "app", "3vot.eco" ) , Path.join( "start", "3vot.js" ), tempVars )
 
-  var codeRender = eco.render( codeSrc , tempVars);
-  var indexRender = eco.render( indexSrc , tempVars );
-  var layoutRender = eco.render( layoutSrc , tempVars );
-  var pckRender = eco.render( packageSrc , tempVars );
-  var headRender = eco.render( headSrc , tempVars );
+  renderAndSave(Path.join( "app", "package.eco" ) , Path.join( "package.json" ), tempVars )
 
-
-  fs.writeFileSync( Path.join( process.cwd(), "apps", tempVars.app.name, "code" , "index.js" ), codeRender );
-  fs.writeFileSync( Path.join( process.cwd(), "apps", tempVars.app.name, "start" , "index.js" ), indexRender );
-  fs.writeFileSync( Path.join( process.cwd(), "apps", tempVars.app.name, "templates" , "layout.html" ), layoutRender );
-  fs.writeFileSync( Path.join( process.cwd(), "apps", tempVars.app.name, "templates" , "head.html" ), headRender );
-  fs.writeFileSync( Path.join( process.cwd(), "apps", tempVars.app.name, "package.json" ), pckRender );
 
   return tempVars.app;
+}
+
+function renderAndSave(templatePath, destPath, tempVars){
+  var templatesPath =  Path.join(Path.dirname(fs.realpathSync(__filename)), '../../templates');
+  templatePath = fs.readFileSync(  Path.join( templatesPath, templatePath ), "utf-8");
+  
+  var templateRender = eco.render( templatePath , tempVars);
+  fs.writeFileSync( Path.join( process.cwd(), "apps", tempVars.app.name, destPath ), templateRender );
+  
 }
 
 

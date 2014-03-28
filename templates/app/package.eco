@@ -3,19 +3,15 @@
 	"description": "",
 	"version": "0.0.1",
 	"threevot": {
+	  "version": "1",
 	  "displayName" : "<%= @app.name %>",
     "size" : "small",
-  	"private": false,
-  	"privateCode": "",
 		"external": {
 		},
 		"entries": {
-			"index": [
-				"desktop",
-				"laptop",
-				"phone",
-				"tablet"
-			]
+			"desktop": [ "desktop", "laptop" ],
+			"phone" : ["phone"],
+			"tablet" : ["tablet"]
 		},
 		"extensions": [
 			".coffee",
@@ -24,11 +20,13 @@
 		],
 		"transforms": [
 			"coffeeify",
-			"brfs"
+			"brfs",
+      "uglifyify"
 		],
+		"useSimpleHtml": true,
 		"gitDependencies": {}
 	},
 	"dependencies": {
-	  "3vot" : "0.0.3"
+	  "3vot" : "0.0.4"
 	}
 }

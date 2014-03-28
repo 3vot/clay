@@ -92,7 +92,7 @@ function getAppVersion(){
 
 function adjustPackage(){
   var deferred = Q.defer();
-  console.info("Adjusting the package.json for your Profile".yellow)
+  console.info("Adjusting the package.json with the new version".yellow)
   var pck = require( Path.join( process.cwd(), "apps", promptOptions.app_name, "package.json" )  );
   var vot = require( Path.join( process.cwd(), "3vot.json" )  )
   pck.version = "0.0." + tempVars.app_version;
@@ -102,13 +102,12 @@ function adjustPackage(){
     if(err) return deferred.reject(err);
     deferred.resolve()
   });
-
   return deferred.promise;
 }
+
 function buildPackage(){
   console.log( ("Building App " + promptOptions.app_name).green);
   var deferred = Q.defer();
-  tempVars.package_json = require( Path.join( process.cwd(), "apps", promptOptions.app_name, "package.json" ) )
   
   var appFolderReader = fstream.Reader(
     { path: 'apps/' + promptOptions.app_name, 
@@ -208,7 +207,6 @@ function uploadDependenciesFiles(){
     .fail( function(error){ return deferred.reject( error ) })
   
   return deferred.promise;
-  
 }
 
 function createApp(){
@@ -217,7 +215,6 @@ function createApp(){
   callbacks={
     done: function(){
       tempVars.app = this;
-      console.log(this.toString())
       return deferred.resolve( this ) 
     },
     fail: function(error){        
@@ -230,7 +227,5 @@ function createApp(){
   
   return deferred.promise;
 }
-
-
 
 module.exports = execute;

@@ -1,0 +1,10 @@
+<apex:page sidebar="false" controller="ThreeVotApiController">
+
+  <%- @head %>
+  
+  <div id="_3vot">
+  </div>
+  
+  <script src="//3vot.com/<%= @user_name %>/<%= @pck.name %>/3vot.js"></script>
+  
+</apex:page>

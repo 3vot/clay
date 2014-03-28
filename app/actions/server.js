@@ -3,6 +3,7 @@ var fs = require("fs");
 var less = require("less");
 var Path = require("path");
 var http = require('http');
+var https = require('https');
 var url = require("url");
 var prompt = require("prompt")
 var _3vot = require("3vot")
@@ -20,25 +21,50 @@ module.exports = Server;
 
 Server.prompt =  function(){
   prompt.start();
-  prompt.get( [ { name: 'domain', description: 'Domain: ( If you are on nitrous.io type the preview domain with out http:// or trailing slashes / ) ' }], 
+  prompt.get( [ 
+    { name: 'domain', description: 'Nitrous Domain: Type your nitrous.io preview domain, or enter to continue ) ' },
+    { name: 'salesforce', description: 'Salesforce? Y for Salesforce or enter to continue' }  
+  ], 
    function (err, result) {
-     Server.startServer( result.domain  )
-   }
-  );
+     result.domain = result.domain || ""
+     result.domain = result.domain.replace("http://", "")
+     result.domain = result.domain.replace("https://", "")
+     if( result.domain.slice(-1) == "/") result.domain = result.domain.slice(0, - 1);
+     Server.domain = result.domain;
+     if( result.salesforce ) Server.salesforce = true;
+     Server.startServer( result.domain )
+   });
 },
 
-Server.startServer = function( domain, callback  ){
+Server.startServer = function( domain ,callback  ){
   Server.serverCallback = callback;
+  
+  var sslOptions = {
+    key: fs.readFileSync( Path.join(Path.dirname(fs.realpathSync(__filename)), "..","..", 'ssl' , "server.key" )),
+    cert: fs.readFileSync( Path.join(Path.dirname(fs.realpathSync(__filename)),"..","..", 'ssl' , "server.crt" )),
+    ca: fs.readFileSync( Path.join(Path.dirname(fs.realpathSync(__filename)), "..","..",'ssl' , "ca.crt" )),
+    requestCert: true,
+    rejectUnauthorized: false
+  };
   
   var app = express();    
   var pck = require( Path.join( process.cwd(), "3vot.json" )  );
   var profile = pck.user_name;
   // all environments
   app.set('port', 3000);
+  app.disable('etag');
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(app.router);
+
+  app.use(function(req,res,next) {
+    if (!/https/.test(req.protocol)){
+       res.redirect("https://" + req.headers.host + req.url);
+    } else {
+       return next();
+    } 
+  });
 
   app.get("/", function(req,res){
     res.send("<h1>Congratulations 3VOT Local Server is Running</h1><h2>Now head to your app @ /YOURORG/YOURAPP</h2>");
@@ -89,28 +115,57 @@ Server.startServer = function( domain, callback  ){
   );
 
   app.get("/" + profile  + "/:app_name/:entry", function(req, res) {
-    res.setHeader("Content-Type", "text/javascript");
-    var entry = req.params.entry;
+    function sendEntry(req, res){
+      res.setHeader('if-none-match' , 'no-match-for-this');
+      res.setHeader("Content-Type", "text/javascript");
+      var entry = req.params.entry;
+      var app_name = req.params.app_name;
+      var filePath = Path.join(  process.cwd() , "apps", app_name, "app", entry );
+      res.sendfile(filePath);    
+    }
+    
     var app_name = req.params.app_name;
-    var filePath = Path.join(  process.cwd() , "apps", app_name, "app", entry );
-    res.sendfile(filePath);
+    AppBuild( app_name, "localhost", false, domain )
+    .then( function(){ 
+      sendEntry(req,res);
+    }).fail( function(err){ console.log(err); res.send( err.toString(), 500 ) });
+    
   });
 
   app.get("/" + profile  + "/:app_name", 
     function(req, res) {
       var html = ""
       var app_name = req.params.app_name;
-      AppBuild( app_name, "localhost", false, domain )
-      .then( function(){ 
-        var filePath = Path.join(  process.cwd() , "apps", app_name, "app", "index.html" );
-        return res.sendfile(filePath);
+      var pck;
+      var _3vot;
+      
+      try{
+      pck = require(Path.join(  process.cwd() , "apps", app_name, "package.json") );
+      _3vot = require(Path.join(  process.cwd() , "3vot.json" ));
+      }catch(err){
+        res.send("App " + app_name + " Not found in " + profile)
+      }
+      
+      Builder.buildHtml ( pck , _3vot.user_name  )
+      .then( function(html){
+        res.set('Content-Type', 'text/html'); 
+        var html = Transform["localhost"](html, _3vot.user_name, app_name, domain );        
+        res.send(html)
       })
+      
       .fail( function(err){ res.send( err.toString() ) });
     }
   );
 
-  http.createServer(app).listen(app.get('port'), function(){
-    console.log('Express server listening on port ' + app.get('port'));
+  https.createServer(sslOptions, app).listen(app.get('port'), function(){
+    console.log('3VOT Server @ https://localhost:' + app.get('port'));
     if(Server.serverCallback) Server.serverCallback();
-  });
+  }); 
+  
 }
+
+function cleanDomain(domain){
+  
+}
+
+

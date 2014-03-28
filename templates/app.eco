@@ -7,44 +7,11 @@
 
   <body>
 
-  <div stlye="background-color: black; color: white;" class="responsiveCheckWrapper"><div data-device="phone" class="visible-xs responsiveCheck">Loading 3VOT Mobile</div>
-  <div data-device="tablet" class="visible-sm responsiveCheck">Loading 3VOT Tablet</div><div data-device="laptop" class="visible-md responsiveCheck"> Loading3VOT Laptop </div>
-  <div data-device="desktop" class="visible-lg responsiveCheck">Loading 3VOT TV/Desktop</div></div>
-  
-  <script id="loadarea" type="text/javascript"></script>
-  
-  <script>
-    var package = <%- @pck %>;
+    <div id="_3vot">
+    </div>
     
-    var _3vot = {};
-    var entries = package.threevot.entries;
+    <script src="//3vot.com/<%= @user_name %>/<%= @pck.name %>/3vot.js"></script>
 
-    var responsiveDivs = document.getElementsByClassName("responsiveCheck");
-    
-    _3vot.device = "";
-    
-    for(var i=0; i<responsiveDivs.length; i++){ 
-      var style = getComputedStyle( responsiveDivs[i] ); 
-        if(style.display==="block"){ 
-          _3vot.device = responsiveDivs[i].dataset.device; 
-        }   
-      }
-
-      var fileToCall = '';
-      _3vot.domain = '3vot.com';
-      _3vot.path = '//' + _3vot.domain + '/<%= @user_name %>/' + package.name;
-      
-      for(entryKey in entries){ 
-        var entryValue = entries[entryKey]; 
-        if(entryValue.indexOf(_3vot.device) > -1){ 
-          fileToCall = entryKey 
-          }
-        }
-        
-      document.getElementById('loadarea').src=  _3vot.path + '/' + fileToCall + '.js';
-      
-      console.log(fileToCall);
-    </script>
-    
-  </body> 
+ </body>
+ 
 </html>

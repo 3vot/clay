@@ -1,0 +1,19 @@
+var _3vot = require("3vot");
+var fs = require("fs");
+var app = require("../code/index.js")
+
+var layout = fs.readFileSync("./apps/<%= @app.name %>/templates/layout.html");
+_3vot.el = document.getElementById('_3vot');
+if(_3vot.el){ _3vot.el.innerHTML = layout; }
+else{ document.body.innerHTML = layout }
+
+var package = require("../package")
+
+_3vot.init( {
+  package: package,
+  app: app
+});
+
+
+
+

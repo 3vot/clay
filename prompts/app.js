@@ -72,7 +72,7 @@ function upload(callback){
     
     LoadPackage(result)
     .then( Upload )
-    .then( function(){ console.log("App Uploades Succesfully".green); } )
+    .then( function(){ console.log("App Upload Succesfull".green); } )
     .then( function(){ if(callback) return callback(); })
     .fail( function(err){ console.error(err); } )
 

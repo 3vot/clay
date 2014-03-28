@@ -14,8 +14,9 @@ var Server = require("../app/actions/server")
 
 var Store = require("../prompts/store")
 
-var Db = require("../prompts/db")
+var Salesforce = require("../prompts/salesforce")
 
+var Db = require("../prompts/db")
 
 var App = require("../prompts/app")
 
@@ -93,4 +94,14 @@ else{
   else if( argv._.indexOf("db:deploy") > -1 ){ Db.deploy(); }
 
   else if( argv._.indexOf("server") > -1 ){ Server.prompt(callback); }
+
+  else if( argv._.indexOf("salesforce:setup") > -1 ){ Salesforce.setup(); }
+
+  else if( argv._.indexOf("salesforce:upload") > -1 ){ Salesforce.upload(); }
+
+  else if( argv._.indexOf("salesforce:dev") > -1 ){ Salesforce.dev(); }
+
+  else{
+    console.log("use 3vot -h for help information")
+  }
 }
