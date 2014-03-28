@@ -1,0 +1,1 @@
+rsync -av --exclude='./.git' ./ /usr/local/lib/node_modules/3vot-cli --exclude='./node_modules'

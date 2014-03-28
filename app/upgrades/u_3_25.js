@@ -21,7 +21,7 @@ function execute(options){
 
     for(file in files){
       file = files[file]
-      if(file != "dependencies"){
+      if(file != "dependencies" && file.slice(0,1) != "."){
         adjust3vot(file)
       }
     }

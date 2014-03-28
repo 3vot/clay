@@ -24,10 +24,10 @@ Server.prompt =  function(){
   prompt.get( [ 
     { name: 'domain', description: 'Nitrous Domain: Type your nitrous.io preview domain, or enter to continue ) ' } ], 
    function (err, result) {
-     result.domain = result.domain || ""
-     result.domain = result.domain.replace("http://", "")
-     result.domain = result.domain.replace("https://", "")
-     if( result.domain.slice(-1) == "/") result.domain = result.domain.slice(0, - 1);
+     //result.domain = result.domain || ""
+     //result.domain = result.domain.replace("http://", "")
+     //result.domain = result.domain.replace("https://", "")
+     //if( result.domain.slice(-1) == "/") result.domain = result.domain.slice(0, - 1);
      Server.domain = result.domain;
      Server.startServer( result.domain )
    });
