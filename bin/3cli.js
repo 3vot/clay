@@ -20,6 +20,8 @@ var Db = require("../prompts/db")
 
 var App = require("../prompts/app")
 
+var Upgrade = require("../prompts/upgrade")
+
 var _3Model = require("3vot-model")
 
 //_3Model.Model.host = "http://localhost:3002/v1"
@@ -100,6 +102,8 @@ else{
   else if( argv._.indexOf("salesforce:upload") > -1 ){ Salesforce.upload(); }
 
   else if( argv._.indexOf("salesforce:dev") > -1 ){ Salesforce.dev(); }
+
+  else if( argv._.indexOf("upgrade") > -1 ){ Upgrade.upgrade(); }
 
   else{
     console.log("use 3vot -h for help information")
