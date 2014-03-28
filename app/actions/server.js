@@ -22,23 +22,20 @@ module.exports = Server;
 Server.prompt =  function(){
   prompt.start();
   prompt.get( [ 
-    { name: 'domain', description: 'Nitrous Domain: Type your nitrous.io preview domain, or enter to continue ) ' },
-    { name: 'salesforce', description: 'Salesforce? Y for Salesforce or enter to continue' }  
-  ], 
+    { name: 'domain', description: 'Nitrous Domain: Type your nitrous.io preview domain, or enter to continue ) ' } ], 
    function (err, result) {
      result.domain = result.domain || ""
      result.domain = result.domain.replace("http://", "")
      result.domain = result.domain.replace("https://", "")
      if( result.domain.slice(-1) == "/") result.domain = result.domain.slice(0, - 1);
      Server.domain = result.domain;
-     if( result.salesforce ) Server.salesforce = true;
      Server.startServer( result.domain )
    });
 },
 
 Server.startServer = function( domain ,callback  ){
   Server.serverCallback = callback;
-  
+
   var sslOptions = {
     key: fs.readFileSync( Path.join(Path.dirname(fs.realpathSync(__filename)), "..","..", 'ssl' , "server.key" )),
     cert: fs.readFileSync( Path.join(Path.dirname(fs.realpathSync(__filename)),"..","..", 'ssl' , "server.crt" )),
@@ -143,7 +140,8 @@ Server.startServer = function( domain ,callback  ){
       pck = require(Path.join(  process.cwd() , "apps", app_name, "package.json") );
       _3vot = require(Path.join(  process.cwd() , "3vot.json" ));
       }catch(err){
-        res.send("App " + app_name + " Not found in " + profile)
+        console.log(err);
+        return res.send("App " + app_name + " Not found in " + profile)
       }
       
       Builder.buildHtml ( pck , _3vot.user_name  )

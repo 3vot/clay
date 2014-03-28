@@ -1,11 +1,12 @@
 var package = require("../package.json")
 
-if(!window) window = this;
+if(!window) window = this || {};
 var _3vot = window._3vot = window._3vot || {};
-_3vot.el = document.getElementById('_3vot');
+_3vot.el = document.getElementById('_3vot_<%= @options.app_name %>');
 _3vot.device = "";
+_3vot.package = package;
 
-var entries = package.threevot.entries;
+var entries = package.threevot.entries || package.threevot.platforms;
 var responsiveLayout = '<div class="responsiveCheckWrapper"> <div data-device="phone" class="visible-xs responsiveCheck">Loading 3VOT Mobile</div> <div data-device="tablet" class="visible-sm responsiveCheck">Loading 3VOT Tablet</div> <div data-device="laptop" class="visible-md responsiveCheck"> Loading3VOT Laptop </div> <div data-device="desktop" class="visible-lg responsiveCheck">Loading 3VOT TV/Desktop</div></div>';
 
 if(_3vot.el){ _3vot.el.innerHTML = responsiveLayout; }
@@ -22,7 +23,7 @@ for(var i=0; i<responsiveDivs.length; i++){
 
 var fileToCall = '';
 _3vot.domain="//3vot.com";
-_3vot.path=_3vot.domain+"/<%= @options.user_name %>/"+package.name
+_3vot.path=_3vot.domain+"/<%= @options.user_name %>/<%= @options.app_name %>"
 
 for(entryKey in entries){ 
   var entryValue = entries[entryKey]; 

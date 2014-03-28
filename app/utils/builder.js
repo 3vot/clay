@@ -4,23 +4,29 @@ var Q = require("q");
 var Path = require('path');
 var Template = require("./template");
 var _3vot = require("3vot");
+var WalkDir = require("./walk")
+
+var options = {
+  app_name: null,
+  user_name: null
+}
 
 // Builds the App using Browserify using Transformations and excluding external dependencies.
-function buildApp(appName, user_name){
-  var app, b, dep, key, pck, transform, _i, _len, _ref, _ref1
-
+function buildApp(app_name, user_name){
   var deferred = Q.defer();
-  
-  var packagePath = Path.join( process.cwd(), "apps", appName, "package.json" );
-
+  var packagePath = Path.join( process.cwd(), "apps", app_name, "package.json" );
   var pck = require( packagePath ) 
-  
-  bundlePromises = []
-  for( entry in pck.threevot.entries ){
-    bundlePromises.push(bundleEntry(pck, entry));
-  }
 
-  bundlePromises.push(bundleEntry(pck, "3vot"));
+  options.app_name = app_name;
+  options.user_name  = user_name;
+  
+  var bundlePromises = []
+  var bundles = WalkDir( Path.join( process.cwd(), "apps", options.app_name, "start" ) );
+  bundles.forEach( function(path){
+    if(path.name.indexOf(".js") > 0){ 
+      bundlePromises.push(bundleEntry(pck, path.name));
+    }
+  });
 
   Q.all( bundlePromises )
   .then( function(compiledEntries){ return buildHtml(pck, user_name); })
@@ -31,12 +37,12 @@ function buildApp(appName, user_name){
 }
 
   //Builds the Dependencies identified in threevot.external of package.json
-function buildDependency(appName){
+function buildDependency(app_name){
   var deferred = Q.defer();
   var b = Browserify()
  
-  var packagePath = Path.join(process.cwd(), "apps", appName, "package.json" );
-  var appPath = Path.join( process.cwd(), "apps", appName);
+  var packagePath = Path.join(process.cwd(), "apps", app_name, "package.json" );
+  var appPath = Path.join( process.cwd(), "apps", app_name);
   var destPath = Path.join( process.cwd(), "apps", "dependencies" );
  
   var pck = require( packagePath )
@@ -64,7 +70,7 @@ function buildDependency(appName){
 function bundleEntry(pck, entry){
   var deferred = Q.defer();
   var _this = this;
-  var entryName = entry + ".js";
+  var entryName = entry;
   var entryPath = Path.join( process.cwd(), "apps", pck.name, "start", entryName );
   var destPath = Path.join( process.cwd(), "apps", pck.name, "app" );
   
@@ -131,6 +137,7 @@ function saveFile(path, filename, contents ){
   });
   return deferred.promise;
 }
+
 
 module.exports = {
   buildApp: buildApp,

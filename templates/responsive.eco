@@ -1,8 +1,0 @@
-<div class="responsiveCheckWrapper">
-  <div data-device="phone" class="visible-xs responsiveCheck">Loading 3VOT Mobile</div>
-  <div data-device="tablet" class="visible-sm responsiveCheck">Loading 3VOT Tablet</div>
-  <div data-device="laptop" class="visible-md responsiveCheck"> Loading3VOT Laptop </div>
-  <div data-device="desktop" class="visible-lg responsiveCheck">Loading 3VOT TV/Desktop</div>
-</div>
-
-<script id="loadarea" type="text/javascript"></script>

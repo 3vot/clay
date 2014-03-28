@@ -6,7 +6,7 @@ var http = require("http")
 var layout = {};
 
 function html( pck, user_name, head ){
-  var templatePath = Path.join(Path.dirname(fs.realpathSync(__filename)), '..' , ".." , 'templates' , "app.eco" );
+  var templatePath = Path.join(Path.dirname(fs.realpathSync(__filename)), '..' , ".." , 'templates',"app" , "html.eco" );
   var app = fs.readFileSync( templatePath, "utf-8" )
   var result = eco.render(app, { pck: pck, user_name: user_name, head: head } );
   return result;

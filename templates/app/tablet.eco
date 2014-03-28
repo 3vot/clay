@@ -3,14 +3,13 @@ var fs = require("fs");
 var app = require("../code/index.js")
 
 var layout = fs.readFileSync("./apps/<%= @app.name %>/templates/layout.html");
-_3vot.el = document.getElementById('_3vot');
+_3vot.el = document.getElementById('_3vot_<%= @app.name %>');
 if(_3vot.el){ _3vot.el.innerHTML = layout; }
 else{ document.body.innerHTML = layout }
 
-var package = require("../package")
 
 _3vot.init( {
-  package: package,
+  package: window._3vot.package,
   app: app
 });
 

@@ -1,7 +1,3 @@
-module.exports = function(){
-  console.log("The App Running!!!")
-}
-
 // Here you can require other files
 //require('./app');
 
@@ -11,3 +7,9 @@ module.exports = function(){
 
 // And even resources on the internet
 // lazyload( url, function(){} );
+
+function MainController(){
+	console.log("The App Running!!!")
+}
+
+module.exports = MainController
