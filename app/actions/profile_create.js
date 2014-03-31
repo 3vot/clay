@@ -3,6 +3,10 @@ var Q = require("q");
 var colors = require('colors');
 var mime = require('mime')
 var Path = require('path');
+var request = require("superagent")
+
+var AwsCredentials = require("../aws/credentials");
+var AwsHelpers = require("../aws/helpers");
 
 var Profile = require("../models/profile")
 
@@ -12,24 +16,42 @@ var promptOptions = {
   email: null
 }
 
-function create( options ){
-  promptOptions = options;
-  console.info("Creating a Profile in the 3VOT Platform".yellow)
+var tempVars ={
+  profile: null,
+  html: null
+}
+
+function execute(options){
+    var deferred = Q.defer();
+    promptOptions= options;
+    
+    create()
+    .then( function(){ 
+      console.log( ( "Save your developer key: " + tempVars.profile.security.public_dev_key ).bold) 
+      return deferred.resolve( tempVars.app ) ;
+    })
+    .fail( function(err){ return deferred.reject(err); } );
+    
+    return deferred.promise;
+}
+
+
+function create(){
+  console.log("Creating your Profile")
   var deferred = Q.defer();
 
   callbacks = {
     done: function(){
-      console.log(this)
-      promptOptions.public_dev_key = this.security.public_dev_key;
-      return deferred.resolve(promptOptions);
+      tempVars.profile = this;
+      return deferred.resolve();
     },
     fail: function(err){
       return deferred.reject(err);
     }
   }
 
-  Profile.create( { user_name: options.user_name, marketing: { name: options.name }, security: {}, contacts: { owner: { email: options.email } } }, callbacks )
+  Profile.create( { user_name: promptOptions.user_name, marketing: { name: promptOptions.name }, security: {}, contacts: { owner: { email: promptOptions.email } } }, callbacks )
   return deferred.promise;
 } 
 
-module.exports = create;
+module.exports = execute;

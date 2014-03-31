@@ -8,6 +8,8 @@ var prompt = require("prompt")
 var Profile = require("../models/profile")
 var App = require("../models/app")
 
+var AppInstall = require("./app_install")
+
 var promptOptions = {
   public_dev_key: null,
   user_name: null,
@@ -29,7 +31,8 @@ function execute(options){
 
     createApp()
     .then( scaffold )
-    .then( deferred.resolve )
+    .then( function(){ return AppInstall(promptOptions)  } )
+    .then( deferred.resolve() )
     .fail( function(err){ return deferred.reject(err); } );
     
     return deferred.promise;
@@ -48,6 +51,10 @@ function createApp(){
       return deferred.reject( error )
     }
   }
+
+  r = new RegExp(/^[a-z0-9-]+$/)
+  if( r.test( promptOptions.app_name ) == false ) throw "App Name " + promptOptions.app_name + " is not valid, please use only Letter, Numbers and Hypens( - )"
+  
 
   App.create( { billing: { size: promptOptions.size }, name: promptOptions.app_name, public_dev_key: promptOptions.public_dev_key, user_name: promptOptions.user_name, marketing: { name: promptOptions.app_name } }, callbacks )
   

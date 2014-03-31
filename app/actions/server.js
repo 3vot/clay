@@ -8,7 +8,7 @@ var url = require("url");
 var prompt = require("prompt")
 var _3vot = require("3vot")
 var argv = require('optimist').argv;
-
+var request = require("superagent")
 var devDomain = null;
 
 var Server = {}
@@ -22,19 +22,20 @@ module.exports = Server;
 Server.prompt =  function(){
   prompt.start();
   prompt.get( [ 
-    { name: 'domain', description: 'Nitrous Domain: Type your nitrous.io preview domain, or enter to continue ) ' } ], 
+    { name: 'domain', description: 'Domain: The domain where you will run the app from ( enter for localhost:3000 ) ' } , 
+    { name: 'ssl', description: 'SSL: (y/n) Run server in HTTPS with SSL? ' } ],
    function (err, result) {
-     //result.domain = result.domain || ""
-     //result.domain = result.domain.replace("http://", "")
-     //result.domain = result.domain.replace("https://", "")
-     //if( result.domain.slice(-1) == "/") result.domain = result.domain.slice(0, - 1);
+     result.domain = result.domain || "localhost:3000"
+     result.domain = result.domain.replace("https://", "")
+     result.domain = result.domain.replace("http://", "")
+     if( result.domain.slice(-1) == "/") result.domain = result.domain.slice(0, - 1);
      Server.domain = result.domain;
-     Server.startServer( result.domain )
+     Server.ssl = result.ssl || false
+     Server.startServer()
    });
 },
 
-Server.startServer = function( domain ,callback  ){
-  Server.serverCallback = callback;
+Server.startServer = function(){
 
   var sslOptions = {
     key: fs.readFileSync( Path.join(Path.dirname(fs.realpathSync(__filename)), "..","..", 'ssl' , "server.key" )),
@@ -55,14 +56,6 @@ Server.startServer = function( domain ,callback  ){
   app.use(express.methodOverride());
   app.use(app.router);
 
-  app.use(function(req,res,next) {
-    if (!/https/.test(req.protocol)){
-       res.redirect("https://" + req.headers.host + req.url);
-    } else {
-       return next();
-    } 
-  });
-
   app.get("/", function(req,res){
     res.send("<h1>Congratulations 3VOT Local Server is Running</h1><h2>Now head to your app @ /YOURORG/YOURAPP</h2>");
   });
@@ -80,8 +73,7 @@ Server.startServer = function( domain ,callback  ){
     fs.readFile( Path.join( process.cwd(), "apps", "dependencies", req.params.name ) , 
       function(err, file){
         if(err){
-          //get App Name From req.Host        
-
+          //get App Name From req.Host
           var urlParts = req.headers.referer.split("/")
           var app_name = ""
           if( urlParts[ urlParts.length -1 ] === "" ){
@@ -121,48 +113,59 @@ Server.startServer = function( domain ,callback  ){
       res.sendfile(filePath);    
     }
     
+    if ( Date.now() - ( Server.lastBuild || 0 ) < 5 * 1000 ){
+      console.log("Entry build with next route, not building entry")
+      return sendEntry(req, res)
+    }
+    
     var app_name = req.params.app_name;
-    AppBuild( app_name, "localhost", false, domain )
+    AppBuild( app_name, "localhost", false, Server.domain )
     .then( function(){ 
       sendEntry(req,res);
     }).fail( function(err){ console.log(err); res.send( err.toString(), 500 ) });
     
   });
 
-  app.get("/" + profile  + "/:app_name", 
-    function(req, res) {
-      var html = ""
-      var app_name = req.params.app_name;
-      var pck;
-      var _3vot;
-      
-      try{
-      pck = require(Path.join(  process.cwd() , "apps", app_name, "package.json") );
-      _3vot = require(Path.join(  process.cwd() , "3vot.json" ));
-      }catch(err){
-        console.log(err);
-        return res.send("App " + app_name + " Not found in " + profile)
-      }
-      
-      Builder.buildHtml ( pck , _3vot.user_name  )
-      .then( function(html){
-        res.set('Content-Type', 'text/html'); 
-        var html = Transform["localhost"](html, _3vot.user_name, app_name, domain );        
-        res.send(html)
-      })
-      
-      .fail( function(err){ res.send( err.toString() ) });
+  // Route for Main App, did this to simplify tranforms. Could also request via domain, but hack is worst
+  app.get("/" + profile  + "/stores.json", function(req, res) {
+    request.get("http://3vot.com/" + profile  + "/stores.json").end( function(err, httpResponse){
+      if(err) return res.send(500, err)
+      if(res.status >= 400) return res.send(500, res.text )
+      res.send( httpResponse.body )
+    })
+  });
+
+  app.get("/" + profile  + "/:app_name", function(req, res) {
+    var app_package;
+    var app_name = req.params.app_name
+    try{
+      app_package = require(Path.join(  process.cwd() , "apps", app_name, "package.json") );
+    }catch(err){
+      console.log(err);
+      return res.send("App " + app_name + " Not found in " + profile)
     }
-  );
 
-  https.createServer(sslOptions, app).listen(app.get('port'), function(){
-    console.log('3VOT Server @ https://localhost:' + app.get('port'));
-    if(Server.serverCallback) Server.serverCallback();
-  }); 
+    AppBuild( app_name, "localhost", false, Server.domain )
+    .then( function(){
+      Server.lastBuild = Date.now();
+      var filePath = Path.join(  process.cwd() , "apps", app_name, "app", "index.html");
+      res.sendfile(filePath)
+    })
+    .fail( function(err){ console.log(err); res.send( err.toString(), 500 ) });
+
+  });
+
+  if(Server.ssl){
+    https.createServer(sslOptions, app).listen(app.get('port'), function(){
+      console.log('3VOT Server @ https://localhost:' + app.get('port'));
+    }); 
+  }
   
-}
-
-function cleanDomain(domain){
+  else{
+    http.createServer(app).listen(app.get('port'), function(){
+      console.log('3VOT Server @ https://localhost:' + app.get('port'));
+    });
+  } 
   
 }
 

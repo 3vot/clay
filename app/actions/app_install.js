@@ -2,12 +2,9 @@ var Q = require("q");
 var colors = require('colors');
 var Path = require('path');
 
-var Builder = require("../utils/builder")
-
 var App = require("../models/app")
 
 var Install = require("../utils/install")
-
 
 var promptOptions= { 
   app_name: null,

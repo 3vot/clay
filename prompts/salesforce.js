@@ -1,8 +1,9 @@
 var prompt = require("prompt")
 var LoadPackage = require("../app/utils/package_loader")
 
+var AppUpload = require("../app/actions/app_upload")
+
 var Setup = require("../app/actions/salesforce_setup")
-var Dev = require("../app/actions/salesforce_dev")
 var Upload = require("../app/actions/salesforce_upload")
 
 function setup(callback){
@@ -23,10 +24,12 @@ function setup(callback){
 function upload(callback){
   prompt.start();
   prompt.get( 
-    [ { name: 'app_name', description: 'App Name: ( The name of the app you want to develop on salesforce )' } ],
+    [ { name: 'app_name', description: 'App Name: ( The name of the app you want to deploy to salesforce )' } ],
     function (err, result) {
+      result.target = "production"
       LoadPackage(result)
-      .then( Upload )
+      .then( AppUpload )
+      .then( function(){ return Upload(result) } )
       .then( function(){ console.log("Salesforce Setup Succesful".green); } )
       .then( function(){ if(callback) return callback(); })
       .fail( function(err){console.error(err); } )
@@ -39,8 +42,9 @@ function dev(callback){
   prompt.get( 
     [ { name: 'app_name', description: 'App Name: ( The name of the app you want to develop on salesforce )' } ],
     function (err, result) {
+      result.target = "localhost"
       LoadPackage(result)
-      .then( Dev )
+      .then( Upload )
       .then( function(){ console.log("Salesforce Development App Published Succesful".green); } )
       .then( function(){ if(callback) return callback(); })
       .fail( function(err){console.error(err); } )

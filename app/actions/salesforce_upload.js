@@ -11,12 +11,14 @@ var promptOptions = {
   public_dev_key: null,
   user_name: null,
   app_name: null,
-  salesforce: null
+  salesforce: null,
+  target: "localhost"
 }
 
 var tempVars = {
   salesforce: null,
-  package_json: null
+  package_json: null,
+  pageResponse: null
 }
 
 function execute(options){
@@ -32,8 +34,17 @@ function execute(options){
   login()
   .then( renderPage )
   .then( publishPage )
+  .then( function(){ 
+    if( promptOptions.target == "production" ) return true; 
+    console.log( "NOTE 1: THE FIRST TIME visit https://localhost:3000/" + promptOptions.user_name + " before using the Salesforce Visualforce Page, as localhost SSL is not trusted.") 
+    return console.log( "NOTE 2: <head> is inserted to VF Page with this operation, any changes to template/head.html requires this command to be executed again.")
+  })
+  .then( function(){ 
+    var url = tempVars.salesforce.instance_url + "/apex/" + promptOptions.app_name
+    if( promptOptions.target == "localhost" ) url += "_dev"
+    return console.log("App Available at: " + url) } )
   .then (function(){ return deferred.resolve() })
-  .fail( function(err){ return deferred.reject(err) } );
+  .fail( function(err){ console.log(err); return deferred.reject(err) } );
   return deferred.promise;
 }
 
@@ -64,9 +75,10 @@ function renderPage(){
   var app = fs.readFileSync( templatePath, "utf-8" )
   
   var headProbablePath = Path.join( process.cwd(), "apps", promptOptions.app_name, "templates","head.html" );
-  var head = fs.readFileSync( headProbablePath, "utf-8")
+  var head = ""
+  try{ head = fs.readFileSync( headProbablePath, "utf-8") }catch(err){}
   var result = eco.render(app, { pck: tempVars.package_json, user_name: promptOptions.user_name, head: head } );
-  result = Transform.localhost(result, promptOptions.user_name, promptOptions.app_name, promptOptions.domain )
+  result = Transform[promptOptions.target](result, promptOptions.user_name, promptOptions.app_name, promptOptions.domain )
   tempVars.page = result;
   
   process.nextTick(function(){ deferred.resolve(result); });
@@ -75,7 +87,8 @@ function renderPage(){
 
 function publishPage(){
   var deferred = Q.defer();
-  var name = promptOptions.app_name + "_dev"
+  var name = promptOptions.app_name
+  if(promptOptions.target == "localhost") name += "_dev"
   var url = tempVars.salesforce.instance_url + "/services/data/v29.0/sobjects/ApexPage/Name/" + name;
   
   body = {
@@ -91,12 +104,15 @@ function publishPage(){
   
   req.end(function(err,res){
     if(err) return deferred.reject(err)
-    console.log(res.body)
+    if( res.body.success == false && res.body[0] && res.body[0].message) return deferred.reject( "Salesforce.com rejected the upsert of a Visualforce Page with the HTML we send, it's posibly due to unvalid HTML. Please review your template files. ERROR: " + res.body[0].message )
+    if( res.body.success == false ) return deferred.reject( "ERROR: " + JSON.stringify( res.body ) )
+    tempVars.pageResponse = res.body
     deferred.resolve(res.body)
   })
 
   return deferred.promise; 
 }
+
 
 function values( key ){
   var decipher = crypto.createDecipher("aes192", promptOptions.public_dev_key + "_" + "aes192")

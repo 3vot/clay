@@ -3,7 +3,7 @@ var LoadPackage = require("../app/utils/package_loader")
 
 var Setup = require("../app/actions/profile_setup")
 var Create = require("../app/actions/profile_create")
-
+var Update = require("../app/actions/profile_update")
 
 function setup(callback){
   var options = [ 
@@ -27,16 +27,28 @@ function create(callback){
     { name: 'email', description: 'email: ( Your Email, required in order to administer your profile )' }],
     function (err, result) {
       Create(result)
-      .then( function(options){ 
+      .then( function(){ return Update(result) } )
+      .then( function(){ 
         console.log("Profile Created Succesfully".green); 
-        console.log( ( "Save your developer key: " + options.public_dev_key ).bold) 
-        if(callback) return callback(options);
+        if(callback) return callback(result);
       })
       .fail( function(err){ console.log("Error creating Profile".red.bold); console.error(err); } )
   });
 }
 
+function update(callback){
+  LoadPackage({})
+  .then( Update )
+  .then( function(){ 
+    console.log("Profile Updated Succesfully".green); 
+    if(callback) return callback({});
+  })
+  .fail( function(err){ console.log("Error creating Profile".red.bold); console.error(err); } )
+
+}
+
 module.exports = {
   setup: setup,
-  create: create
+  create: create,
+  update: update
 }

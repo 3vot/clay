@@ -5,6 +5,7 @@ var _3vot = window._3vot = window._3vot || {};
 _3vot.el = document.getElementById('_3vot_<%= @options.app_name %>');
 _3vot.device = "";
 _3vot.package = package;
+_3vot.user_name = "<%= @options.user_name %>";
 
 var entries = package.threevot.entries || package.threevot.platforms;
 var responsiveLayout = '<div class="responsiveCheckWrapper"> <div data-device="phone" class="visible-xs responsiveCheck">Loading 3VOT Mobile</div> <div data-device="tablet" class="visible-sm responsiveCheck">Loading 3VOT Tablet</div> <div data-device="laptop" class="visible-md responsiveCheck"> Loading3VOT Laptop </div> <div data-device="desktop" class="visible-lg responsiveCheck">Loading 3VOT TV/Desktop</div></div>';

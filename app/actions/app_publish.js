@@ -7,17 +7,15 @@ var Transform = require("../utils/transform")
 
 var AwsCredentials = require("../aws/credentials");
 var AwsHelpers = require("../aws/helpers");
-var LoadPackage = require("../utils/package_loader")
 
 var App = require("../models/app")
-
-var AddApp = require("./store_add_app")
 
 var promptOptions = {
   user_name: null,
   app_name: null,
   app_version: null,
-  paths: null
+  paths: null,
+  main: false
 }
 
 var tempVars= {
@@ -37,13 +35,12 @@ function execute(options){
 
   getApp()
   .then( function(){ return AwsCredentials.requestKeysFromProfile( promptOptions.user_name) })
-  .then( listAppKeys )
-  .then( function(){ return copyKeys(tempVars.app_keys) })
-  .then( listDepKeys )
-  .then( function(){ return copyKeys(tempVars.dep_keys) })
-  .then( listAssetKeys )
-  .then( transformKeys )
-  .then(function(){ return console.log("App Available in http://3vot.com/" + promptOptions.user_name + "/" + promptOptions.app_name ) } )
+  .then( uploadHtmlToProduction )
+  .then(function(){ 
+    var url = "http://3vot.com/" + promptOptions.user_name 
+    if( !promptOptions.main ) url += "/" + promptOptions.app_name
+    return console.log("App Available at " + url  ) 
+    })
   .then(function(){ return deferred.resolve(tempVars.app) } )
   .fail( function(err){ return deferred.reject(err); } )
 
@@ -70,129 +67,27 @@ function getApp(){
   return deferred.promise;
 }
 
-function listAppKeys(){
-  console.log("Searching for App Files in Demo")
+  
+function uploadHtmlToProduction(){
   var deferred = Q.defer();
 
-  var marker= promptOptions.user_name + "/" + tempVars.app.name + "_" + promptOptions.app_version
+  var indexPath = Path.join( process.cwd(), "apps", promptOptions.app_name, "app", "index.html" )
+  var indexContents = fs.readFileSync(indexPath, "utf-8");
   
-  AwsHelpers.listKeys( promptOptions.paths.productionBucket, marker )
-  .then( function( keys ){ tempVars.app_keys = keys; return deferred.resolve(keys);  })
-  .fail( function(err){ return deferred.reject(keys); }  );
-  
-  return deferred.promise;
-}
+  var key = promptOptions.user_name 
+  if( !promptOptions.main ) key += "/" + promptOptions.app_name
+  key += "/index.html"
 
+  indexContents = Transform["production"](indexContents, promptOptions.user_name, promptOptions.app_name, promptOptions.app_version)
 
-function listDepKeys(){
-  console.log("Finding App Dependency in Demo")
-  var deferred = Q.defer();
-
-  var marker= promptOptions.user_name + "/dependency"
-  AwsHelpers.listKeys( promptOptions.paths.productionBucket, marker )
-  .then( function( keys ){ tempVars.app_keys = keys; return deferred.resolve(keys);  })
-  .fail( function(err){ return deferred.reject(keys); }  );
+  var path =   { 
+    body: indexContents,
+    key: key,
+    path: promptOptions.paths.productionBucket + "/" + key
+  }
   
-  return deferred.promise;
-}
-
-function copyKeys(){
-  console.log(("Copying App Files").grey);
-  
-  var deferred = Q.defer();
-  var indexFound = false;
-   uploadPromises = []
-   tempVars.app_keys.forEach(function(key){
-     var newKey = key.Key.replace("_" + promptOptions.app_version, "");
-     uploadPromises.push( AwsHelpers.copyKey( promptOptions.paths.productionBucket, promptOptions.paths.productionBucket + "/" + key.Key , newKey ) );
-   });
-   
-   Q.all( uploadPromises )
-   .then( function(results){ return deferred.resolve( results ) })
-   .fail( function(error){ return deferred.reject( error ) });
-   
-   return deferred.promise;
-}
-
-function listAssetKeys(){
-  console.log("Searching Asset like images and css")
-  
-  var deferred = Q.defer();
-  var marker= promptOptions.user_name + "/" + tempVars.app.name + "_" + promptOptions.app_version + "/assets"
-  AwsHelpers.listKeys( promptOptions.paths.productionBucket, marker )
-  .then( function( keys ){ tempVars.asset_keys = keys; return deferred.resolve(keys);  })
-  .fail( function(err){ return deferred.reject(keys); }  );
-  
-  return deferred.promise;
-}
-
-function transformKeys(){
-  var deferred = Q.defer();
-  var transformPromises = []
-  tempVars.asset_keys.forEach(function(key){
-    var productionKey = key.Key.replace("_" + promptOptions.app_version, "");
-
-    if(productionKey.indexOf(".html") > 0 || productionKey.indexOf(".js") > 0 || productionKey.indexOf(".css") > 0 ){
-      transformPromises.push(updateObjectToProduction(productionKey)); 
-    }
-  });
-  
-  tempVars.app_keys.forEach(function(key){
-    var productionKey = key.Key.replace("_" + promptOptions.app_version, "");
-
-    if(productionKey.indexOf(".html") > 0 || productionKey.indexOf(".js") > 0 || productionKey.indexOf(".css") > 0 ){
-      transformPromises.push(updateObjectToProduction(productionKey)); 
-    }
-  });
-  
-  Q.all( transformPromises )
-  .then( function(results){ return deferred.resolve( results ) })
-  .fail( function(error){ return deferred.reject( error ) });
-  
-  return deferred.promise;
-}
-  
-function updateObjectToProduction(key){
-  var deferred = Q.defer();
-  
-  getObjectFromBucket(key)
-  .then( adjustObjectToProduction )
-  .then( uploadObjectToProduction )
-  .then( deferred.resolve )
-  .fail( deferred.reject )  
-  
-  return deferred.promise;
-  
-}
-  
-function getObjectFromBucket(key){
-  var deferred = Q.defer();
-
-  AwsHelpers.getObjectFromBucket( promptOptions.paths.productionBucket, key )
-  .then( function(data){ return deferred.resolve( { data: data, key: key })  }  )
-  .fail( function(err){ return deferred.reject(err)  }  )
-  
-  return deferred.promise;
-}
-  
-function adjustObjectToProduction(fileObject){
-  //console.log(("Adjusting File for Production " + promptOptions.paths.demoBucket + " to " +  promptOptions.paths.productionBucket ).grey);
-  fileObject.data = Transform.production(fileObject.data, promptOptions.user_name, promptOptions.app_name, promptOptions.app_version);
-  return fileObject;
-}
-  
-function uploadObjectToProduction( fileObject ){
-  //console.log( ("Uploading Transformed File for Production " ).grey);
-  
-  var deferred = Q.defer();
-  
-  AwsHelpers.uploadFile( promptOptions.paths.productionBucket , 
-    { 
-      body: fileObject.data,
-      key: fileObject.key,
-      path: promptOptions.paths.productionBucket + fileObject.key
-    }
-  ).then(  function(){ return deferred.resolve()  } )
+  AwsHelpers.uploadFile( promptOptions.paths.productionBucket , path )
+  .then(  function(){ return deferred.resolve()  } )
   .fail(  function(){ return deferred.reject()  } )    
   
   return deferred.promise

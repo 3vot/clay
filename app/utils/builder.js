@@ -142,5 +142,6 @@ function saveFile(path, filename, contents ){
 module.exports = {
   buildApp: buildApp,
   buildDependency: buildDependency,
-  buildHtml: buildHtml
+  buildHtml: buildHtml,
+  saveFile: saveFile
 }

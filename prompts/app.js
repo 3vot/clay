@@ -50,12 +50,40 @@ function download(callback){
    });
 }
 
+function template(callback){
+  prompt.start();
+  prompt.get( [ { name: 'app_name', description: 'App: ( The App you want to Download )' } ], 
+    function (err, result) {
+      result.app_user_name = "template"
+      LoadPackage(result)
+      .then( Download )
+      .then( function(){ console.log("App Downloaded Succesfully".green); } )
+      .then( function(){ if(callback) return callback(); })
+      .fail( function(err){ console.error(err); } )  
+   });
+}
+
 function publish(callback){
   prompt.start();
   prompt.get( [ 
     { name: 'app_name', description: 'App: ( The Name of the App you want to publish )' },
     { name: 'version', description: 'Version: ( The Version of the App you want to publish, enter for latest )' } ], 
     function (err, result) {
+      LoadPackage(result)
+      .then( Publish )
+      .then( function(){ console.log( "App Published Succesfully".green ) } )
+      .then( function(){ if(callback) return callback(); })
+      .fail( function(err){ console.log("Error Publishing App"); console.error(err); })
+  });
+}
+
+function publishAsMain(callback){
+  prompt.start();
+  prompt.get( [ 
+    { name: 'app_name', description: 'App: ( The Name of the App you want to publish )' },
+    { name: 'version', description: 'Version: ( The Version of the App you want to publish, enter for latest )' } ], 
+    function (err, result) {
+      result.isMain = true;
       LoadPackage(result)
       .then( Publish )
       .then( function(){ console.log( "App Published Succesfully".green ) } )
@@ -114,5 +142,6 @@ module.exports = {
   download: download,
   publish: publish,
   build: build,
-  install: install
+  install: install,
+  publishAsMain: publishAsMain
 }

@@ -5,7 +5,7 @@
     
   </head>
 
-  <body>
+  <body class="_3vot">
 
     <div id="_3vot_<%= @pck.name %>">
     </div>

@@ -1,6 +1,10 @@
-
 var Q = require("q")
 
+var _3Model = require("3vot-model")
+
+//_3Model.Model.host = "http://localhost:3002/v1"
+
+var request = require("superagent")
 var Store = require("../models/store")
 var Path = require("path");
 
@@ -8,6 +12,7 @@ var Template= require("../utils/template")
 
 var AwsCredentials = require("../aws/credentials");
 var AwsHelpers = require("../aws/helpers");
+var packageLoader = require("../utils/package_loader")
 
 var promptOptions= {
   user_name: null,
@@ -21,6 +26,18 @@ var tempVars = {
 }
 
 function execute(options){
+  var deferred = Q.defer();
+  promptOptions = options
+  request.get(_3Model.Model.host + "/api/" + promptOptions.user_name + "/updateStores" ).end(function(err, res){
+    if(err) return deferred.reject(err)
+    if(res.status > 300) return deferred.reject(res.body)
+    return deferred.resolve()
+  })
+
+  return deferred.promise;
+}
+
+function _execute(options){
   var deferred = Q.defer();
   if( !options.paths ) options.paths = { sourceBucket: "source.3vot.com", productionBucket: "3vot.com", demoBucket: "demo.3vot.com"}
   

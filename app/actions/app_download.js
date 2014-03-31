@@ -15,8 +15,6 @@ var AwsCredentials = require("../aws/credentials");
 
 var Install = require("../utils/install")
 
-var Builder = require("../utils/builder")
-
 var App = require("../models/app")
 
 var promptOptions= { 
@@ -46,8 +44,7 @@ function execute( options ){
   .then( adjustPackage )
   .then( adjust3vot )
   .then( installDependencies )
-  .then( function(){ return Builder.buildApp(promptOptions.app_name, promptOptions.user_name) })
-  .then( function(){ return Builder.buildDependency(promptOptions.app_name) })
+  .then( function(){ return AppBuild( promptOptions.app_name, "localhost", true ) })
   .then( function(){ deferred.resolve(tempVars.app) })
   .fail( function(err){ return deferred.reject(err); })
 

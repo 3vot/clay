@@ -11,7 +11,7 @@ var LoadPackage = require("../app/utils/package_loader")
 function generate(options){
   LoadPackage(options)
   .then(Generate)
-  .then( function(){ console.log("Store Created Succesfully".green) } )
+  .then( function(){ console.log("Store Data Generated Succesfully".green) } )
   .fail( function(err){ console.log("Error generating Store Profile".red.bold); console.error(err); }  )   
  }
 

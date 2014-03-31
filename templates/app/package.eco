@@ -29,15 +29,16 @@
 			".html"
 		],
 		"transforms": [
+			"browserify-eco",
 			"coffeeify",
 			"brfs",
-	    	"uglifyify"
+	    "uglifyify"
 		],
 		"external": {
 		},
 		"gitDependencies": {}
 	},
 	"dependencies": {
-	  "3vot" : "0.0.4"
+	  "3vot" : "0.0.6"
 	}
 }

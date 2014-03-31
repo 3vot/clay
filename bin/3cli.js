@@ -14,6 +14,7 @@ var Server = require("../app/actions/server")
 
 var Store = require("../prompts/store")
 
+
 var Salesforce = require("../prompts/salesforce")
 
 var Db = require("../prompts/db")
@@ -27,6 +28,7 @@ var _3Model = require("3vot-model")
 //_3Model.Model.host = "http://localhost:3002/v1"
 
 _3Model.Model.host = "http://threevot-api.herokuapp.com/v1"
+
 
 // *****************
 // CLI
@@ -56,6 +58,12 @@ else{
 
   else if( argv._.indexOf("profile:create") > -1 ){ ProfileQ.create( Store.generate ); }
 
+  else if( argv._.indexOf("profile:update") > -1 ){ ProfileQ.update( Store.generate ); }
+
+  else if( argv._.indexOf("profile:publish") > -1 ){ App.publishAsMain( Store.generate ); }
+
+  else if( argv._.indexOf("app:template") > -1 ){ App.template(); }
+  
   else if( argv._.indexOf("app:create") > -1 ){ App.create(); }
 
   else if( argv._.indexOf("app:update") > -1 ){ App.update(callback); }
@@ -64,28 +72,25 @@ else{
 
   else if( argv._.indexOf("app:clone") > -1 ){ App.download(); }
 
-  else if( argv._.indexOf("app:publish") > -1 ){ 
-    //if(argv.store){ callback = Store.addAutoApp(callback) }
-    App.publish(callback); 
-  }
+  else if( argv._.indexOf("app:publish") > -1 ){ App.publish(callback); }
 
   else if( argv._.indexOf("app:build") > -1 ){ App.build(); }
 
   else if( argv._.indexOf("app:install") > -1 ){ App.install(); }
 
-  else if( argv._.indexOf("store:create") > -1 ){ Store.create(callback); }
+  else if( argv._.indexOf("store:create") > -1 ){ Store.create( Store.generate ); }
 
-  else if( argv._.indexOf("store:destroy") > -1 ){ Store.destroy(callback); }
+  else if( argv._.indexOf("store:destroy") > -1 ){ Store.destroy( Store.generate ); }
 
-  else if( argv._.indexOf("store:list") > -1 ){ Store.list(); }
+  else if( argv._.indexOf("store:app:add") > -1 ){ Store.addApp( Store.generate ); }
 
-  else if( argv._.indexOf("store:app:add") > -1 ){ Store.addApp(callback); }
+  else if( argv._.indexOf("store:app:remove") > -1 ){ Store.removeApp( Store.generate ); }
 
-  else if( argv._.indexOf("store:app:remove") > -1 ){ Store.removeApp(callback); }
-
-  else if( argv._.indexOf("store:destroy") > -1 ){ Store.destroy(callback); }
+  else if( argv._.indexOf("store:destroy") > -1 ){ Store.destroy( Store.generate ); }
 
   else if( argv._.indexOf("store:publish") > -1 ){ Store.generate(); }
+
+  else if( argv._.indexOf("store:list") > -1 ){ Store.list(); }
 
   else if( argv._.indexOf("db:create") > -1 ){ Db.create(); }
 

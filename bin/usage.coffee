@@ -9,6 +9,7 @@ Commands:
   app            Manage Application Livecycle
   store          Manage de Appearance of the 3VOT Profile
   server         Start the development server
+  salesforce     Setup and Deploy Apps to Salesforce.com
 
 Options:
 
@@ -22,7 +23,14 @@ Profile Actions:
   3vot profile:setup         Creates the project folder and installs all dependencies.
                               ( Windows Note: it's posible that users will need to run npm install manually )
 
+  3vot profile:publish       Publishes an App to the 3VOT Profile Main Page
+
+  3vot profile:update        Updates the Profile Page to Latest Version ( only required before v: 0.3.31 )
+
+
 App Actions
+  3vot app:template          Downloads an Application based on a Template
+
   3vot app:create            Registers a new App on the Platform using current credits and creates folder esctru
 
   3vot app:upload            Uploads the Code of the new app and uploads the app as a demo
@@ -46,6 +54,6 @@ Store Actions
 
   3vot store:destroy         Removes a Store from your 3VOT Profile
   
-  3vot store:generate        Updates your 3VOT Profile with all Apps in Stores
+  3vot store:generate        Updates your 3VOT Profile APP JSON Data Store with all Apps in Stores ( this occurs automatically )
 
 """
