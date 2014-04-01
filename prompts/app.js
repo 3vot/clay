@@ -67,7 +67,7 @@ function publish(callback){
   prompt.start();
   prompt.get( [ 
     { name: 'app_name', description: 'App: ( The Name of the App you want to publish )' },
-    { name: 'version', description: 'Version: ( The Version of the App you want to publish, enter for latest )' } ], 
+    { name: 'app_version', description: 'Version: ( The Version of the App you want to publish, enter for latest )' } ], 
     function (err, result) {
       LoadPackage(result)
       .then( Publish )
