@@ -43,9 +43,18 @@ function scaffold(){
 }
 
 function values( key ){
-  var cipher = crypto.createCipher("aes192", promptOptions.public_dev_key + "_" + "aes192")
-  cipher.update(promptOptions[key], "binary", "hex")
-  promptOptions[key] = cipher.final("hex")
+  
+  var algorithm = 'aes-256-cbc';
+  var inputEncoding = 'utf8';
+  var outputEncoding = 'hex';
+  var salt = promptOptions.public_dev_key + "_" + algorithm;
+  
+  var cipher = crypto.createCipher(algorithm, salt);
+  var ciphered = cipher.update(promptOptions[key], inputEncoding, outputEncoding);
+  ciphered += cipher.final(outputEncoding);
+
+  promptOptions[key] = ciphered
+
 }
 
 module.exports = execute;

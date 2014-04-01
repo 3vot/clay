@@ -52,9 +52,12 @@ function createApp(){
     }
   }
 
-  r = new RegExp(/^[a-z0-9-]+$/)
-  if( r.test( promptOptions.app_name ) == false ) throw "App Name " + promptOptions.app_name + " is not valid, please use only Letter, Numbers and Hypens( - )"
-  
+  r = new RegExp(/^[a-z0-9-_]+$/)
+  if( r.test( promptOptions.app_name ) == false ) {
+    process.nextTick( function(){
+      return deferred.reject( "App Name " + promptOptions.app_name + " is not valid, please use only Letter, Numbers and Hypens( - )" );
+    })
+  }
 
   App.create( { billing: { size: promptOptions.size }, name: promptOptions.app_name, public_dev_key: promptOptions.public_dev_key, user_name: promptOptions.user_name, marketing: { name: promptOptions.app_name } }, callbacks )
   

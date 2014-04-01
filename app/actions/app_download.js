@@ -16,6 +16,8 @@ var AwsCredentials = require("../aws/credentials");
 var Install = require("../utils/install")
 
 var App = require("../models/app")
+var AppBuild = require("./app_build")
+
 
 var promptOptions= { 
   user_name: null,

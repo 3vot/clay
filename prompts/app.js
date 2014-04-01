@@ -143,5 +143,6 @@ module.exports = {
   publish: publish,
   build: build,
   install: install,
-  publishAsMain: publishAsMain
+  publishAsMain: publishAsMain,
+  template: template
 }

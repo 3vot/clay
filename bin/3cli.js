@@ -65,7 +65,7 @@ else{
   
   else if( argv._.indexOf("app:create") > -1 ){ App.create(); }
 
-  else if( argv._.indexOf("app:update") > -1 ){ App.update(callback); }
+  else if( argv._.indexOf("app:update") > -1 ){ App.update( Store.generate ); }
 
   else if( argv._.indexOf("app:upload") > -1 ){ App.upload(callback); }
 

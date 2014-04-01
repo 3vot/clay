@@ -44,24 +44,26 @@ function execute(options){
     if( promptOptions.target == "localhost" ) url += "_dev"
     return console.log("App Available at: " + url) } )
   .then (function(){ return deferred.resolve() })
-  .fail( function(err){ console.log(err); return deferred.reject(err) } );
+  .fail( function(err){ return deferred.reject(err) } );
   return deferred.promise;
 }
 
 function login(){
   var deferred = Q.defer();
-  
+
   var url = "https://login.salesforce.com/services/oauth2/token";
   body = {
     grant_type: "password",
     client_id: "3MVG9A2kN3Bn17hvlSRXnnVzjDNILmhSt.TZ.MgCe5mAt9XKFYDQV5FCMKm6cpHhbVmTQArgicRUt7zzcWMhQ",
     client_secret: "256153260162134490",
-    username: "dev.one@3vot.com",
-    password: "3vot3vot1Q4ScTdymTlNoZr6pnyglCha8G"
+    username: promptOptions.salesforce.username,
+    password: promptOptions.salesforce.password + promptOptions.salesforce.key
   }
+
   var req = request.post(url).type("application/x-www-form-urlencoded").send(body)
   req.end(function(err,res){
     if(err) return deferred.reject(err)
+    if(res.text.indexOf("error") > -1) return deferred.reject("Authentication Error. Check user, password and security token. " + res.text)
     tempVars.salesforce = JSON.parse(res.text)
     deferred.resolve(tempVars.salesforce)
   })
@@ -115,9 +117,17 @@ function publishPage(){
 
 
 function values( key ){
-  var decipher = crypto.createDecipher("aes192", promptOptions.public_dev_key + "_" + "aes192")
-  decipher.update(promptOptions.salesforce[key], "hex", "binary")
-  promptOptions.salesforce[key] = decipher.final("binary")
+  var algorithm = 'aes-256-cbc';
+  var inputEncoding = 'utf8';
+  var outputEncoding = 'hex';
+  var salt = promptOptions.public_dev_key + "_" + algorithm;
+
+  var decipher = crypto.createDecipher(algorithm, salt);
+  var deciphered = decipher.update(promptOptions.salesforce[key], outputEncoding, inputEncoding);
+  deciphered += decipher.final(inputEncoding);
+
+  promptOptions.salesforce[key] = deciphered
+
 }
 
 module.exports = execute;
