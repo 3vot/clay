@@ -37,7 +37,8 @@
     "browserify-eco": "~0.2.4",
     "3vot-model": "0.0.20",
     "3vot-db": "0.0.1",
-    "uglifyify": "~2.0.0"
+    "uglifyify": "~2.0.0",
+    "mkpath": "~0.1.0"
   },
   "testDependencies": {
     "mocha": "~1.17.0",

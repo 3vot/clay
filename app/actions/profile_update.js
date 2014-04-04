@@ -43,8 +43,8 @@ function createDefaultProfileApp(){
   
   request.get("http://3vot.com/template/main/index.html").end(function(err,res){
     if(err) return deferred.reject(err)
-    tempVars.html = res.text;
-    return deferred.resolve()
+    if(tempVars) tempVars.html = res.text;
+    return deferred.resolve(res.text)
   })
   
   return deferred.promise;
@@ -61,3 +61,5 @@ function uploadDefaultProfileApp(){
 
 
 module.exports = execute;
+
+execute.createDefaultProfileApp = createDefaultProfileApp

@@ -14,7 +14,8 @@ var promptOptions = {
   public_dev_key: null,
   user_name: null,
   app_name: null,
-  size: null
+  size: null,
+  static: null
 }
 
 var tempVars = {
@@ -30,9 +31,9 @@ function execute(options){
     tempVars.options = options;
 
     createApp()
-    .then( scaffold )
+    .then( scaffoldSwitch )
     .then( function(){ return AppInstall(promptOptions)  } )
-    .then( deferred.resolve() )
+    .then( deferred.resolve )
     .fail( function(err){ return deferred.reject(err); } );
     
     return deferred.promise;
@@ -64,6 +65,11 @@ function createApp(){
   return deferred.promise;
 }
 
+function scaffoldSwitch(){
+  if(promptOptions.static) return scaffoldStatic;
+  return scaffold;
+}
+
 function scaffold(){
   console.info("Scaffolding New App".grey);
 
@@ -88,6 +94,20 @@ function scaffold(){
 
   renderAndSave(Path.join( "app", "package.eco" ) , Path.join( "package.json" ), tempVars )
 
+
+  return tempVars.app;
+}
+
+function scaffoldStatic(){
+  console.info("Scaffolding New App".grey);
+
+  fs.mkdirSync( Path.join( process.cwd(), "apps", tempVars.app.name ));
+  fs.mkdirSync( Path.join( process.cwd(), "apps", tempVars.app.name , "app" ));
+  fs.mkdirSync( Path.join( process.cwd(), "apps", tempVars.app.name , "assets" ));
+  fs.mkdirSync( Path.join( process.cwd(), "apps", tempVars.app.name , "app", "assets" ));
+  fs.mkdirSync( Path.join( process.cwd(), "apps", tempVars.app.name , "static" ));
+
+  renderAndSave(Path.join( "app", "package.eco" ) , Path.join( "package.json" ), tempVars )
 
   return tempVars.app;
 }

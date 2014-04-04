@@ -6,7 +6,7 @@ var Builder = require("../utils/builder")
 var Transform = require("../utils/transform")
 var WalkDir = require("../utils/walk")
 var rimraf = require("rimraf")
-
+var mkpath = require("mkpath")
 
 var App = require("../models/app")
 
@@ -49,8 +49,9 @@ function execute( app_name, target, buildDependency, domain ){
     } 
   })
   .then( rimrafAssets )
-  .then( function(){ return transformAssets( promptOptions.app_name ) })
   .then( function(){ return transformFiles( promptOptions.app_name ) })
+  .then( function(){ return transformAssets( promptOptions.app_name ) })
+  .then( function(){ return transformStatic( promptOptions.app_name ) })
   .then( function(){ return deferred.resolve(promptOptions.app_name) })
   .fail( function(err){ deferred.reject(err); })
 
@@ -72,6 +73,7 @@ function rimrafAssets(){
 }
 
 function transformAssets(app_name){
+  
   var assets = WalkDir( Path.join( process.cwd(), "apps", app_name, "assets" ) );
 
   assets.forEach( function(path){
@@ -88,7 +90,12 @@ function transformAssets(app_name){
     else{
       file = fs.readFileSync( path.path);
     }
-    fs.writeFileSync( Path.join( process.cwd(), "apps", app_name, "app", "assets", path.name ) , file );
+
+    var filePath = Path.join( process.cwd(), "apps", app_name, "app", "assets", path.name );
+    var dirPath = filePath.substr(0, filePath.lastIndexOf("/") );
+    mkpath.sync( dirPath );
+    fs.writeFileSync( filePath  , file );
+    
   });
 }
 
@@ -109,5 +116,23 @@ function transformFiles(app_name){
   });
 }
 
+function transformStatic(app_name){
+  var assets = WalkDir( Path.join( process.cwd(), "apps", app_name, "static" ) );
+
+  assets.forEach( function(path){
+    if(path.name.indexOf(".html") > 0 || path.name.indexOf(".js") > 0 || path.name.indexOf(".css")){
+      var file = fs.readFileSync( path.path, "utf-8"  );
+      if(promptOptions.target == "localhost"){
+        file = Transform[promptOptions.target](file, promptOptions.package.user_name, app_name, promptOptions.domain );
+      }
+      else{
+        file = Transform[promptOptions.target](file, promptOptions.package.user_name, app_name, promptOptions.app_package.threevot.version );
+      }
+
+      var filePath = Path.join( process.cwd(), "apps", app_name, "app", path.name );
+      fs.writeFileSync( filePath  , file );
+    }
+  });
+}
 
 module.exports = execute;

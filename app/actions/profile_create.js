@@ -28,7 +28,7 @@ function execute(options){
     create()
     .then( function(){ 
       console.log( ( "Save your developer key: " + tempVars.profile.security.public_dev_key ).bold) 
-      return deferred.resolve( tempVars.app ) ;
+      return deferred.resolve( promptOptions ) ;
     })
     .fail( function(err){ return deferred.reject(err); } );
     
@@ -43,7 +43,7 @@ function create(){
   callbacks = {
     done: function(){
       tempVars.profile = this;
-      return deferred.resolve();
+      return deferred.resolve(promptOptions);
     },
     fail: function(err){
       return deferred.reject(err);

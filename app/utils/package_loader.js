@@ -15,7 +15,8 @@ function getPackage(options){
   try{
     pck = require(packagePath)
   }catch(e){
-    pck = {}
+    console.log("Package Loader Error " + e)
+    deferred.reject( "Could not read Security Credentials from 3vot.json, make sure your are inside the project folder")
   }
 
   process.nextTick(function(){

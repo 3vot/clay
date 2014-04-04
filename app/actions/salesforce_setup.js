@@ -3,12 +3,18 @@ var fs = require("fs")
 var Q = require("q");
 var crypto = require('crypto')
 
+var profileUpdate = require("./profile_update")
+
+var salesforceProfile = require("./salesforce_profile")
+
 var promptOptions = {
   public_dev_key: null,
   salesforce_user: null,
   password: null,
   key: null
 }
+
+var tempVars = {}
 
 function execute(options){
   var deferred = Q.defer();
@@ -19,6 +25,7 @@ function execute(options){
   values("key")
 
   scaffold()
+  .then (function(){ promptOptions.target = 'production'; return salesforceProfile( promptOptions ) })
   .then (function(){ return deferred.resolve() })
   .fail( function(err){ return deferred.reject(err) } );
   return deferred.promise;
@@ -41,6 +48,7 @@ function scaffold(){
 
   return deferred.promise;
 }
+
 
 function values( key ){
   

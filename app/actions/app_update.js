@@ -48,7 +48,6 @@ function execute(options){
     
     tempVars.package_json = require( Path.join( process.cwd(), "apps", promptOptions.app_name, "package.json" )  );
     
-    
     updateApp()
     .then( deferred.resolve )
     .fail( deferred.reject );

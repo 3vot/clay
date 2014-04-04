@@ -5,6 +5,7 @@ var AppUpload = require("../app/actions/app_upload")
 
 var Setup = require("../app/actions/salesforce_setup")
 var Upload = require("../app/actions/salesforce_upload")
+var Profile = require("../app/actions/salesforce_profile")
 
 function setup(callback){
   prompt.start();
@@ -37,6 +38,21 @@ function upload(callback){
   );
 }
 
+function profile(callback){
+  prompt.start();
+  prompt.get( 
+    [],
+    function (err, result) {
+      result.target = "production"
+      LoadPackage(result)
+      .then( Profile )
+      .then( function(){ console.log("Salesforce Profile Uploaded".green); } )
+      .then( function(){ if(callback) return callback(); })
+      .fail( function(err){console.error(err); } )
+    }
+  );
+}
+
 function dev(callback){
   prompt.start();
   prompt.get( 
@@ -55,5 +71,6 @@ function dev(callback){
 module.exports = {
   setup: setup,
   upload: upload,
-  dev: dev
+  dev: dev,
+  profile: profile
 }

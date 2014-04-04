@@ -8,6 +8,8 @@ var Transform = require("../utils/transform")
 var AwsCredentials = require("../aws/credentials");
 var AwsHelpers = require("../aws/helpers");
 
+var AppBuild = require("./app_build")
+
 var App = require("../models/app")
 
 var promptOptions = {
@@ -35,6 +37,7 @@ function execute(options){
 
   getApp()
   .then( function(){ return AwsCredentials.requestKeysFromProfile( promptOptions.user_name) })
+  .then( function(){ return AppBuild( promptOptions.app_name, "production", true ) })
   .then( uploadHtmlToProduction )
   .then(function(){ 
     var url = "http://3vot.com/" + promptOptions.user_name 
@@ -77,8 +80,6 @@ function uploadHtmlToProduction(){
   var key = promptOptions.user_name 
   if( !promptOptions.main ) key += "/" + promptOptions.app_name
   key += "/index.html"
-
-  indexContents = Transform["production"](indexContents, promptOptions.user_name, promptOptions.app_name, promptOptions.app_version)
 
   var path =   { 
     body: indexContents,

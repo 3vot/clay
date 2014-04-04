@@ -1,0 +1,7 @@
+<apex:page sidebar="false" controller="ThreeVotApiController">
+
+  <%- @html %>
+
+  <%- @footer %>
+  
+</apex:page>

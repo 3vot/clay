@@ -60,6 +60,14 @@ Server.startServer = function(){
     res.send("<h1>Congratulations 3VOT Local Server is Running</h1><h2>Now head to your app @ /YOURORG/YOURAPP</h2>");
   });
 
+  app.get("/" + profile  + "/:app_name/assets/:folder/:asset", function(req, res) {
+    var asset = req.params.asset;
+    var app_name = req.params.app_name;
+    var folder_name = req.params.folder;
+    var filePath = Path.join(  process.cwd() , "apps", app_name, "app", "assets", folder_name, asset );
+    res.sendfile(filePath);
+  });
+
   app.get("/" + profile  + "/:app_name/assets/:asset", function(req, res) {
     var asset = req.params.asset;
     var app_name = req.params.app_name;

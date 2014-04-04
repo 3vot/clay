@@ -9,6 +9,20 @@ var Build = require("../app/actions/app_build")
 var Publish = require("../app/actions/app_publish")
 var Install = require("../app/actions/app_install")
 
+function static(callback){
+  prompt.start();
+  prompt.get( [ 
+    { name: 'app_name', description: 'App Name ( The name of the app you want to create )' } ], 
+    function (err, result) {
+      result.static = true;
+      LoadPackage(result)
+      .then( Create )
+      .then( function(){ console.log("App Created Succesfully".green); } )
+      .then( function(){ if(callback) return callback(); })
+      .fail( function(err){ console.error(err); } )
+  });
+}
+
 function create(callback){
   prompt.start();
   prompt.get( [ 
@@ -18,7 +32,7 @@ function create(callback){
       .then( Create )
       .then( function(){ console.log("App Created Succesfully".green); } )
       .then( function(){ if(callback) return callback(); })
-      .fail( function(err){console.error(err); } )
+      .fail( function(err){ console.error(err); } )
   });
 }
 
@@ -107,6 +121,7 @@ function upload(callback){
   })
 }
 
+
 function install(callback){
   prompt.start();
   prompt.get( [ 
@@ -144,5 +159,6 @@ module.exports = {
   build: build,
   install: install,
   publishAsMain: publishAsMain,
-  template: template
+  template: template,
+  static: static
 }

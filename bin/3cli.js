@@ -69,6 +69,8 @@ else{
 
   else if( argv._.indexOf("app:upload") > -1 ){ App.upload(callback); }
 
+  else if( argv._.indexOf("app:static") > -1 ){ App.static(callback); }
+
   else if( argv._.indexOf("app:clone") > -1 ){ App.download(); }
 
   else if( argv._.indexOf("app:publish") > -1 ){ App.publish(callback); }
@@ -106,6 +108,8 @@ else{
   else if( argv._.indexOf("salesforce:upload") > -1 ){ Salesforce.upload(); }
 
   else if( argv._.indexOf("salesforce:dev") > -1 ){ Salesforce.dev(); }
+
+  else if( argv._.indexOf("salesforce:profile") > -1 ){ Salesforce.profile(); }
 
   else if( argv._.indexOf("upgrade") > -1 ){ Upgrade.upgrade(); }
 
