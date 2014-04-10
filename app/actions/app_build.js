@@ -10,6 +10,7 @@ var mkpath = require("mkpath")
 
 var App = require("../models/app")
 
+var Log = require("../utils/log")
 var promptOptions= { 
   app_name: null,
   target: null
@@ -20,7 +21,7 @@ var tempVars={
 }
 
 function execute( app_name, target, buildDependency, domain ){
-  console.info("Building " + app_name.yellow)
+  Log.debug("Building App " + app_name, "actions/salesforce_setup", 35)
 
   var deferred = Q.defer();
   var pkgPath = Path.join( process.cwd(), "3vot.json");

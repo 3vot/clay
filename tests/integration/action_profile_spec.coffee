@@ -12,8 +12,7 @@ describe '3VOT Profile', ->
     @timeout(20000)
     
     console.log("executing setup with key " + process.env.public_dev_key)
-    
-    
+
     res = Create( { user_name: "cli_2_test", marketing: { name: "CLI Testing Procedures" }, email: "rr@rr.com" } )
 
     res.fail (error) =>  
@@ -24,6 +23,20 @@ describe '3VOT Profile', ->
         return donefn()
       return error.should.equal(""); 
     
+    res.then (profile) ->
+      process.env.public_dev_key = profile.security.public_dev_key
+      donefn()
+
+  it 'should update a profile', (donefn) ->
+    @timeout(20000)
+
+    console.log("executing setup with key " + process.env.public_dev_key)
+
+    res = Update( { user_name: "cli_2_test")
+
+    res.fail (error) =>  
+      return error.should.equal(""); 
+
     res.then (profile) ->
       process.env.public_dev_key = profile.security.public_dev_key
       donefn()

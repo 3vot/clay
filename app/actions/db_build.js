@@ -10,6 +10,8 @@ var appPath = Path.join( process.cwd(), "3vot_backend", "index.js");
 var testPath = Path.join( process.cwd(), "3vot_backend", "test" , "index.js");
 var destPath = Path.join( process.cwd(), "3vot_backend", "dist" );
 
+var Log = require("../utils/log")
+
 var promptOptions = {
   developmentMode: null,
   dbVersion: 1

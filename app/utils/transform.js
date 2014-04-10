@@ -1,5 +1,7 @@
 var _3vot = require("3vot")
 var Path = require("path")
+var Log = require("./log")
+
 
 function localhost(fileContents, user_name, app_name, domain){
   var devDomain = domain || "localhost:3000"

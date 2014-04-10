@@ -25,6 +25,8 @@ var WalkDir = require("../utils/walk")
 
 var App = require("../models/app")
 
+var Log = require("../utils/log")
+
 var promptOptions = {
   public_dev_key: null,
   user_name: null,
@@ -56,7 +58,7 @@ function execute(options){
     .then( uploadDependenciesFiles )
     .then( createApp )
     .then( function(){ 
-      console.log("App Available at: http://" + promptOptions.paths.productionBucket + "/" + promptOptions.user_name + "/" + promptOptions.app_name +  "_" + tempVars.app_version )
+      Log.info("App Available at: http://" + promptOptions.paths.productionBucket + "/" + promptOptions.user_name + "/" + promptOptions.app_name +  "_" + tempVars.app_version )
       return deferred.resolve( tempVars.app ) ;
     })
     .fail( function(err){ return deferred.reject(err); } );
@@ -90,7 +92,9 @@ function getAppVersion(){
 
 function adjustPackage(){
   var deferred = Q.defer();
-  console.info("Adjusting the package.json with the new version".yellow)
+
+  Log.debug("Adjusting the package.json with the new version", "actions/app_upload", 96)
+
   var pck = require( Path.join( process.cwd(), "apps", promptOptions.app_name, "package.json" )  );
   var vot = require( Path.join( process.cwd(), "3vot.json" )  )
   pck.version = "0.0." + tempVars.app_version;
@@ -104,9 +108,9 @@ function adjustPackage(){
 }
 
 function buildPackage(){
-  console.log( ("Building App " + promptOptions.app_name).green);
   var deferred = Q.defer();
-  
+  Log.debug("Building App " + promptOptions.app_name, "actions/app_upload", 96)
+
   var appFolderReader = fstream.Reader(
     { path: 'apps/' + promptOptions.app_name, 
       type: "Directory", 
@@ -131,8 +135,9 @@ function buildPackage(){
 }
 
 function uploadSourceCode(){
-  console.info("Uploading Package to 3VOT App Store".yellow)
-  var deferred = Q.defer();
+  var deferred = Q.defer();  
+  Log.debug("Uploading Package to 3VOT App Store", "actions/app_upload", 139)
+
   var file = fs.readFileSync( Path.join( process.cwd(), 'tmp', promptOptions.app_name + '.tar.gz'));
 
   var key = promptOptions.user_name + '/' + promptOptions.app_name  + "_" +  tempVars.app_version  + '.3vot';
@@ -148,10 +153,9 @@ function uploadSourceCode(){
 }
 
 function uploadAppFiles(){
-  console.info("Uploading App to 3VOT Demo".yellow)
+  var deferred = Q.defer();  
+  Log.debug("Uploading App", "actions/app_upload", 157)
   
-  var deferred = Q.defer();
-
   uploadPromises = []
   var apps = WalkDir( Path.join( process.cwd(), "apps", promptOptions.app_name, "app" ) );
 
@@ -168,7 +172,7 @@ function uploadAppFiles(){
 }
 
 function uploadAssetsFiles(){
-  console.info("Uploading Assets to 3VOT Demo".yellow)
+  Log.debug("Uploading Assets", "actions/app_upload", 177)
   
   var deferred = Q.defer();
   var uploadPromises = []
@@ -188,7 +192,7 @@ function uploadAssetsFiles(){
 }
 
 function uploadDependenciesFiles(){
-  console.info("Uploading Dependencies to 3VOT Demo".yellow)
+  Log.debug("Uploading Dependencies", "actions/app_upload", 195)
   
   var deferred = Q.defer();
   var uploadPromises = []

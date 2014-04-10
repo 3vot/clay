@@ -1,6 +1,6 @@
 var Path = require("path")
 var extend = require('util')._extend
-
+var Log = require("./log")
 var Q = require("q")
 
 function getPackage(options){
@@ -14,8 +14,9 @@ function getPackage(options){
   var pck;
   try{
     pck = require(packagePath)
+    Log.setUsername(pck.user_name)
   }catch(e){
-    console.log("Package Loader Error " + e)
+    Log.error(e, "utils/package_loader", 19)
     deferred.reject( "Could not read Security Credentials from 3vot.json, make sure your are inside the project folder")
   }
 
@@ -28,4 +29,18 @@ function getPackage(options){
 
 }
 
+function save(fileContents){
+  var deferred = Q.defer();
+
+   var packagePath = Path.join(process.cwd(), "3vot.json")
+   fs.writeFile( packagePath,fileContents, "utf-8", function(err){
+     if(err) return deferred.reject(err);
+     deferred.resolve()
+   });
+
+   return deferred.promise;  
+}
+
 module.exports = getPackage
+
+getPackage.save = save

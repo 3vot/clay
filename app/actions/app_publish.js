@@ -2,15 +2,13 @@ var Aws = require("aws-sdk");
 var Path = require("path")
 var fs = require("fs")
 var Q = require("q");
-
 var Transform = require("../utils/transform")
-
 var AwsCredentials = require("../aws/credentials");
 var AwsHelpers = require("../aws/helpers");
-
 var AppBuild = require("./app_build")
-
 var App = require("../models/app")
+var Log = require("../utils/log")
+
 
 var promptOptions = {
   user_name: null,
@@ -28,7 +26,8 @@ var tempVars= {
 }
 
 function execute(options){
-  console.log("Publishing Apps to the 3VOT Platform")
+  Log.info("Publishing Apps to the 3VOT Platform")
+  
   var deferred = Q.defer();
   
   if( !options.paths ) options.paths = { sourceBucket: "source.3vot.com", productionBucket: "3vot.com", demoBucket: "demo.3vot.com"}

@@ -18,7 +18,7 @@ Options:
   -u,    Updates your 3VOT Profile
 
 Profile Actions:
-  3vot profile:create        Registers a new profile in the 3VOT Platform
+  3vot profile:create        Registers a new profile in the 3VOT Platform and creates the project structure
   
   3vot profile:setup         Creates the project folder and installs all dependencies.
                               ( Windows Note: it's posible that users will need to run npm install manually )
@@ -31,7 +31,9 @@ Profile Actions:
 App Actions
   3vot app:template          Downloads an Application based on a Template
 
-  3vot app:create            Registers a new App on the Platform using current credits and creates folder esctru
+  3vot app:create            Registers a new App on the Platform using current credits and creates folder structure
+
+  3vot app:static            Registers a new Static App on the Platform using current credits and creates folder structure
 
   3vot app:upload            Uploads the Code of the new app and uploads the app as a demo
   

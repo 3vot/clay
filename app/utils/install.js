@@ -2,14 +2,14 @@ var bower = require("bower");
 var Path = require("path")
 var fs = require("fs")
 var prompt = require("prompt")
+var Log = require("./log")
 
 var Q = require("q");
 
 function install( appName, destinationDir ){
   var deferred = Q.defer();
-      
-  console.log("Changing CWD to App Folder")
-  process.chdir( Path.join( process.cwd(), "apps", appName ) );
+  var app_path = Path.join( process.cwd(), "apps", appName )
+  process.chdir( app_path  );
       
   //Destination DIR is always taken from the path where the node command is invoked
   
@@ -20,9 +20,7 @@ function install( appName, destinationDir ){
 
   installBower(destinationDir, gitDeps)
   .then( installNPM  )
-  
   .then( function() {
-    console.log("Changing CWD to Project Folder")
     process.chdir( Path.join( process.cwd(), "..", ".." ) );
     deferred.resolve();
   })
@@ -36,9 +34,9 @@ function install( appName, destinationDir ){
 
 function installBower(destinationDir, packagesToInstall ){
   var deferred = Q.defer();
-  
-  console.log( ( "Installing Git Components in "  + destinationDir) .yellow)
 
+  Log.debug("Installing Git Components in "  + destinationDir, "utils/install", 42)
+  
   bower.config.directory = destinationDir
 
   bower.commands
@@ -48,7 +46,7 @@ function installBower(destinationDir, packagesToInstall ){
   })
 
   .on("error", function (error) {
-      console.log(error)
+      Log.debug("error in install bower", "utils/install", 51)    
       deferred.reject(error);
   });
 
@@ -57,21 +55,26 @@ function installBower(destinationDir, packagesToInstall ){
 }
   
 function installNPM(){
-  console.log("Installing NPM Components".yellow)
+  Log.debug("Installing NPM Components in " + process.cwd(), "utils/install",60)
 
    var deferred = Q.defer();
 
    var npm = require("npm");
 
     npm.load(npm.config, function (er) {
-      if (er) return deferred.reject(er);
-      console.log("Current Path NPM INSTALL " + process.cwd());
+      if (er){
+        Log.debug("error in load npm", "utils/install", 68)    
+        return deferred.reject(er);
+      }
       npm.commands.install(["."], function (er, data) {
-        if (er) return deferred.reject(er)
+        if (er){
+          Log.debug("error in install npm", "utils/install", 73)    
+          return deferred.reject(er)
+        }
         return deferred.resolve()
         // command succeeded, and data might have some info
       });
-      npm.on("log", function (message) { console.log(message) })
+      npm.on("log", function (message) { Log.debug(message, "utils/install",74) })
     });
     
     return deferred.promise;

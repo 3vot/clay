@@ -1,17 +1,24 @@
 var Path = require("path")
 var fs = require("fs")
 var Q = require("q");
-var crypto = require('crypto')
 
 var profileUpdate = require("./profile_update")
 
-var salesforceProfile = require("./salesforce_profile")
+var Profile = require("./salesforce_profile")
+
+var Login = require('../salesforce/login')
+var Encrypt = require('../salesforce/encrypt')
+
+var Log = require("../utils/log")
 
 var promptOptions = {
   public_dev_key: null,
-  salesforce_user: null,
-  password: null,
-  key: null
+  user_name: null,
+  salesforce: {
+    user_name: null,
+    password: null,
+    key: null
+  }
 }
 
 var tempVars = {}
@@ -19,50 +26,39 @@ var tempVars = {}
 function execute(options){
   var deferred = Q.defer();
   promptOptions = options;
+  promptOptions.salesforce = promptOptions.saleforce_prompt
+  delete promptOptions.saleforce_prompt
   
-  values("salesforce_user")
-  values("password")
-  values("key")
-
+  
   scaffold()
-  .then (function(){ promptOptions.target = 'production'; return salesforceProfile( promptOptions ) })
+  .then( Login )
   .then (function(){ return deferred.resolve() })
   .fail( function(err){ return deferred.reject(err) } );
   return deferred.promise;
   }
 
 function scaffold(){
-  console.log("Scaffolding Projects");
+  Log.debug("Adding Salesforce Encrypted Values", "actions/salesforce_setup", 35)
   var deferred = Q.defer();
 
   var _3votJSON = require( Path.join(  process.cwd(), "3vot.json" ));
   
-  delete promptOptions.public_dev_key;
   _3votJSON.salesforce = {
-    username: promptOptions.salesforce_user,
-    password: promptOptions.password,
-    key: promptOptions.key,
+    user_name: Encrypt.hide(promptOptions.salesforce.user_name, promptOptions.salesforce.password),
+    key: Encrypt.hide(promptOptions.salesforce.key, promptOptions.salesforce.password)
   }
 
-  fs.writeFile( Path.join(process.cwd(), "3vot.json"), JSON.stringify(_3votJSON, null, '\t') , function(){ deferred.resolve()  } );
+  promptOptions.salesforce.user_name = _3votJSON.salesforce.user_name;
+  promptOptions.salesforce.key = _3votJSON.salesforce.key;
+
+  fs.writeFile( Path.join(process.cwd(), "3vot.json"), JSON.stringify(_3votJSON, null, '\t') , 
+    function(err){
+      if(err) return deferred.reject(err)
+      deferred.resolve(promptOptions)  
+    }
+  );
 
   return deferred.promise;
-}
-
-
-function values( key ){
-  
-  var algorithm = 'aes-256-cbc';
-  var inputEncoding = 'utf8';
-  var outputEncoding = 'hex';
-  var salt = promptOptions.public_dev_key + "_" + algorithm;
-  
-  var cipher = crypto.createCipher(algorithm, salt);
-  var ciphered = cipher.update(promptOptions[key], inputEncoding, outputEncoding);
-  ciphered += cipher.final(outputEncoding);
-
-  promptOptions[key] = ciphered
-
 }
 
 module.exports = execute;

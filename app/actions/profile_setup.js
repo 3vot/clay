@@ -2,12 +2,11 @@ var Path = require("path")
 var fs = require("fs")
 var Q = require("q");
 
-
 var Profile = require("../models/profile")
-
 
 var AwsCredentials = require("../aws/credentials");
 
+var Log = require("../utils/log")
 
 var profile = {};
 
@@ -22,12 +21,10 @@ var tempVars = {
 function execute(options){
     var deferred = Q.defer();
     promptOptions = options;
-    
     getProfile()
     .then( scaffold )
     .then( installNPM )
-    .then( function(){ return console.log("Setup Complete: Now 'CD' into 3vot_" + tempVars.profile.user_name) } )
-    .then (function(){ return deferred.resolve() })
+    .then (function(){ return deferred.resolve(promptOptions) })
     .fail( function(err){ return deferred.reject(err) } );
     return deferred.promise;
   }
@@ -35,9 +32,9 @@ function execute(options){
 function getProfile(){
   var deferred = Q.defer();
   
-  
   callbacks = {
     done: function(profile){
+      Log.user_name = profile.user_name
       tempVars.profile = profile
       return deferred.resolve(profile);
     },
@@ -52,7 +49,7 @@ function getProfile(){
 }
 
 function scaffold(){
-    console.log("Scaffolding Projects");
+    Log.debug("Scaffolding Projects", "actions/profile_setup", 52);
     var deferred = Q.defer();
     
     var options = {
@@ -84,7 +81,6 @@ function scaffold(){
 function installNPM(options){
   var deferred = Q.defer();
   var projectPath = Path.join( process.cwd() , options.folder );
-  console.info("Changing current directory in Profile Setup to " + projectPath)
   process.chdir( projectPath );
 
   try{
@@ -102,8 +98,8 @@ function installNPM(options){
     });
   }
   catch(e){
-    console.log("*** WARNING: ***")
-    console.log("PLEASE INSTALL NPM MANUALLY by running npm install");
+    Log.info("*** WARNING: ***")
+    Log.info("PLEASE INSTALL NPM MANUALLY by running npm install");
     restoreCWD()
     return deferred.resolve()
   }
@@ -113,7 +109,6 @@ function installNPM(options){
 
 function restoreCWD(){
   var projectPath = Path.join( process.cwd() , ".." );
-  console.info("Restoring current directory in Profile Setup")
   process.chdir( projectPath );
 }
 

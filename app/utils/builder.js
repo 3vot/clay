@@ -5,6 +5,8 @@ var Path = require('path');
 var Template = require("./template");
 var _3vot = require("3vot");
 var WalkDir = require("./walk")
+var Log = require("./log")
+
 
 var options = {
   app_name: null,

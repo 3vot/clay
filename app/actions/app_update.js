@@ -26,6 +26,8 @@ var App = require("../models/app")
 
 var _3Ajax = require("3vot-model/lib/ajax");
 
+var Log = require("../utils/log")
+
 var promptOptions = {
   public_dev_key: null,
   user_name: null,
@@ -70,8 +72,6 @@ function updateApp(){
 
   callbacks={
     done: function(){    
-      console.log("updating app")
-
       tempVars.app = this;
       return deferred.resolve( this ) 
     },

@@ -43,6 +43,14 @@ describe '3VOT App', ->
       error.should.equal("")
     .done (app) ->
       done()
+
+  it 'should create a static app', (done) ->
+    @timeout(90000)
+    Create( { static: true,  app_name: "cli_2_test_static_app_1", user_name: "cli_2_test",  public_dev_key: process.env.public_dev_key, size: "small" } )
+    .fail (error) ->
+      error.should.equal("")
+    .done (app) ->
+      done()
       
   it 'should update an app', (done) ->
     @timeout(90000)

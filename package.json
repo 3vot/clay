@@ -38,7 +38,8 @@
     "3vot-model": "0.0.20",
     "3vot-db": "0.0.1",
     "uglifyify": "~2.0.0",
-    "mkpath": "~0.1.0"
+    "mkpath": "~0.1.0",
+    "mixpanel": "0.0.19"
   },
   "testDependencies": {
     "mocha": "~1.17.0",

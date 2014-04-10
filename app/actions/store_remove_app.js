@@ -8,6 +8,8 @@ var Profile = require("../models/profile")
 
 var Store = require("../models/store")
 
+var Log = require("../utils/log")
+
 var promptOptions = {
   app_name: null,
   name: null,
@@ -19,8 +21,9 @@ var profile = {}
 
 function add( options ){
   promptOptions = options;
-  console.info("Removing an app in your 3VOT Store".yellow)
-  var deferred = Q.defer();
+
+  var deferred = Q.defer();  
+  console.info( "Removing the app " + promptOptions.app_name + " from the store " + promptOptions.name )
 
   callbacks = {
     done: function(){
@@ -30,7 +33,6 @@ function add( options ){
       deferred.reject(err);
     }
   }
-
 
   Store.callAction( "removeAppFromStore", { app_name: promptOptions.app_name, name: promptOptions.name, user_name: promptOptions.user_name, public_dev_key: options.public_dev_key }, callbacks )  
   

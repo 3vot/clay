@@ -4,7 +4,15 @@ var Q = require("q");
 
 var eco = require("eco")
 var Transform = require("../utils/transform")
-var SalesforceUpload =require("../salesforce")
+
+var Upload =require("../salesforce/upload")
+
+var Log = require("../utils/log")
+
+var Login = require('../salesforce/login')
+
+var request = require("superagent")
+
 
 var promptOptions = {
   public_dev_key: null,
@@ -15,15 +23,18 @@ var promptOptions = {
 
 var tempVars = {}
 
+
+
 function execute(options){
-  console.log("Updating the Salesforce Profile Page AppsFrom3vot")
+  Log.info("Updating the Salesforce Profile Page AppsFrom3vot", "actions/salesforce_profile", 29)
   var deferred = Q.defer();
   options.app_name = "AppsFrom3vot"
   promptOptions = options;
 
-  createDefaultProfileApp()
+  Login(promptOptions)
+  .then( createDefaultProfileApp )
   .then( renderPage )
-  .then( function(){ return SalesforceUpload( promptOptions ) } )
+  .then( function(){ return Upload( promptOptions ) } )
   .then (function(){ return deferred.resolve() })
   .fail( function(err){ return deferred.reject(err) } );
   return deferred.promise;

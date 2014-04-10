@@ -10,6 +10,8 @@ var App = require("../models/app")
 
 var AppInstall = require("./app_install")
 
+var Log = require("../utils/log")
+
 var promptOptions = {
   public_dev_key: null,
   user_name: null,
@@ -24,21 +26,23 @@ var tempVars = {
 }
 
 function execute(options){
-    var deferred = Q.defer();
+  var deferred = Q.defer();
+  promptOptions= options;
+  tempVars.options = options;
 
-    promptOptions= options;
-    
-    tempVars.options = options;
+  Log.debug("Creating App", "actions/app_create", 33);
 
-    createApp()
-    .then( scaffoldSwitch )
-    .then( function(){ return AppInstall(promptOptions)  } )
-    .then( deferred.resolve )
-    .fail( function(err){ return deferred.reject(err); } );
-    
-    return deferred.promise;
-  }
-
+  createApp()
+  .then( function(){ return scaffoldSwitch() } )
+  .then( function(){ 
+    if(promptOptions.static) return true;
+    return AppInstall(promptOptions)  
+  })
+  .then( deferred.resolve )
+  .fail( deferred.reject );
+  
+  return deferred.promise;
+}
 
 function createApp(){
   var deferred = Q.defer();
@@ -46,9 +50,11 @@ function createApp(){
   callbacks={
     done: function(){
       tempVars.app = this;
+      Log.debug("App Created Succesfully", "actions/app_create", 50);
       return deferred.resolve(this);
     },
     fail: function(error){   
+      Log.debug("Error creating App Db Object", "actions/app_create", 53);
       return deferred.reject( error )
     }
   }
@@ -66,12 +72,14 @@ function createApp(){
 }
 
 function scaffoldSwitch(){
-  if(promptOptions.static) return scaffoldStatic;
-  return scaffold;
+  Log.debug("Scafolding App Files", "actions/app_create", 74);
+
+  if(promptOptions.static) return scaffoldStatic();
+  return scaffold();
 }
 
 function scaffold(){
-  console.info("Scaffolding New App".grey);
+  Log.debug("Creating Folders and Files", "actions/app_create", 76);
 
   fs.mkdirSync( Path.join( process.cwd(), "apps", tempVars.app.name ));
   fs.mkdirSync( Path.join( process.cwd(), "apps", tempVars.app.name , "app" ));
@@ -99,7 +107,7 @@ function scaffold(){
 }
 
 function scaffoldStatic(){
-  console.info("Scaffolding New App".grey);
+  Log.debug("Scaffolding Static App", "actions/app_create", 104);
 
   fs.mkdirSync( Path.join( process.cwd(), "apps", tempVars.app.name ));
   fs.mkdirSync( Path.join( process.cwd(), "apps", tempVars.app.name , "app" ));
@@ -120,6 +128,5 @@ function renderAndSave(templatePath, destPath, tempVars){
   fs.writeFileSync( Path.join( process.cwd(), "apps", tempVars.app.name, destPath ), templateRender );
   
 }
-
 
 module.exports = execute;

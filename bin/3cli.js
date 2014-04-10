@@ -14,7 +14,6 @@ var Server = require("../app/actions/server")
 
 var Store = require("../prompts/store")
 
-
 var Salesforce = require("../prompts/salesforce")
 
 var Db = require("../prompts/db")
@@ -25,16 +24,26 @@ var Upgrade = require("../prompts/upgrade")
 
 var _3Model = require("3vot-model")
 
+var Log = require("../app/utils/log")
+var Stat = require("../app/utils/stats")
+
+Log.setLevel("INFO");
+
 //_3Model.Model.host = "http://localhost:3002/v1"
 
 _3Model.Model.host = "http://threevot-api.herokuapp.com/v1"
 
+console.log("LOAD PACKAGE CAN INCLUDE OPTIONS TO LOAD 3VOT or APP PACKAGE AUTOMATICALLY AND DONT DO IT IN ACTIONS")
 
 // *****************
 // CLI
 // *****************
 var callback = function(){
-  console.log("---- 3VOT ----".bold)
+  Log.info("---- 3VOT ----")
+}
+
+if(argv.l){
+  Log.setLevel("DEBUG2");
 }
 
 if(argv.d){
@@ -48,8 +57,8 @@ if(argv.v){
 }
 else if( argv.h ){
   var pkg = require("../package.json")
-  console.log("" + pkg.name + " " + pkg.version + "\n\nUsage: " + pkg.name + " [options] [command]\n\nCommands:\n\n  profile        Profile actions to setup enviroment  \n  app            Manage Application Livecycle\n  store          Manage de Appearance of the 3VOT Profile\n  server         Start the development server\n  salesforce     Setup and Deploy Apps to Salesforce.com\n\nOptions:\n\n  -h,    output usage information\n  -v,    output the version number\n  -u,    Updates your 3VOT Profile\n\nProfile Actions:\n  3vot profile:create        Registers a new profile in the 3VOT Platform\n  \n  3vot profile:setup         Creates the project folder and installs all dependencies.\n                              ( Windows Note: it's posible that users will need to run npm install manually )\n\n  3vot profile:publish       Publishes an App to the 3VOT Profile Main Page\n\n  3vot profile:update        Updates the Profile Page to Latest Version ( only required before v: 0.3.31 )\n\n\nApp Actions\n  3vot app:template          Downloads an Application based on a Template\n\n  3vot app:create            Registers a new App on the Platform using current credits and creates folder esctru\n\n  3vot app:upload            Uploads the Code of the new app and uploads the app as a demo\n  \n  3vot app:clone             Clones an App from the 3VOT Platform Marketplace and downloads its source code\n  \n  3vot app:publish           Publishes a Demo App to your 3VOT Profile\n  \n  3vot app:build             Builds the development version of the App ( Used in manual operation )\n  \n  3vot app:install           Installs the NPM and Bower Dependencies of the App ( Used in Manual Operation )\n  \nStore Actions\n  3vot store:create          Creates a new Store in on your 3VOT Profile Page\n\n  3vot store:list            List all Stores and Apps in your 3VOT Profile\n  \n  3vot store:app:add         Adds an App to the specified store referenced by store name\n  \n  3vot store:app:remove      Removes an App from the Store\n\n  3vot store:destroy         Removes a Store from your 3VOT Profile\n  \n  3vot store:generate        Updates your 3VOT Profile APP JSON Data Store with all Apps in Stores ( this occurs automatically )\n");}
-
+  console.log("" + pkg.name + " " + pkg.version + "\n\nUsage: " + pkg.name + " [options] [command]\n\nCommands:\n\n  profile        Profile actions to setup enviroment  \n  app            Manage Application Livecycle\n  store          Manage de Appearance of the 3VOT Profile\n  server         Start the development server\n  salesforce     Setup and Deploy Apps to Salesforce.com\n\nOptions:\n\n  -h,    output usage information\n  -v,    output the version number\n  -u,    Updates your 3VOT Profile\n\nProfile Actions:\n  3vot profile:create        Registers a new profile in the 3VOT Platform and creates the project structure\n  \n  3vot profile:setup         Creates the project folder and installs all dependencies.\n                              ( Windows Note: it's posible that users will need to run npm install manually )\n\n  3vot profile:publish       Publishes an App to the 3VOT Profile Main Page\n\n  3vot profile:update        Updates the Profile Page to Latest Version ( only required before v: 0.3.31 )\n\n\nApp Actions\n  3vot app:template          Downloads an Application based on a Template\n\n  3vot app:create            Registers a new App on the Platform using current credits and creates folder structure\n\n  3vot app:static            Registers a new Static App on the Platform using current credits and creates folder structure\n\n  3vot app:upload            Uploads the Code of the new app and uploads the app as a demo\n  \n  3vot app:clone             Clones an App from the 3VOT Platform Marketplace and downloads its source code\n  \n  3vot app:publish           Publishes a Demo App to your 3VOT Profile\n  \n  3vot app:build             Builds the development version of the App ( Used in manual operation )\n  \n  3vot app:install           Installs the NPM and Bower Dependencies of the App ( Used in Manual Operation )\n  \nStore Actions\n  3vot store:create          Creates a new Store in on your 3VOT Profile Page\n\n  3vot store:list            List all Stores and Apps in your 3VOT Profile\n  \n  3vot store:app:add         Adds an App to the specified store referenced by store name\n  \n  3vot store:app:remove      Removes an App from the Store\n\n  3vot store:destroy         Removes a Store from your 3VOT Profile\n  \n  3vot store:generate        Updates your 3VOT Profile APP JSON Data Store with all Apps in Stores ( this occurs automatically )\n");
+}
 else{
   if(argv.u){ callback = Store.generate }
   
@@ -114,6 +123,6 @@ else{
   else if( argv._.indexOf("upgrade") > -1 ){ Upgrade.upgrade(); }
 
   else{
-    console.log("use 3vot -h for help information")
+    Log.error("use 3vot -h for help information", "bin/3cli", 124)
   }
 }

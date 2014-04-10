@@ -6,12 +6,14 @@ var App = require("../models/app")
 
 var Install = require("../utils/install")
 
+var Log = require("../utils/log")
+
 var promptOptions= { 
   app_name: null,
 }
 
 function execute( options ){
-  console.info("Installing " +  options.app_name.yellow)
+  Log.debug("Installing " +  options.app_name, "actions/app_install", 16)
   
   var deferred = Q.defer();
   

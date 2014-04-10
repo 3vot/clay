@@ -1,5 +1,7 @@
 var fs = require("fs")
 var Path = require("path")
+var Log = require("./log")
+
 
 function walkDir(dir, results) {
   var results = [];

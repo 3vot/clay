@@ -17,6 +17,8 @@ var Transform = require("../utils/transform")
 var WalkDir = require("../utils/walk")
 var AppBuild = require("./app_build")
 
+var Log = require("../utils/log")
+
 module.exports = Server;
 
 Server.prompt =  function(){
@@ -114,7 +116,6 @@ Server.startServer = function(){
   app.get("/" + profile  + "/:app_name/:entry", function(req, res) {
     function sendEntry(req, res){
       res.setHeader('if-none-match' , 'no-match-for-this');
-      res.setHeader("Content-Type", "text/javascript");
       var entry = req.params.entry;
       var app_name = req.params.app_name;
       var filePath = Path.join(  process.cwd() , "apps", app_name, "app", entry );
@@ -122,7 +123,7 @@ Server.startServer = function(){
     }
     
     if ( Date.now() - ( Server.lastBuild || 0 ) < 5 * 1000 ){
-      console.log("Entry build with next route, not building entry")
+      Log.debug("Entry was just build by html route, not building entry", "actions/server", 127)
       return sendEntry(req, res)
     }
     
@@ -130,7 +131,7 @@ Server.startServer = function(){
     AppBuild( app_name, "localhost", false, Server.domain )
     .then( function(){ 
       sendEntry(req,res);
-    }).fail( function(err){ console.log(err); res.send( err.toString(), 500 ) });
+    }).fail( function(err){ Log.error(err, "actions/server", 135); res.send( err.toString(), 500 ) });
     
   });
 
@@ -149,7 +150,7 @@ Server.startServer = function(){
     try{
       app_package = require(Path.join(  process.cwd() , "apps", app_name, "package.json") );
     }catch(err){
-      console.log(err);
+      Log.error(err, "actions/server", 154)
       return res.send("App " + app_name + " Not found in " + profile)
     }
 
@@ -159,19 +160,19 @@ Server.startServer = function(){
       var filePath = Path.join(  process.cwd() , "apps", app_name, "app", "index.html");
       res.sendfile(filePath)
     })
-    .fail( function(err){ console.log(err); res.send( err.toString(), 500 ) });
+    .fail( function(err){ Log.error(err, "actions/server", 164); res.send( err.toString(), 500 ) });
 
   });
 
   if(Server.ssl){
     https.createServer(sslOptions, app).listen(app.get('port'), function(){
-      console.log('3VOT Server @ https://localhost:' + app.get('port'));
+      console.info('3VOT Server running at:  https://localhost:' + app.get('port'));
     }); 
   }
   
   else{
     http.createServer(app).listen(app.get('port'), function(){
-      console.log('3VOT Server @ https://localhost:' + app.get('port'));
+      console.info('3VOT Server running at: http://localhost:' + app.get('port'));
     });
   } 
   

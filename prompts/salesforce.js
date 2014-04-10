@@ -6,34 +6,44 @@ var AppUpload = require("../app/actions/app_upload")
 var Setup = require("../app/actions/salesforce_setup")
 var Upload = require("../app/actions/salesforce_upload")
 var Profile = require("../app/actions/salesforce_profile")
+var Log = require("../app/utils/log")
+
 
 function setup(callback){
   prompt.start();
   prompt.get( [ 
-    { name: 'salesforce_user', description: 'User Name: ( Salesforce Admin User )' } , 
+    { name: 'user_name', description: 'User Name: ( Salesforce Admin User )' } , 
     { name: 'password', description: 'Password:' , hidden: true } , 
     { name: 'key', description: 'Security Token ( info here: https://help.salesforce.com/HTViewHelpDoc?id=user_security_token.htm&language=en_US )' } ], 
     function (err, result) {
+      result.saleforce_prompt = {
+        user_name: result.user_name,
+        password: result.password,
+        key: result.key
+      }
+      
       LoadPackage(result)
       .then( Setup )
-      .then( function(){ console.log("Salesforce Setup Succesful".green); } )
+      .then( function(){ Log.info("Salesforce Setup Succesful, ok ready"); } )
       .then( function(){ if(callback) return callback(); })
-      .fail( function(err){console.error(err); } )
+      .fail( function(err){ Log.error(err, "prompts/salesforce", 29 ) } )
   });
 }
 
 function upload(callback){
   prompt.start();
   prompt.get( 
-    [ { name: 'app_name', description: 'App Name: ( The name of the app you want to deploy to salesforce )' } ],
+    [ { name: 'app_name', description: 'App Name: ( The name of the app you want to deploy to salesforce )' }
+    //FOR ENCODED SESSION,{ name: 'password', description: 'Salesforce Password:' , hidden: true },
+     ],
     function (err, result) {
       result.target = "production"
       LoadPackage(result)
       .then( AppUpload )
       .then( function(){ return Upload(result) } )
-      .then( function(){ console.log("Salesforce Setup Succesful".green); } )
+      .then( function(){ Log.info("Salesforce Setup Succesfull"); } )
       .then( function(){ if(callback) return callback(); })
-      .fail( function(err){console.error(err); } )
+      .fail( function(err){ Log.error(err, "prompts/salesforce", 29 ) } )
     }
   );
 }
@@ -41,14 +51,15 @@ function upload(callback){
 function profile(callback){
   prompt.start();
   prompt.get( 
+    //FOR ENCODE SESSSION [{ name: 'password', description: 'Salesforce Password:' , hidden: true }],
     [],
     function (err, result) {
       result.target = "production"
       LoadPackage(result)
       .then( Profile )
-      .then( function(){ console.log("Salesforce Profile Uploaded".green); } )
+      .then( function(){ Log.info( "Salesforce Profile was created." ); } )
       .then( function(){ if(callback) return callback(); })
-      .fail( function(err){console.error(err); } )
+      .fail( function(err){ Log.error(err, "prompts/salesforce", 29 ) } )
     }
   );
 }
@@ -56,14 +67,16 @@ function profile(callback){
 function dev(callback){
   prompt.start();
   prompt.get( 
-    [ { name: 'app_name', description: 'App Name: ( The name of the app you want to develop on salesforce )' } ],
+    [ { name: 'app_name', description: 'App Name: ( The name of the app you want to develop on salesforce )' } 
+    //FOR ENCODED SESSION ,{ name: 'password', description: 'Salesforce Password:' , hidden: true },
+     ],
     function (err, result) {
       result.target = "localhost"
       LoadPackage(result)
       .then( Upload )
-      .then( function(){ console.log("Salesforce Development App Published Succesful".green); } )
+      .then( function(){ Log.info( "Salesforce Development App Published Succesfully" ); } )
       .then( function(){ if(callback) return callback(); })
-      .fail( function(err){console.error(err); } )
+      .fail( function(err){ Log.error(err, "prompts/salesforce", 29 ) } )
     }
   );
 }

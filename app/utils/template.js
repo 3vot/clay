@@ -2,6 +2,7 @@ var eco = require("eco")
 var fs = require("fs")
 var Path = require("path");
 var http = require("http")
+var Log = require("./log")
 
 var layout = {};
 
@@ -14,16 +15,16 @@ function html( pck, user_name, head ){
 
 function store( profile, stores, templatePath, callback ){
   var store = ""
-  console.log("trying custom template")
+  Log.debug("trying custom template", "utils/template", 18)
   store = fs.readFile( templatePath,'utf-8', function(err,body){
     if(err) return getDefaultTemplate(profile, stores, templatePath, callback );
-    console.log("using custom template")
+    Log.debug("using custom template", "utils/template", 21)
     callback(eco.render( body, { stores: stores, profile: profile } ) );
   });
 }
 
 function getDefaultTemplate(profile, stores, templatePath, callback){
-  console.log("using standard template")
+  Log.debug("using standard template", "utils/template", 27)
   
   var options = { host: '3vot.com', path: '/store.eco' };
   

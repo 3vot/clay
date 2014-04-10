@@ -14,6 +14,8 @@ var AwsCredentials = require("../aws/credentials");
 var AwsHelpers = require("../aws/helpers");
 var packageLoader = require("../utils/package_loader")
 
+var Log = require("../utils/log")
+
 var promptOptions= {
   user_name: null,
   public_dev_key: null
@@ -77,8 +79,8 @@ function getStoresAndApps(){
 }
 
 function deployProfileHtml(){
-  console.info("Generating Profile HTML".grey)
-  
+  Log.debug( "Generating Profile HTML " + promptOptions.name , "actions/store_generate_template", 82)
+
   var deferred = Q.defer();
   
   var templatePath = Path.join( process.cwd(), "profile_template.eco") ;
@@ -98,12 +100,12 @@ function deployProfileHtml(){
 }
 
 function uploadProfileHtml(){
-  console.info("Uploading Profile HTML".grey)
+  Log.debug("Uploading Profile HTML", "actions/store_generate_template", 103)
   
   var deferred = Q.defer();
   
   AwsHelpers.uploadFile( promptOptions.paths.productionBucket , tempVars.indexFileObject )
-  .then( function(){ console.log("Profile is available at: http://3vot.com/" + promptOptions.user_name )  } )
+  .then( function(){ Log.debug("Profile is available at: http://3vot.com/" + promptOptions.user_name, "actions/store_generate_template", 108 )  } )
   .then( function(){ return deferred.resolve()  } )
   .fail( function(err){ return deferred.reject(err)  } );
   

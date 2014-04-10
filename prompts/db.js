@@ -4,6 +4,7 @@ var LoadPackage = require("../app/utils/package_loader")
 var Create = require("../app/actions/db_create")
 var Build = require("../app/actions/db_build")
 var Deploy = require("../app/actions/db_deploy")
+var Log = require("../app/utils/log")
 
 function create(callback){
   return Create()

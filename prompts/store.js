@@ -7,11 +7,12 @@ var List = require("../app/actions/store_list")
 
 var prompt = require("prompt")
 var LoadPackage = require("../app/utils/package_loader")
+var Log = require("../app/utils/log")
 
 function generate(options){
   Generate(options)
-  .then( function(){ console.log("Store Data Generated Succesfully".green) } )
-  .fail( function(err){ console.log("Error generating Store Profile".red.bold); console.error(err); }  )   
+  .then( function(){ Log.debug("Store Data Generated Succesfully", "prompts/store", 14) } )
+  .fail( function(err){ Log.error(err, "prompts/store", 15) }  )   
  }
 
 function create(callback){
@@ -21,10 +22,10 @@ function create(callback){
      LoadPackage(result)
      .then( Create )
      .then( function(options){ 
-       console.log("Store Created Succesfully".green) 
+       Log.debug("Store Created Succesfully", "prompts/store", 25)
         if(callback) return callback(options);
       })
-     .fail( function(err){ console.log("Error Creating Stores".red.bold); console.error(err); }  )
+      .fail( function(err){ Log.error(err, "prompts/store", 28) }  )   
    });
  }
  
@@ -32,7 +33,7 @@ function list(callback){
    LoadPackage()
    .then(List)
    .then( function(){ if(callback) return callback(); })
-   .fail( function(err){ console.log("Error listing Stores".red.bold); console.error(err.red); }  )
+   .fail( function(err){ Log.error(err, "prompts/store", 36) }  )   
 }
  
 function destroy(callback){
@@ -42,10 +43,10 @@ function destroy(callback){
      LoadPackage(result)
      .then(Destroy)
      .then( function(options){ 
-       console.log("Stores Deleted Succesfully".green) 
+       Log.debug("Stores Deleted Succesfully", "prompts/store", 46 )
        if(callback) return callback();
      })
-     .fail( function(err){ console.log("Error destroying Stores".red.bold); console.error(err.red); }  )
+     .fail( function(err){ Log.error(err, "prompts/store", 49) }  )   
    });
  }
  
@@ -58,10 +59,10 @@ function addApp(callback){
      LoadPackage(result)
      .then(AddApp)
      .then( function(options){ 
-       console.log("App added succesfully to Stores".green) 
+       Log.debug("App added succesfully to Stores", "prompts/store", 63)
         if(callback) return callback(options);
      })
-     .fail( function(err){ console.log("Error addin an app to a Store".red.bold); console.error(err); }  )
+     .fail( function(err){ Log.error(err, "prompts/store", 65) }  )   
    });
  }
 
@@ -74,10 +75,10 @@ function removeApp(callback){
      LoadPackage(result)
      .then(RemoveApp)
      .then( function(options){ 
-       console.log("App removed succesfully from Store".green); 
+       Log.debug("App removed succesfully from Store", "prompts/store", 78)
         if(callback) return callback(options);
       })
-     .fail( function(err){ console.log("Error removing an App from a Store".red.bold); console.error(err); }  )
+      .fail( function(err){ Log.error(err, "prompts/store", 81) }  )   
    });
  }
  

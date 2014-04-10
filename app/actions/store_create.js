@@ -8,6 +8,8 @@ var Profile = require("../models/profile")
 
 var Store = require("../models/store")
 
+var Log = require("../utils/log")
+
 var promptOptions = {
   name: null,
   user_name: null,
@@ -16,7 +18,9 @@ var promptOptions = {
 
 function create( options ){
   promptOptions = options;
-  console.info("Creating a Store in your 3VOT Profile".yellow)
+
+  Log.info( "Creating the store " + promptOptions.name )
+  
   var deferred = Q.defer();
 
   callbacks = {

@@ -10,6 +10,8 @@ var AwsHelpers = require("../aws/helpers");
 
 var Profile = require("../models/profile")
 
+var Log = require("../utils/log")
+
 var promptOptions = {
   user_name: null,
 }
@@ -21,7 +23,7 @@ var tempVars ={
 
 function execute(options){
     var deferred = Q.defer();
-    console.log("Updating your 3VOT Profile Web Page")
+    Log.debug("Updating your 3VOT Profile Web Page", "actions/profile_update", 26);
     
     if( !options.paths ) options.paths = { sourceBucket: "source.3vot.com", productionBucket: "3vot.com", demoBucket: "demo.3vot.com"}
     promptOptions= options;
@@ -30,8 +32,8 @@ function execute(options){
     .then( function(){ return AwsCredentials.requestKeysFromProfile( promptOptions.user_name) })
     .then( uploadDefaultProfileApp )
     .then( function(){  
-      console.log("Your Profile is located at: http://3vot.com/" + promptOptions.user_name )
-      return deferred.resolve() ;
+      Log.info( "Your Profile is located at: http://3vot.com/" + promptOptions.user_name )
+      return deferred.resolve(promptOptions) ;
     })
     .fail( function(err){ return deferred.reject(err); } );
     

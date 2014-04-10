@@ -15,6 +15,8 @@ var AwsCredentials = require("../aws/credentials");
 
 var Install = require("../utils/install")
 
+var Log = require("../utils/log")
+
 var App = require("../models/app")
 var AppBuild = require("./app_build")
 
@@ -33,7 +35,7 @@ var tempVars= {
 }
 
 function execute( options ){
-  console.info("Downloading " +  options.app_name + " from 3VOT Marketplace".yellow)
+  Log.info("Downloading " +  options.app_name + " from the 3VOT Marketplace")
   
   var deferred = Q.defer();
   
@@ -75,23 +77,25 @@ function getApp(){
 
   
 function downloadApp(){
-    console.info("Downloading Source Code".yellow)
-    var deferred = Q.defer();
-    var s3 = new Aws.S3();
+  Log.debug("Downloading Source Code" , "actions/app_download", 80)
 
-    var key = promptOptions.app_user_name + '/' + tempVars.app.name  + "_" +  promptOptions.app_version + '.3vot';
-    
-    var params = {Bucket: promptOptions.paths.sourceBucket , Key: key };
-    s3.getObject(params).createReadStream().pipe(zlib.createGunzip() ).pipe( tar.Extract( Path.join( process.cwd(), 'apps' ) ) )
-    .on("end", function(){ deferred.resolve(); })
-    .on("error", function( error ){ console.log("Error with source key: " + key); deferred.reject(error) });
-    
-    return deferred.promise;
+  var deferred = Q.defer();
+  var s3 = new Aws.S3();
+
+  var key = promptOptions.app_user_name + '/' + tempVars.app.name  + "_" +  promptOptions.app_version + '.3vot';
+  
+  var params = {Bucket: promptOptions.paths.sourceBucket , Key: key };
+  s3.getObject(params).createReadStream().pipe(zlib.createGunzip() ).pipe( tar.Extract( Path.join( process.cwd(), 'apps' ) ) )
+  .on("end", function(){ deferred.resolve(); })
+  .on("error", function( error ){ console.log("Error with source key: " + key); deferred.reject(error) });
+  
+  return deferred.promise;
 }
 
 function adjustPackage(){
+  Log.debug("Adjusting the package.json for your Profile", "actions/app_download", 98)
+
   var deferred = Q.defer();
-  console.info("Adjusting the package.json for your Profile".yellow)
   var pck = require( Path.join( process.cwd(), "apps", tempVars.app.name, "package.json" )  );
   var vot = require( Path.join( process.cwd(), "3vot.json" )  )
 
@@ -112,7 +116,6 @@ function adjustPackage(){
 
   return deferred.promise;
 }
-
 
 function adjust3vot(){
   var deferred = Q.defer();

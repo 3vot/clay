@@ -8,6 +8,8 @@ var Profile = require("../models/profile")
 
 var Store = require("../models/store")
 
+var Log = require("../utils/log")
+
 var promptOptions = {
   user_name: null,
   public_dev_key: null
@@ -18,7 +20,9 @@ var profile = {}
 
 function list( options ){
   promptOptions = options;
-  console.info("Listing all stores and apps in your 3VOT Profile".yellow)
+  
+  Log.debug( "Listing all stores and apps in your 3VOT Profile", "actions/store_list", 24 )
+  
   var deferred = Q.defer();
 
   callbacks = {

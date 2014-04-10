@@ -8,6 +8,8 @@ var Profile = require("../models/profile")
 
 var Store = require("../models/store")
 
+var Log = require("../utils/log")
+
 var promptOptions = {
   name: null,
   user_name: null,
@@ -16,7 +18,8 @@ var promptOptions = {
 
 function Destroy( options ){
   promptOptions = options;
-  console.info("Deleting a Store in your 3VOT Profile".yellow)
+  Log.info( "Deleting the store " + promptOptions.name )
+  
   var deferred = Q.defer();
 
   callbacks = {

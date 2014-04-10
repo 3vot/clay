@@ -8,6 +8,8 @@ var Profile = require("../models/profile")
 
 var Store = require("../models/store")
 
+var Log = require("../utils/log")
+
 var promptOptions = {
   app_name: null,
   name: null,
@@ -18,9 +20,10 @@ var promptOptions = {
 var profile = {}
 
 function add( options ){
-  promptOptions = options;
-  console.info("Adding an app to your 3VOT Store".yellow)
   var deferred = Q.defer();
+  promptOptions = options;
+  
+  Log.info("We will add the app " + promptOptions.app_name + " to the Store " + promptOptions.name )
 
   callbacks = {
     done: function(){

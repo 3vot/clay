@@ -6,8 +6,9 @@ var request = require("superagent")
 var eco = require("eco")
 
 var Transform = require("../utils/transform")
-
-var SalesforceUpload =require("../salesforce")
+var Upload =require("../salesforce/upload")
+var Login =require("../salesforce/login")
+var Log = require("../utils/log")
 
 var promptOptions = {
   public_dev_key: null,
@@ -26,9 +27,10 @@ var tempVars = {
 function execute(options){
   var deferred = Q.defer();
   promptOptions = options;
-
-  renderPage()
-  .then( function(){ return SalesforceUpload(promptOptions) } )
+  
+  Login(promptOptions)
+  .then( renderPage )
+  .then( function(){ return Upload(promptOptions) } )
   .then (function(){ return deferred.resolve() })
   .fail( function(err){ return deferred.reject(err) } );
   return deferred.promise;
@@ -36,10 +38,17 @@ function execute(options){
 
 function renderPage(){
   var deferred = Q.defer();
+  
+  Log.debug("Rendering Page","actions/salesforce_upload", 45)
+
   var templatePath = Path.join(Path.dirname(fs.realpathSync(__filename)), '..' , ".." , 'templates',"salesforce" , "page.eco" );
   var app = fs.readFileSync( templatePath, "utf-8" )
 
-  var package_json = require( Path.join( process.cwd(), "apps", promptOptions.app_name, "package.json" )  );
+  try{
+    var package_json = require( Path.join( process.cwd(), "apps", promptOptions.app_name, "package.json" )  );
+  }catch(e){
+    deferred.reject("App " + app_name + " not found. Did you create it? Create an app or template before we can send it to salesforce.")
+  }
 
   var headProbablePath = Path.join( process.cwd(), "apps", promptOptions.app_name, "templates","head.html" );
   var head = ""
