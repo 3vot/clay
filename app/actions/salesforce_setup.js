@@ -3,13 +3,12 @@ var fs = require("fs")
 var Q = require("q");
 
 var profileUpdate = require("./profile_update")
-
 var Profile = require("./salesforce_profile")
 
 var Login = require('../salesforce/login')
 var Encrypt = require('../salesforce/encrypt')
-
 var Log = require("../utils/log")
+var Packs = require("../utils/packs")
 
 var promptOptions = {
   public_dev_key: null,
@@ -41,22 +40,20 @@ function scaffold(){
   Log.debug("Adding Salesforce Encrypted Values", "actions/salesforce_setup", 35)
   var deferred = Q.defer();
 
-  var _3votJSON = require( Path.join(  process.cwd(), "3vot.json" ));
+  var _3votJSON = Packs._3vot(true);
   
   _3votJSON.salesforce = {
     user_name: Encrypt.hide(promptOptions.salesforce.user_name, promptOptions.salesforce.password),
-    key: Encrypt.hide(promptOptions.salesforce.key, promptOptions.salesforce.password)
+    key: Encrypt.hide(promptOptions.salesforce.key, promptOptions.salesforce.password),
+    session: {}
   }
 
   promptOptions.salesforce.user_name = _3votJSON.salesforce.user_name;
   promptOptions.salesforce.key = _3votJSON.salesforce.key;
 
-  fs.writeFile( Path.join(process.cwd(), "3vot.json"), JSON.stringify(_3votJSON, null, '\t') , 
-    function(err){
-      if(err) return deferred.reject(err)
-      deferred.resolve(promptOptions)  
-    }
-  );
+  Packs._3vot.save(_3votJSON)
+  .then( function(){ return deferred.resolve(promptOptions)  } )
+  .fail( deferred.reject )
 
   return deferred.promise;
 }

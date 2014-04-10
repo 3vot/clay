@@ -8,7 +8,6 @@ var Upload = require("../app/actions/salesforce_upload")
 var Profile = require("../app/actions/salesforce_profile")
 var Log = require("../app/utils/log")
 
-
 function setup(callback){
   prompt.start();
   prompt.get( [ 

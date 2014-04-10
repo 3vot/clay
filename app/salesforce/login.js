@@ -7,6 +7,8 @@ var eco = require("eco")
 var encrypt = require('../salesforce/encrypt')
 var prompt = require("prompt")
 var Log = require("../utils/log")
+var Packs = require("../utils/packs")
+
 
 var promptOptions = {
   public_dev_key: null,
@@ -22,20 +24,25 @@ var promptOptions = {
 }
 
 var tempVars = {
-  session: null
+  session: null,
+  _3votJSON: null,
+  originalJSON: {
+    salesforce: {
+      user_name: null,
+      key: null,
+    }
+  }
 }
 
 function loadData(){
-  var _3votJSON = require( Path.join(  process.cwd(), "3vot.json" ));
-  
   if( !promptOptions.salesforce || !promptOptions.salesforce.user_name || !promptOptions.salesforce.key ){
     throw "Error: Please run salesforce:setup before any other Salesforce Command. Code: Session_Not_Found";
   }
-  
+
   if(promptOptions.salesforce.password){
-    promptOptions.salesforce.user_name = encrypt.show(_3votJSON.salesforce.user_name, promptOptions.salesforce.password);
-    promptOptions.salesforce.key = encrypt.show(_3votJSON.salesforce.key, promptOptions.salesforce.password); 
-    //FOR ENCODED SESSION promptOptions.salesforce.session = encrypt.show(_3votJSON.salesforce.session, promptOptions.salesforce.password); 
+    promptOptions.salesforce.user_name = encrypt.show(promptOptions.salesforce.user_name, promptOptions.salesforce.password);
+    promptOptions.salesforce.key = encrypt.show(promptOptions.salesforce.key, promptOptions.salesforce.password); 
+    //FOR ENCODED SESSION promptOptions.salesforce.session = encrypt.show(promptOptions.salesforce.session, promptOptions.salesforce.password); 
   }
 
 }
@@ -47,7 +54,6 @@ function execute(options){
   loadData()
 
   testSession()
-  .then( function(){ if(tempVars.saveSession){ testingsaveSession() } else{ return true; } } )
   .then( deferred.resolve )
   .fail( deferred.reject );
 
@@ -138,30 +144,22 @@ function login(deferred){
     Log.info("We did Logged in to Salesforce, ready.")
     
     tempVars.session = JSON.parse(res.text)
-    saveSession(deferred)
+    return saveSession(deferred)
   })
 
   return deferred.promise;
 }
 
-
 function saveSession(deferred){
-
     Log.debug("Saving Session", "salesforce/login", 152)
-  
-    var _3votJSON = require( Path.join(  process.cwd(), "3vot.json" ));
-
-    Log.debug2(_3votJSON)
+    var _3votJSON = Packs._3vot(true)
+        
+    //FOR ENCODED SESSION _3votJSON.salesforce.session= encrypt.show(tempVars.session, promptOptions.salesforce.password);
+    _3votJSON.salesforce.session = tempVars.session;
     
-    _3votJSON.salesforce.session= tempVars.session;
-    //FOR ENCODED SESSION _3votJSON.salesforce.session= encrypt.show(tempVars.session, promptOptions.salesforce.password);;
-
-    Log.debug2(_3votJSON)
-
-    fs.writeFile( Path.join(process.cwd(), "3vot.json"), JSON.stringify(_3votJSON, null, '\t') , function(err){ 
-      if(err) return deferred.reject(err)
-      deferred.resolve()  
-    });
+    Packs._3vot.save(_3votJSON)
+    .then( deferred.resolve )
+    .fail( deferred.reject )
 }
 
 

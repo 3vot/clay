@@ -5,6 +5,7 @@ var crypto = require('crypto')
 var request = require("superagent")
 var eco = require("eco")
 var Log = require("../utils/log")
+var Packs = require("../utils/packs")
 
 var promptOptions = {
   instance_url: null,
@@ -15,12 +16,16 @@ var promptOptions = {
 }
 
 var tempVars = {
-  pageResponse: null
+  pageResponse: null,
+  session: null
 }
 
 function execute(options){
   var deferred = Q.defer();
   promptOptions = options;
+  
+  var _3vot = Packs._3vot(true)
+  tempVars.session = _3vot.salesforce.session;
   
   publishPage()
   .then( function(){ 
@@ -29,7 +34,7 @@ function execute(options){
     return Log.info( "NOTE 2: <head> is inserted to VF Page with this operation, any changes to template/head.html requires this command to be executed again.")
   })
   .then( function(){ 
-    var url = promptOptions.instance_url + "/apex/" + promptOptions.app_name
+    var url = tempVars.session.instance_url + "/apex/" + promptOptions.app_name
     if( promptOptions.target == "localhost" ) url += "_dev"
     return Log.info("App Available at: " + url) } )
   .then (function(){ return deferred.resolve() })
@@ -43,7 +48,7 @@ function publishPage(){
 
   if(promptOptions.target == "localhost") name += "_dev"
 
-  var url = promptOptions.salesforce.session.instance_url + "/services/data/v29.0/sobjects/ApexPage/Name/" + name;
+  var url = tempVars.session.instance_url + "/services/data/v29.0/sobjects/ApexPage/Name/" + name;
   
   Log.debug("Upserting Visualforce Page " + url, "salesforce/upload", 48)
   
@@ -56,7 +61,7 @@ function publishPage(){
   
   var req = request.patch(url)
   .type("application/json")
-  .set('Authorization', 'Bearer ' + promptOptions.salesforce.session.access_token )
+  .set('Authorization', 'Bearer ' + tempVars.session.access_token )
   .send(body)
   
   req.end(function(err,res){
