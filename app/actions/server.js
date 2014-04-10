@@ -166,13 +166,13 @@ Server.startServer = function(){
 
   if(Server.ssl){
     https.createServer(sslOptions, app).listen(app.get('port'), function(){
-      console.info('3VOT Server running at:  https://localhost:' + app.get('port'));
+      console.info('3VOT Server running at:  https://:' + Server.domain + "/" + app.get('port'));
     }); 
   }
   
   else{
     http.createServer(app).listen(app.get('port'), function(){
-      console.info('3VOT Server running at: http://localhost:' + app.get('port'));
+      console.info('3VOT Server running at: http://:' + Server.domain + "/" + app.get('port'));
     });
   } 
   

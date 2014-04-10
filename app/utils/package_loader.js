@@ -17,6 +17,7 @@ function getPackage(options){
     Log.setUsername(pck.user_name)
   }catch(e){
     Log.error(e, "utils/package_loader", 19)
+    Log.info( "Could not read Security Credentials from 3vot.json, make sure your are inside the project folder" )
     deferred.reject( "Could not read Security Credentials from 3vot.json, make sure your are inside the project folder")
   }
 
