@@ -59,7 +59,7 @@ function installNPM(){
   Log.debug("Installing NPM Components in " + process.cwd(), "utils/install",60)
   var exec = require('child_process').exec;
 
-  var npmcommand = (process.platform === "win32" ? "npm.cmd" : "npm"),
+  var npmcommand = (process.platform === "win32" ? "npm.cmd" : "npm")
   
   var spawn = require('child_process').spawn,
       npm    = spawn(npmcommand, ['install', '.']);
