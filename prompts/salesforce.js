@@ -23,7 +23,7 @@ function setup(callback){
       
       LoadPackage(result)
       .then( Setup )
-      .then( function(){ Log.info("Salesforce Setup Succesful, ok ready"); } )
+      .then( function(){ Log.info("Salesforce Setup Succesfull, ok ready"); } )
       .then( function(){ if(callback) return callback(); })
       .fail( function(err){ Log.error(err, "prompts/salesforce", 29 ) } )
   });

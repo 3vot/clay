@@ -22,10 +22,10 @@ function install( appName, destinationDir ){
   .then( installNPM  )
   .then( function() {
     process.chdir( Path.join( process.cwd(), "..", ".." ) );
-    deferred.resolve();
+    return deferred.resolve();
   })
   .fail( function(error) { 
-    deferred.reject(error);
+    return deferred.reject(error);
   });
   
   return deferred.promise;
@@ -51,10 +51,40 @@ function installBower(destinationDir, packagesToInstall ){
   });
 
   return deferred.promise;
-
 }
   
 function installNPM(){
+  var deferred = Q.defer();
+
+  Log.debug("Installing NPM Components in " + process.cwd(), "utils/install",60)
+  var exec = require('child_process').exec;
+
+  var spawn = require('child_process').spawn,
+      npm    = spawn('npm', ['install', '.']);
+
+  npm.stdout.on('data', function (data) {
+    Log.debug(data, "utils/install", 66);
+  });
+
+  npm.on('close', function (code) {
+    return deferred.resolve()
+  });
+
+/*
+  child = exec('npm install .' , function(err, stdout, stderr){
+    if(err) return deferred.reject(err)
+    Log.debug("NPM install complete", "utils/install", 65);
+    Log.debug2(stderr)
+    process.nextTick(function(){
+      return deferred.resolve();   
+    })
+  })
+*/  
+  
+  return deferred.promise;  
+}
+  
+function installNPM2(){
   Log.debug("Installing NPM Components in " + process.cwd(), "utils/install",60)
 
    var deferred = Q.defer();
@@ -83,3 +113,5 @@ function installNPM(){
 
 
 module.exports = install;
+
+install.installNPM = installNPM;

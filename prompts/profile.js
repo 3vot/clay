@@ -16,6 +16,7 @@ function setup(callback){
   prompt.start();
   prompt.get( options, function (err, result) {
     Setup(result)
+    .then( function(){ Log.info("3VOT was currectly setup and it's ready to use.") } )
     .then( function(){ return Stats.track("site:setup", {kind: "new developer "}) } )
     .then( function(){ if(callback) return callback(); })
     .fail( function(err){ Log.error(err, "./prompt/profile",43); } );
@@ -35,7 +36,9 @@ function create(callback){
       .then( Setup )
       .then( Update )
       .then( function(promptOptions){
-        process.chdir( Path.join( process.cwd(), "3vot_" + promptOptions.user_name ) );
+        var path = Path.join( process.cwd(), "3vot_" + promptOptions.user_name ) 
+        Log.debug("Changing to path " + path , "prompts/profile", 39)
+        process.chdir( path );
         promptOptions.size = "small"
         promptOptions.app_name = "site"
         promptOptions.static = true

@@ -8,6 +8,10 @@ var AwsCredentials = require("../aws/credentials");
 
 var Log = require("../utils/log")
 
+var Packs = require("../utils/packs")
+var Install = require("../utils/install")
+
+
 var profile = {};
 
 var promptOptions = {
@@ -23,7 +27,9 @@ function execute(options){
     promptOptions = options;
     getProfile()
     .then( scaffold )
-    .then( installNPM )
+    .then( changeDir )
+    .then( Install.installNPM )
+    .then( function(){ process.chdir( Path.join( process.cwd(), ".." ) ); } )
     .then (function(){ return deferred.resolve(promptOptions) })
     .fail( function(err){ return deferred.reject(err) } );
     return deferred.promise;
@@ -78,17 +84,37 @@ function scaffold(){
     return deferred.promise;
   }
 
-function installNPM(options){
+function changeDir( options ){
+  var deferred = Q.defer();
+  var projectPath = Path.join( process.cwd() , options.folder );
+  process.chdir( projectPath );
+
+  process.nextTick(function(){
+    deferred.resolve()
+  })
+
+  return deferred.promise;
+}
+
+
+
+function installNPM2(options){
   var deferred = Q.defer();
   var projectPath = Path.join( process.cwd() , options.folder );
   process.chdir( projectPath );
 
   try{
    var npm = require("npm");
+   var projectPackage = require( Path.join(process.cwd(), "package.json") )
+
+   var packs = []
+   for(index in projectPackage.dependencies){
+     packs.push(index+"@"+projectPackage.dependencies[index])
+   }
 
     npm.load(npm.config, function (er) {
       if (er) return deferred.reject(er);
-      npm.commands.install(["."], function (er, data) {
+      npm.commands.install( projectPackage.dependencies , function (er, data) {
         if (er) return deferred.reject(er)
         restoreCWD()
         return deferred.resolve()
@@ -100,12 +126,13 @@ function installNPM(options){
   catch(e){
     Log.info("*** WARNING: ***")
     Log.info("PLEASE INSTALL NPM MANUALLY by running npm install");
+    Log.debug2(e)
     restoreCWD()
     return deferred.resolve()
   }
 
   return deferred.promise;      
-  }
+}
 
 function restoreCWD(){
   var projectPath = Path.join( process.cwd() , ".." );

@@ -33,7 +33,8 @@ Log.setLevel("INFO");
 
 _3Model.Model.host = "http://threevot-api.herokuapp.com/v1"
 
-console.log("LOAD PACKAGE CAN INCLUDE OPTIONS TO LOAD 3VOT or APP PACKAGE AUTOMATICALLY AND DONT DO IT IN ACTIONS")
+Log.debug("LOAD PACKAGE CAN INCLUDE OPTIONS TO LOAD 3VOT or APP PACKAGE AUTOMATICALLY AND DONT DO IT IN ACTIONS", "bin/cli", 36)
+console.log("-- 3VOT DIGITAL CONTENT CLOUD --")
 
 // *****************
 // CLI
@@ -123,6 +124,8 @@ else{
   else if( argv._.indexOf("upgrade") > -1 ){ Upgrade.upgrade(); }
 
   else{
-    Log.error("use 3vot -h for help information", "bin/3cli", 124)
+    
+    Log.info("Command not found: Use 3vot -h for help", "bin/3cli", 124)
+
   }
 }

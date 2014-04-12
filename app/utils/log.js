@@ -69,7 +69,7 @@ function error(message, location, line){
       }
     }
     //Internet Error
-    else if(getLevel() < 3 && message.stack && message.stack.indexOf("ENOTFOUND") || message.stack.indexOf("ECONNREFUSED") > -1 || message.stack.indexOf("ECONNRESET") > -1 ) {
+    else if(getLevel() < 3 && message.stack && message.stack.indexOf("ENOTFOUND") && message.stack.indexOf("ETIMEDOUT")  || message.stack.indexOf("ECONNREFUSED") > -1 || message.stack.indexOf("ECONNRESET") > -1 ) {
       return console.log("Internet Connection Error, please check you are connected to the internet".bold.red)
     }
     else if( message.stack ){
