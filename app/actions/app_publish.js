@@ -37,7 +37,8 @@ function execute(options){
   getApp()
   .then( function(){ return AwsCredentials.requestKeysFromProfile( promptOptions.user_name) })
   .then( function(){ return AppBuild( promptOptions.app_name, "production", true ) })
-  .then( uploadHtmlToProduction )
+  .then(function(){ return uploadToProduction("index.html") })
+  .then(function(){ return uploadToProduction("3vot.js") })
   .then(function(){ 
     var url = "http://3vot.com/" + promptOptions.user_name 
     if( !promptOptions.main ) url += "/" + promptOptions.app_name
@@ -69,16 +70,16 @@ function getApp(){
   return deferred.promise;
 }
 
-  
-function uploadHtmlToProduction(){
+
+function uploadToProduction(filename){
   var deferred = Q.defer();
 
-  var indexPath = Path.join( process.cwd(), "apps", promptOptions.app_name, "app", "index.html" )
+  var indexPath = Path.join( process.cwd(), "apps", promptOptions.app_name, "app", filename )
   var indexContents = fs.readFileSync(indexPath, "utf-8");
   
   var key = promptOptions.user_name 
   if( !promptOptions.main ) key += "/" + promptOptions.app_name
-  key += "/index.html"
+  key += "/" + filename
 
   var path =   { 
     body: indexContents,

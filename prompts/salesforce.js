@@ -6,7 +6,12 @@ var AppUpload = require("../app/actions/app_upload")
 var Setup = require("../app/actions/salesforce_setup")
 var Upload = require("../app/actions/salesforce_upload")
 var Profile = require("../app/actions/salesforce_profile")
+
+var Download = require("../app/actions/app_download")
+
 var Log = require("../app/utils/log")
+var Stats = require("../app/utils/stats")
+
 
 function setup(callback){
   prompt.start();
@@ -24,9 +29,31 @@ function setup(callback){
       LoadPackage(result)
       .then( Setup )
       .then( function(){ Log.info("Salesforce Setup Succesfull, ok ready"); } )
+      .then( function(){ return Stats.track("salesforce:setup", result ) } )
       .then( function(){ if(callback) return callback(); })
       .fail( function(err){ Log.error(err, "prompts/salesforce", 29 ) } )
   });
+}
+
+function install(callback){
+  prompt.start();
+  prompt.get( 
+    [ { name: 'app_name', description: 'App Name: ( The name of the app you want to install in salesforce )' }
+     ],
+    function (err, result) {
+      result.target = "production"
+      result.app_user_name = "template"
+      
+      LoadPackage(result)
+      .then( Download )
+      .then( function(){ return AppUpload(result) } )
+      .then( function(){ return Upload(result) } )
+      .then( function(){ Log.info("Salesforce Install Succesfull"); } )
+      .then( function(){ return Stats.track("salesforce:install", result ) } )
+      .then( function(){ if(callback) return callback(); })
+      .fail( function(err){ Log.error(err, "prompts/salesforce", 48 ) } )
+    }
+  );  
 }
 
 function upload(callback){
@@ -41,6 +68,7 @@ function upload(callback){
       .then( AppUpload )
       .then( function(){ return Upload(result) } )
       .then( function(){ Log.info("Salesforce Setup Succesfull"); } )
+      .then( function(){ return Stats.track("salesforce:upload", result ) } )
       .then( function(){ if(callback) return callback(); })
       .fail( function(err){ Log.error(err, "prompts/salesforce", 29 ) } )
     }
@@ -57,6 +85,7 @@ function profile(callback){
       LoadPackage(result)
       .then( Profile )
       .then( function(){ Log.info( "Salesforce Profile was created." ); } )
+      .then( function(){ return Stats.track("salesforce:profile", result ) } )
       .then( function(){ if(callback) return callback(); })
       .fail( function(err){ Log.error(err, "prompts/salesforce", 29 ) } )
     }
@@ -74,6 +103,7 @@ function dev(callback){
       LoadPackage(result)
       .then( Upload )
       .then( function(){ Log.info( "Salesforce Development App Published Succesfully" ); } )
+      .then( function(){ return Stats.track("salesforce:dev", result ) } )
       .then( function(){ if(callback) return callback(); })
       .fail( function(err){ Log.error(err, "prompts/salesforce", 29 ) } )
     }
@@ -84,5 +114,6 @@ module.exports = {
   setup: setup,
   upload: upload,
   dev: dev,
-  profile: profile
+  profile: profile,
+  install: install
 }

@@ -117,6 +117,8 @@ else{
 
   else if( argv._.indexOf("salesforce:upload") > -1 ){ Salesforce.upload(); }
 
+  else if( argv._.indexOf("salesforce:install") > -1 ){ Salesforce.install(); }
+
   else if( argv._.indexOf("salesforce:dev") > -1 ){ Salesforce.dev(); }
 
   else if( argv._.indexOf("salesforce:profile") > -1 ){ Salesforce.profile(); }
