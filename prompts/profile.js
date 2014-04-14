@@ -31,7 +31,7 @@ function create(callback){
     { name: 'email', description: 'email: ( Your Email, required in order to administer your profile )' }],
     function (err, result) {
       Log.setUsername(result.user_name)
-      Log.info("We are creating your profile in the 3VOT Platform, it may take a minute... We'll keep you informed of how it goes...")
+      Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
       Create(result)
       .then( Setup )
       .then( Update )

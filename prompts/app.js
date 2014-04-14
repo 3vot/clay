@@ -19,7 +19,7 @@ function static(callback){
     { name: 'app_name', description: 'App Name ( The name of the app you want to create )' } ], 
     function (err, result) {
       result.static = true;
-      Log.info("We are creating your app in the 3VOT Platform, it may take a minute... We'll keep you informed of how it goes...")
+      Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
       LoadPackage(result)
       .then( Create )
       .then( function(){ Log.info("OK. The App was created. To preview locally type: 3vot server "); } )
@@ -35,7 +35,7 @@ function create(callback){
   prompt.get( [ 
     { name: 'app_name', description: 'App Name ( The name of the app you want to create )' } ], 
     function (err, result) {
-      Log.info("We are creating your app in the 3VOT Platform, it may take a minute... We'll keep you informed of how it goes...")
+      Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
 
       LoadPackage(result)
       .then( Create )
@@ -51,7 +51,7 @@ function update(callback){
   prompt.get( [ 
     { name: 'app_name', description: 'App Name ( The name of the app you want to update )' } ], 
     function (err, result) {
-      Log.info("We are updating your app in the 3VOT Platform, it may take a minute... We'll keep you informed of how it goes...")
+      Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
 
       LoadPackage(result)
       .then( Update )
@@ -69,7 +69,7 @@ function download(callback){
     { name: 'app_name', description: 'App: ( The App you want to Download )' },
     { name: 'app_version', description: 'Version: ( The App version, hit enter for latest )' } ], 
     function (err, result) {
-      Log.info("We are downloading your app from the 3VOT Platform, it may take a minute... We'll keep you informed of how it goes...")
+      Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
 
       LoadPackage(result)
       .then( Download )
@@ -85,7 +85,7 @@ function template(callback){
   prompt.get( [ { name: 'app_name', description: 'App: ( The App you want to Download )' } ], 
     function (err, result) {
       result.app_user_name = "template"
-      Log.info("We are downloading your app template from the 3VOT Platform, it may take a minute... We'll keep you informed of how it goes...")
+      Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
 
       LoadPackage(result)
       .then( Download )
@@ -102,7 +102,7 @@ function publish(callback){
     { name: 'app_name', description: 'App: ( The Name of the App you want to publish )' },
     { name: 'app_version', description: 'Version: ( The Version of the App you want to publish, enter for latest )' } ], 
     function (err, result) {
-      Log.info("We are publishing your app to the 3VOT Platform, it may take a minute... We'll keep you informed of how it goes...")
+      Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
 
       LoadPackage(result)
       .then( Publish )
@@ -120,7 +120,7 @@ function publishAsMain(callback){
     { name: 'version', description: 'Version: ( The Version of the App you want to publish, enter for latest )' } ], 
     function (err, result) {
       result.isMain = true;
-      Log.info("We are publishing your app as the main site to the 3VOT Platform, it may take a minute... We'll keep you informed of how it goes...")
+      Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
       
       LoadPackage(result)
       .then( Publish )
@@ -136,14 +136,14 @@ function upload(callback){
   prompt.get( [ 
     { name: 'app_name', description: 'App: ( the name of the app you want to upload  )' }], 
     function (err, result) {
-    Log.info("We are uploading your app to the 3VOT Platform, it may take a minute... We'll keep you informed of how it goes...")
+      Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
 
     LoadPackage(result)
     .then( Upload )
     .then( function(){ Log.info("OK. The App was uploaded."); } )
-      .then( function(){ return Stats.track("app:upload", result ) } )
+    .then( function(){ return Stats.track("app:upload", result ) } )
     .then( function(){ if(callback) return callback(); })
-      .fail( function(err){ Log.error(err, "./prompt/app",125 ); });
+    .fail( function(err){ Log.error(err, "./prompt/app",146 ); });
 
   })
 }
@@ -154,7 +154,7 @@ function install(callback){
   prompt.get( [ 
     { name: 'app_name', description: 'App Name ( The name of the app you want to install )' } ], 
     function (err, result) {
-      Log.info("We are installing your app's dependencies from the 3VOT Platform, it may take a minute... We'll keep you informed of how it goes...")
+      Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
 
       LoadPackage(result)
       .then( Install )
@@ -172,7 +172,7 @@ function build(callback){
     { name: 'app_name', description: 'App Name ( The name of the app you want to create )' },
     { name: 'target', description: 'Build Target ( localhost, demo, production )' } ], 
     function (err, result) {
-      Log.info("We are building your app in the 3VOT Platform, it may take a minute... We'll keep you informed of how it goes...")
+      Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
 
       Build(result.app_name, result.target)
       .then( function(){ Log.info("OK. The App was build for " + result.target ); } )

@@ -32,7 +32,7 @@ function execute(options){
     if( promptOptions.target == "production" ) return true; 
     Log.info("*** READ THIS ***")
     Log.info( "1: First visit https://localhost:3000/" + promptOptions.user_name + " before using the Salesforce Visualforce Page.") 
-    Lof.info("")
+    Log.info("")
     return Log.info( "2: <head> is inserted to VF Page with this operation, any changes to template/head.html requires this command to be executed again.")
   })
   .then( function(){ 

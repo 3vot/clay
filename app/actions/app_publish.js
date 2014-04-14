@@ -75,7 +75,12 @@ function uploadToProduction(filename){
   var deferred = Q.defer();
 
   var indexPath = Path.join( process.cwd(), "apps", promptOptions.app_name, "app", filename )
-  var indexContents = fs.readFileSync(indexPath, "utf-8");
+  try{
+    var indexContents = fs.readFileSync(indexPath, "utf-8");
+  }catch(err){
+    if(filename != "3vot.js") throw err
+    return process.nextTick( function(){ return deferred.resolve(); } )
+  }
   
   var key = promptOptions.user_name 
   if( !promptOptions.main ) key += "/" + promptOptions.app_name
