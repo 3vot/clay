@@ -31,6 +31,10 @@ function info(message){
   console.log( message.green )
 }
 
+function warning(message){
+  console.log( message.yellow )
+}
+
 function debug(message, location, line){
   if( !location) location = "undefined, please define where error occured"
   if( getLevel() < 3  ) return false
@@ -56,14 +60,14 @@ function error(message, location, line){
     //comes from DB or external source in JSON
     if( typeof(message) === "string" ) {
       if(message.indexOf("{") == 0 ){ 
-        info( translateError(message) );
+        warning( translateError(message) );
         message = JSON.parse(message);
         debug(message.message, location, line)
         debug2(message)
         errorObject = { message: message.message, fileName: location , lineNumber: line }
       }
       else{
-        info( translateError(message) );
+        warning( translateError(message) );
         debug( message, location, line )    
         errorObject = { message: message, fileName: location , lineNumber: line }
       }
@@ -75,19 +79,20 @@ function error(message, location, line){
     else if( message.stack ){
       // JS Error
       var error  = message;
-      info( translateError(message.message) );
+      warning( translateError(message.message) );
       if(error.message) debug(error.message, error.fileName, error.lineNumber )
       if(error.stack) debug2(error.stack) 
       errorObject = error
     }
     else{
-      info( translateError( message.toString() ));
+      warning( translateError( message.toString() ));
       errorObject = { message: message.toString() , fileName: location , lineNumber: line }
       debug(message, location, line )
     }
   }catch(e){
     debug("Other Error Style", location, line)
     debug2(e)
+    warning(message)
     debug2(message)
     errorObject = { message: message.toString() , fileName: location , lineNumber: line }
   }
@@ -96,12 +101,16 @@ function error(message, location, line){
 }
 
 function translateError(error){
-  if( error.indexOf("profile_credits_to_reload_can_not_be_below_cero") > -1 ) return "OhOh, Your account does not have enought credits, please buy more credits in 3vot.com and try again".bold.underline
-  if( error.indexOf("EEXIST") > -1 ) return "OhOh, That name is already in use, please try another...".bold.underline
-  if( error.indexOf("uglifyify") > -1 ) return "OhOh, Project outdated please run: npm install uglifyify --save".bold.underline
-  if( error.indexOf("invalid_grant") > -1 ) return "OhOh, Your credentials were not accepted by salesforce".bold.underline
+  if( error.indexOf("profile_credits_to_reload_can_not_be_below_cero") > -1 ) return "Oh Oh, Your account does not have enought credits, please buy more credits in 3vot.com and try again".bold.underline
+  if( error.indexOf("EEXIST") > -1 ) return "Oh Oh, That name is already in use, please try another...".bold.underline
+  if( error.indexOf("uglifyify") > -1 ) return "Oh Oh, Project outdated please run: npm install uglifyify --save".bold.underline
+  if( error.indexOf("invalid_grant") > -1 ) return "Oh Oh, Your credentials were not accepted by salesforce".bold.underline
+  if( error.indexOf("profile_user_name_found") > -1) return "Oh Oh,  the username you typed is already in use, please try again"
+  if( error.indexOf("Error: Profile Name") > -1) return "Oh Oh, usernames can only use only Letters, Numbers and Hypens( - )"
+  
+ 
 
-  return ""
+  return "Unidentified Error: " + error
 }
 
 function recordError(errorObject,callback){
