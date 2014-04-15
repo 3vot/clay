@@ -5,14 +5,15 @@ Usage: #{pkg.name} [options] [command]
 
 Commands:
 
+  server         Start the development server. Use -n to run in Nitrous
   profile        Profile actions to setup enviroment  
   app            Manage Application Livecycle
   store          Manage de Appearance of the 3VOT Profile
-  server         Start the development server
   salesforce     Setup and Deploy Apps to Salesforce.com
 
 Options:
 
+  -l,    run in debug mode, showing all console output
   -h,    output usage information
   -v,    output the version number
   -u,    Updates your 3VOT Profile
@@ -26,6 +27,13 @@ Profile Actions:
   3vot profile:publish       Publishes an App to the 3VOT Profile Main Page
 
   3vot profile:update        Updates the Profile Page to Latest Version ( only required before v: 0.3.31 )
+
+Salesforce Actions:
+  3vot salesforce:setup      Connects to Salesforce and saves the username and security key
+  
+  3vot salesforce:dev        Creates and Uploads a Visualforce page used for local development
+  
+  3vot salesforce:upload     Uploads an app to 3VOT Digital Content Cloud, creates a Visualforce Page and links both
 
 
 App Actions

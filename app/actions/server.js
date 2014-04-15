@@ -21,11 +21,13 @@ var Log = require("../utils/log")
 
 module.exports = Server;
 
-Server.prompt =  function(){
+Server.prompt =  function( isNitrous ){
   prompt.start();
-  prompt.get( [ 
-    { name: 'domain', description: 'Domain: The domain where you will run the app from ( enter for localhost:3000 ) ' } , 
-    { name: 'ssl', description: 'SSL: (y/n) Run server in HTTPS with SSL? ' } ],
+  
+  prompts = [ { name: 'ssl', description: 'SSL: (y/n) Run server in HTTPS with SSL? ' }  ]
+  if( isNitrous ) prompts.push({ name: 'domain', description: 'Domain: The domain where you will run the app' } )
+  
+  prompt.get( prompts,
    function (err, result) {
      result.domain = result.domain || "localhost:3000"
      result.domain = result.domain.replace("https://", "")
@@ -166,13 +168,13 @@ Server.startServer = function(){
 
   if(Server.ssl){
     https.createServer(sslOptions, app).listen(app.get('port'), function(){
-      console.info('3VOT Server running at:  https://' + Server.domain + ":" + app.get('port'));
+      console.info('3VOT Server running at:  https://' + Server.domain );
     }); 
   }
   
   else{
     http.createServer(app).listen(app.get('port'), function(){
-      console.info('3VOT Server running at: http://' + Server.domain + ":" + app.get('port'));
+      console.info('3VOT Server running at: http://' + Server.domain );
     });
   } 
   
