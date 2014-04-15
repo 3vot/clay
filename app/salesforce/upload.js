@@ -29,13 +29,6 @@ function execute(options){
   
   publishPage()
   .then( function(){ 
-    if( promptOptions.target == "production" ) return true; 
-    Log.info("*** READ THIS ***")
-    Log.info( "1: First visit https://localhost:3000/" + promptOptions.user_name + " before using the Salesforce Visualforce Page.") 
-    Log.info("")
-    return Log.info( "2: <head> is inserted to VF Page with this operation, any changes to template/head.html requires this command to be executed again.")
-  })
-  .then( function(){ 
     var url = tempVars.session.instance_url + "/apex/" + promptOptions.app_name
     if( promptOptions.target == "localhost" ) url += "_dev"
     return Log.info("App Available at: " + url) } )
