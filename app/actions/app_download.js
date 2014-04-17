@@ -126,13 +126,13 @@ function adjust3vot(){
 
     var templateRender = eco.render( templatePath , { options: promptOptions });
     fs.writeFile( Path.join( process.cwd(), "apps", tempVars.app.name, "start", "3vot.js" ), templateRender, function(err){
-      if(err) return deferred.reject(err);
       deferred.resolve()
     });
   }catch(e){ process.nextTick(function(){ deferred.resolve() }) }
 
   return deferred.promise;
 }
+
 
 function installDependencies(){
   var destinationDir = Path.join( "apps", tempVars.app.name, "node_modules" );
