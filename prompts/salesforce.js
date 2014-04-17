@@ -59,7 +59,8 @@ function install(callback){
 function upload(callback){
   prompt.start();
   prompt.get( 
-    [ { name: 'app_name', description: 'App Name: ( The name of the app you want to deploy to salesforce )' }
+    [ { name: 'app_name', description: 'App Name: ( The name of the app you want to deploy to salesforce )' },
+    { show_header: 'show_header', description: 'Show Header: Should the Visualforce Page have a header? (y/n)' }
     //FOR ENCODED SESSION,{ name: 'password', description: 'Salesforce Password:' , hidden: true },
      ],
     function (err, result) {
@@ -95,7 +96,8 @@ function profile(callback){
 function dev(callback){
   prompt.start();
   prompt.get( 
-    [ { name: 'app_name', description: 'App Name: ( The name of the app you want to develop on salesforce )' } 
+    [ { name: 'app_name', description: 'App Name: ( The name of the app you want to develop on salesforce )' } ,
+    { show_header: 'show_header', description: 'Show Header: Should the Visualforce Page have a header? (y/n)' }
     //FOR ENCODED SESSION ,{ name: 'password', description: 'Salesforce Password:' , hidden: true },
      ],
     function (err, result) {

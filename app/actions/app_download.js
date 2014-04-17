@@ -120,14 +120,16 @@ function adjustPackage(){
 function adjust3vot(){
   var deferred = Q.defer();
   
-  var templatesPath =  Path.join(Path.dirname(fs.realpathSync(__filename)), '../../templates' , "app" , "3vot.eco");
-  templatePath = fs.readFileSync( templatesPath, "utf-8");
+  try{
+    var templatesPath =  Path.join(Path.dirname(fs.realpathSync(__filename)), '../../templates' , "app" , "3vot.eco");
+    templatePath = fs.readFileSync( templatesPath, "utf-8");
 
-  var templateRender = eco.render( templatePath , { options: promptOptions });
-  fs.writeFile( Path.join( process.cwd(), "apps", tempVars.app.name, "start", "3vot.js" ), templateRender, function(err){
-    if(err) return deferred.reject(err);
-    deferred.resolve()
-  });
+    var templateRender = eco.render( templatePath , { options: promptOptions });
+    fs.writeFile( Path.join( process.cwd(), "apps", tempVars.app.name, "start", "3vot.js" ), templateRender, function(err){
+      if(err) return deferred.reject(err);
+      deferred.resolve()
+    });
+  }catch(e){ process.nextTick(function(){ deferred.resolve() }) }
 
   return deferred.promise;
 }

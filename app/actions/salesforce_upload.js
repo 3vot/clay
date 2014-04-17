@@ -15,7 +15,8 @@ var promptOptions = {
   user_name: null,
   app_name: null,
   salesforce: null,
-  target: "localhost"
+  target: "localhost",
+  show_header: null
 }
 
 var tempVars = {
@@ -39,7 +40,11 @@ function execute(options){
 function renderPage(){
   var deferred = Q.defer();
   
-  Log.debug("Rendering Page","actions/salesforce_upload", 45)
+  Log.debug("Rendering Page","actions/salesforce_upload", 43)
+
+  if(promptOptions.show_header === "y"){
+    promptOptions.show_header = true;
+  }else{ promptOptions.show_header = false}
 
   var templatePath = Path.join(Path.dirname(fs.realpathSync(__filename)), '..' , ".." , 'templates',"salesforce" , "page.eco" );
   var app = fs.readFileSync( templatePath, "utf-8" )
@@ -53,7 +58,7 @@ function renderPage(){
   var headProbablePath = Path.join( process.cwd(), "apps", promptOptions.app_name, "templates","head.html" );
   var head = ""
   try{ head = fs.readFileSync( headProbablePath, "utf-8") }catch(err){}
-  var result = eco.render(app, { pck: package_json, user_name: promptOptions.user_name, head: head } );
+  var result = eco.render(app, { pck: package_json, user_name: promptOptions.user_name, head: head, show_header: promptOptions.show_header } );
   result = Transform[promptOptions.target](result, promptOptions.user_name, promptOptions.app_name, promptOptions.domain )
   promptOptions.page = result;
   
