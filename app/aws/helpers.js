@@ -61,7 +61,7 @@ Helpers.uploadFile = function(bucket, fileObject, deferred, count){
   var deferred = deferred || Q.defer();
   if(!count) count = 1
   var s3 = new AWS.S3();
-  var rawFile = fileObject.body || fs.readFileSync(fileObject.path, "utf-8")
+  var rawFile = fileObject.body || fs.readFileSync(fileObject.path)
   var mimetype = mime.lookup(fileObject.path)
   s3.putObject( { CacheControl: "max-age=" + fileObject.cache || 31536000, ContentType: mimetype , ACL: 'public-read', Body: rawFile, Key: fileObject.key , Bucket: bucket }, 
     function(err, data) {
