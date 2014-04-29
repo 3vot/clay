@@ -27,6 +27,8 @@ var tempVars= {
 
 function execute(options){
   Log.info("Publishing Apps to the 3VOT Platform")
+  Log.info("NOTE: DO NOT REFRESH THE BROWER WHILE PUBLISHING")
+
   
   var deferred = Q.defer();
   

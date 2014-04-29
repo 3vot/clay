@@ -5,6 +5,8 @@ var fs = require("fs")
 var Helpers = {}
 var mime = require('mime')
 
+var Log = require("../utils/log")
+
 module.exports = Helpers;
 
 Helpers.listKeys = function( sourceBucket, marker ){
@@ -20,7 +22,6 @@ Helpers.listKeys = function( sourceBucket, marker ){
     else
       deferred.resolve(allKeys);
   });
-  
   return deferred.promise;
 }
 
@@ -54,17 +55,23 @@ Helpers.getObjectFromBucket = function(destinationBucket, key){
   return deferred.promise;
 }
 
-Helpers.uploadFile = function(bucket, fileObject){
+Helpers.uploadFile = function(bucket, fileObject, deferred, count){
   // FileObjet: body , path, key, cache
 
-  var deferred = Q.defer();
+  var deferred = deferred || Q.defer();
+  if(!count) count = 1
   var s3 = new AWS.S3();
   var rawFile = fileObject.body || fs.readFileSync(fileObject.path, "utf-8")
   var mimetype = mime.lookup(fileObject.path)
   s3.putObject( { CacheControl: "max-age=" + fileObject.cache || 31536000, ContentType: mimetype , ACL: 'public-read', Body: rawFile, Key: fileObject.key , Bucket: bucket }, 
     function(err, data) {
-      if (err) { console.error("Error Uploading File: " + err); return deferred.reject(err); }
-      //console.info( ( "File Uploaded Correctly: " + fileObject.path + " to " + fileObject.key ).green );
+      if (err) { 
+        Log.debug("Error Uploading File: (" + count + ")"  , "aws/helpers" ,69 );
+        Log.debug2(fileObject)
+        if(count > 2) return deferred.reject(err); 
+        count++;
+        return Helpers.uploadFile(bucket, fileObject, deferred, count++ )
+      }
       deferred.resolve();
     }
   );
@@ -72,17 +79,23 @@ Helpers.uploadFile = function(bucket, fileObject){
 }
 
 
-Helpers.uploadFileRaw = function(bucket, fileObject){
+Helpers.uploadFileRaw = function(bucket, fileObject, deferred, count){
   // FileObjet: body , path, key, cache
 
-  var deferred = Q.defer();
+  var deferred = deferred || Q.defer();
+  if(!count) count = 1
   var s3 = new AWS.S3();
   var rawFile = fileObject.body || fs.readFileSync(fileObject.path )
   var mimetype = mime.lookup(fileObject.path)
   s3.putObject( { CacheControl: "max-age=" + fileObject.cache || 31536000, ContentType: mimetype , ACL: 'public-read', Body: rawFile, Key: fileObject.key , Bucket: bucket }, 
     function(err, data) {
-      if (err) { console.error("Error Uploading File: " + err); return deferred.reject(err); }
-      //console.info( ( "File Uploaded Correctly: " + fileObject.path + " to " + fileObject.key ).green );
+      if (err) { 
+        Log.debug("Error Uploading File Raw: (" + count + ")"  , "aws/helpers", 93 );
+        Log.debug2(fileObject)
+        if(count > 2) return deferred.reject(err); 
+        return Helpers.uploadFile(bucket, fileObject, deferred, count++ )
+      }
+
       deferred.resolve();
     }
   );
