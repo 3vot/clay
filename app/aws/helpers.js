@@ -66,13 +66,19 @@ Helpers.uploadFile = function(bucket, fileObject, deferred, count){
   s3.putObject( { CacheControl: "max-age=" + fileObject.cache || 31536000, ContentType: mimetype , ACL: 'public-read', Body: rawFile, Key: fileObject.key , Bucket: bucket }, 
     function(err, data) {
       if (err) { 
-        Log.debug("Error Uploading File: (" + count + ")"  , "aws/helpers" ,69 );
+        Log.debug("Error Uploading File: (" + count + ")"  , "aws/helpers", 69 );
+        Log.debug2(err)
         Log.debug2(fileObject)
-        if(count > 2) return deferred.reject(err); 
+        if(count > 2){
+          return deferred.reject(err); 
+        }
         count++;
-        return Helpers.uploadFile(bucket, fileObject, deferred, count++ )
+        Helpers.uploadFile(bucket, fileObject, deferred, count++ )
       }
-      deferred.resolve();
+      else{
+        process.stdout.write(".");
+        return deferred.resolve();
+      } 
     }
   );
   return deferred.promise;
@@ -91,6 +97,7 @@ Helpers.uploadFileRaw = function(bucket, fileObject, deferred, count){
     function(err, data) {
       if (err) { 
         Log.debug("Error Uploading File Raw: (" + count + ")"  , "aws/helpers", 93 );
+        Log.debug2(err)
         Log.debug2(fileObject)
         if(count > 2) return deferred.reject(err); 
         return Helpers.uploadFile(bucket, fileObject, deferred, count++ )

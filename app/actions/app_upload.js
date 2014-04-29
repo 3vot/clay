@@ -27,6 +27,8 @@ var App = require("../models/app")
 
 var Log = require("../utils/log")
 
+var async = require("async")
+
 var promptOptions = {
   public_dev_key: null,
   user_name: null,
@@ -54,7 +56,7 @@ function execute(options){
     .then( buildPackage )
     .then( uploadSourceCode )
     .then( uploadAppFiles )
-    .then( uploadAssetsFiles )
+ //   .then( uploadAssetsFiles )
     .then( uploadDependenciesFiles )
     .then( createApp )
     .then( function(){ 
@@ -144,9 +146,8 @@ function uploadSourceCode(){
 
   var s3 = new Aws.S3();
   s3.putObject( { Body: file , Key: key, Bucket: promptOptions.paths.sourceBucket }, function(s3Error, data) {
-    console.log(s3Error)
     if (s3Error) return deferred.reject(s3Error);
-    console.info("Package Uploaded Correctly to 3VOT App Store".green)
+    Log.debug("Package Uploaded Correctly to 3VOT App Store", "actions/app_upload", 150)
     deferred.resolve(data)
   });
   return deferred.promise;
@@ -161,34 +162,20 @@ function uploadAppFiles(){
 
   apps.forEach( function(path){
     path.key = promptOptions.user_name + "/" +  promptOptions.app_name  +  "_" + tempVars.app_version + "/" + path.name
-    uploadPromises.push( AwsHelpers.uploadFile( promptOptions.paths.productionBucket, path ) );
+    uploadPromises.push( function(callback) { 
+      AwsHelpers.uploadFile( promptOptions.paths.productionBucket, path )
+      .then( function(){ callback(null,true) } ) 
+      .fail( function(err){ callback(err) } ) 
+    });
   });
-
-  Q.all( uploadPromises )
-  .then( function(){ return deferred.resolve() })
-  .fail( function(error){ return deferred.reject( error ) })
+  
+  async.series( uploadPromises,
+  function(err, results){
+    if(err) return deferred.reject(err)
+    return deferred.resolve()
+  });
 
   return deferred.promise;
-}
-
-function uploadAssetsFiles(){
-  Log.debug("Uploading Assets", "actions/app_upload", 177)
-  
-  var deferred = Q.defer();
-  var uploadPromises = []
- 
-  var assets = WalkDir( Path.join( process.cwd(), "apps", promptOptions.app_name, "app",  "assets" ) );
- 
-  assets.forEach( function(path){
-    path.key = promptOptions.user_name + "/" +  promptOptions.app_name + "_" + tempVars.app_version + "/assets/" + path.name
-    uploadPromises.push( AwsHelpers.uploadFileRaw( promptOptions.paths.productionBucket, path ));
-  });
-  
-   Q.all( uploadPromises )
-    .then( function(){ return deferred.resolve() })
-    .fail( function(error){ return deferred.reject( error ) })
-
-  return deferred.promise;  
 }
 
 function uploadDependenciesFiles(){
@@ -204,9 +191,12 @@ function uploadDependenciesFiles(){
     uploadPromises.push( AwsHelpers.uploadFile( promptOptions.paths.productionBucket, path ) );
   });
   
-   Q.all( uploadPromises )
-    .then( function(){ return deferred.resolve() })
-    .fail( function(error){ return deferred.reject( error ) })
+  uploadPromises.push( function(){ return deferred.resolve()  } )
+
+  var result = Q( function(){ return true } );
+  uploadPromises.forEach(function (f) {
+    result.then(f).fail( function(error){ return deferred.reject( error ) } );
+  });
   
   return deferred.promise;
 }

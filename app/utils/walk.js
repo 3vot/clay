@@ -27,7 +27,10 @@ function walkDir(dir, results) {
       results.push( { path: file, name: sourceFile } );
     }
   })
-  return results;
+  
+  return results.filter(function(elem, pos) {
+      return results.indexOf(elem) == pos;
+  })
 }
 
 module.exports = walkDir;
