@@ -5,10 +5,10 @@ var crypto = require('crypto')
 var request = require("superagent")
 var eco = require("eco")
 
-var Transform = require("../utils/transform")
-var Upload =require("../salesforce/upload")
-var Login =require("../salesforce/login")
-var Log = require("../utils/log")
+var Transform = require("3vot-cloud/utils/transform")
+var Upload =require("3vot-cloud/salesforce/upload")
+var Login =require("3vot-cloud/salesforce/login")
+var Log = require("3vot-cloud/utils/log")
 
 var promptOptions = {
   public_dev_key: null,

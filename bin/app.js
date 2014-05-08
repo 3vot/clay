@@ -1,13 +1,12 @@
 var prompt = require("prompt")
 var LoadPackage = require("../app/utils/package_loader")
 
-var Update = require("../app/actions/app_update")
-var Create = require("../app/actions/app_create")
-var Download = require("../app/actions/app_download")
-var Upload = require("../app/actions/app_upload")
-var Build = require("../app/actions/app_build")
-var Publish = require("../app/actions/app_publish")
-var Install = require("../app/actions/app_install")
+var Create = require("../app/actions/make")
+var Download = require("3vot-cloud/app/download")
+var Upload = require("3vot-cloud/app/upload")
+var Build = require("3vot-cloud/app/build")
+
+var Install = require("3vot-cloud/app/install")
 var Log = require("../app/utils/log")
 
 var Stats = require("../app/utils/stats")
@@ -33,7 +32,8 @@ function static(callback){
 function create(callback){
   prompt.start();
   prompt.get( [ 
-    { name: 'app_name', description: 'App Name ( The name of the app you want to create )' } ], 
+    { name: 'app_name', description: 'App Name: ( only lowercase letters and numbers )' } 
+		], 
     function (err, result) {
       Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
 
@@ -43,22 +43,6 @@ function create(callback){
       .then( function(){ return Stats.track("app:create", result ) } )
       .then( function(){ if(callback) return callback(); })
       .fail( function(err){  Log.error(err, "./prompt/app",41); });
-  });
-}
-
-function update(callback){
-  prompt.start();
-  prompt.get( [ 
-    { name: 'app_name', description: 'App Name ( The name of the app you want to update )' } ], 
-    function (err, result) {
-      Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
-
-      LoadPackage(result)
-      .then( Update )
-      .then( function(){ Log.info("OK. The App's Details was update'"); } )
-      .then( function(){ return Stats.track("app:update", result ) } )
-      .then( function(){ if(callback) return callback(); })
-      .fail( function(err){  Log.error(err, "./prompt/app", 54); });
   });
 }
 
@@ -96,45 +80,12 @@ function template(callback){
    });
 }
 
-function publish(callback){
-  prompt.start();
-  prompt.get( [ 
-    { name: 'app_name', description: 'App: ( The Name of the App you want to publish )' },
-    { name: 'app_version', description: 'Version: ( The Version of the App you want to publish, enter for latest )' } ], 
-    function (err, result) {
-      Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
-
-      LoadPackage(result)
-      .then( Publish )
-      .then( function(){ Log.info("OK. The App was published"); } )
-      .then( function(){ return Stats.track("app:publish", result ) } )
-      .then( function(){ if(callback) return callback(); })
-      .fail( function(err){ Log.error(err, "./prompt/app",96 ); });
-  });
-}
-
-function publishAsMain(callback){
-  prompt.start();
-  prompt.get( [ 
-    { name: 'app_name', description: 'App: ( The Name of the App you want to publish )' },
-    { name: 'version', description: 'Version: ( The Version of the App you want to publish, enter for latest )' } ], 
-    function (err, result) {
-      result.isMain = true;
-      Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
-      
-      LoadPackage(result)
-      .then( Publish )
-      .then( function(){ Log.info("OK. The App was published"); } )
-      .then( function(){ return Stats.track("app:publish:main", result ) } )
-      .then( function(){ if(callback) return callback(); })
-      .fail( function(err){ Log.error(err, "./prompt/app",111 ); });
-  });
-}
 
 function upload(callback){
   prompt.start();
   prompt.get( [ 
-    { name: 'app_name', description: 'App: ( the name of the app you want to upload  )' }], 
+    { name: 'password', description: 'Salesforce Password: ' },
+], 
     function (err, result) {
       Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
 

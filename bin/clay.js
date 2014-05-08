@@ -8,24 +8,18 @@ var fs = require("fs");
 var Q = require("q");
 var colors = require('colors');
 
-var ProfileQ = require("../prompts/profile")
+var ProfileQ = require("./profile")
 
 var Server = require("../app/actions/server")
 
-var Store = require("../prompts/store")
+var Salesforce = require("./salesforce")
 
-var Salesforce = require("../prompts/salesforce")
-
-var Db = require("../prompts/db")
-
-var App = require("../prompts/app")
-
-var Upgrade = require("../prompts/upgrade")
+var App = require("./app")
 
 var _3Model = require("3vot-model")
 
-var Log = require("../app/utils/log")
-var Stat = require("../app/utils/stats")
+var Log = require("3vot-cloud/utils/log")
+var Stat = require("3vot-cloud/utils/stats")
 
 Log.setLevel("INFO");
 
@@ -62,72 +56,22 @@ else if( argv.h ){
 }
 else{
   if(argv.u){ callback = Store.generate }
+
+  else if( argv._.indexOf("prepare") > -1 ){ App.template(); }
+
+  else if( argv._.indexOf("template") > -1 ){ App.template(); }
   
-  if( argv._.indexOf("profile:setup") > -1 ){ ProfileQ.setup(); } 
+  else if( argv._.indexOf("make") > -1 ){ App.create(); }
 
-  else if( argv._.indexOf("profile:create") > -1 ){ ProfileQ.create( Store.generate ); }
+  else if( argv._.indexOf("send") > -1 ){ App.upload(callback); }
 
-  else if( argv._.indexOf("profile:update") > -1 ){ ProfileQ.update( Store.generate ); }
+  else if( argv._.indexOf("copy") > -1 ){ App.download(); }
 
-  else if( argv._.indexOf("profile:publish") > -1 ){ App.publishAsMain( Store.generate ); }
+  else if( argv._.indexOf("build") > -1 ){ App.build(); }
 
-  else if( argv._.indexOf("app:template") > -1 ){ App.template(); }
-  
-  else if( argv._.indexOf("app:create") > -1 ){ App.create(); }
+  else if( argv._.indexOf("install") > -1 ){ App.install(); }
 
-  else if( argv._.indexOf("app:update") > -1 ){ App.update( Store.generate ); }
-
-  else if( argv._.indexOf("app:upload") > -1 ){ App.upload(callback); }
-
-  else if( argv._.indexOf("app:static") > -1 ){ App.static(callback); }
-
-  else if( argv._.indexOf("app:clone") > -1 ){ App.download(); }
-
-  else if( argv._.indexOf("app:publish") > -1 ){ App.publish(callback); }
-
-  else if( argv._.indexOf("app:build") > -1 ){ App.build(); }
-
-  else if( argv._.indexOf("app:install") > -1 ){ App.install(); }
-
-  else if( argv._.indexOf("store:create") > -1 ){ Store.create( Store.generate ); }
-
-  else if( argv._.indexOf("store:destroy") > -1 ){ Store.destroy( Store.generate ); }
-
-  else if( argv._.indexOf("store:app:add") > -1 ){ Store.addApp( Store.generate ); }
-
-  else if( argv._.indexOf("store:app:remove") > -1 ){ Store.removeApp( Store.generate ); }
-
-  else if( argv._.indexOf("store:destroy") > -1 ){ Store.destroy( Store.generate ); }
-
-  else if( argv._.indexOf("store:publish") > -1 ){ Store.generate(); }
-
-  else if( argv._.indexOf("store:list") > -1 ){ Store.list(); }
-
-  else if( argv._.indexOf("db:create") > -1 ){ Db.create(); }
-
-  else if( argv._.indexOf("db:develop") > -1 ){ Db.develop(); }
-
-  else if( argv._.indexOf("db:build") > -1 ){ Db.build(); }
-
-  else if( argv._.indexOf("db:deploy") > -1 ){ Db.deploy(); }
-
-  else if( argv._.indexOf("server") > -1 ){ Server.prompt( argv.n ); }
-
-  else if( argv._.indexOf("salesforce:setup") > -1 ){ Salesforce.setup(); }
-
-  else if( argv._.indexOf("salesforce:upload") > -1 ){ Salesforce.upload(); }
-
-  else if( argv._.indexOf("salesforce:install") > -1 ){ Salesforce.install(); }
-
-  else if( argv._.indexOf("salesforce:dev") > -1 ){ Salesforce.dev(); }
-
-  else if( argv._.indexOf("salesforce:profile") > -1 ){ Salesforce.profile(); }
-
-  else if( argv._.indexOf("upgrade") > -1 ){ Upgrade.upgrade(); }
-
-  else{
-    
+  else{    
     Log.info("Command not found: Use 3vot -h for help", "bin/3cli", 124)
-
   }
 }

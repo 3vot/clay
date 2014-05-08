@@ -4,8 +4,8 @@ var Q = require("q");
 var crypto = require('crypto')
 var request = require("superagent")
 var eco = require("eco")
-var Log = require("../utils/log")
-var Packs = require("../utils/packs")
+var Log = require("3vot-cloud/utils/log")
+var Packs = require("3vot-cloud/utils/packs")
 
 var promptOptions = {
   instance_url: null,

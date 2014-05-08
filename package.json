@@ -1,10 +1,10 @@
 {
-  "name": "3vot-cli",
-  "version": "0.3.53",
+  "name": "clay",
+  "version": "0.0.1",
   "description": "3VOT Command Line Interface to run development task from the command line.",
-  "main": "bin/3cli.js",
+  "main": "bin/clay.js",
   "bin": {
-    "3vot": "bin/3cli.js"
+    "clay": "bin/clay.js"
   },
   "scripts": {
     "test": "node ./tests/integration.js"
@@ -40,7 +40,8 @@
     "uglifyify": "~2.0.0",
     "mkpath": "~0.1.0",
     "mixpanel": "0.0.19",
-    "async": "^0.8.0"
+    "async": "^0.8.0",
+    "3vot-cloud": "0.0.2"
   },
   "testDependencies": {
     "mocha": "~1.17.0",

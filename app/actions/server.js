@@ -20,26 +20,10 @@ var AppBuild = require("./app_build")
 var Log = require("../utils/log")
 
 module.exports = Server;
+Server.domain = "localhost:3000"
+Server.ssl = true
 
-Server.prompt =  function( isNitrous ){
-  prompt.start();
-  
-  prompts = [ { name: 'ssl', description: 'SSL: (y/n) Run server in HTTPS with SSL? ' }  ]
-  if( isNitrous ) prompts.push({ name: 'domain', description: 'Domain: The domain where you will run the app' } )
-  
-  prompt.get( prompts,
-   function (err, result) {
-     result.domain = result.domain || "localhost:3000"
-     result.domain = result.domain.replace("https://", "")
-     result.domain = result.domain.replace("http://", "")
-     if( result.domain.slice(-1) == "/") result.domain = result.domain.slice(0, - 1);
-     Server.domain = result.domain;
-     Server.ssl = result.ssl || false
-     Server.startServer()
-   });
-},
-
-Server.startServer = function(){
+Server.start = function(){
 
   var sslOptions = {
     key: fs.readFileSync( Path.join(Path.dirname(fs.realpathSync(__filename)), "..","..", 'ssl' , "server.key" )),
@@ -50,8 +34,7 @@ Server.startServer = function(){
   };
   
   var app = express();    
-  var pck = require( Path.join( process.cwd(), "3vot.json" )  );
-  var profile = pck.user_name;
+
   // all environments
   app.set('port', 3000);
   app.disable('etag');
@@ -61,10 +44,10 @@ Server.startServer = function(){
   app.use(app.router);
 
   app.get("/", function(req,res){
-    res.send("<h1>Congratulations 3VOT Local Server is Running</h1><h2>Now head to your app @ /YOURORG/YOURAPP</h2>");
+    res.send("<h1>Congratulations 3VOT Local Server is Running</h1><h2>Now head to your app @ /YOURAPP</h2>");
   });
 
-  app.get("/" + profile  + "/:app_name/assets/:folder/:asset", function(req, res) {
+  app.get("/:app_name/assets/:folder/:asset", function(req, res) {
     var asset = req.params.asset;
     var app_name = req.params.app_name;
     var folder_name = req.params.folder;
@@ -72,50 +55,14 @@ Server.startServer = function(){
     res.sendfile(filePath);
   });
 
-  app.get("/" + profile  + "/:app_name/assets/:asset", function(req, res) {
+  app.get("/:app_name/assets/:asset", function(req, res) {
     var asset = req.params.asset;
     var app_name = req.params.app_name;
     var filePath = Path.join(  process.cwd() , "apps", app_name, "app", "assets", asset );
     res.sendfile(filePath);
   });
 
-  app.get("/" + profile  + "/dependencies/:name", function(req, res) {
-    res.setHeader("Content-Type", "text/javascript");
-
-    fs.readFile( Path.join( process.cwd(), "apps", "dependencies", req.params.name ) , 
-      function(err, file){
-        if(err){
-          //get App Name From req.Host
-          var urlParts = req.headers.referer.split("/")
-          var app_name = ""
-          if( urlParts[ urlParts.length -1 ] === "" ){
-            app_name = urlParts[ urlParts.length -2 ]
-          }
-          else{
-            app_name = urlParts[ urlParts.length -1 ]
-          }
-          
-          return res.redirect("/" + profile + "/dependencies/" + app_name +  "/build");
-        }
-        return res.send(file);    
-      }
-    );
-  });
-
-  app.get("/" + profile  + "/dependencies/:app_name/build", 
-    function(req, res) {
-      res.setHeader("Content-Type", "text/javascript");
-      var app_name = req.params.app_name
-      Builder.buildDependency( app_name )
-      .then( 
-        function( contents ){
-          return res.send(contents);
-        } 
-      );
-    }
-  );
-
-  app.get("/" + profile  + "/:app_name/:entry", function(req, res) {
+  app.get("/:app_name/:entry", function(req, res) {
     function sendEntry(req, res){
       res.setHeader('if-none-match' , 'no-match-for-this');
       var entry = req.params.entry;
@@ -137,16 +84,7 @@ Server.startServer = function(){
     
   });
 
-  // Route for Main App, did this to simplify tranforms. Could also request via domain, but hack is worst
-  app.get("/" + profile  + "/stores.json", function(req, res) {
-    request.get("http://3vot.com/" + profile  + "/stores.json").end( function(err, httpResponse){
-      if(err) return res.send(500, err)
-      if(res.status >= 400) return res.send(500, res.text )
-      res.send( httpResponse.body )
-    })
-  });
-
-  app.get("/" + profile  + "/:app_name", function(req, res) {
+  app.get("/:app_name", function(req, res) {
     var app_package;
     var app_name = req.params.app_name
     try{
@@ -166,18 +104,10 @@ Server.startServer = function(){
 
   });
 
-  if(Server.ssl){
-    https.createServer(sslOptions, app).listen(app.get('port'), function(){
-      console.info('3VOT Server running at:  https://' + Server.domain );
-    }); 
-  }
-  
-  else{
-    http.createServer(app).listen(app.get('port'), function(){
-      console.info('3VOT Server running at: http://' + Server.domain );
-    });
-  } 
-  
+  https.createServer(sslOptions, app).listen(app.get('port'), function(){
+    console.info('3VOT Server running at:  https://' + Server.domain );
+  }); 
+
 }
 
 
