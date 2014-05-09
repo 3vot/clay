@@ -34,31 +34,38 @@ function execute(options){
 }
 
 function scaffold(){
-   Log.debug("Scaffolding Projects", "actions/profile_setup", 52);
-   var deferred = Q.defer();
+  Log.debug("Scaffolding Projects", "actions/profile_setup", 52);
+  var deferred = Q.defer();
 
-   
-   fs.mkdirSync( Path.join( process.cwd() , "apps" ));
-   fs.mkdirSync( Path.join( process.cwd() , "apps", "dependencies" ));
-   fs.mkdirSync( Path.join( process.cwd() , "tmp" )) ;
+  fs.mkdir( Path.join( process.cwd() , "apps" ), function(e){
+    if(e) return deferred.reject("Project Already Exists in this Folder");
+    
 
-   var templatesPath =  Path.join(Path.dirname(fs.realpathSync(__filename)), '../../templates');
-   var _3votJSON = {}
-   var gitIgnore = fs.readFileSync(  Path.join( templatesPath, "_.gitignore" ), "utf-8");
-   var pckJSON = require( Path.join( templatesPath, "package.json" ));
+    fs.mkdirSync( Path.join( process.cwd() , "apps", "dependencies" ));
+    fs.mkdirSync( Path.join( process.cwd() , "tmp" )) ;
 
-   _3votJSON.public_dev_key = promptOptions.key
-  _3votJSON.salesforce = {
+    var templatesPath =  Path.join(Path.dirname(fs.realpathSync(__filename)), '../../templates');
+    var _3votJSON = {}
+    var gitIgnore = fs.readFileSync(  Path.join( templatesPath, "_.gitignore" ), "utf-8");
+    var pckJSON = require( Path.join( templatesPath, "package.json" ));
+
+    _3votJSON.public_dev_key = promptOptions.key
+    _3votJSON.salesforce = {
     user_name: Encrypt.hide(promptOptions.email, promptOptions.password),
     key: Encrypt.hide(promptOptions.token, promptOptions.password)
-  }
+    }
 
-   fs.writeFileSync( Path.join(process.cwd(), "3vot.json"), JSON.stringify(_3votJSON, null, '\t') );
-   fs.writeFileSync( Path.join(process.cwd(), "package.json"), JSON.stringify(pckJSON, null, '\t') );
-   fs.writeFile( Path.join(process.cwd(), ".gitignore"), gitIgnore, function(){ deferred.resolve(  )  } );
+    fs.writeFileSync( Path.join(process.cwd(), "3vot.json"), JSON.stringify(_3votJSON, null, '\t') );
+    fs.writeFileSync( Path.join(process.cwd(), "package.json"), JSON.stringify(pckJSON, null, '\t') );
+    fs.writeFileSync( Path.join(process.cwd(), ".gitignore"), gitIgnore );
 
-   return deferred.promise;
- }
+    deferred.resolve();
+
+  })
+
+
+  return deferred.promise;
+}
 
 
 module.exports = execute;
