@@ -1,6 +1,6 @@
 {
   "name": "clay-cli",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "description": "3VOT Command Line Interface to run development task from the command line.",
   "main": "bin/clay.js",
   "bin": {
@@ -24,10 +24,8 @@
     "tar": "~0.1.19",
     "zlib": "~1.0.5",
     "mime": "~1.2.11",
-    "less": "~1.6.1",
     "express": "~3.4.8",
     "prompt": "~0.2.12",
-    "rimraf": "~2.2.6",
     "eco": "~1.1.0-rc-3",
     "coffee-script": "~1.7.1",
     "superagent": "~0.16.0",
@@ -35,15 +33,14 @@
     "brfs": "0.0.8",
     "browserify-eco": "~0.2.4",
     "3vot-model": "0.0.20",
-    "3vot-db": "0.0.1",
     "uglifyify": "~2.0.0",
     "mkpath": "~0.1.0",
     "mixpanel": "0.0.19",
     "async": "^0.8.0",
     "3vot-cloud": "0.0.2",
-    "should": "~3.3.1"
   },
   "testDependencies": {
+    "rimraf": "~2.2.6",
     "mocha": "~1.17.0",
     "should": "~3.0.1",
     "nock": "~0.27.2",
