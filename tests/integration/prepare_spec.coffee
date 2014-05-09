@@ -1,5 +1,4 @@
-Setup = require("../../app/actions/profile_setup")
-Create = require("../../app/actions/profile_create")
+Prepare = require("../../app/actions/prepare")
 should = require("should")
 nock = require("nock")
 rimraf = require("rimraf");
@@ -8,11 +7,11 @@ Path = require("path");
 describe '3VOT Profile Setup', ->
 
   before (done) ->
-    rimraf Path.join( process.cwd(), "3vot_cli_2_test" ) , (err) -> done()
+    rimraf Path.join( process.cwd(), "clay_test" ) , (err) -> done()
  
   it 'should execute setup action', (done) ->
     @timeout(100000)
-    Setup( public_dev_key: process.env.public_dev_key )
+    Prepare( key: "key", email: "ok@ok.com", password: "pass", token: "1234"  )
     .fail (error) =>
       error.should.equal("");
     .done ->

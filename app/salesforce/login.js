@@ -12,7 +12,6 @@ var Packs = require("3vot-cloud/utils/packs")
 
 var promptOptions = {
   public_dev_key: null,
-  user_name: null,
   salesforce: {
     user_name: null,
     password: null,
@@ -52,7 +51,7 @@ function execute(options){
   promptOptions = options;
 
   loadData()
-
+  .then(login)
   .then( deferred.resolve )
   .fail( deferred.reject );
 
@@ -81,15 +80,11 @@ function login(deferred){
     Log.info("We did Logged in to Salesforce, ready.")
     
 
-		global.session = JSON.parse(res.text)
-
-    return saveSession(deferred)
+		var session = JSON.parse(res.text)
+    deferred.resolve(session)
   })
 
   return deferred.promise;
 }
-
-
-
 
 module.exports = execute;
