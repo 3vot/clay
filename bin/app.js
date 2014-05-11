@@ -1,15 +1,15 @@
 var prompt = require("prompt")
-var LoadPackage = require("../app/utils/package_loader")
+var LoadPackage = require("3vot-cloud/utils/package_loader")
 
-var Create = require("../app/actions/make")
+var Create = require("3vot-cloud/app/create")
 var Download = require("3vot-cloud/app/download")
 var Upload = require("3vot-cloud/app/upload")
 var Build = require("3vot-cloud/app/build")
 
 var Install = require("3vot-cloud/app/install")
-var Log = require("../app/utils/log")
+var Log = require("3vot-cloud/utils/log")
 
-var Stats = require("../app/utils/stats")
+var Stats = require("3vot-cloud/utils/stats")
 
 
 function static(callback){
@@ -136,13 +136,10 @@ function build(callback){
 
 module.exports = {
   create: create,
-  update: update,
   upload: upload,
   download: download,
-  publish: publish,
   build: build,
   install: install,
-  publishAsMain: publishAsMain,
   template: template,
   static: static
 }

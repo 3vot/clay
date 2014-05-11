@@ -4,6 +4,8 @@ var Path = require("path")
 var fs = require("fs")
 var Q = require("q");
 
+var argv = require('optimist').argv;
+
 
 _3Model = require("3vot-model")
 _3Model.Model.host = "http://localhost:3002/v1"
@@ -53,7 +55,7 @@ function createDir(){
 
 function executeTest(name){
 	
- 	if(name == "all" || name == "profile") mocha.addFile('../tests/integration/prepare_spec.coffee')
+ 	if(name == "all" || name == "prepare") mocha.addFile('../tests/prepare_spec.coffee')
 //  if(name == "all" || name == "profile spec") mocha.addFile('./tests/integration/action_profile_setup_spec.coffee');
 //  if(name == "all" || name == "app") mocha.addFile('./tests/integration/action_app_spec.coffee');
 //  if(name == "all" || name == "store") mocha.addFile('./tests/integration/action_store_spec.coffee');
@@ -67,7 +69,8 @@ function executeTest(name){
 }
 
 function getTestName(){
-  if(process.argv.length >= 2 && process.argv[2]) return process.argv[2]
+  if(argv.prepare) return "prepare"
+  
   return "all"
 }
 

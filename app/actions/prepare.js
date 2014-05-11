@@ -27,7 +27,6 @@ function execute(options){
 	promptOptions = options;
 	scaffold()
 	.then( Install.installNPM )
-	.then( function(){ process.chdir( Path.join( process.cwd(), ".." ) ); } )
 	.then (function(){ return deferred.resolve(promptOptions) })
 	.fail( function(err){ return deferred.reject(err) } );
 	return deferred.promise;
@@ -50,6 +49,7 @@ function scaffold(){
     var pckJSON = require( Path.join( templatesPath, "package.json" ));
 
     _3votJSON.public_dev_key = promptOptions.key
+    _3votJSON.user_name = promptOptions.user_name
     _3votJSON.salesforce = {
     user_name: Encrypt.hide(promptOptions.email, promptOptions.password),
     key: Encrypt.hide(promptOptions.token, promptOptions.password)

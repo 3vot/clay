@@ -15,6 +15,8 @@ var _3Model = require("3vot-model")
 var Log = require("3vot-cloud/utils/log")
 var Stat = require("3vot-cloud/utils/stats")
 
+var App = require("./app")
+
 Log.setLevel("INFO");
 
 //_3Model.Model.host = "http://localhost:3002/v1"
@@ -54,6 +56,10 @@ else if( argv.h ){
     "",
     "  prepare         Creates the project folder and installs all dependencies",
     "",
+    "Utilities:",
+    "",
+    "   credentials    Updates Salesforce Credentials",
+    "",
     "Options:",
 
     "  -d               run in debug mode, showing all console output",
@@ -65,7 +71,17 @@ else if( argv.h ){
 }
 else{
 
-  if( argv._.indexOf("prepare") > -1 ){ Profile.prepare(); }
+  if( argv._.indexOf("create") > -1 ){ App.create(callback); }
+
+  else if( argv._.indexOf("prepare") > -1 && argv.c){ Profile.credentials(); }
+
+  else if( argv._.indexOf("prepare") > -1 ){ Profile.prepare(); }
+
+  else if( argv._.indexOf("develop") > -1 ){ 
+    var cliOptions = {};
+    if(argv.app) cliOptions.app_name = argv.app
+    Profile.develop(cliOptions); 
+  }
 
   else{    
     Log.info("Command not found: Use clay -h for help", "bin/3cli", 124)

@@ -8,8 +8,7 @@ var Log = require("3vot-cloud/utils/log")
 var Packs = require("3vot-cloud/utils/packs")
 
 var promptOptions = {
-  instance_url: null,
-  access_token: null,
+  session: null,  
   app_name: null,
   target: "localhost",
   page: ""
@@ -24,8 +23,7 @@ function execute(options){
   var deferred = Q.defer();
   promptOptions = options;
   
-  var _3vot = Packs._3vot(true)
-  tempVars.session = _3vot.salesforce.session;
+  tempVars.session = promptOptions.session
   
   publishPage()
   .then( function(){ 
