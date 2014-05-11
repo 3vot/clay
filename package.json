@@ -1,6 +1,6 @@
 {
   "name": "clay-cli",
-  "version": "0.0.10",
+  "version": "0.0.15",
   "description": "3VOT Command Line Interface to run development task from the command line.",
   "main": "bin/clay.js",
   "bin": {
