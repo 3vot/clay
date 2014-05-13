@@ -8,7 +8,7 @@ var fs = require("fs");
 var Q = require("q");
 var colors = require('colors');
 
-var Profile = require("./profile")
+var ClayOperations = require("./clayOperations")
 
 var _3Model = require("3vot-model")
 
@@ -54,8 +54,11 @@ else if( argv.h ){
     "",
     "Commands:",
     "",
-    "  prepare         Creates the project folder and installs all dependencies",
+    "  prepare         Builds the project folder and installs all dependencies",
     "",
+    "  create          Creates a new javascript app for Salesforce.com ",
+    "",
+
     "Utilities:",
     "",
     "   credentials    Updates Salesforce Credentials",
@@ -71,17 +74,28 @@ else if( argv.h ){
 }
 else{
 
-  if( argv._.indexOf("create") > -1 ){ App.create(callback); }
 
-  else if( argv._.indexOf("prepare") > -1 && argv.c){ Profile.credentials(); }
+  if( argv._.indexOf("prepare") > -1 && argv.c){ ClayOperations.credentials(); }
 
-  else if( argv._.indexOf("prepare") > -1 ){ Profile.prepare(); }
+  else if( argv._.indexOf("prepare") > -1 ){ ClayOperations.prepare(); }
 
   else if( argv._.indexOf("develop") > -1 ){ 
     var cliOptions = {};
     if(argv.app) cliOptions.app_name = argv.app
-    Profile.develop(cliOptions); 
+    ClayOperations.develop(cliOptions); 
   }
+
+  else if( argv._.indexOf("send") > -1 ){ 
+    ClayOperations.upload(callback); 
+  }
+  
+  else if( argv._.indexOf("app:create") > -1 ){ App.create(callback); }
+  else if( argv._.indexOf("app:install") > -1 ){ App.install(callback); }
+  else if( argv._.indexOf("app:build") > -1 ){ App.build(callback); }
+
+  else if( argv._.indexOf("example") > -1 ){ App.template(callback); }
+  else if( argv._.indexOf("copy") > -1 ){ App.download(callback); }
+
 
   else{    
     Log.info("Command not found: Use clay -h for help", "bin/3cli", 124)

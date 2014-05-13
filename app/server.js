@@ -19,10 +19,8 @@ var AppBuild = require("3vot-cloud/app/build")
 
 var Log = require("3vot-cloud/utils/log")
 
-
 Server.domain = "localhost:3000"
 Server.ssl = true;
-
 
 var sslOptions = {
   key: fs.readFileSync( Path.join(Path.dirname(fs.realpathSync(__filename)), "..", 'ssl' , "server.key" )),
@@ -149,19 +147,8 @@ app.get("/" + profile  + "/:app_name", function(req, res) {
 
 });
 
-if(Server.ssl){
-  https.createServer(sslOptions, app).listen(app.get('port'), function(){
-    console.info('3VOT Server running at:  https://' + Server.domain );
-  }); 
-}
-
-else{
-  http.createServer(app).listen(app.get('port'), function(){
-    console.info('3VOT Server running at: http://' + Server.domain );
-  });
-} 
-
-
-
+https.createServer(sslOptions, app).listen(app.get('port'), function(){
+  console.info('3VOT Server running at:  https://' + Server.domain );
+}); 
 
 module.exports = Server;

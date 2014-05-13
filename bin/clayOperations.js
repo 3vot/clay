@@ -3,7 +3,7 @@ var LoadPackage = require("3vot-cloud/utils/package_loader")
 var Setup = require("../app/actions/prepare")
 var Dev = require("../app/actions/dev")
 
-
+var Send = require("../app/actions/send")
 var Credentials = require("../app/salesforce/credentials")
 
 var Path= require("path")
@@ -71,8 +71,25 @@ function develop( cliOptions ){
   });
 }
 
+function upload( cliOptions ){
+  var options = [ 
+    { name: 'app_name', description: 'App: The name of the App' ,  },
+    { name: 'password', description: 'Salesforce Password:' , hidden: true }
+  ]
+
+  prompt.start();
+  prompt.get( options, function (err, result) {
+
+    result = Packs._3vot(result);
+    
+    Send(result)
+    .then( function(){ return Stats.track("site:server") } )
+    .fail( function(err){ Log.error(err, "./prompt/profile",43); } );
+  });
+}
 
 module.exports = {
   prepare: prepare,
-  develop: develop
+  develop: develop,
+  upload: upload
 }

@@ -23,7 +23,6 @@ function execute(options){
 	var deferred = Q.defer();
 	promptOptions = options;
 
-console.log(promptOptions)
 
 	login( { password: promptOptions.password } )
 	.then( uploadApps )
@@ -61,11 +60,7 @@ function uploadApps(){
       user_name: promptOptions.user_name, 
       target: "localhost" 
     })
-
-    console.log(page)
-    //return true;
     return Upload( { app_name: promptOptions.app_name, session: tempVars.session, page: page} )
-
   }
 
   else{

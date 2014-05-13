@@ -35,7 +35,6 @@ function renderPage(options){
   try{ head = fs.readFileSync( headProbablePath, "utf-8") }catch(err){}
   var result = eco.render(app, { pck: package_json, user_name: promptOptions.user_name, head: head, show_header: promptOptions.show_header } );
 
-  console.log(promptOptions)
 
   result = Transform[promptOptions.target](result, promptOptions.user_name, promptOptions.app_name, promptOptions.domain )
 
