@@ -43,7 +43,7 @@ function scaffold(){
     fs.mkdirSync( Path.join( process.cwd() , "apps", "dependencies" ));
     fs.mkdirSync( Path.join( process.cwd() , "tmp" )) ;
 
-    var templatesPath =  Path.join(Path.dirname(fs.realpathSync(__filename)), '../../templates');
+    var templatesPath =  Path.join( Path.dirname(fs.realpathSync(__filename)), '../../node_modules/3vot-cloud/templates');
     var _3votJSON = {}
     var gitIgnore = fs.readFileSync(  Path.join( templatesPath, "_.gitignore" ), "utf-8");
     var pckJSON = require( Path.join( templatesPath, "package.json" ));
@@ -51,8 +51,8 @@ function scaffold(){
     _3votJSON.public_dev_key = promptOptions.key
     _3votJSON.user_name = promptOptions.user_name
     _3votJSON.salesforce = {
-    user_name: Encrypt.hide(promptOptions.email, promptOptions.password),
-    key: Encrypt.hide(promptOptions.token, promptOptions.password)
+      user_name: Encrypt.hide(promptOptions.email, promptOptions.password),
+      key: Encrypt.hide(promptOptions.token, promptOptions.password)
     }
 
     fs.writeFileSync( Path.join(process.cwd(), "3vot.json"), JSON.stringify(_3votJSON, null, '\t') );
