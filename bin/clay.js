@@ -75,23 +75,23 @@ else if( argv.h ){
 else{
 
 
-  if( argv._.indexOf("prepare") > -1 && argv.c){ ClayOperations.credentials(); }
+  if( argv._.indexOf("setup") > -1 && argv.c){ ClayOperations.credentials(); }
 
-  else if( argv._.indexOf("prepare") > -1 ){ ClayOperations.prepare(); }
+  else if( argv._.indexOf("setup") > -1 ){ ClayOperations.prepare(); }
 
-  else if( argv._.indexOf("develop") > -1 ){ 
+  else if( argv._.indexOf("server") > -1 ){ 
     var cliOptions = {};
     if(argv.app) cliOptions.app_name = argv.app
     ClayOperations.develop(cliOptions); 
   }
 
-  else if( argv._.indexOf("send") > -1 ){ 
+  else if( argv._.indexOf("upload") > -1 ){ 
     ClayOperations.upload(callback); 
   }
   
-  else if( argv._.indexOf("app:create") > -1 ){ App.create(callback); }
-  else if( argv._.indexOf("app:install") > -1 ){ App.install(callback); }
-  else if( argv._.indexOf("app:build") > -1 ){ App.build(callback); }
+  else if( argv._.indexOf("create") > -1 ){ App.create(callback); }
+  else if( argv._.indexOf("install") > -1 ){ App.install(callback); }
+  else if( argv._.indexOf("build") > -1 ){ App.build(callback); }
 
   else if( argv._.indexOf("example") > -1 ){ App.template(callback); }
   else if( argv._.indexOf("copy") > -1 ){ App.download(callback); }
