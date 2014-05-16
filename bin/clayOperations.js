@@ -91,5 +91,6 @@ function upload( cliOptions ){
 module.exports = {
   prepare: prepare,
   develop: develop,
-  upload: upload
+  upload: upload,
+  credentials: credentials
 }

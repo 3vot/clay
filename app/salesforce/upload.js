@@ -44,14 +44,14 @@ function publishPage(){
   var url = tempVars.session.instance_url + "/services/data/v29.0/sobjects/ApexPage/Name/" + name;
   
   Log.debug("Upserting Visualforce Page " + url, "salesforce/upload", 48)
-  
+
   body = {
     Markup : promptOptions.page,
     ControllerType : 3,
     MasterLabel: name,
     ApiVersion: "29.0"
   }
-  
+
   var req = request.patch(url)
   .type("application/json")
   .set('Authorization', 'Bearer ' + tempVars.session.access_token )

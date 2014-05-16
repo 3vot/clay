@@ -54,7 +54,7 @@ else if( argv.h ){
     "",
     "Commands:",
     "",
-    "  prepare         Builds the project folder and installs all dependencies",
+    "  setup         Builds the project folder and installs all dependencies",
     "",
     "  create          Creates a new javascript app for Salesforce.com ",
     "",
@@ -73,7 +73,6 @@ else if( argv.h ){
   console.log( help );
 }
 else{
-
 
   if( argv._.indexOf("setup") > -1 && argv.c){ ClayOperations.credentials(); }
 
@@ -95,7 +94,6 @@ else{
 
   else if( argv._.indexOf("example") > -1 ){ App.template(callback); }
   else if( argv._.indexOf("copy") > -1 ){ App.download(callback); }
-
 
   else{    
     Log.info("Command not found: Use clay -h for help", "bin/3cli", 124)

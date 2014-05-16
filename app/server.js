@@ -40,6 +40,7 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 
+
 app.get("/", function(req,res){
   res.send("<h1>Congratulations 3VOT Local Server is Running</h1><h2>Now head to your app @ /YOURORG/YOURAPP</h2>");
 });
@@ -150,4 +151,5 @@ https.createServer(sslOptions, app).listen(app.get('port'), function(){
   console.info('3VOT Server running at:  https://' + Server.domain );
 }); 
 
-module.exports = Server;
+
+module.exports = Server

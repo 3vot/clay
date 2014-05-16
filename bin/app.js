@@ -39,7 +39,7 @@ function create(callback){
 
       LoadPackage(result)
       .then( Create )
-      .then( function(){ Log.info("OK. The App was created. To run locally type: clay develop " + result.app_name); } )
+      .then( function(){ Log.info("OK. The App was created. To run locally type: clay server -app " + result.app_name); } )
       .then( function(){ return Stats.track("app:create", result ) } )
       .then( function(){ if(callback) return callback(); })
       .fail( function(err){  Log.error(err, "./prompt/app",41); });
