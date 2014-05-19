@@ -75,7 +75,7 @@ else if( argv.h ){
     "",
     "  server --app appname   Runs a development server inserted in Salesforce. Appname is required. ",
     "",
-    "  command -d             Runs the specified command in debug mode, showing all console outputs",
+    "  [command] -d             Runs the specified command in debug mode, showing all console outputs",
     "",
     "Options:",
 
