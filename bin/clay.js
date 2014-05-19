@@ -24,7 +24,7 @@ Log.setLevel("INFO");
 _3Model.Model.host = "http://threevot-api.herokuapp.com/v1"
 
 Log.debug("LOAD PACKAGE CAN INCLUDE OPTIONS TO LOAD 3VOT or APP PACKAGE AUTOMATICALLY AND DONT DO IT IN ACTIONS", "bin/cli", 36)
-console.log("-- CLAY by 3VOT Corporation --")
+console.log("---- Clay by 3VOT ----")
 
 // *****************
 // CLI
@@ -58,15 +58,25 @@ else if( argv.h ){
     "",
     "  create                 Creates a new javascript app for Salesforce.com ",
     "",
+    "  sample                 Downloads a sample app for clay.",
+    "",
     "  server                 Create a development server. Local or inserted in Salesforce.",
-    ""
+    "",
+    "  upload                 Uploads and publishes the app to your Salesforce account.",
+    "",
+    "  build                  Builds the development version of the app (used in manual operations)",
+    "",
+    "  install                Installs the NPM and Bower dependencies of the app (used in manual operations)",
+    "",
+    
     "Utilities:",
     "",
-    "  setup --c              Updates Salesforce Credentials",
+    "  setup --c              Updates Salesforce Credentials. This can be used instead of setup, for update.",
     "",
     "  server --app appname   Runs a development server inserted in Salesforce. Appname is required. ",
-    "  command -d             Runs command in debug mode, showing all console outputs",
-    ""
+    "",
+    "  command -d             Runs the specified command in debug mode, showing all console outputs",
+    "",
     "Options:",
 
     "  -h                     help information",
@@ -95,7 +105,7 @@ else{
   else if( argv._.indexOf("install") > -1 ){ App.install(callback); }
   else if( argv._.indexOf("build") > -1 ){ App.build(callback); }
 
-  else if( argv._.indexOf("example") > -1 ){ App.template(callback); }
+  else if( argv._.indexOf("sample") > -1 ){ App.template(callback); }
   else if( argv._.indexOf("copy") > -1 ){ App.download(callback); }
 
   else{    
