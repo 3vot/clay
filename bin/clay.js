@@ -54,20 +54,23 @@ else if( argv.h ){
     "",
     "Commands:",
     "",
-    "  setup         Builds the project folder and installs all dependencies",
+    "  setup                  Builds the project folder and installs all dependencies",
     "",
-    "  create          Creates a new javascript app for Salesforce.com ",
+    "  create                 Creates a new javascript app for Salesforce.com ",
     "",
-
+    "  server                 Create a development server. Local or inserted in Salesforce.",
+    ""
     "Utilities:",
     "",
-    "   credentials    Updates Salesforce Credentials",
+    "  setup --c              Updates Salesforce Credentials",
     "",
+    "  server --app appname   Runs a development server inserted in Salesforce. Appname is required. ",
+    "  command -d             Runs command in debug mode, showing all console outputs",
+    ""
     "Options:",
 
-    "  -d               run in debug mode, showing all console output",
-    "  -h               help information",
-    "  -v               output the version number"
+    "  -h                     help information",
+    "  -v                     output the version number"
 
   ].join("\n")
   console.log( help );
