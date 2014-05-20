@@ -60,7 +60,7 @@ function uploadApps(){
       user_name: promptOptions.user_name, 
       target: "localhost" 
     })
-    return Upload( { app_name: promptOptions.app_name, session: tempVars.session, page: page} )
+    return Upload( { target: "localhost", app_name: promptOptions.app_name, session: tempVars.session, page: page} )
   }
 
   else{
