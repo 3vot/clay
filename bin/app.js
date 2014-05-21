@@ -18,10 +18,10 @@ function static(callback){
     { name: 'app_name', description: 'App Name ( The name of the app you want to create )' } ], 
     function (err, result) {
       result.static = true;
-      Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
+      Log.info("---- Clay by 3VOT ----")
       LoadPackage(result)
       .then( Create )
-      .then( function(){ Log.info("OK. The App was created. To preview locally type: 3vot server "); } )
+      .then( function(){ Log.info("Your app was created. To preview locally run: clay server "); } )
       .then( function(){ return Stats.track("app:static", result ) } )
       .then( function(){ if(callback) return callback(); })
       .fail( function(err){  Log.error(err, "./prompt/app",27); });  
@@ -35,11 +35,11 @@ function create(callback){
     { name: 'app_name', description: 'App Name: ( only lowercase letters and numbers )' } 
 		], 
     function (err, result) {
-      Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
+      Log.info("---- Clay by 3VOT ----")
 
       LoadPackage(result)
       .then( Create )
-      .then( function(){ Log.info("OK. The App was created. To run locally type: clay server -app " + result.app_name); } )
+      .then( function(){ Log.info("OK. App " + result.app_name " was created. To preview locally run: clay server"); } )
       .then( function(){ return Stats.track("app:create", result ) } )
       .then( function(){ if(callback) return callback(); })
       .fail( function(err){  Log.error(err, "./prompt/app",41); });
@@ -53,11 +53,11 @@ function download(callback){
     { name: 'app_name', description: 'App: ( The App you want to Download )' },
     { name: 'app_version', description: 'Version: ( The App version, hit enter for latest )' } ], 
     function (err, result) {
-      Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
+      Log.info("---- Clay by 3VOT ----")
 
       LoadPackage(result)
       .then( Download )
-      .then( function(){ Log.info("The App was downloaded. To preview locally type: clay develop " + result.app_name); } )
+      .then( function(){ Log.info("The App was downloaded. To preview locally type: clay server "); } )
       .then( function(){ return Stats.track("app:download", result ) } )
       .then( function(){ if(callback) return callback(); })
       .fail( function(err){  Log.error(err, "./prompt/app", 69 ); });  
