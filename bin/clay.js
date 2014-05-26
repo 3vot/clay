@@ -58,8 +58,6 @@ else if( argv.h ){
     "",
     "  create                 Creates a new javascript app for Salesforce.com ",
     "",
-    "  sample                 Downloads a sample app for clay.",
-    "",
     "  server                 Create a development server. Local or inserted in Salesforce.",
     "",
     "  upload                 Uploads and publishes the app to your Salesforce account.",
@@ -101,12 +99,11 @@ else{
     ClayOperations.upload(callback); 
   }
   
-  else if( argv._.indexOf("create") > -1 ){ App.create(callback); }
-  else if( argv._.indexOf("install") > -1 ){ App.install(callback); }
-  else if( argv._.indexOf("build") > -1 ){ App.build(callback); }
+  else if( argv._.indexOf("create") > -1 ){ App.template(argv.app); }
+  else if( argv._.indexOf("install") > -1 ){ App.install(argv.app); }
+  else if( argv._.indexOf("build") > -1 ){ App.build(argv.app); }
 
-  else if( argv._.indexOf("sample") > -1 ){ App.template(callback); }
-  else if( argv._.indexOf("copy") > -1 ){ App.download(callback); }
+  else if( argv._.indexOf("copy") > -1 ){ App.download(argv.app); }
 
   else{    
     Log.info("Command not found: Use clay -h for help", "bin/3cli", 124)
