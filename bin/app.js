@@ -18,7 +18,7 @@ function promptOrResult( app_name, callback, prompts ){
   if(!app_name) prompts.push({ name: 'app_name', description: 'App Name ( The name of the app )' } )
   prompts.reverse();
   prompt.get(prompts , function(err, result){
-    if(app_name) result.app_name = app_name;
+    if(!result.app_name) result.app_name = app_name;
     callback(err, result)
   });
 }
@@ -47,19 +47,20 @@ function template(app_name){
   
    var prompts = [ ];
   if(!app_name){
-    prompts = [ { name: 'app_new_name', description: 'Name: ( What you want to name your app ) *enter for same' } ];
     app_name = "clay_multi_platform";
+    prompts = [ { name: 'app_new_name', description: 'Name: ( '+app_name+' )' } ];
   }
   else{
     prompts = [ 
-      { name: 'app_new_name', description: 'Name: ( What you want to name your app ) * Enter for 
-      ' },
-      { name: 'app_version', description: 'Version: ( The App version ) * Enter for latest )' }
+      { name: 'app_new_name', description: 'Name: ( '+ app_name +' )' },
+      { name: 'app_version', description: 'Version: ( latest )' }
     ]
   }
 
   function onResult(err, result) {
       result.app_user_name = "template"
+      if(!result.app_new_name) result.app_new_name = app_name;
+
       Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
 
       LoadPackage(result)
@@ -74,7 +75,7 @@ function template(app_name){
 
 function publish(app_name){
   var prompts = [ 
-    { name: 'app_version', description: 'Version: ( The Version of the App you want to publish, enter for latest )' } ]
+    { name: 'app_version', description: 'Version: ( latest )' } ]
 
   function onResult(err, result) {
       Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
@@ -92,7 +93,7 @@ function publish(app_name){
 function publishAsMain(app_name){
   
   var prompts = [ 
-    { name: 'version', description: 'Version: ( The Version of the App you want to publish, enter for latest )' } ];
+    { name: 'version', description: 'Version: ( latest )' } ];
     
   function onResult(err, result) {
     result.isMain = true;

@@ -37,7 +37,7 @@
     "mkpath": "~0.1.0",
     "mixpanel": "0.0.19",
     "async": "^0.8.0",
-    "3vot-cloud": "0.0.10"
+    "3vot-cloud": "0.0.11"
   },
   "testDependencies": {
     "rimraf": "~2.2.6",
