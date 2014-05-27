@@ -26,12 +26,16 @@ var tempVars = {
 function loadData(){
   var _3votJSON = require( Path.join( process.cwd(), "3vot.json" ) );
 
+
   if(promptOptions.password){
     tempVars.salesforce.user_name = encrypt.show(_3votJSON.salesforce.user_name, promptOptions.password);
     tempVars.salesforce.key = encrypt.show(_3votJSON.salesforce.key, promptOptions.password); 
     tempVars.salesforce.password = promptOptions.password;
     //FOR ENCODED SESSION promptOptions.salesforce.session = encrypt.show(promptOptions.salesforce.session, promptOptions.salesforce.password); 
   }
+
+
+
 }
 
 function execute(options){
@@ -51,7 +55,7 @@ function login(){
 
   Log.debug("Performing Login", "actions/salesforce/login", 109)
   Log.info("We are Loging in to Salesforce with your Credentials.")
-  
+
   deferred = Q.defer();
 
   var url = "https://login.salesforce.com/services/oauth2/token";
@@ -62,6 +66,7 @@ function login(){
     username: tempVars.salesforce.user_name,
     password: tempVars.salesforce.password + tempVars.salesforce.key
   }
+
 
   var req = request.post(url).type("application/x-www-form-urlencoded").send(body)
   req.end(function(err,res){

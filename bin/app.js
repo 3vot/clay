@@ -65,7 +65,7 @@ function template(app_name){
 
       LoadPackage(result)
       .then( Download )
-      .then( function(){ Log.info("OK. The App Template was downloaded. To preview locally type: 3vot server "); } )
+      .then( function(){ Log.info("OK. The App Template was downloaded. To preview locally type: clay server "); } )
       .then( function(){ return Stats.track("app:template", result ) } )
       .fail( function(err){  Log.error(err, "./prompt/app", 82 ); });  
    };

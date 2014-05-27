@@ -33,10 +33,10 @@ function execute(options){
 	return deferred.promise;
 }
 
-function login(){
+function login(options){
   var deferred = Q.defer();
 
-  Login(promptOptions)
+  Login(options)
   .then( function(session){
     tempVars.session = session;
     return deferred.resolve();

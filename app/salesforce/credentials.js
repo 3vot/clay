@@ -27,6 +27,7 @@ function scaffold(){
   Log.debug("Scaffolding Projects", "actions/profile_setup", 52);
   var deferred = Q.defer();
 
+
     var _3votJSON = require(  Path.join( process.cwd(), "3vot.json" ));
     
     _3votJSON.salesforce = {
