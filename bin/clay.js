@@ -62,6 +62,8 @@ else if( argv.h ){
     "",
     "  upload                 Uploads and publishes the app to your Salesforce account.",
     "",
+    "  download               Downloads and app from a Profile",
+    "",    
     "  build                  Builds the development version of the app (used in manual operations)",
     "",
     "  install                Installs the NPM and Bower dependencies of the app (used in manual operations)",
@@ -95,15 +97,15 @@ else{
     ClayOperations.develop(cliOptions); 
   }
 
-  else if( argv._.indexOf("upload") > -1 ){ 
-    ClayOperations.upload(callback); 
-  }
+  else if( argv._.indexOf("upload") > -1 ){  ClayOperations.upload(argv.app); }
+  
+  else if( argv._.indexOf("download") > -1 ){ App.download(argv.app); }
   
   else if( argv._.indexOf("create") > -1 ){ App.template(argv.app); }
   else if( argv._.indexOf("install") > -1 ){ App.install(argv.app); }
   else if( argv._.indexOf("build") > -1 ){ App.build(argv.app); }
 
-  else if( argv._.indexOf("copy") > -1 ){ App.download(argv.app); }
+
 
   else{    
     Log.info("Command not found: Use clay -h for help", "bin/3cli", 124)

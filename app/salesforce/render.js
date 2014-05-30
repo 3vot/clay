@@ -30,7 +30,7 @@ function renderPage(options){
     throw "App " + promptOptions.app_name + " not found. Did you create it? Create an app or template before we can send it to salesforce."
   }
 
-  var headProbablePath = Path.join( process.cwd(), "apps", promptOptions.app_name, "templates","head.html" );
+  var headProbablePath = Path.join( process.cwd(), "apps", promptOptions.app_name, "code","views","head.html" );
   var head = ""
   try{ head = fs.readFileSync( headProbablePath, "utf-8") }catch(err){}
   var result = eco.render(app, { pck: package_json, user_name: promptOptions.user_name, head: head, show_header: promptOptions.show_header } );

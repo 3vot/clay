@@ -54,6 +54,8 @@ function credentials(callback){
 
 
 function develop( cliOptions ){
+  Log.setLevel("DEBUG2");
+
   var options = [ 
     { name: 'password', description: 'Salesforce Password:' , hidden: true }
   ]
