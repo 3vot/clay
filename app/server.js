@@ -5,7 +5,6 @@ var http = require('http');
 var https = require('https');
 var url = require("url");
 var prompt = require("prompt")
-var _3vot = require("3vot")
 var argv = require('optimist').argv;
 var request = require("superagent")
 var devDomain = null;
