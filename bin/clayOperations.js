@@ -2,6 +2,7 @@ var prompt = require("prompt")
 var LoadPackage = require("3vot-cloud/utils/package_loader")
 var Setup = require("../app/actions/prepare")
 var Dev = require("../app/actions/dev")
+var Create = require("3vot-cloud/app/create")
 
 var Send = require("../app/actions/send")
 var Credentials = require("../app/salesforce/credentials")
@@ -12,13 +13,38 @@ var Log = require("3vot-cloud/utils/log")
 var Packs = require("3vot-cloud/utils/packs")
 
 
-function prepare(callback){
+
+function create(callback){
+  prompt.start();
+  prompt.get( [ 
+    { name: 'user_name', description: 'Profile Name: ( only lowercase letters, numbers, and lowdash _ )' }, 
+    { name: 'email', description: 'Email:' } ],
+    function (err, result) {
+      result.name = "";
+      Log.setUsername(result.user_name)
+      Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
+      Create(result)
+      .then( function(promptOptions){
+        Stats.register( result )
+        Log.info("Clay created your profile and it's ready to use.")
+        if(callback) return callback(result);
+      })
+    .fail( function(err){  Log.error(err, "./prompt/profile",43); });
+  });
+}
+
+function prepare(callback, user_name, key){
   var options = [ 
-    { name: 'user_name', description: 'Account Name:' },
-    { name: 'key', description: 'Developer Key:' },
     { name: 'email', description: 'Salesforce Username:' },
     { name: 'password', description: 'Salesforce Password:' , hidden: true },
     { name: 'token', description: 'Salesforce Security Token:' } ];
+
+    if(!user_name && !key){
+      options = [ 
+        { name: 'user_name', description: 'Profile Name:' },
+        { name: 'key', description: 'Developer Key:' }
+      ].concat(options);
+    }
   
   prompt.start();
   prompt.get( options, function (err, result) {
@@ -93,5 +119,6 @@ module.exports = {
   prepare: prepare,
   develop: develop,
   upload: upload,
-  credentials: credentials
+  credentials: credentials,
+  create: create
 }

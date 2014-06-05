@@ -1,6 +1,6 @@
 {
   "name": "clay-cli",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "3VOT Command Line Interface to run development task from the command line.",
   "main": "bin/clay.js",
   "bin": {
@@ -36,7 +36,7 @@
     "mkpath": "~0.1.0",
     "mixpanel": "0.0.19",
     "async": "^0.8.0",
-    "3vot-cloud": "0.0.14"
+    "3vot-cloud": "0.0.16"
   },
   "testDependencies": {
     "rimraf": "~2.2.6",

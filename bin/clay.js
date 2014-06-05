@@ -87,7 +87,10 @@ else if( argv.h ){
 }
 else{
 
-  if( argv._.indexOf("setup") > -1 && argv.c){ ClayOperations.credentials(); }
+  if( argv._.indexOf("register") > -1 ){ ClayOperations.create(); }
+
+
+  else if( argv._.indexOf("setup") > -1 && argv.c){ ClayOperations.credentials(); }
 
   else if( argv._.indexOf("setup") > -1 ){ ClayOperations.prepare(); }
 
