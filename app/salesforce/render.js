@@ -33,7 +33,7 @@ function renderPage(options){
   var headProbablePath = Path.join( process.cwd(), "apps", promptOptions.app_name, "code","views","head.html" );
   var head = ""
   try{ head = fs.readFileSync( headProbablePath, "utf-8") }catch(err){}
-  var result = eco.render(app, { pck: package_json, user_name: promptOptions.user_name, head: head, show_header: promptOptions.show_header } );
+  var result = eco.render(app, { pck: package_json, user_name: promptOptions.user_name, head: head, show_header: promptOptions.show_header, unmanned: promptOptions.unmanned } );
 
 
   result = Transform[promptOptions.target](result, promptOptions.user_name, promptOptions.app_name, promptOptions.domain )

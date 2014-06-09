@@ -91,7 +91,7 @@ function develop( cliOptions ){
     result.app_name = cliOptions.app_name
 
     result = Packs._3vot(result);
-    
+    result.unmanned = cliOptions.unmanned
     Dev(result)
     .then( function(){ return Stats.track("site:server") } )
     .fail( function(err){ Log.error(err, "./prompt/profile",43); } );
@@ -108,7 +108,8 @@ function upload( cliOptions ){
   prompt.get( options, function (err, result) {
 
     result = Packs._3vot(result);
-    
+    result.unmanned = cliOptions.unmanned
+
     Send(result)
     .then( function(){ return Stats.track("site:server") } )
     .fail( function(err){ Log.error(err, "./prompt/profile",43); } );

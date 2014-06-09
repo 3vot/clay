@@ -12,7 +12,8 @@ var promptOptions = {
   user_name: null,
   password: null,
   app_name: null,
-  target: null
+  target: null,
+  unmanned: null
 }
 
 var tempVars = {
@@ -20,17 +21,17 @@ var tempVars = {
 }
 
 function execute(options){
-	var deferred = Q.defer();
-	promptOptions = options;
+  var deferred = Q.defer();
+  promptOptions = options;
 
 
-	login( { password: promptOptions.password } )
-	.then( uploadApps )
-	.then( launchServer )
-	.then( deferred.resolve )
-	.fail( deferred.reject );
+  login( { password: promptOptions.password } )
+  .then( uploadApps )
+  .then( launchServer )
+  .then( deferred.resolve )
+  .fail( deferred.reject );
 
-	return deferred.promise;
+  return deferred.promise;
 }
 
 function login(options){
@@ -58,7 +59,8 @@ function uploadApps(){
       app_name: promptOptions.app_name, 
       show_header: false, 
       user_name: promptOptions.user_name, 
-      target: "localhost" 
+      target: "localhost" ,
+      unmanned: promptOptions.unmanned
     })
     return Upload( { target: "localhost", app_name: promptOptions.app_name, session: tempVars.session, page: page} )
   }

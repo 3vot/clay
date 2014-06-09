@@ -14,7 +14,9 @@ var promptOptions = {
   user_name: null,
   password: null,
   app_name: null,
-  target: null
+  target: null,
+  unmanned: null
+
 }
 
 var tempVars = {
@@ -63,7 +65,8 @@ function uploadVisualforce(){
     app_name: promptOptions.app_name, 
     show_header: false, 
     user_name: promptOptions.user_name, 
-    target: "production" 
+    target: "production",
+    unmanned: promptOptions.unmanned
   })
 
   return UploadVisualForce( { app_name: promptOptions.app_name, session: tempVars.session, page: page} )

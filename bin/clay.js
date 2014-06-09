@@ -80,7 +80,9 @@ else if( argv.h ){
     "Options:",
 
     "  -h                     help information",
-    "  -v                     output the version number"
+    "  -v                     output the version number",
+    "  -d                     verbose",
+    "  -unmanned              use an unmanned salesforce package"
 
   ].join("\n")
   console.log( help );
@@ -97,10 +99,12 @@ else{
   else if( argv._.indexOf("server") > -1 ){ 
     var cliOptions = {};
     if(argv.app) cliOptions.app_name = argv.app
+    if(argv.unmanned) cliOptions.unmanned = true
+
     ClayOperations.develop(cliOptions); 
   }
 
-  else if( argv._.indexOf("upload") > -1 ){  ClayOperations.upload(argv.app); }
+  else if( argv._.indexOf("upload") > -1 ){  ClayOperations.upload({ app: argv.app, unmanned: argv.unmanned } ); }
   
   else if( argv._.indexOf("download") > -1 ){ App.download(argv.app); }
   
