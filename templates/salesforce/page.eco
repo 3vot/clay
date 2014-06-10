@@ -1,4 +1,4 @@
-<apex:page sidebar="false" showHeader="<%= @show_header || true %>" controller="<%= if(!@unmanned) then "threevot" %>ThreeVotApiController">
+<apex:page sidebar="false" showHeader="<%= @show_header || true %>" controller="<%= if(!@unmanned) then "threevot" %>.ThreeVotApiController">
 
   <%- @head %>
   
