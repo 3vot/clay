@@ -37,18 +37,24 @@ function execute(options){
 function login(options){
   var deferred = Q.defer();
 
-  Login(options)
-  .then( function(session){
-    tempVars.session = session;
-    return deferred.resolve();
-  })
-  .fail( deferred.reject )
+  if(!promptOptions.password){
+    process.nextTick( deferred.resolve )
+  }
+  else{
+    Login(options)
+    .then( function(session){
+      tempVars.session = session;
+      return deferred.resolve();
+    })
+    .fail( deferred.reject )
+  }
   
   return deferred.promise;
 
 }
 
 function uploadApps(){
+  var deferred = Q.defer();
 
   
   if(promptOptions.app_name){

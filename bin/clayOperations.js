@@ -1,5 +1,4 @@
 var prompt = require("prompt")
-var LoadPackage = require("3vot-cloud/utils/package_loader")
 var Setup = require("../app/actions/prepare")
 var Dev = require("../app/actions/dev")
 var Create = require("3vot-cloud/app/create")
@@ -11,6 +10,7 @@ var Path= require("path")
 var Stats = require("3vot-cloud/utils/stats")
 var Log = require("3vot-cloud/utils/log")
 var Packs = require("3vot-cloud/utils/packs")
+var colors = require('colors');
 
 
 
@@ -82,9 +82,8 @@ function credentials(callback){
 function develop( cliOptions ){
   Log.setLevel("DEBUG2");
 
-  var options = [ 
-    { name: 'password', description: 'Salesforce Password:' , hidden: true }
-  ]
+  var options = []
+  if(cliOptions.app_name) options =  [{ name: 'password', description: 'Salesforce Password:' , hidden: true }]
 
   prompt.start();
   prompt.get( options, function (err, result) {
@@ -93,6 +92,7 @@ function develop( cliOptions ){
     result = Packs._3vot(result);
     result.unmanned = cliOptions.unmanned
     Dev(result)
+    .then(function(){ console.log("\n*** FIRST TIME? VISIT: https://localhost:3000/ and Accept Security Warning ***\n".yellow) })
     .then( function(){ return Stats.track("site:server") } )
     .fail( function(err){ Log.error(err, "./prompt/profile",43); } );
   });
@@ -109,9 +109,9 @@ function upload( cliOptions ){
 
     result = Packs._3vot(result);
     result.unmanned = cliOptions.unmanned
-
     Send(result)
     .then( function(){ return Stats.track("site:server") } )
+    .then( function(){ console.log("Upload Successful") })
     .fail( function(err){ Log.error(err, "./prompt/profile",43); } );
   });
 }

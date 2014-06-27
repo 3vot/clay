@@ -5,6 +5,6 @@
   <div class="_3vot" id="_3vot_<%= @pck.name %>">
   </div>
   
-  <script src="3vot.js"></script>
+  <script src="//localhost:3000/<%= @pck.name %>/3vot.js"></script>
   
 </apex:page>

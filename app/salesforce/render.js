@@ -3,7 +3,6 @@ var Path = require("path")
 var fs = require("fs")
 var Q = require("q");
 var eco = require("eco")
-var Transform = require("3vot-cloud/utils/transform")
 
 var promptOptions = {
   user_name: null,
@@ -21,7 +20,11 @@ function renderPage(options){
     promptOptions.show_header = true;
   }else{ promptOptions.show_header = false}
 
-  var templatePath = Path.join(Path.dirname(fs.realpathSync(__filename)), '..' , ".." , 'templates',"salesforce" , "page.eco" );
+  var templateName = "page.eco"
+  if(promptOptions.target != "production") templateName = "localpage.eco"
+
+  var templatePath = Path.join(Path.dirname(fs.realpathSync(__filename)), '..' , ".." , 'templates',"salesforce" , templateName );
+  
   var app = fs.readFileSync( templatePath, "utf-8" )
 
   try{
@@ -35,11 +38,7 @@ function renderPage(options){
   try{ head = fs.readFileSync( headProbablePath, "utf-8") }catch(err){}
   var result = eco.render(app, { pck: package_json, user_name: promptOptions.user_name, head: head, show_header: promptOptions.show_header, unmanned: promptOptions.unmanned } );
 
-
-  result = Transform[promptOptions.target](result, promptOptions.user_name, promptOptions.app_name, promptOptions.domain )
-
   return result;  
-
 
 }
 

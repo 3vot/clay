@@ -9,6 +9,9 @@ var Upload = require("../app/actions/salesforce_upload")
 var Log = require("../app/utils/log")
 var Stats = require("../app/utils/stats")
 
+var Packs = require("3vot-cloud/utils/packs")
+
+
 function upload(callback){
   prompt.start();
   prompt.get( 
@@ -18,8 +21,9 @@ function upload(callback){
      ],
     function (err, result) {
       result.target = "production"
-      LoadPackage(result)
-      .then( AppUpload )
+
+      result = Packs._3vot(result);
+      AppUpload(result)
       .then( function(){ return Upload(result) } )
       .then( function(){ Log.info("Salesforce Setup Succesfull"); } )
       .then( function(){ return Stats.track("salesforce:upload", result ) } )
@@ -38,8 +42,9 @@ function dev(callback){
      ],
     function (err, result) {
       result.target = "localhost"
-      LoadPackage(result)
-      .then( Upload )
+      result = Packs._3vot(result);
+
+      Upload(result)
       .then( function(){ Log.info( "Salesforce Development App Published Succesfully" ); } )
       .then( function(){ return Stats.track("salesforce:dev", result ) } )
       .then( function(){ if(callback) return callback(); })

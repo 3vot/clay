@@ -8,12 +8,17 @@ var prompt = require("prompt")
 var argv = require('optimist').argv;
 var request = require("superagent")
 var devDomain = null;
+var _3vot = require("3vot/utils")
+var send = require('send');
+
+var mime = require('mime');
 
 var Server = {}
 var Builder = require("3vot-cloud/utils/builder");
-var Transform = require("3vot-cloud/utils/transform")
 var WalkDir = require("3vot-cloud/utils/walk")
 var AppBuild = require("3vot-cloud/app/build")
+
+var Q = require("q")
 
 var Log = require("3vot-cloud/utils/log")
 
@@ -34,121 +39,107 @@ var profile = pck.user_name;
 // all environments
 app.set('port', 3000);
 app.disable('etag');
+app.enable('strict routing');
+
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 
 
-app.get("/", function(req,res){
-  res.send("<h1>Congratulations 3VOT Local Server is Running</h1><h2>Now head to your app @ /YOURORG/YOURAPP</h2>");
-});
+  app.get("/", function(req,res){
+    res.send("<h1>Congratulations CLAY Local Server is Running</h1>");
+  });
 
-app.get("/" + profile  + "/:app_name/assets/:folder/:asset", function(req, res) {
-  var asset = req.params.asset;
-  var app_name = req.params.app_name;
-  var folder_name = req.params.folder;
-  var filePath = Path.join(  process.cwd() , "apps", app_name, "app", "assets", folder_name, asset );
-  res.sendfile(filePath);
-});
-
-app.get("/" + profile  + "/:app_name/assets/:asset", function(req, res) {
-  var asset = req.params.asset;
-  var app_name = req.params.app_name;
-  var filePath = Path.join(  process.cwd() , "apps", app_name, "app", "assets", asset );
-  res.sendfile(filePath);
-});
-
-app.get("/" + profile  + "/dependencies/:name", function(req, res) {
-  res.setHeader("Content-Type", "text/javascript");
-
-  fs.readFile( Path.join( process.cwd(), "apps", "dependencies", req.params.name ) , 
-    function(err, file){
-      if(err){
-        //get App Name From req.Host
-        var urlParts = req.headers.referer.split("/")
-        var app_name = ""
-        if( urlParts[ urlParts.length -1 ] === "" ){
-          app_name = urlParts[ urlParts.length -2 ]
-        }
-        else{
-          app_name = urlParts[ urlParts.length -1 ]
-        }
-        
-        return res.redirect("/" + profile + "/dependencies/" + app_name +  "/build");
-      }
-      return res.send(file);    
-    }
-  );
-});
-
-app.get("/" + profile  + "/dependencies/:app_name/build", 
-  function(req, res) {
-    res.setHeader("Content-Type", "text/javascript");
-    var app_name = req.params.app_name
-    Builder.buildDependency( app_name )
-    .then( 
-      function( contents ){
-        return res.send(contents);
-      } 
-    );
-  }
-);
-
-app.get("/" + profile  + "/:app_name/:entry", function(req, res) {
-  function sendEntry(req, res){
-    res.setHeader('if-none-match' , 'no-match-for-this');
-    var entry = req.params.entry;
+  app.get("/:app_name/:file", function(req, res) {
+    var asset = req.params.asset;
     var app_name = req.params.app_name;
-    var filePath = Path.join(  process.cwd() , "apps", app_name, "app", entry );
-    res.sendfile(filePath);    
-  }
-  
-  if ( Date.now() - ( Server.lastBuild || 0 ) < 5 * 1000 ){
-    Log.debug("Entry was just build by html route, not building entry", "actions/server", 127)
-    return sendEntry(req, res)
-  }
-  
-  var app_name = req.params.app_name;
-  AppBuild( app_name, "localhost", false, Server.domain )
-  .then( function(){ 
-    sendEntry(req,res);
-  }).fail( function(err){ Log.error(err, "actions/server", 135); res.send( err.toString(), 500 ) });
-  
-});
+    var file = req.params.file;
+    return middleware(app_name, file, req,res)
+  });
 
-// Route for Main App, did this to simplify tranforms. Could also request via domain, but hack is worst
-app.get("/" + profile  + "/stores.json", function(req, res) {
-  request.get("http://3vot.com/" + profile  + "/stores.json").end( function(err, httpResponse){
-    if(err) return res.send(500, err)
-    if(res.status >= 400) return res.send(500, res.text )
-    res.send( httpResponse.body )
-  })
-});
+  app.get("/:app_name/assets/:asset", function(req, res) {
+    var asset = req.params.asset;
+    var app_name = req.params.app_name;
+    var filePath = Path.join(  process.cwd() , "apps", app_name, "app", "assets", asset );
+    
+    var isText = null;
+    if( filePath.indexOf(".js") > -1 || filePath.indexOf(".css") > -1 || filePath.indexOf(".html") > -1){
 
-app.get("/" + profile  + "/:app_name", function(req, res) {
-  var app_package;
-  var app_name = req.params.app_name
-  try{
-    app_package = require(Path.join(  process.cwd() , "apps", app_name, "package.json") );
-  }catch(err){
-    Log.error(err, "actions/server", 154)
-    return res.send("App " + app_name + " Not found in " + profile)
-  }
+      isText = "utf-8"
 
-  AppBuild( app_name, "localhost", false, Server.domain )
-  .then( function(){
-    Server.lastBuild = Date.now();
-    var filePath = Path.join(  process.cwd() , "apps", app_name, "app", "index.html");
-    res.sendfile(filePath)
-  })
-  .fail( function(err){ Log.error(err, "actions/server", 164); res.send( err.toString(), 500 ) });
+      var file = fs.readFileSync(filePath,isText)
+      file = _3vot.replaceAll(file, "*/assets", "https://localhost:3000/" + app_name + "/assets");
+    
+      res.set('Content-Type', mime.lookup(filePath) );
+      res.send(file);
+    }
+    else{ res.sendfile(filePath) }
 
-});
+  });
 
 https.createServer(sslOptions, app).listen(app.get('port'), function(){
   console.info('3VOT Server running at:  https://' + Server.domain );
 }); 
+
+
+function middleware(app_name,file_name,req, res) {
+ 
+  checkApp(app_name)
+  .then(function(){ buildApp(app_name); })
+  .then(function(){
+
+    var filePath = Path.join(  process.cwd() , "apps", app_name, "app", file_name );
+
+    var fileBody = fs.readFileSync(filePath,"utf-8")
+
+    if(file_name == "3vot.js") fileBody = fileBody.replace("fileToCall + '.js?'", "'https://localhost:3000/" + app_name + "/' + fileToCall + '.js?'" );
+    else fileBody = _3vot.replaceAll(fileBody, "*/assets", "https://localhost:3000/" + app_name + "/assets");
+
+    res.set('Content-Type', mime.lookup(filePath) );
+
+    res.send(fileBody);
+
+  })
+  .fail(function(err){
+    Log.error(err);
+    res.send( err, 500 );
+  })
+};
+
+function checkApp(app_name){
+  var deferred = Q.defer();
+  process.nextTick(function(){
+    try{
+      app_package = require(Path.join(  process.cwd() , "apps", app_name, "package.json") );
+      deferred.resolve(app_name)
+    }catch(err){
+      Log.error(err, "actions/server", 154)
+      deferred.reject("App " + app_name + " Not found in ")
+    } 
+  });
+  return deferred.promise; 
+}
+
+function buildApp(app_name){
+  var deferred = Q.defer();
+
+  Log.debug(app_name,"build app")
+
+  AppBuild( app_name, "localhost", false, Server.domain )
+  .then( function(){
+    Server.lastBuild = Date.now();
+    deferred.resolve(app_name);
+  })
+  .fail( function(err){ 
+    Log.error(err, "actions/server", 164); 
+    deferred.reject(err);
+  });
+
+  return deferred.promise;
+};
+
+
 
 
 module.exports = Server

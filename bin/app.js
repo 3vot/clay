@@ -1,5 +1,4 @@
 var prompt = require("prompt")
-var LoadPackage = require("3vot-cloud/utils/package_loader")
 
 var Download = require("3vot-cloud/app/download")
 var Upload =   require("3vot-cloud/app/upload")
@@ -8,6 +7,7 @@ var Publish =  require("3vot-cloud/app/publish")
 var Install =  require("3vot-cloud/app/install")
 var Log =      require("3vot-cloud/utils/log")
 var Stats =    require("3vot-cloud/utils/stats")
+var Packs =    require("3vot-cloud/utils/packs")
 
 function promptOrResult( app_name, callback, prompts ){
  if(!prompts) prompts = []
@@ -33,8 +33,9 @@ function download(app_name){
   function onResult(err, result) {
     Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
 
-    LoadPackage(result)
-    .then( Download )
+    result = Packs._3vot(result);
+
+    Download(result)
     .then( function(){ Log.info("OK. The App was downloaded. To preview locally type: 3vot server "); } )
     .then( function(){ return Stats.track("app:download", result ) } )
     .fail( function(err){  Log.error(err, "./prompt/app", 69 ); });
@@ -63,8 +64,10 @@ function template(app_name){
 
       Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
 
-      LoadPackage(result)
-      .then( Download )
+      result = Packs._3vot(result);
+
+
+      Download(result)
       .then( function(){ Log.info("OK. The App Template was downloaded. To preview locally type: clay server "); } )
       .then( function(){ return Stats.track("app:template", result ) } )
       .fail( function(err){  Log.error(err, "./prompt/app", 82 ); });  
@@ -80,8 +83,9 @@ function publish(app_name){
   function onResult(err, result) {
       Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
 
-      LoadPackage(result)
-      .then( Publish )
+      result = Packs._3vot(result);
+
+      Publish(result)
       .then( function(){ Log.info("OK. The App was published"); } )
       .then( function(){ return Stats.track("app:publish", result ) } )
       .fail( function(err){ Log.error(err, "./prompt/app",96 ); });
@@ -99,8 +103,9 @@ function publishAsMain(app_name){
     result.isMain = true;
     Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
     
-    LoadPackage(result)
-    .then( Publish )
+    result = Packs._3vot(result);
+
+    Publish(result)
     .then( function(){ Log.info("OK. The App was published"); } )
     .then( function(){ return Stats.track("app:publish:main", result ) } )
     .fail( function(err){ Log.error(err, "./prompt/app",111 ); });
@@ -114,8 +119,9 @@ function upload(app_name){
   function onResult(err, result) {
     Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
 
-    LoadPackage(result)
-    .then( Upload )
+    result = Packs._3vot(result);
+
+    Upload(result)
     .then( function(){ Log.info("OK. The App was uploaded."); } )
     .then( function(){ return Stats.track("app:upload", result ) } )
     .fail( function(err){ Log.error(err, "./prompt/app",146 ); });
@@ -130,8 +136,10 @@ function install(app_name){
   function onResult(err, result) {
     Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
 
-    LoadPackage(result)
-    .then( Install )
+    result = Packs._3vot(result);
+
+
+    Install(result)
     .then( function(){ Log.info("OK. The App was installed"); } )
     .then( function(){ return Stats.track("app:install", result ) } )
     .fail( function(err){ Log.error(err, "./prompt/app",140 ); });

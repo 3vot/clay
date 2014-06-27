@@ -8,6 +8,9 @@ var Render = require("../salesforce/render");
 var Log = require("3vot-cloud/utils/log")
 
 var UploadApp = require("3vot-cloud/app/upload")
+var UploadStatic = require("../salesforce/staticUpload")
+
+var App = require("3vot-cloud/models/app")
 
 var promptOptions = {
   public_dev_key: null,
@@ -30,6 +33,7 @@ function execute(options){
 
   login( { password: promptOptions.password } )
   .then( uploadApp )
+  .then( uploadStatic )  
   .then( uploadVisualforce )
   .then( deferred.resolve )
   .fail( deferred.reject );
@@ -52,12 +56,20 @@ function login(){
 }
 
 function uploadApp(){
-  return UploadApp(promptOptions)
+    //promptOptions.paths: null,
+    //key: null,
+    //uploadSource: true
+  promptOptions.uploadApp = false;
+  return UploadApp(promptOptions);
+}
 
+function uploadStatic(app){
+  app = App.find(app.id)
+  return UploadStatic( { app_name: promptOptions.app_name, session: tempVars.session, version: app.version } )
 }
 
 function uploadVisualforce(){
-
+console.log("ok")
   var idParts = tempVars.session.id.split("/")
   var orgId = idParts[idParts.length - 2 ]
 

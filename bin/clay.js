@@ -14,6 +14,7 @@ var _3Model = require("3vot-model")
 
 var Log = require("3vot-cloud/utils/log")
 var Stat = require("3vot-cloud/utils/stats")
+var Packs =    require("3vot-cloud/utils/packs")
 
 var App = require("./app")
 
@@ -23,7 +24,8 @@ Log.setLevel("INFO");
 
 _3Model.Model.host = "http://threevot-api.herokuapp.com/v1"
 
-Log.debug("LOAD PACKAGE CAN INCLUDE OPTIONS TO LOAD 3VOT or APP PACKAGE AUTOMATICALLY AND DONT DO IT IN ACTIONS", "bin/cli", 36)
+Stat.setup("53ac8179d97b856681000000","b58de1794216364dc655f61975b7879b20c2e201c815da5e493175dd2f74b9c92f3ad29b1480640fa6a27e89be0e534e9d204b56b55c50e26cd7cd86452947bdbb10c341913e2061e0396562e3c61215671396d6e73cea908f5591e332980b8ca873d463576f4921bb76a5e6fdd8856f")
+
 console.log("---- Clay by 3VOT ----")
 
 // *****************

@@ -13,9 +13,9 @@ var profile = {};
 
 var promptOptions = {
   key: null,
-	email: null,
-	password: null,
-	token: null
+  email: null,
+  password: null,
+  token: null
 }
 
 var tempVars = {
@@ -23,13 +23,13 @@ var tempVars = {
 }
 
 function execute(options){
-	var deferred = Q.defer();
-	promptOptions = options;
-	scaffold()
-	.then( Install.installNPM )
-	.then (function(){ return deferred.resolve(promptOptions) })
-	.fail( function(err){ return deferred.reject(err) } );
-	return deferred.promise;
+  var deferred = Q.defer();
+  promptOptions = options;
+  scaffold()
+  .then( Install.installNPM )
+  .then (function(){ return deferred.resolve(promptOptions) })
+  .fail( function(err){ return deferred.reject(err) } );
+  return deferred.promise;
 }
 
 function scaffold(){
