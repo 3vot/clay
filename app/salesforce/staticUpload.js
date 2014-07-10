@@ -1,9 +1,11 @@
 var fs = require('fs');
-var path = require("path")
+var Path = require("path")
 var archiver = require('archiver');
 var request = require("superagent")
 var fs = require("fs")
 var Q = require("q")
+var WalkDir = require("3vot-cloud/utils/walk")
+var Transform = require("../utils/transform")
 
 var zipPath
 
@@ -16,14 +18,28 @@ var promptOptions = {
 function execute(options){
   var deferred = Q.defer();
   promptOptions = options;
-  zipPath = path.join(process.cwd(), "tmp", promptOptions.app_name + ".zip" )
+  zipPath = Path.join(process.cwd(), "tmp", promptOptions.app_name + ".zip" )
 
+  transform();
 
   packApp()
   .then( upload )
+  .then( deferred.resolve )
   .fail( deferred.reject );
 
   return deferred.promise;
+}
+
+function transform(){
+	var apps = WalkDir( Path.join( process.cwd(), "apps", promptOptions.app_name, "app" ) );
+
+  apps.forEach( function(path){
+  	var body = ""
+  	if(path.name == "3vot.js" ) body = Transform.readByType(path.path, "_3vot", {});
+  	else body = Transform.readByType(path.path, "sf", {app_name: promptOptions.app_name});
+     
+    fs.writeFileSync(path.path,body);
+	});
 }
 
 function packApp(){
@@ -32,17 +48,17 @@ function packApp(){
 	var archive = archiver('zip');
 
 	output.on('close', function() {
-		deffered.resolve()
+		return deffered.resolve()
 	});
 
 	archive.on('error', function(err) {
-	  deffered.reject(err);
+	  return deffered.reject(err);
 	})
 
 	archive.pipe(output);
 
 	archive.bulk([
-	  { expand: true, cwd: 'apps/' + promptOptions.app_name + "/app/", src: ['*.*'] }
+	  { expand: true, cwd: 'apps/' + promptOptions.app_name + "/app/", src: ['*.*','**','**/**'] }
 	]);
 
 	archive.finalize();
@@ -67,7 +83,7 @@ function upload(){
 			return deffered.reject(err);
 		}
 		if(res.body.success) return deffered.resolve(res.body);
-		deffered.reject(JSON.stringify(res.body));
+		return deffered.reject(JSON.stringify(res.body));
 	});
 
 	return deffered.promise;

@@ -10,6 +10,8 @@ var request = require("superagent")
 var devDomain = null;
 var _3vot = require("3vot/utils")
 var send = require('send');
+var rimraf = require("rimraf")
+var Transform = require("./utils/transform")
 
 var mime = require('mime');
 
@@ -17,6 +19,8 @@ var Server = {}
 var Builder = require("3vot-cloud/utils/builder");
 var WalkDir = require("3vot-cloud/utils/walk")
 var AppBuild = require("3vot-cloud/app/build")
+
+var Mock = require("./server_mock");
 
 var Q = require("q")
 
@@ -46,64 +50,57 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 
+Mock(app);
 
-  app.get("/", function(req,res){
-    res.send("<h1>Congratulations CLAY Local Server is Running</h1>");
-  });
+app.get("/", function(req,res){
+  res.send("<h1>Congratulations CLAY Local Server is Running</h1>");
+});
 
-  app.get("/:app_name/:file", function(req, res) {
-    var asset = req.params.asset;
-    var app_name = req.params.app_name;
-    var file = req.params.file;
-    return middleware(app_name, file, req,res)
-  });
+app.get("/:app_name/", function(req, res) {
+  var asset = req.params.asset;
+  var app_name = req.params.app_name;
+  var file = "index.html";
+  return middleware(app_name, file, req,res)
+});
 
-  app.get("/:app_name/assets/:asset", function(req, res) {
-    var asset = req.params.asset;
-    var app_name = req.params.app_name;
-    var filePath = Path.join(  process.cwd() , "apps", app_name, "app", "assets", asset );
-    
-    var isText = null;
-    if( filePath.indexOf(".js") > -1 || filePath.indexOf(".css") > -1 || filePath.indexOf(".html") > -1){
+app.get("/:app_name", function(req, res) {
+  var app_name = req.params.app_name
+  res.redirect("/" + app_name + "/")
+});
 
-      isText = "utf-8"
+app.get("/:app_name/:file", function(req, res) {
+  var asset = req.params.asset;
+  var app_name = req.params.app_name;
+  var file = req.params.file;
+  return middleware(app_name, file, req,res)
+});
 
-      var file = fs.readFileSync(filePath,isText)
-      file = _3vot.replaceAll(file, "*/assets", "https://localhost:3000/" + app_name + "/assets");
-    
-      res.set('Content-Type', mime.lookup(filePath) );
-      res.send(file);
-    }
-    else{ res.sendfile(filePath) }
-
-  });
+app.get("/:app_name/assets/:asset", function(req, res) {
+  var asset = req.params.asset;
+  var app_name = req.params.app_name;
+  var filePath = Path.join(  process.cwd() , "apps", app_name, "assets", asset );
+  var fileBody = Transform.readByType(filePath, "local", {app_name: app_name});
+  res.set('Content-Type', mime.lookup(filePath));
+  res.send(fileBody);
+});
 
 https.createServer(sslOptions, app).listen(app.get('port'), function(){
   console.info('3VOT Server running at:  https://' + Server.domain );
 }); 
 
 
-function middleware(app_name,file_name,req, res) {
- 
+function middleware(app_name,file_name, req, res) {
   checkApp(app_name)
-  .then(function(){ buildApp(app_name); })
+  .then(clearAppFolder)
+  .then(function(){ return buildApp(app_name); })
   .then(function(){
-
     var filePath = Path.join(  process.cwd() , "apps", app_name, "app", file_name );
-
-    var fileBody = fs.readFileSync(filePath,"utf-8")
-
-    if(file_name == "3vot.js") fileBody = fileBody.replace("fileToCall + '.js?'", "'https://localhost:3000/" + app_name + "/' + fileToCall + '.js?'" );
-    else fileBody = _3vot.replaceAll(fileBody, "*/assets", "https://localhost:3000/" + app_name + "/assets");
-
-    res.set('Content-Type', mime.lookup(filePath) );
-
-    res.send(fileBody);
-
+    var fileBody = Transform.readByType(filePath, "local", { app_name: app_name });
+    res.set('Content-Type', mime.lookup(filePath));
+    return res.send(fileBody);
   })
   .fail(function(err){
-    Log.error(err);
-    res.send( err, 500 );
+    res.send( err.stack || err.toString());
   })
 };
 
@@ -121,6 +118,17 @@ function checkApp(app_name){
   return deferred.promise; 
 }
 
+function clearAppFolder(app_name){
+  var deferred = Q.defer();
+  var path = Path.join( process.cwd(), 'apps', app_name, 'app' );
+  rimraf(path, function(err){
+    fs.mkdirSync(path);
+    fs.mkdirSync( Path.join(path,"assets") );
+    return deferred.resolve(app_name);
+  })
+  return deferred.promise;
+}
+
 function buildApp(app_name){
   var deferred = Q.defer();
 
@@ -128,18 +136,15 @@ function buildApp(app_name){
 
   AppBuild( app_name, "localhost", false, Server.domain )
   .then( function(){
-    Server.lastBuild = Date.now();
-    deferred.resolve(app_name);
+    //Server.lastBuild = Date.now();
+    return deferred.resolve(app_name);
   })
   .fail( function(err){ 
-    Log.error(err, "actions/server", 164); 
-    deferred.reject(err);
+    //Log.error(err, "actions/server", 164); 
+    return deferred.reject(err);
   });
 
   return deferred.promise;
 };
-
-
-
 
 module.exports = Server

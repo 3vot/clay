@@ -1,0 +1,1 @@
+rsync -av --exclude='./.git' ./ /Users/roberto/.nvm/v0.10.21/lib/node_modules/clay-cli --exclude='./node_modules' --exclude='./.git'

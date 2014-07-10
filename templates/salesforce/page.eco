@@ -1,10 +1,11 @@
 <apex:page sidebar="false" showHeader="<%= @show_header || true %>" controller="<%= if(!@unmanned) then "threevot" %>.ThreeVotApiController">
 
-  <%- @head %>
-  
-  <div class="_3vot" id="_3vot_<%= @pck.name %>">
-  </div>
-  
-  <script src="3vot.js"></script>
+	<script>
+		window.clay = {
+			path: "<%= "{!URLFOR($Resource." + @pck.name + "_" + @pck.threevot.version + ")}" %>"
+		}
+	</script>
+
+  <%- @body %>
   
 </apex:page>

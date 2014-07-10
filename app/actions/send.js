@@ -56,9 +56,6 @@ function login(){
 }
 
 function uploadApp(){
-    //promptOptions.paths: null,
-    //key: null,
-    //uploadSource: true
   promptOptions.uploadApp = false;
   return UploadApp(promptOptions);
 }
@@ -69,7 +66,6 @@ function uploadStatic(app){
 }
 
 function uploadVisualforce(){
-console.log("ok")
   var idParts = tempVars.session.id.split("/")
   var orgId = idParts[idParts.length - 2 ]
 
@@ -84,7 +80,5 @@ console.log("ok")
   return UploadVisualForce( { app_name: promptOptions.app_name, session: tempVars.session, page: page} )
 
 }
-
-
 
 module.exports = execute;

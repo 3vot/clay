@@ -3,6 +3,7 @@ var Path = require("path")
 var fs = require("fs")
 var Q = require("q");
 var eco = require("eco")
+var Transform = require("../utils/transform")
 
 var promptOptions = {
   user_name: null,
@@ -20,23 +21,19 @@ function renderPage(options){
     promptOptions.show_header = true;
   }else{ promptOptions.show_header = false}
 
-  var templateName = "page.eco"
-  if(promptOptions.target != "production") templateName = "localpage.eco"
+  var package_json = require( Path.join( process.cwd(), "apps", promptOptions.app_name, "package.json" )  );
+  var templatePath = Path.join(Path.dirname(fs.realpathSync(__filename)), '..' ,".." , 'templates', "salesforce", "page.eco" );
+  var htmlPath = Path.join( Path.join( process.cwd(), "apps", promptOptions.app_name, "index.html" ) );
 
-  var templatePath = Path.join(Path.dirname(fs.realpathSync(__filename)), '..' , ".." , 'templates',"salesforce" , templateName );
-  
   var app = fs.readFileSync( templatePath, "utf-8" )
 
-  try{
-    var package_json = require( Path.join( process.cwd(), "apps", promptOptions.app_name, "package.json" )  );
-  }catch(e){
-    throw "App " + promptOptions.app_name + " not found. Did you create it? Create an app or template before we can send it to salesforce."
-  }
+  var html = "";
+  if(promptOptions.target == "localhost") html = Transform["toLocal"]( fs.readFileSync( htmlPath, "utf-8" ), {user_name: promptOptions.user_name, app_name: promptOptions.app_name} )
+  else if(promptOptions.target == "production") html = Transform.transformIndex( fs.readFileSync( htmlPath, "utf-8" ), package_json);
 
-  var headProbablePath = Path.join( process.cwd(), "apps", promptOptions.app_name, "code","views","head.html" );
-  var head = ""
-  try{ head = fs.readFileSync( headProbablePath, "utf-8") }catch(err){}
-  var result = eco.render(app, { pck: package_json, user_name: promptOptions.user_name, head: head, show_header: promptOptions.show_header, unmanned: promptOptions.unmanned } );
+  html = Transform.transformBodyToDiv(html, {});
+
+  var result = eco.render(app, { pck: package_json, user_name: promptOptions.user_name, body: html, show_header: promptOptions.show_header, unmanned: promptOptions.unmanned } );
 
   return result;  
 
