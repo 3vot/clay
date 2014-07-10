@@ -1,15 +1,3 @@
-## Installation
-```
-npm install clay-cli -g
-```
-
-## Documentation
-* Requirements ( if you don't have NODEJS )
-* Getting Started in 5 Minutes: Without ClaySF || With ClaySF
-* Clay Command Line Toolkit
-* Templates & Examples
-* Build Once, deploy to Desktop & Salesforce1
-
 ### Clay is an innovation on how we build Salesforce Apps using Javascript
 
 **When I imagined Clay, I taught of the perfect developer experience**<br/>
@@ -25,6 +13,19 @@ Let us know how close we got @rodriguezartav
 **Clay is an automated Production Line of Apps**, organizations can use it to automate the production of apps. Just like a production line of cars, Clay has robots that improve manual processes and let's your org reach farther.
 
 **Clay will make you 10x Faster and 100X Happier, or we'll refund your time**
+
+
+## Installation
+```
+npm install clay-cli -g
+```
+
+## Documentation
+* Requirements ( if you don't have NODEJS )
+* Getting Started in 5 Minutes: Without ClaySF || With ClaySF
+* Clay Command Line Toolkit
+* Templates & Examples
+* Build Once, deploy to Desktop & Salesforce1
 
 ## The next generation of Javascript Apps
 Internet Users got used to the experience of Facebook, Twitter, Gmail and hundreds of the leading web apps. Business users however must conform with them old click and wait Apps where it takes ages ( and hundreds of page refreshes ) to get anything done.
