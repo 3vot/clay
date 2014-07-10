@@ -1,3 +1,15 @@
+## Instalation
+'''
+npm install clay-cli -g
+'''
+
+## Documentation
+* Requirements ( if you don't have NODEJS )
+* Getting Started in 5 Minutes: Without ClaySF || With ClaySF
+* Clay Command Line Toolkit
+* Templates & Examples
+* Build Once, deploy to Desktop & Salesforce1
+
 ### Clay is an innovation on how we build Salesforce Apps using Javascript
 
 **When I imagined Clay, I taught of the perfect developer experience**<br/>
@@ -30,19 +42,6 @@ There is a new generation of Apps that are amazing, reactive, beautifull and wit
 ClaySF is an Add-ON published on AppExchange that you install on Salesforce and makes it super simple to interact with the Salesforce API's without having to write any APEX whatsoever. 
 
 ClaySF uses a Model to CRUD and Query Salesforce Data the right way, without consuming API Calls and without refresing the page. It's state of the art.
-
-**Query Salesforce Data from Javascript**<br/>
-Account.query("select id, name from Account where LastModifiedDate > LAST_WEEK")
-
-**Using Javascript constructs create any Object:**<br/>
-var account = Account.create({ Name: "ACME Supplies" });
-
-**No Apex Required**, but it's just as simple to execute Apex Methods from Javascript
-var result = Clay.call( "AccountCustomController", "functionName" ,"arg1" ,10, "arg3");
-
-**Finally contact every Salesforce API from Javascript**<br/>
-Clay.call("v30/services/chatter/feeds/")
-
 
 ##### Purchasing ClaySF is not required in order to use Clay. Organizations that install CLAYSF do it because of it's commercial advantages when building Apps or by developers that don't want to write their own controllers in Salesforce.
 
