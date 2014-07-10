@@ -32,9 +32,9 @@ Internet Users got used to the experience of Facebook, Twitter, Gmail and hundre
 
 There is a new generation of Apps that are amazing, reactive, beautifull and with Clay posible. Give it a try and learn how simple it is to build modern Javascript Applications the modular, profesional way.
 
-### Getting Started and Documentation
-* Requirements ( read if you don't have NODEJS )
-* Getting Started in 5 Minutes: Without ClaySF || With ClaySF
+### Related Blog Posts
+* ERP in Salesforce.com
+* 
 * Clay Command Line Toolkit
 * Templates & Examples
 * Build Once, deploy to Desktop & Salesforce1
@@ -48,6 +48,17 @@ ClaySF uses a Model to CRUD and Query Salesforce Data the right way, without con
 
 **Click here to register for the Free Trail**
 
-
 ## Clay Production Line of Apps
+More than a production line of cars, Clay will make your famous restaurante kitchen where every dish must come out right night after night.
+
+Clay introduces the concept of version, each deployment is versioned so it's super simple to go back to old builds.
+
+In the same way Clay introduces App Downloads, so you can download any version of an App and use it as a template for a new app. Your organization
+
+Dependency Managment is automated, so there is no worries about one developer working in one version of Jquery crasing with another one, integration is done automatically with every build.
+
+Onbording new developers is simple, no enviroment to setup, everything is standard. Training is simple as well, you may create apps specifically for that and have new-comers download them. That's how with Clay junior developers can build enterprise apps.
+
+## Clay Overview of Features
+
 
