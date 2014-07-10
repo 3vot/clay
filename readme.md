@@ -1,7 +1,7 @@
-# Clay is an innovation on how we build Salesforce Apps using Javascript
+## Clay is an innovation on how we build Salesforce Apps using Javascript
 
-When I imagined Clay, I taught of how the perfect developer experience should be. Let us know how close we got...
-@rodriguezartav
+**When I imagined Clay, I taught of how the perfect developer experience should be.**
+Let us know how close we got @rodriguezartav
 
 * Finally! A Development Server to build Visualforce Apps from your own computer.
 * Finally!! Simply Upload apps and assets as Static Resource, painless and wonderfull; No need to think.
