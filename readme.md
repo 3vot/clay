@@ -9,3 +9,9 @@ Let us know how close we got @rodriguezartav
 * Finally!!!! Forget about Limits and reuse over 80,000 JS Libs and hundreds of Third Party Services.
 
 **Clay is an automated Production Line of Apps** as a developer you can use to build robust JS Apps; as an organization use it to build apps consistently. Large or Small it will make you 10x Faster and 100X Happier.
+
+## The next generation of Javascript Apps
+Internet Users got used to the experience of Facebook, Twitter, Gmail and hundreds of the leading web apps. Business users however must conform with them old click and wait Apps where it takes ages ( and hundreds of page refreshes ) to get anything done.
+
+There is a new generation of Apps that are amazing, reactive, beautifull and with Clay posible.
+
