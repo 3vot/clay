@@ -1,7 +1,7 @@
 ## Instalation
-'''
+```
 npm install clay-cli -g
-'''
+```
 
 ## Documentation
 * Requirements ( if you don't have NODEJS )
