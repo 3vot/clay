@@ -31,16 +31,16 @@ ClaySF is an Add-ON published on AppExchange that you install on Salesforce and 
 
 ClaySF uses a Model to CRUD and Query Salesforce Data the right way, without consuming API Calls and without refresing the page. It's state of the art.
 
-Query Salesforce Data from Javascript
+**Query Salesforce Data from Javascript**<br/>
 Account.query("select id, name from Account where LastModifiedDate > LAST_WEEK")
 
-Using Javascript constructs create any Object: 
+**Using Javascript constructs create any Object:**<br/>
 var account = Account.create({ Name: "ACME Supplies" });
 
 **No Apex Required**, but it's just as simple to execute Apex Methods from Javascript
 var result = Clay.call( "AccountCustomController", "functionName" ,"arg1" ,10, "arg3");
 
-**Finally contact every Salesforce API from Javascript**
+**Finally contact every Salesforce API from Javascript**<br/>
 Clay.call("v30/services/chatter/feeds/")
 
 
