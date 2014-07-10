@@ -1,28 +1,11 @@
-####3VOT-CLI Intro
+# Clay is an innovation on how we build Salesforce Apps using Javascript
 
-3VOT helps you build and deploy apps quicker. We call it Frontend as a Service.
+When I imagined Clay, I taught of how the perfect developer experience should be. Let us know how close we got...
+@rodriguezartav
 
-You can build apps with any javascript framework and style them the best way you can. 
+* Finally! A Development Server to build Visualforce Apps from your own computer.
+* Finally!! Simply Upload apps and assets as Static Resource, painless and wonderfull; No need to think.
+* Finally!!! The technology to build Enterprise Apps with Javascript in a Modular, maintanable way.
+* Finally!!!! Forget about Limits and reuse over 80,000 JS Libs and hundreds of Third Party Services.
 
-3VOT embraces the concept of modules and web components, you can re-use any component from NPM and Bower. It's an amazing way to build Quality Apps in a few days, that's 5x faster.
-
-3VOT is also a community so you can simply copy an app for free, to your profile and start using as you own; or make a few changes to make it a perfect fit. Developers and Entrepreneurs can also build, customize and sell you amazing apps;
-
-Here is the Information for the Developer to get started, but even if you are not a developer: give it a try.
-
-
-<iframe width="560" height="315" src="//www.youtube.com/embed/Tcf_FBbIRpM?rel=0" frameborder="0" allowfullscreen></iframe>
-
-#### Requirements
-
-- [NodeJS](http://nodejs.org/)
-- You can go trought this guides in you local console (Mac) or using [Nitrous.io](https://nitrous.io)
-
-
-#### 3VOT-CLI Index
-
-- [3VOT-CLI Intro](https://github.com/3vot/3vot-cli/blob/master/readme.md)
-- [Getting Started](https://github.com/3vot/3vot-cli/blob/master/gettingStarted.md)
-
-Hope you love your first experience with 3vot's Front End as a Service Platform!
-For support, pair programming sessions or any feedback, please visit us at [3vot.com](http://3vot.com/)
+**Clay is an automated Production Line of Apps** as a developer you can use to build robust JS Apps; as an organization use it to build apps consistently. Large or Small it will make you 10x Faster and 100X Happier.
