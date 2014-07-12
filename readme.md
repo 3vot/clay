@@ -23,7 +23,7 @@ npm install clay-cli -g
 ## Documentation
 * Requirements ( if you don't have NODEJS )
 * Getting Started in 5 Minutes: Without ClaySF || With ClaySF
-* Clay Command Line Toolkit
+* [Command Line Toolkit](https://github.com/3vot/clay/wiki/Clay-Command-Line-Toolkit)
 * Templates & Examples
 * Build Once, deploy to Desktop & Salesforce1
 
