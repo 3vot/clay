@@ -16,12 +16,13 @@ Let us know how close we got @rodriguezartav
 
 
 ## Installation
+**Clay CLI requires NODEJS, [click to download official instalable package](http://nodejs.org)**
 ```
 npm install clay-cli -g
 ```
+Some users may need to run ```sudo npm install clay-cli -g``` instead.
 
 ## Documentation
-* Requirements ( if you don't have NODEJS )
 * Getting Started in 5 Minutes: Without ClaySF || With ClaySF
 * [Command Line Toolkit](https://github.com/3vot/clay/wiki/Clay-Command-Line-Toolkit)
 * Templates & Examples
