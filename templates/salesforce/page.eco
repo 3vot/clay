@@ -1,10 +1,6 @@
 <apex:page sidebar="false" showHeader="<%= @show_header || true %>" controller="<%= if(!@unmanned) then "threevot" %>.ThreeVotApiController">
 
-	<script>
-		window.clay = {
-			path: "<%= "{!URLFOR($Resource." + @pck.name + "_" + @pck.threevot.version + ")}" %>"
-		}
-	</script>
+	<%- @clay %>
 
   <%- @body %>
   

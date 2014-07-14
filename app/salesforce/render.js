@@ -33,10 +33,18 @@ function renderPage(options){
 
   html = Transform.transformBodyToDiv(html, {});
 
-  var result = eco.render(app, { pck: package_json, user_name: promptOptions.user_name, body: html, show_header: promptOptions.show_header, unmanned: promptOptions.unmanned } );
+  var clay= "";
+  if(promptOptions.target == "production") clay = genareteClay(package_json);
+
+  var result = eco.render(app, { clay: clay, pck: package_json, user_name: promptOptions.user_name, body: html, show_header: promptOptions.show_header, unmanned: promptOptions.unmanned } );
 
   return result;  
 
 }
+
+function genareteClay(pck){
+    return '<script>window.clay = {path: "{!URLFOR($Resource." + pck.name + "_" + pck.threevot.version + ")}"}</script>'
+}
+
 
 module.exports = renderPage;

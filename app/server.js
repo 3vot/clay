@@ -59,6 +59,7 @@ app.get("/", function(req,res){
 app.get("/:app_name/", function(req, res) {
   var asset = req.params.asset;
   var app_name = req.params.app_name;
+  if(app_name.indexOf(".") > -1) return res.send(404); // ignore files just apps
   var file = "index.html";
   return middleware(app_name, file, req,res)
 });
