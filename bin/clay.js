@@ -58,8 +58,6 @@ else if( argv.h ){
     "",
     "  setup                  Builds the project folder and installs all dependencies",
     "",
-    "  create                 Creates a new javascript app for Salesforce.com ",
-    "",
     "  server                 Create a development server. Local or inserted in Salesforce.",
     "",
     "  upload                 Uploads and publishes the app to your Salesforce account.",
@@ -110,7 +108,6 @@ else{
   
   else if( argv._.indexOf("download") > -1 ){ App.download(argv.app); }
   
-  else if( argv._.indexOf("create") > -1 ){ App.template(argv.app); }
   else if( argv._.indexOf("install") > -1 ){ App.install(argv.app); }
   else if( argv._.indexOf("build") > -1 ){ App.build(argv.app); }
 

@@ -36,10 +36,11 @@
     "mkpath": "~0.1.0",
     "mixpanel": "0.0.19",
     "async": "^0.8.0",
-    "3vot-cloud": "0.0.33",
+    "3vot-cloud": "0.0.34",
     "archiver": "~0.10.1",
     "send": "~0.4.3",
-    "3vot": "~0.1.4"
+    "3vot": "~0.1.4",
+    "rimraf": "~2.2.8"
   },
   "testDependencies": {
     "rimraf": "~2.2.6",
