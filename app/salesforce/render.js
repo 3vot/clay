@@ -22,7 +22,15 @@ function renderPage(options){
   }else{ promptOptions.show_header = false}
 
   var package_json = require( Path.join( process.cwd(), "apps", promptOptions.app_name, "package.json" )  );
-  var templatePath = Path.join(Path.dirname(fs.realpathSync(__filename)), '..' ,".." , 'templates', "salesforce", "page.eco" );
+
+  var templatePath = Path.join( process.cwd(), "apps", promptOptions.app_name, "visualforce.template" );
+
+  try{ 
+    fs.statSync(templatePath).isFile();
+  }catch(e){
+    templatePath = Path.join(Path.dirname(fs.realpathSync(__filename)), '..' ,".." , 'templates', "salesforce", "page.eco" );
+  }
+  
   var htmlPath = Path.join( Path.join( process.cwd(), "apps", promptOptions.app_name, "index.html" ) );
 
   var app = fs.readFileSync( templatePath, "utf-8" )
@@ -37,6 +45,8 @@ function renderPage(options){
   if(promptOptions.target == "production") clay = genareteClay(package_json);
 
   var result = eco.render(app, { clay: clay, pck: package_json, user_name: promptOptions.user_name, body: html, show_header: promptOptions.show_header, unmanned: promptOptions.unmanned } );
+
+  Log.debug(result,"./app/salesforce/render.js", 49);
 
   return result;  
 
