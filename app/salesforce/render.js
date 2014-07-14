@@ -53,7 +53,7 @@ function renderPage(options){
 }
 
 function genareteClay(pck){
-    return '<script>window.clay = {path: "{!URLFOR($Resource." + pck.name + "_" + pck.threevot.version + ")}"}</script>'
+    return '<script>window.clay = {path: {!URLFOR($Resource.' + pck.name + "_" + pck.threevot.version + ')}}</script>'
 }
 
 
