@@ -4,11 +4,9 @@ var Q = require("q");
 var crypto = require('crypto')
 var request = require("superagent")
 var eco = require("eco")
-var encrypt = require('./encrypt')
 var prompt = require("prompt")
 var Log = require("3vot-cloud/utils/log")
 var Packs = require("3vot-cloud/utils/packs")
-
 
 var promptOptions = {
   password: null
