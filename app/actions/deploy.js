@@ -30,7 +30,7 @@ var tempVars = {
 function execute(options){
   var deferred = Q.defer();
   promptOptions = options;
-
+  promptOptions.promptValues.target = "production"
 
   login( )
   .then( uploadApp )
@@ -62,7 +62,6 @@ function uploadApp(){
 }
 
 function uploadStatic(app){
-  
   tempVars.app = App.find(app.id)
   return UploadStatic( promptOptions, tempVars )
 }
@@ -70,7 +69,6 @@ function uploadStatic(app){
 function uploadVisualforce(){
   var idParts = tempVars.session.id.split("/")
   var orgId = idParts[idParts.length - 2 ]
-  promptOptions.promptValues.target = "production"
   tempVars.page = Render(promptOptions)
   return UploadVisualForce( promptOptions, tempVars )
 

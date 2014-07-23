@@ -25,12 +25,10 @@ function renderPage(options){
   }
   else if(promptOptions.promptValues.target == "production"){
     html = Transform.transformIndex( templateBody, promptOptions.package);
-    html = Transform.injectClay(templateBody, promptOptions.package);
+    html = Transform.injectClay(html, promptOptions.package);
   }
-
-
+  
   return html;  
-
 }
 
 module.exports = renderPage;
