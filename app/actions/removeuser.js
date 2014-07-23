@@ -32,8 +32,6 @@ function execute(options){
 }
 
 function removeuser(object){
-
-  delete oldUser.users[ object.user.user_name + " : " + object.user.salesforce_host ];
+  delete oldUser.users[ promptOptions.user.user_name + ":" + object.user.salesforce_user_name + " : " + object.user.salesforce_host ];
   return Packs.set(oldUser, "clay");
-
 }

@@ -50,6 +50,6 @@ function getProfile(){
 
 function saveuser(){
   if( !promptOptions.user.users || promptOptions.user.users === undefined || promptOptions.user.users == "undefined") promptOptions.user.users = {};
-  promptOptions.user.users[ promptOptions.promptValues.user_name + " : " + promptOptions.promptValues.salesforce_host] = promptOptions.promptValues;
+  promptOptions.user.users[ promptOptions.promptValues.user_name + ":" + promptOptions.promptValues.salesforce_user_name + " : " + promptOptions.promptValues.salesforce_host ] = promptOptions.promptValues;
   return Packs.set(promptOptions.user, "clay");
 }

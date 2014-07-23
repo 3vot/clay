@@ -13,7 +13,7 @@ function addUser(){
     { name: 'public_dev_key', description: '3VOT Developer Key: ( Your Public Developer Key )' } ,
     { name: 'salesforce_host', description: 'Salesforce Host: ( hit enter for login.salesforce.com )' } ,
     { name: 'salesforce_user_name', description: 'Salesforce User Name:' } ,
-    { name: 'salesforce_password', description: 'Salesforce Password: ' } ,
+    { name: 'salesforce_password', hidden: true, description: 'Salesforce Password: ' } ,
     { name: 'salesforce_token', description: 'Salesforce Token' } ,
   ];
   
@@ -45,7 +45,7 @@ function listUser(){
   .then( function(options){
     if(!options.user || !options.user.users || options.user.users.length == 0 ) return Log.info("No users found, use clay adduser")
      for(user in options.user.users){
-        console.log(user + " : " + options.user.users[user].salesforce_user_name );
+        console.log(user );
       }
   })  
   .fail( function(err){ Log.error(err, "./prompt/profile",43); } );
@@ -57,7 +57,7 @@ function register(callback){
     { name: 'user_name', description: 'Profile Name: ( only lowercase letters, numbers and lowerdash _ )' }, 
     { name: 'salesforce_host', description: 'Salesforce Host: ( hit enter for login.salesforce.com )' } ,
     { name: 'salesforce_user_name', description: 'Salesforce User Name:' } ,
-    { name: 'salesforce_password', description: 'Salesforce Password: ' } ,
+    { name: 'salesforce_password', hidden: true, description: 'Salesforce Password: ' } ,
     { name: 'salesforce_token', description: 'Salesforce Token' } ,
     ],
     function (err, result) {
