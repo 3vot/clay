@@ -1,7 +1,6 @@
 ### Clay is the way to 100% Javascript Apps for Salesforce
 
-**When I imagined Clay, I taught of the perfect developer experience**<br/>
-Let us know how close we did @rodriguezartav
+> When I imagined Clay, I taught of the perfect developer experience**<br/>Let us know how close we did @rodriguezartav
 
 * Develop JS/Visualforce in your own Computer, preview automatically in Salesforce.
 * Upload Visualforce and Apps with one command.
