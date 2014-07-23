@@ -41,7 +41,7 @@ function publishPage(){
 
   if(promptOptions.promptValues.target == "localhost") name += "_dev"
 
-  var url = tempVars.session.instance_url + "/services/data/v29.0/sobjects/ApexPage/Name/" + name;
+  var url = tempVars.session.instance_url + "/services/data/v30.0/sobjects/ApexPage/Name/" + name;
   
 
   body = {
@@ -51,7 +51,7 @@ function publishPage(){
     ApiVersion: "30.0"
   }
 
-  Log.debug("Upserting Visualforce Page " + url +" "+ JSON.stringify(body), "salesforce/upload", 48)
+  Log.debug("Upserting Visualforce Page " + url +" "+ tempVars.page, "salesforce/upload", 48)
 
 
   var req = request.patch(url)

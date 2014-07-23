@@ -19,7 +19,7 @@ var promptOptions = {
 var tempVars = {}
 
 function execute(options, vars){
-	Log.debug("Uploading Static Assets", "actions/salesforce", 21)
+	Log.debug("Uploading Static Assets", "actions/salesforce/staticUpload", 22)
   var deferred = Q.defer();
   promptOptions = options;
   tempVars = vars;
@@ -50,24 +50,27 @@ function transform(){
 
 function packApp(){
 	var deffered = Q.defer();
-	var output = fs.createWriteStream(zipPath);
-	var archive = archiver('zip');
+	
+	fs.mkdir( Path.dirname(zipPath), function(err){
+		var output = fs.createWriteStream(zipPath);
+		var archive = archiver('zip');
 
-	output.on('close', function() {
-		return deffered.resolve()
+		output.on('close', function() {
+			return deffered.resolve()
+		});
+
+		archive.on('error', function(err) {
+		  return deffered.reject(err);
+		})
+
+		archive.pipe(output);
+
+		archive.bulk([
+		  { expand: true, cwd: promptOptions.package.threevot.distFolder, src: ['*.*','**','**/**'] }
+		]);
+
+		archive.finalize();
 	});
-
-	archive.on('error', function(err) {
-	  return deffered.reject(err);
-	})
-
-	archive.pipe(output);
-
-	archive.bulk([
-	  { expand: true, cwd: promptOptions.package.threevot.distFolder, src: ['*.*','**','**/**'] }
-	]);
-
-	archive.finalize();
 
 	return deffered.promise;
 }

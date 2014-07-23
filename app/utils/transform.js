@@ -26,7 +26,7 @@ function injectClay(body, pck){
 	var cheerio = require('cheerio'),
   $ = cheerio.load(body);
 	$('head').append(clay);
-	return $.html();	
+	return $.xml();	
 }
 
 //Transforms Index.html into an Visualforce Page
