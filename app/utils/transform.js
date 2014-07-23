@@ -5,11 +5,12 @@ var placeholder = "{3vot}"
 var local = "//localhost:3000";
 var production = "//3vot.com"
 
+var cheerio = require("cheerio")
 var Transform = { local: toLocal, sf: toSf, index: transformIndex, _3vot: transform3VOT }
 
 //Transforms everything to Localhost
 function toLocal( body, transformOptions ){
-	var route = (transformOptions.host || local ) + "/" + transformOptions.app_name;
+	var route = (transformOptions.host || local ) 
 	body = _3vot.replaceAll(body, transformOptions.placeholder || placeholder, route);
 	return body;
 }
@@ -20,12 +21,12 @@ function toSf( body, transformOptions ){
 	return body;
 }
 
-//Transforms Index Body to Div tags
-function transformBodyToDiv(body, transformOptions){
-	if(!transformOptions) transformOptions = {}
-	body = _3vot.replaceAll(body, "<body ", "<div ");
-	body = _3vot.replaceAll(body, "</body>", "</div>");	
-	return body;
+function injectClay(body, pck){
+	var clay = '<script>window.clay = { path: "{!URLFOR($Resource.' + pck.name + "_" + pck.threevot.version + ')}" }</script>'
+	var cheerio = require('cheerio'),
+  $ = cheerio.load(body);
+	$('head').append(clay);
+	return $.html();	
 }
 
 //Transforms Index.html into an Visualforce Page
@@ -54,7 +55,7 @@ function readByType(path, transform, transformOptions){
 module.exports = {
 	toLocal: toLocal,
 	transformIndex: transformIndex,
-	transformBodyToDiv: transformBodyToDiv,
+	injectClay: injectClay,
 	toSf: toSf,
 	readByType: readByType
 }

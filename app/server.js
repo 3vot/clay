@@ -20,6 +20,9 @@ var Builder = require("3vot-cloud/utils/builder");
 var WalkDir = require("3vot-cloud/utils/walk")
 var AppBuild = require("3vot-cloud/app/build")
 
+var Packs = require("3vot-cloud/utils/packs")
+
+
 var Mock = require("./server_mock");
 
 var Q = require("q")
@@ -28,6 +31,8 @@ var Log = require("3vot-cloud/utils/log")
 
 Server.domain = "localhost:3000"
 Server.ssl = true;
+Server.lastBuild=0;
+
 
 var sslOptions = {
   key: fs.readFileSync( Path.join(Path.dirname(fs.realpathSync(__filename)), "..", 'ssl' , "server.key" )),
@@ -38,8 +43,7 @@ var sslOptions = {
 };
 
 var app = express();    
-var pck = require( Path.join( process.cwd(), "3vot.json" )  );
-var profile = pck.user_name;
+
 // all environments
 app.set('port', 3000);
 app.disable('etag');
@@ -52,100 +56,82 @@ app.use(app.router);
 
 Mock(app);
 
-app.get("/", function(req,res){
-  res.send("<h1>Congratulations CLAY Local Server is Running</h1>");
+app.get("/validate", function(req, res) {
+  res.send('<script>window.location ="' + req.query.app + '";</script>')
 });
 
-app.get("/:app_name/", function(req, res) {
-  var asset = req.params.asset;
-  var app_name = req.params.app_name;
-  if(app_name.indexOf(".") > -1) return res.send(404); // ignore files just apps
-  var file = "index.html";
-  return middleware(app_name, file, req,res)
+
+app.get("/*.js", function(req, res) {
+
+  middleware(req,res,function(options){
+      var file = req.params[0] + ".js";
+      var filePath = Path.join(  process.cwd(), options.package.threevot.distFolder, file );
+
+      fs.stat(filePath, function(err,stats){
+        if(err){ Log.debug(err,"server",73); return res.send(404); }
+        if(!stats.isFile()) return res.send(404);
+        var fileBody = Transform.readByType(filePath, "local", {} )
+        res.set('Content-Type', mime.lookup(filePath));
+        res.send(fileBody);
+      });
+  });
 });
 
-app.get("/:app_name", function(req, res) {
-  var app_name = req.params.app_name
-  res.redirect("/" + app_name + "/")
-});
 
-app.get("/:app_name/:file", function(req, res) {
-  var asset = req.params.asset;
-  var app_name = req.params.app_name;
-  var file = req.params.file;
-  return middleware(app_name, file, req,res)
-});
+app.get("/*", function(req, res) {
+  var file = req.params[0];
+  var filePath = Path.join(  process.cwd(), file );
 
-app.get("/:app_name/assets/:asset", function(req, res) {
-  var asset = req.params.asset;
-  var app_name = req.params.app_name;
-  var filePath = Path.join(  process.cwd() , "apps", app_name, "assets", asset );
-  var fileBody = Transform.readByType(filePath, "local", {app_name: app_name});
-  res.set('Content-Type', mime.lookup(filePath));
-  res.send(fileBody);
+  fs.stat(filePath, function(err,stats){
+    if(err){ Log.debug(err,"server",73); return res.send(404); }
+    if(!stats.isFile()) return res.send(404);
+    var fileBody = Transform.readByType(filePath, "local", {} )
+    res.set('Content-Type', mime.lookup(filePath));
+    res.send(fileBody);
+  });
 });
 
 https.createServer(sslOptions, app).listen(app.get('port'), function(){
   console.info('3VOT Server running at:  https://' + Server.domain );
 }); 
 
+function middleware(req, res, callback) {
+  var options;
 
-function middleware(app_name,file_name, req, res) {
-  checkApp(app_name)
-  .then(clearAppFolder)
-  .then(function(){ return buildApp(app_name); })
+  var time = new Date().getTime();
+    console.log(time - Server.lastBuild)
+
+  if(time - Server.lastBuild < (1000 * 15) ){ 
+    Log.info("not building " + req.params[0],"server"); 
+    return callback( {package: Packs.package({},false)} ); 
+  }
+
+  Packs.get({}, false)
+  .then(function(result){
+    Server.lastBuild = time;
+    options=result; 
+    return buildApp(result);
+  })
   .then(function(){
-    var filePath = Path.join(  process.cwd() , "apps", app_name, "app", file_name );
-    var fileBody = Transform.readByType(filePath, "local", { app_name: app_name });
-    res.set('Content-Type', mime.lookup(filePath));
-    return res.send(fileBody);
+    return callback(options);
   })
   .fail(function(err){
     res.send( err.stack || err.toString());
   })
 };
 
-function checkApp(app_name){
+function buildApp(options){
   var deferred = Q.defer();
-  process.nextTick(function(){
-    try{
-      app_package = require(Path.join(  process.cwd() , "apps", app_name, "package.json") );
-      deferred.resolve(app_name)
-    }catch(err){
-      Log.error(err, "actions/server", 154)
-      deferred.reject("App " + app_name + " Not found in ")
-    } 
-  });
-  return deferred.promise; 
-}
+  Log.debug(options.package.name,"server",95)
 
-function clearAppFolder(app_name){
-  var deferred = Q.defer();
-  var path = Path.join( process.cwd(), 'apps', app_name, 'app' );
-  rimraf(path, function(err){
-    fs.mkdirSync(path);
-    fs.mkdirSync( Path.join(path,"assets") );
-    return deferred.resolve(app_name);
-  })
-  return deferred.promise;
-}
-
-function buildApp(app_name){
-  var deferred = Q.defer();
-
-  Log.debug(app_name,"build app")
-
-  AppBuild( app_name, "localhost", false, Server.domain )
+  AppBuild( options )
   .then( function(){
-    //Server.lastBuild = Date.now();
-    return deferred.resolve(app_name);
+    return deferred.resolve(options.package.name);
   })
   .fail( function(err){ 
-    //Log.error(err, "actions/server", 164); 
     return deferred.reject(err);
   });
 
   return deferred.promise;
 };
-
 module.exports = Server

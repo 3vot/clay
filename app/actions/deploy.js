@@ -3,7 +3,7 @@ var fs = require("fs")
 var Q = require("q");
 
 var Login = require("../salesforce/login");
-var UploadVisualForce = require("../salesforce/upload");
+var UploadVisualForce = require("../salesforce/visualforce");
 var Render = require("../salesforce/render");
 var Log = require("3vot-cloud/utils/log")
 
@@ -11,6 +11,7 @@ var UploadApp = require("3vot-cloud/app/upload")
 var UploadStatic = require("../salesforce/staticUpload")
 
 var App = require("3vot-cloud/models/app")
+
 
 var promptOptions = {
   public_dev_key: null,
@@ -31,7 +32,7 @@ function execute(options){
   promptOptions = options;
 
 
-  login( { password: promptOptions.password } )
+  login( )
   .then( uploadApp )
   .then( uploadStatic )  
   .then( uploadVisualforce )
@@ -56,28 +57,22 @@ function login(){
 }
 
 function uploadApp(){
-  promptOptions.uploadApp = false;
+  promptOptions.package.threevot.uploadApp = false;
   return UploadApp(promptOptions);
 }
 
 function uploadStatic(app){
-  app = App.find(app.id)
-  return UploadStatic( { app_name: promptOptions.app_name, session: tempVars.session, version: app.version } )
+  
+  tempVars.app = App.find(app.id)
+  return UploadStatic( promptOptions, tempVars )
 }
 
 function uploadVisualforce(){
   var idParts = tempVars.session.id.split("/")
   var orgId = idParts[idParts.length - 2 ]
-
-  var page = Render({ 
-    app_name: promptOptions.app_name, 
-    show_header: false, 
-    user_name: promptOptions.user_name, 
-    target: "production",
-    unmanned: promptOptions.unmanned
-  })
-
-  return UploadVisualForce( { app_name: promptOptions.app_name, session: tempVars.session, page: page} )
+  promptOptions.promptValues.target = "production"
+  tempVars.page = Render(promptOptions)
+  return UploadVisualForce( promptOptions, tempVars )
 
 }
 

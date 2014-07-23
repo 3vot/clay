@@ -6,6 +6,7 @@ var fs = require("fs")
 var Q = require("q")
 var WalkDir = require("3vot-cloud/utils/walk")
 var Transform = require("../utils/transform")
+var Log = require("3vot-cloud/utils/log")
 
 var zipPath
 
@@ -15,10 +16,15 @@ var promptOptions = {
 	version: null
 }
 
-function execute(options){
+var tempVars = {}
+
+function execute(options, vars){
+	Log.debug("Uploading Static Assets", "actions/salesforce", 21)
   var deferred = Q.defer();
   promptOptions = options;
-  zipPath = Path.join(process.cwd(), "tmp", promptOptions.app_name + ".zip" )
+  tempVars = vars;
+
+  zipPath = Path.join(process.cwd(), "tmp", promptOptions.package.name + ".zip" )
 
   transform();
 
@@ -31,12 +37,12 @@ function execute(options){
 }
 
 function transform(){
-	var apps = WalkDir( Path.join( process.cwd(), "apps", promptOptions.app_name, "app" ) );
+	var apps = WalkDir( Path.join( process.cwd(), promptOptions.package.threevot.distFolder ) );
 
   apps.forEach( function(path){
   	var body = ""
   	if(path.name == "3vot.js" ) body = Transform.readByType(path.path, "_3vot", {});
-  	else body = Transform.readByType(path.path, "sf", {app_name: promptOptions.app_name});
+  	else body = Transform.readByType(path.path, "sf", {});
      
     fs.writeFileSync(path.path,body);
 	});
@@ -58,7 +64,7 @@ function packApp(){
 	archive.pipe(output);
 
 	archive.bulk([
-	  { expand: true, cwd: 'apps/' + promptOptions.app_name + "/app/", src: ['*.*','**','**/**'] }
+	  { expand: true, cwd: promptOptions.package.threevot.distFolder, src: ['*.*','**','**/**'] }
 	]);
 
 	archive.finalize();
@@ -71,12 +77,12 @@ function upload(){
 	var deffered = Q.defer();
 	var zip = fs.readFileSync(zipPath);
 	var zip64 =  new Buffer(zip).toString('base64');
-	var url = promptOptions.session.instance_url + '/services/data/v30.0/tooling/sobjects/StaticResource/'
+	var url = tempVars.session.instance_url + '/services/data/v30.0/tooling/sobjects/StaticResource/'
 
 	request.post(url)
-	.set('Authorization', 'Bearer ' + promptOptions.session.access_token)
+	.set('Authorization', 'Bearer ' + tempVars.session.access_token)
 	.set('Content-Type', 'application/json')
-	.send({ 'Name': promptOptions.app_name + "_" + promptOptions.version , Body: zip64, ContentType: "application/zip", CacheControl: "Public"  })
+	.send({ 'Name': promptOptions.package.name + "_" + promptOptions.package.threevot.version , Body: zip64, ContentType: "application/zip", CacheControl: "Public"  })
 
 	.end(function(err,res){
 		if(err){

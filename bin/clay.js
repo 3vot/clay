@@ -8,7 +8,6 @@ var fs = require("fs");
 var Q = require("q");
 var colors = require('colors');
 
-var ClayOperations = require("./clayOperations")
 
 var _3Model = require("3vot-model")
 
@@ -17,6 +16,9 @@ var Stat = require("3vot-cloud/utils/stats")
 var Packs =    require("3vot-cloud/utils/packs")
 
 var App = require("./app")
+var ClayOperations = require("./clayOperations")
+var Users = require("./user")
+
 
 Log.setLevel("INFO");
 
@@ -81,36 +83,40 @@ else if( argv.h ){
 
     "  -h                     help information",
     "  -v                     output the version number",
-    "  -d                     verbose",
-    "  -unmanned              use an unmanned salesforce package"
+    "  -d                     verbose"
 
   ].join("\n")
   console.log( help );
 }
 else{
 
-  if( argv._.indexOf("register") > -1 ){ ClayOperations.create(); }
+  //if( argv._.indexOf("users") > -1 && argv.reset ){ require("./postInstall") }  
 
+  if( argv._.indexOf("users") > -1  && argv.add ){ Users.addUser(); }  
 
-  else if( argv._.indexOf("setup") > -1 && argv.c){ ClayOperations.credentials(); }
+  else if( argv._.indexOf("users") > -1  && argv.remove ){ Users.removeUser(); }  
 
-  else if( argv._.indexOf("setup") > -1 ){ ClayOperations.prepare(); }
+  else if( argv._.indexOf("users") > -1 ){ Users.listUser(); }  
 
-  else if( argv._.indexOf("server") > -1 ){ 
-    var cliOptions = {};
-    if(argv.app) cliOptions.app_name = argv.app
-    if(argv.unmanned) cliOptions.unmanned = true
+  else if( argv._.indexOf("register") > -1 ){ Users.register(); }
 
-    ClayOperations.develop(cliOptions); 
-  }
+  else if( argv._.indexOf("setup") > -1 ){ ClayOperations.setup(); }
 
-  else if( argv._.indexOf("upload") > -1 ){  ClayOperations.upload({ app: argv.app, unmanned: argv.unmanned } ); }
+  else if( argv._.indexOf("server") > -1 ){  ClayOperations.develop(); }
+
+  else if( argv._.indexOf("upload") > -1 ){  ClayOperations.upload(); }
   
-  else if( argv._.indexOf("download") > -1 ){ App.download(argv.app); }
+  else if( argv._.indexOf("download") > -1 ){ App.download(); }
   
-  else if( argv._.indexOf("install") > -1 ){ App.install(argv.app); }
-  else if( argv._.indexOf("build") > -1 ){ App.build(argv.app); }
+  else if( argv._.indexOf("create") > -1 ){ App.create(); }
 
+  else if( argv._.indexOf("install") > -1 ){ App.install(); }
+
+  else if( argv._.indexOf("build") > -1 ){ App.build(); }
+
+  else if( argv._.indexOf("login") > -1 ){ ClayOperations.login(); }
+
+  else if( argv._.indexOf("render") > -1 ){ ClayOperations.render(); }
 
 
   else{    

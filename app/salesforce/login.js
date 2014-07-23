@@ -23,26 +23,12 @@ var tempVars = {
   }
 }
 
-function loadData(){
-  var _3votJSON = require( Path.join( process.cwd(), "3vot.json" ) );
 
-
-  if(promptOptions.password){
-    tempVars.salesforce.user_name = encrypt.show(_3votJSON.salesforce.user_name, promptOptions.password);
-    tempVars.salesforce.key = encrypt.show(_3votJSON.salesforce.key, promptOptions.password); 
-    tempVars.salesforce.password = promptOptions.password;
-    //FOR ENCODED SESSION promptOptions.salesforce.session = encrypt.show(promptOptions.salesforce.session, promptOptions.salesforce.password); 
-  }
-
-
-
-}
 
 function execute(options){
   var deferred = Q.defer();
   promptOptions = options;
 
-  loadData()
 
   login()
   .then( function(session){  deferred.resolve(session) } )
@@ -52,19 +38,18 @@ function execute(options){
 }
 
 function login(){
-
   Log.debug("Performing Login", "actions/salesforce/login", 109)
   Log.info("We are Loging in to Salesforce with your Credentials.")
 
   deferred = Q.defer();
 
-  var url = "https://login.salesforce.com/services/oauth2/token";
+  var url = "https://" + promptOptions.user.salesforce_host + "/services/oauth2/token";
   body = {
     grant_type: "password",
     client_id: "3MVG9A2kN3Bn17hvlSRXnnVzjDNILmhSt.TZ.MgCe5mAt9XKFYDQV5FCMKm6cpHhbVmTQArgicRUt7zzcWMhQ",
     client_secret: "256153260162134490",
-    username: tempVars.salesforce.user_name,
-    password: tempVars.salesforce.password + tempVars.salesforce.key
+    username: promptOptions.user.salesforce_user_name,
+    password: promptOptions.user.salesforce_password + promptOptions.user.salesforce_token
   }
 
 
@@ -73,7 +58,6 @@ function login(){
     if(err) return deferred.reject(err)
     if(res.text.indexOf("error") > -1) return deferred.reject("Authentication Error. Check user, password and security token. " + res.text)
     Log.info("We did Logged in to Salesforce, ready.")
-    
 
     var session = JSON.parse(res.text)
     return deferred.resolve(session)

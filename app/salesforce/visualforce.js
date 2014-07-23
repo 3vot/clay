@@ -19,38 +19,40 @@ var tempVars = {
   session: null
 }
 
-function execute(options){
+function execute(options, vars){
   var deferred = Q.defer();
   promptOptions = options;
-  
-  tempVars.session = promptOptions.session
-  
+  tempVars = vars;
+
   publishPage()
   .then( function(){ 
-    var url = tempVars.session.instance_url + "/apex/" + promptOptions.app_name
-    if( promptOptions.target == "localhost" ) url += "_dev"
+    var url = tempVars.session.instance_url + "/apex/" + promptOptions.package.name
+    if( promptOptions.promptValues.target == "localhost" ) url += "_dev"
+    tempVars.url = url;
     return Log.info("App Available at: " + url) } )
-  .then (function(){ return deferred.resolve() })
+  .then (function(){ return deferred.resolve(tempVars) })
   .fail( function(err){ return deferred.reject(err) } );
   return deferred.promise;
 }
 
 function publishPage(){
   var deferred = Q.defer();
-  var name = promptOptions.app_name
+  var name = promptOptions.package.name;
 
-  if(promptOptions.target == "localhost") name += "_dev"
+  if(promptOptions.promptValues.target == "localhost") name += "_dev"
 
   var url = tempVars.session.instance_url + "/services/data/v29.0/sobjects/ApexPage/Name/" + name;
   
-  Log.debug("Upserting Visualforce Page " + url, "salesforce/upload", 48)
 
   body = {
-    Markup : promptOptions.page,
+    Markup : tempVars.page,
     ControllerType : 3,
     MasterLabel: name,
-    ApiVersion: "29.0"
+    ApiVersion: "30.0"
   }
+
+  Log.debug("Upserting Visualforce Page " + url +" "+ JSON.stringify(body), "salesforce/upload", 48)
+
 
   var req = request.patch(url)
   .type("application/json")

@@ -1,176 +1,107 @@
 var prompt = require("prompt")
-
+var Packs = require("3vot-cloud/utils/packs")
 var Download = require("3vot-cloud/app/download")
-var Upload =   require("3vot-cloud/app/upload")
-var Build =    require("3vot-cloud/app/build")
-var Publish =  require("3vot-cloud/app/publish")
-var Install =  require("3vot-cloud/app/install")
-var Log =      require("3vot-cloud/utils/log")
-var Stats =    require("3vot-cloud/utils/stats")
-var Packs =    require("3vot-cloud/utils/packs")
+var Upload = require("3vot-cloud/app/upload")
+var Build = require("3vot-cloud/app/build")
+var Install = require("3vot-cloud/app/install")
+var Log = require("3vot-cloud/utils/log")
+var Path = require("path")
+var Stats = require("3vot-cloud/utils/stats")
+var WalkDir = require("3vot-cloud/utils/walk")
+var Transform = require("../app/utils/transform")
+var fs = require("fs")
+var eco = require("eco")
 
-function promptOrResult( app_name, callback, prompts ){
- if(!prompts) prompts = []
- if(app_name && prompts.length == 0) return callback(null, { app_name: app_name });
-
-  prompt.start();
-  prompts.reverse();
-  if(!app_name) prompts.push({ name: 'app_name', description: 'App Name ( The name of the app )' } )
-  prompts.reverse();
-  prompt.get(prompts , function(err, result){
-    if(!result.app_name) result.app_name = app_name;
-    callback(err, result)
-  });
-}
-
-function download(app_name){
+function download(){
   var prompts = [ 
+    { name: 'app_name', description: 'App Name ( The name of the app you want to download)' },
     { name: 'app_user_name', description: 'Profile: ( The profile name of the owner of the app )' }, 
-    { name: 'app_version', description: 'Version: ( The App version) *enter for latest )' },
+    { name: 'app_version', description: 'Version: ( The App version) hit enter for latest )' },
     { name: 'app_new_name', description: 'Name: ( What you want to name your app ) *enter for same' },
   ]
 
+  prompt.get(prompts, onResult);
+
   function onResult(err, result) {
     Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
-
-    result = Packs._3vot(result);
-
-    Download(result)
-    .then( function(){ Log.info("OK. The App was downloaded. To preview locally type: 3vot server "); } )
-    .then( function(){ return Stats.track("app:download", result ) } )
-    .fail( function(err){  Log.error(err, "./prompt/app", 69 ); });
+    
+    Packs._3vot(result, false)
+    .then( function(res){ result = res; return Download(result); } )
+    .then( function(){ Log.info("3. Preview with 'clay server'"); Log.info("ok"); } )
+    .then( function(){ 
+      return Stats.track("app:download", result ) 
+    })
+    .then(function(){ process.exit() })
+    .fail( function(err){  Log.error(err, "./bin/app", 35 ); });
   };
-
-  promptOrResult(app_name, onResult, prompts )
 }
 
-function template(app_name){
-  
-   var prompts = [ ];
-  if(!app_name){
-    app_name = "clay_multi_platform";
-    prompts = [ { name: 'app_new_name', description: 'Name: ( '+app_name+' )' } ];
-  }
-  else{
-    prompts = [ 
-      { name: 'app_new_name', description: 'Name: ( '+ app_name +' )' },
-      { name: 'app_version', description: 'Version: ( latest )' }
-    ]
-  }
+function create(){
+  var prompts = [ { name: 'app_new_name', description: 'Name: ( The name of your new app )' } ];
+    
+  prompt.start();
+  prompt.get(prompts, onResult);
 
   function onResult(err, result) {
-      result.app_user_name = "template"
-      if(!result.app_new_name) result.app_new_name = app_name;
+      result.app_user_name = "start"
+      result.app_name = "blank";
 
       Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
 
-      result = Packs._3vot(result);
-
-
-      Download(result)
-      .then( function(){ Log.info("OK. The App Template was downloaded. To preview locally type: clay server "); } )
+      Packs._3vot(result, false)
+      .then( function(res){ result = res; return Download(result); } )
+      .then( function(){ Log.info("ok"); } )
       .then( function(){ return Stats.track("app:template", result ) } )
+      .then(function(){ process.exit() })
       .fail( function(err){  Log.error(err, "./prompt/app", 82 ); });  
    };
 
-  promptOrResult(app_name, onResult, prompts )
 }
 
-function publish(app_name){
-  var prompts = [ 
-    { name: 'app_version', description: 'Version: ( latest )' } ]
 
-  function onResult(err, result) {
-      Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
 
-      result = Packs._3vot(result);
 
-      Publish(result)
-      .then( function(){ Log.info("OK. The App was published"); } )
-      .then( function(){ return Stats.track("app:publish", result ) } )
-      .fail( function(err){ Log.error(err, "./prompt/app",96 ); });
-  };
+function install(){
 
-  promptOrResult(app_name, onResult, prompts )
-}
-
-function publishAsMain(app_name){
-  
-  var prompts = [ 
-    { name: 'version', description: 'Version: ( latest )' } ];
-    
-  function onResult(err, result) {
-    result.isMain = true;
-    Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
-    
-    result = Packs._3vot(result);
-
-    Publish(result)
-    .then( function(){ Log.info("OK. The App was published"); } )
-    .then( function(){ return Stats.track("app:publish:main", result ) } )
-    .fail( function(err){ Log.error(err, "./prompt/app",111 ); });
-  };
-
-  promptOrResult(app_name, onResult )
-}
-
-function upload(app_name){
-  
-  function onResult(err, result) {
     Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
 
-    result = Packs._3vot(result);
-
-    Upload(result)
-    .then( function(){ Log.info("OK. The App was uploaded."); } )
-    .then( function(){ return Stats.track("app:upload", result ) } )
-    .fail( function(err){ Log.error(err, "./prompt/app",146 ); });
-  }
-
-  promptOrResult(app_name, onResult )
-}
-
-
-function install(app_name){
-
-  function onResult(err, result) {
-    Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
-
-    result = Packs._3vot(result);
-
-
-    Install(result)
-    .then( function(){ Log.info("OK. The App was installed"); } )
+    Packs._3vot( {}, false)
+    .then( function(res){ result = res; return Install(result); } )
+      .then( function(){ Log.info("ok"); } )
     .then( function(){ return Stats.track("app:install", result ) } )
+    .then(function(){ process.exit() })
     .fail( function(err){ Log.error(err, "./prompt/app",140 ); });
-  };
 
-  promptOrResult(app_name, onResult )
 }
 
 
-function build(app_name){
+function build(production){
 
-  function onResult(err, result) {
     Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
+    var result = {}
+    if(production) result.transform = function(tempvars){ transformToProduction(result,tempvars) }
 
-    if(!result.target) result.target = "localhost"
-    Build(result.app_name, result.target)
-    .then( function(){ Log.info("OK. The App was build for " + result.target ); } )
+    Packs._3vot(result, false)
+    .then( function(res){ result = res; return Build(result); } )
+      .then( function(){ Log.info("ok"); } )
     .then( function(){ return Stats.track("app:build", result ) } )
+    .then(function(){ process.exit() })
     .fail( function(err){ Log.error(err, "./prompt/app",154 ); });
-  };
 
-  promptOrResult(app_name, onResult )
 }
 
+function transformToProduction( result, tempvars ){
+  var apps = WalkDir( Path.join( process.cwd(), result.package.threevot.distFolder ) );
+  if(tempvars && tempvars.app) result.version = tempvars.app.version;
+  apps.forEach( function(path){
+    var body = Transform.readByType(path.path, "production", result )
+    fs.writeFileSync(path.path,body);
+  });
+}
 
 module.exports = {
-  upload: upload,
   download: download,
-  publish: publish,
   build: build,
   install: install,
-  publishAsMain: publishAsMain,
-  template: template
+  create: create
 }
