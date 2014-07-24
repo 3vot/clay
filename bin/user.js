@@ -29,6 +29,7 @@ function addUser(){
     .then(function(){ process.exit() })
     .fail( function(err){ Log.error(err, "./prompt/profile",43); } );
   });
+
 }
 
 function removeUser(){
@@ -68,6 +69,7 @@ function register(callback){
       Register(result)
       .then( function(tempVars){
         result.public_dev_key = tempVars.public_dev_key;
+        result.namespace = "clay";
         return Packs.get(result, false);
       })
       .then( AddUser )
