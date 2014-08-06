@@ -20,10 +20,9 @@ var Builder = require("3vot-cloud/utils/builder");
 var WalkDir = require("3vot-cloud/utils/walk")
 var AppBuild = require("3vot-cloud/app/build")
 
+var Mock = require("./server_mock")
+
 var Packs = require("3vot-cloud/utils/packs")
-
-
-var Mock = require("./server_mock");
 
 var Q = require("q")
 

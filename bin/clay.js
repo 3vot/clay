@@ -8,7 +8,6 @@ var fs = require("fs");
 var Q = require("q");
 var colors = require('colors');
 
-
 var _3Model = require("3vot-model")
 
 var Log = require("3vot-cloud/utils/log")
@@ -102,8 +101,10 @@ else{
 
   else if( argv._.indexOf("setup") > -1 ){ ClayOperations.setup(); }
 
-  else if( argv._.indexOf("server") > -1 ){  ClayOperations.develop(); }
+  else if( argv._.indexOf("server") > -1 ){  ClayOperations.develop(argv.offline); }
 
+  else if( argv._.indexOf("offline") > -1 ){  require("../app/server") }
+ 
   else if( argv._.indexOf("upload") > -1 ){  ClayOperations.upload(); }
   
   else if( argv._.indexOf("download") > -1 ){ App.download(); }
