@@ -1,6 +1,6 @@
 {
   "name": "clay-cli",
-  "version": "0.8.4",
+  "version": "0.8.5",
   "description": "Clay Command Line Interface to build and deploy Salesforce Javascript Apps.",
   "main": "bin/clay.js",
   "bin": {
