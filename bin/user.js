@@ -35,7 +35,7 @@ function addUser(){
 function removeUser(){
     Packs.get({ namespace: "clay" },false)
     .then( RemoveUser )
-    .then( function(){ Log.info("User removed correctly and it's ready to use.") } )
+    .then( function(){ Log.info("User removed correctly") } )
     .then( function(){ return Stats.track("profile:removeuser") } )
     .then(function(){ process.exit() })
     .fail( function(err){ Log.error(err, "./prompt/profile",43); } );
