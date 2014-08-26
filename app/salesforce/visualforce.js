@@ -51,7 +51,7 @@ function publishPage(){
     ApiVersion: "30.0"
   }
 
-  Log.debug("Upserting Visualforce Page " + url +" "+ tempVars.page, "salesforce/upload", 48)
+  Log.debug("Upserting Visualforce Page " + url, "salesforce/upload", 48)
 
 
   var req = request.patch(url)

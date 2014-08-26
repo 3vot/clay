@@ -9,7 +9,6 @@ var AwsCredentials = require("3vot-cloud/aws/credentials");
 var Log = require("3vot-cloud/utils/log")
 
 var Packs = require("3vot-cloud/utils/packs")
-var Install = require("3vot-cloud/utils/install")
 
 var profile = {};
 

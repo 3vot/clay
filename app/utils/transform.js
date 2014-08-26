@@ -6,11 +6,21 @@ var local = "//localhost:3000";
 var production = "//3vot.com"
 
 var cheerio = require("cheerio")
-var Transform = { local: toLocal, sf: toSf, index: transformIndex, _3vot: transform3VOT }
+var Transform = { local: toLocal, sf: toSf, index: transformIndex, _3vot: transform3VOT, production: toProduction }
 
 //Transforms everything to Localhost
 function toLocal( body, transformOptions ){
 	var route = (transformOptions.host || local ) 
+	body = _3vot.replaceAll(body, transformOptions.placeholder || placeholder, route);
+	return body;
+}
+
+function toProduction(body, transformOptions){
+	var route = ""
+	if(transformOptions.package.threevot.domain ) route = transformOptions.package.threevot.domain
+	else route = production + "/" + transformOptions.user.user_name + "/" + transformOptions.package.name;
+	
+	if(!transformOptions.promptValues.production) route += "_" + transformOptions.version
 	body = _3vot.replaceAll(body, transformOptions.placeholder || placeholder, route);
 	return body;
 }

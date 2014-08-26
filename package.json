@@ -39,7 +39,7 @@
     "3vot": "~0.1.4",
     "rimraf": "~2.2.8",
     "cheerio": "~0.17.0",
-    "3vot-cloud": "0.0.51",
+    "3vot-cloud": "0.0.59",
     "open": "0.0.5"
   },
   "testDependencies": {

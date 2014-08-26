@@ -16,7 +16,6 @@ var Transform = require("./utils/transform")
 var mime = require('mime');
 
 var Server = {}
-var Builder = require("3vot-cloud/utils/builder");
 var WalkDir = require("3vot-cloud/utils/walk")
 var AppBuild = require("3vot-cloud/app/build")
 
@@ -53,12 +52,13 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 
+setupCustomRoutes(app);
+
 Mock(app);
 
 app.get("/validate", function(req, res) {
   res.send('<script>window.location ="' + req.query.app + '";</script>')
 });
-
 
 app.get("/*.js", function(req, res) {
 
@@ -133,4 +133,14 @@ function buildApp(options){
 
   return deferred.promise;
 };
+
+
+function setupCustomRoutes(app){
+  var posiblePath = Path.join( process.cwd(), "routes.js" )
+  if(!fs.existsSync(posiblePath) ) return false;
+
+  var Routes = require(posiblePath);
+  Routes(app);
+}
+
 module.exports = Server

@@ -17,7 +17,7 @@ var Packs =    require("3vot-cloud/utils/packs")
 var App = require("./app")
 var ClayOperations = require("./clayOperations")
 var Users = require("./user")
-
+var open = require("open")
 
 Log.setLevel("INFO");
 
@@ -69,7 +69,12 @@ else if( argv.h ){
     "",
     "  install                Installs the NPM and Bower dependencies of the app (used in manual operations)",
     "",
-    
+    "  run                    Runs a predefined process for the current app, prompts to select from a list",
+    "",
+    "  mock                   Downloads Salesforce Mock Data",
+    "",
+
+
     "Utilities:",
     "",
     "  setup --c              Updates Salesforce Credentials. This can be used instead of setup, for update.",
@@ -103,7 +108,7 @@ else{
 
   else if( argv._.indexOf("server") > -1 ){  ClayOperations.develop(argv.offline); }
 
-  else if( argv._.indexOf("offline") > -1 ){  require("../app/server") }
+  else if( argv._.indexOf("offline") > -1 ){  require("../app/server"); open("https://localhost:3000/index.html") }
  
   else if( argv._.indexOf("upload") > -1 ){  ClayOperations.upload(); }
   
@@ -111,9 +116,16 @@ else{
   
   else if( argv._.indexOf("create") > -1 ){ App.create(); }
 
+  else if( argv._.indexOf("share") > -1 ){ App.share(); }
+
+
   else if( argv._.indexOf("install") > -1 ){ App.install(); }
 
   else if( argv._.indexOf("build") > -1 ){ App.build(); }
+
+  else if( argv._.indexOf("run") > -1 ){ App.run(); }
+
+  else if( argv._.indexOf("mock") > -1 ){ App.mock(); }
 
   else if( argv._.indexOf("login") > -1 ){ ClayOperations.login(); }
 
