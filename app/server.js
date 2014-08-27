@@ -84,7 +84,7 @@ app.get("/*", function(req, res) {
   fs.stat(filePath, function(err,stats){
     if(err){ Log.debug(err,"server",73); return res.send(404); }
     if(!stats.isFile()) return res.send(404);
-    var fileBody = Transform.readByType(filePath, "local", {} )
+    var fileBody = Transform.readByType(filePath, "local", { package: Packs.package() } )
     res.set('Content-Type', mime.lookup(filePath));
     res.send(fileBody);
   });

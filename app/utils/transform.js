@@ -1,9 +1,10 @@
 var fs = require("fs")
 var _3vot = require("3vot/utils")
-
+var Path = require("path")
 var placeholder = "{3vot}"
 var local = "//localhost:3000";
 var production = "//3vot.com"
+var Log = require("3vot-cloud/utils/log")
 
 var cheerio = require("cheerio")
 var Transform = { local: toLocal, sf: toSf, index: transformIndex, _3vot: transform3VOT, production: toProduction }
@@ -31,8 +32,10 @@ function toSf( body, transformOptions ){
 	return body;
 }
 
-function injectClay(body, pck){
+function injectClay(body, pck, production){
+	if(production == null || production == undefined) production=true;
 	var clay = '<script>window.clay = { path: "{!URLFOR($Resource.' + pck.name + "_" + pck.threevot.version + ')}" }</script>'
+	if(!production) clay = '<script>window.clay = { path: "https://localhost:3000" }</script>'
 	var cheerio = require('cheerio'),
   $ = cheerio.load(body);
 	$('head').append(clay);
@@ -54,7 +57,9 @@ function transform3VOT(body,transformOptions){
 
 function readByType(path, transform, transformOptions){
 	var body;
-  if( path.indexOf(".js") > -1 || path.indexOf(".css") > -1 || path.indexOf(".html") > -1){
+	var ext = Path.extname(path)
+  if( path.indexOf(".js") > -1 || path.indexOf(".css") > -1 || path.indexOf(".html") > -1 || transformOptions.package.threevot.extensions.indexOf(ext) > -1 ){
+  	Log.debug("Transforming Path " + path)
   	body = fs.readFileSync(path,"utf-8")
   	if(transform) body = Transform[transform](body, transformOptions)
   }

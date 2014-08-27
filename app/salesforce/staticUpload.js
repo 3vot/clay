@@ -42,7 +42,7 @@ function transform(){
   apps.forEach( function(path){
   	var body = ""
   	if(path.name == "3vot.js" ) body = Transform.readByType(path.path, "_3vot", {});
-  	else body = Transform.readByType(path.path, "sf", {});
+  	else body = Transform.readByType(path.path, "sf", promptOptions);
      
     fs.writeFileSync(path.path,body);
 	});
