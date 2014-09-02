@@ -8,7 +8,7 @@ var Path = require("path")
 var Stats = require("3vot-cloud/utils/stats")
 var WalkDir = require("3vot-cloud/utils/walk")
 var Transform = require("../app/utils/transform")
-var Share = require("../app/salesforce/share")
+var Share = require("3vot-cloud/app/share")
 
 var fs = require("fs")
 var eco = require("eco")
@@ -17,7 +17,6 @@ var open = require("open");
 var Mock = require("../app/actions/mock")
 
 function share(ignoreSource){
-  
   Packs._3vot({ namespace: "clay" })
   .then( function(res){ 
     result = res; 
