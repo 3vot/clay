@@ -59,7 +59,7 @@ function readByType(path, transform, transformOptions){
 	var body;
 	var ext = Path.extname(path)
   if( path.indexOf(".js") > -1 || path.indexOf(".css") > -1 || path.indexOf(".html") > -1 || transformOptions.package.threevot.extensions.indexOf(ext) > -1 ){
-  	Log.debug2("Transforming Path " + path, )
+  	Log.debug2("Transforming Path " + path )
   	body = fs.readFileSync(path,"utf-8")
   	if(transform) body = Transform[transform](body, transformOptions)
   }
