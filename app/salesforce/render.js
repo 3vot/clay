@@ -21,14 +21,14 @@ function renderPage(options){
   var html = "";
 
   if(promptOptions.promptValues.target == "localhost"){
-    html = Transform["toLocal"]( templateBody, promptOptions)
-    html = Transform.injectClay(html, promptOptions.package, false);
+    html = Transform["toLocal"]( templateBody, promptOptions, false)
+    //html = Transform.injectClay(html, promptOptions.package, false);
   }
   else if(promptOptions.promptValues.target == "production"){
     html = Transform.transformIndex( templateBody, promptOptions.package);
-    html = Transform.injectClay(html, promptOptions.package);
+    //html = Transform.injectClay(html, promptOptions.package);
   }
-  
+
   return html;  
 }
 

@@ -33,20 +33,54 @@ function toSf( body, transformOptions ){
 }
 
 function injectClay(body, pck, production){
-	if(production == null || production == undefined) production=true;
-	var clay = '<script>window.clay = { path: "{!URLFOR($Resource.' + pck.name + "_" + pck.threevot.version + ')}" }</script>'
-	if(!production) clay = '<script>window.clay = { path: "https://localhost:3000" }</script>'
+	return body;
 	var cheerio = require('cheerio'),
   $ = cheerio.load(body);
-	$('head').append(clay);
+
+
+
 	return $.xml();	
 }
 
 //Transforms Index.html into an Visualforce Page
-function transformIndex(body, transformOptions){
-	if(!transformOptions) transformOptions = {}
-	body = _3vot.replaceAll(body, "{3vot}", "{!URLFOR($Resource." + transformOptions.name + "_" + transformOptions.threevot.version + ")}" )
-	return body;
+function transformIndex(body, transformOptions, production){
+	if(!transformOptions) transformOptions = {};
+
+	if(production == null || production == undefined) production=true;
+	var clay = '<script>window.clay = { path: "{!URLFOR($Resource.' + transformOptions.name + "_" + transformOptions.threevot.version + ')}" }</script>'
+	if(!production) clay = '<script>window.clay = { path: "https://localhost:3000" }</script>'
+
+
+	//body = _3vot.replaceAll(body, "{3vot}", "" )
+	var cheerio = require('cheerio'),
+  $ = cheerio.load(body,  { xmlMode: true });
+	
+	$('head').append(clay);
+
+	$("link").each(function(i, elem) {
+		var el = $(this)
+		var url = el.attr("href");
+		if(url && url.indexOf("{3vot}") > -1 ){
+			url = url.replace("{3vot}", "");
+			var transformed = "{!URLFOR($Resource." + transformOptions.name + "_" + transformOptions.threevot.version + ", '" +url +"')}"
+			el.attr("href", transformed);
+		}	
+	});
+
+	$("script").each(function(i, elem) {
+		var el = $(this)
+		var url = el.attr("src");
+		if(url && url.indexOf("{3vot}") > -1 ){
+			url = url.replace("{3vot}", "");
+			var transformed = "{!URLFOR($Resource." + transformOptions.name + "_" + transformOptions.threevot.version + ", '" +url +"')}"
+			el.attr("src", transformed);
+			el.html(";");
+		}	
+	});
+
+
+	return $.xml();	
+
 }
 
 function transform3VOT(body,transformOptions){
