@@ -3,6 +3,8 @@ var Develop = require("../app/actions/develop")
 
 var Deploy = require("../app/actions/deploy")
 
+var Custom = require("../app/actions/custom")
+
 var Login = require("../app/salesforce/login")
 
 var Render = require("../app/salesforce/render")
@@ -56,6 +58,24 @@ function upload(  ){
 
 }
 
+function custom(  ){
+  Packs.get({ namespace: "clay" })
+  .then( Custom )
+  .then( function(){ return Stats.track("site:server") } )
+  .then( function(){ console.log("Upload Successful") })
+  .fail( function(err){ Log.error(err, "./prompt/profile",43); } );
+
+}
+
+function test(  ){
+  Packs.get({ namespace: "clay" })
+  .then( Test )
+  .then( function(){ return Stats.track("site:server") } )
+  .then( function(){ console.log("Upload Successful") })
+  .fail( function(err){ Log.error(err, "./prompt/profile",43); } );
+
+}
+
 function login(  ){
   Packs.get({ namespace: "clay" })
   .then( Login )
@@ -71,6 +91,7 @@ module.exports = {
   setup: setup,
   develop: develop,
   upload: upload,
-  login: login
+  login: login,
+  custom: custom,
 
 }

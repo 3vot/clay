@@ -140,6 +140,10 @@ else{
 
   else if( argv._.indexOf("render") > -1 ){ ClayOperations.render(); }
 
+  else if( argv._.indexOf("custom") > -1 ){  ClayOperations.custom(); }
+
+
+
 
   else{    
     Log.info("Command not found: Use clay -h for help", "bin/3cli", 124)
