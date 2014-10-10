@@ -48,6 +48,9 @@ Dependency Managment is automated, so there is no worries about one developer wo
 
 Onbording new developers is simple, no enviroment to setup, everything is standard. Training is simple as well, you may create apps specifically for that and have new-comers download them. That's how with Clay junior developers can build enterprise apps.
 
+## CLAY FOR SALESFORCE ##
+Clay *may* use a Salesforce Package to simplify Communication.
+https://github.com/3vot/clayforsalesforce
 
 ## LICENSE ##
 MIT 
