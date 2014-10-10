@@ -19,7 +19,7 @@ email: a3@3vot.com
 PO: 488-2120 Costa Rica
 
 
-####Copy of the GNU GENERAL PUBLIC LICENSE
+##Copy of the GNU GENERAL PUBLIC LICENSE
 ####In case you are using Clay in projects with no monetary or comercial benefits
 
 GNU GENERAL PUBLIC LICENSE
