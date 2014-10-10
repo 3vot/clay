@@ -19,7 +19,7 @@ email: a3@3vot.com
 PO: 488-2120 Costa Rica
 
 
-##GNU GENERAL PUBLIC LICENSE
+##Copy of the GNU GENERAL PUBLIC LICENSE
 Version 3, 29 June 2007
 
  Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
