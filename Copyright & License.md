@@ -20,9 +20,9 @@ PO: 488-2120 Costa Rica
 
 
 ##Copy of the GNU GENERAL PUBLIC LICENSE
-####In case you are using Clay in projects with no monetary or comercial benefits
+In case you are using Clay in projects with no monetary or comercial benefits:
 
-GNU GENERAL PUBLIC LICENSE
+#####GNU GENERAL PUBLIC LICENSE
 Version 3, 29 June 2007
 
  Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
