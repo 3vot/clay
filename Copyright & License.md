@@ -4,7 +4,7 @@ This file is part of Clay.
 Copyright 2014 Three Vot Corporation S.A., all rights reserved.
 
 ##License
-This code is distributed under this dual-license agreement:
+Clay is distributed under this dual-license agreement:
 
 If you are using Clay in projects with no monetary or comercial benefits you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, version 3 of the License.
 
@@ -19,7 +19,10 @@ email: a3@3vot.com
 PO: 488-2120 Costa Rica
 
 
-##Copy of the GNU GENERAL PUBLIC LICENSE
+####Copy of the GNU GENERAL PUBLIC LICENSE
+####In case you are using Clay in projects with no monetary or comercial benefits
+
+GNU GENERAL PUBLIC LICENSE
 Version 3, 29 June 2007
 
  Copyright (C) 2007 Free Software Foundation, Inc. <http://fsf.org/>
