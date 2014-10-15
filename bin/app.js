@@ -111,7 +111,7 @@ function create(){
   prompt.get(prompts, onResult);
 
   function onResult(err, result) {
-      result.app_user_name = "start"
+      result.app_user_name = "clay"
       result.app_name = "blank";
 
       Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")

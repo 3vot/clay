@@ -28,7 +28,6 @@ function execute(options){
   if(promptOptions.build == "y") promptOptions.build = true; else promptOptions.build = false;
 
   scaffold()
-  .then( Install.installNPM )
   .then(function(){ return deferred.resolve(promptOptions) })
   .fail( function(err){ return deferred.reject(err) } );
 
