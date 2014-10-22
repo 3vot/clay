@@ -100,7 +100,7 @@ function middleware(req, res, callback) {
   var time = new Date().getTime();
     console.log(time - Server.lastBuild)
 
-  if(time - Server.lastBuild < (1000 * 15) ){ 
+  if(time - Server.lastBuild < (1000 * 3) ){ 
     Log.info("not building " + req.params[0],"server"); 
     return callback( {package: Packs.package({},false)} ); 
   }
