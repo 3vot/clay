@@ -16,11 +16,13 @@ function addUser(){
     { name: 'salesforce_password', hidden: true, description: 'Salesforce Password: ' } ,
     { name: 'salesforce_token', description: 'Salesforce Token' } ,
   ];
+
   
   prompt.start();
   prompt.get( options, function (err, result) {
     result.namespace = "clay";
     result.salesforce_host = result.salesforce_host || "login.salesforce.com"
+
 
     Packs.get(result, false)
     .then( AddUser )

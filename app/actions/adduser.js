@@ -3,6 +3,8 @@ var Profile = require("3vot-cloud/models/profile")
 var Log = require("3vot-cloud/utils/log")
 var Packs = require("3vot-cloud/utils/packs")
 var Login = require("../salesforce/login")
+var Request = require("superagent")
+
 
 promptOptions = {
   public_dev_key: null,
@@ -19,6 +21,7 @@ function execute(options){
   promptOptions = options;
   var deferred = Q.defer();
 
+
   getProfile()
   .then(function(){ var testPrompts = {user: promptOptions.promptValues}; return Login(testPrompts) } )  
   .then(function(){ return saveuser() } )
@@ -31,26 +34,38 @@ function execute(options){
 function getProfile(){
   var deferred = Q.defer();
   
-  callbacks = {
-    done: function(profile){
-      if(!profile.user_name) return deferred.reject("No User found with provided Key")
-      Log.user_name = profile.user_name
-      promptOptions.promptValues.user_name = profile.user_name;
-      tempVars.profile = profile
-      return deferred.resolve(profile);
-    },
-    fail: function(err){
-      return deferred.reject(err);
+  callbacks= function(res){
+    if (res.ok && responseOk(res.body) ) {
+      res.body = JSON.parse(res.body)
+      if(!res.body.Name) return deferred.reject("No User found with provided Key")
+      Log.user_name = res.body.user_name
+      promptOptions.promptValues.user_name = res.body.Org__r.Name;
+      tempVars.profile = res.body;
+      return deferred.resolve( tempVars.profile ) ;
+    } else {
+      Log.debug(res.text, "addUser", 45);
+      return deferred.reject( res.error || res.body )
     }
   }
-  Profile.callView( "authenticate", { public_dev_key: promptOptions.promptValues.public_dev_key }, callbacks )
-  
+
+  Request.get(promptOptions.package.threevot.api)
+  .set('Accept', 'application/json')
+  .type("application/json")
+  .query("dev_code=" + promptOptions.promptValues.public_dev_key)
+  .end(callbacks);
+
   return deferred.promise;
 }
+
 
 function saveuser(){
   if( !promptOptions.user ) promptOptions.user = { users: {} }
   else if( !promptOptions.user.users || promptOptions.user.users === undefined || promptOptions.user.users ===   "undefined") promptOptions.user.users = {};
   promptOptions.user.users[ promptOptions.promptValues.user_name + " : " + promptOptions.promptValues.salesforce_user_name + " : " + promptOptions.promptValues.salesforce_host ] = promptOptions.promptValues;
   return Packs.set(promptOptions.user, "clay");
+}
+
+function responseOk(responseBody){
+  if(responseBody.indexOf("ERROR_CODE") > -1) return false
+  return true;
 }

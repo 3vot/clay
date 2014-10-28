@@ -103,6 +103,9 @@ else if( argv.h ){
 }
 else{
 
+    console.log("*****************")
+
+
   //if( argv._.indexOf("users") > -1 && argv.reset ){ require("./postInstall") }  
 
   if( argv._.indexOf("users") > -1  && argv.add ){ Users.addUser(); }  

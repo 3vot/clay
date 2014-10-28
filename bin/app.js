@@ -92,8 +92,8 @@ function download(){
 
   function onResult(err, result) {
     Log.info("<:> 3VOT DIGITAL CONTENT CLOUD :=)")
-    
-    Packs._3vot(result, false)
+    result.namespace= "clay";
+    Packs._3vot(result)
     .then( function(res){ result = res; return Download(result); } )
     .then( function(){ Log.info("3. Preview with 'clay server'"); Log.info("ok"); } )
     .then( function(){ 
