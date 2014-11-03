@@ -44,6 +44,7 @@ function getProfile(){
       return deferred.resolve( tempVars.profile ) ;
     } else {
       Log.debug(res.text, "addUser", 45);
+      Log.warning("It seems the access code you provided is not correct.")
       return deferred.reject( res.error || res.body )
     }
   }
