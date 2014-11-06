@@ -21,8 +21,6 @@ var open = require("open")
 
 Log.setLevel("INFO");
 
-//_3Model.Model.host = "http://localhost:3002/v1"
-
 _3Model.Model.host = "http://threevot-api.herokuapp.com/v1"
 
 Stat.setup("53ac8179d97b856681000000","b58de1794216364dc655f61975b7879b20c2e201c815da5e493175dd2f74b9c92f3ad29b1480640fa6a27e89be0e534e9d204b56b55c50e26cd7cd86452947bdbb10c341913e2061e0396562e3c61215671396d6e73cea908f5591e332980b8ca873d463576f4921bb76a5e6fdd8856f")
@@ -130,7 +128,6 @@ else{
 
   else if( argv._.indexOf("share") > -1 ){ App.share(); }
 
-
   else if( argv._.indexOf("install") > -1 ){ App.install(); }
 
   else if( argv._.indexOf("build") > -1 ){ App.build(); }
@@ -144,9 +141,6 @@ else{
   else if( argv._.indexOf("render") > -1 ){ ClayOperations.render(); }
 
   else if( argv._.indexOf("custom") > -1 ){  ClayOperations.custom(); }
-
-
-
 
   else{    
     Log.info("Command not found: Use clay -h for help", "bin/3cli", 124)

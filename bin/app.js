@@ -29,8 +29,7 @@ function share(ignoreSource){
 }
 
 
-function upload(ignoreSource){
-  
+function upload(ignoreSource){  
   Packs._3vot({ namespace: "clay" })
   .then( function(res){ 
     result = res; 

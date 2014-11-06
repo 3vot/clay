@@ -15,7 +15,6 @@ function execute(options){
   var deferred = Q.defer();
   promptOptions = options;
 
-
   tempVars.templatePath =  Path.join(Path.dirname(fs.realpathSync(__filename)), "..","..","templates","salesforce", promptOptions.promptValues.objectName + ".json")
 
   tempVars.mockPath = Path.join( process.cwd(), "mock", promptOptions.promptValues.objectName + ".json" )

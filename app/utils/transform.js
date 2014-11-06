@@ -1,5 +1,4 @@
 var fs = require("fs")
-var _3vot = require("3vot/utils")
 var Path = require("path")
 var placeholder = "{3vot}"
 var local = "//localhost:3000";
@@ -12,7 +11,7 @@ var Transform = { local: toLocal, sf: toSf, index: transformIndex, _3vot: transf
 //Transforms everything to Localhost
 function toLocal( body, transformOptions ){
 	var route = (transformOptions.host || local ) 
-	body = _3vot.replaceAll(body, transformOptions.placeholder || placeholder, route);
+	body = replaceAll(body, transformOptions.placeholder || placeholder, route);
 	return body;
 }
 
@@ -22,13 +21,13 @@ function toProduction(body, transformOptions){
 	else route = production + "/" + transformOptions.user.user_name + "/" + transformOptions.package.name;
 	
 	if(!transformOptions.promptValues.production) route += "_" + transformOptions.version
-	body = _3vot.replaceAll(body, transformOptions.placeholder || placeholder, route);
+	body = replaceAll(body, transformOptions.placeholder || placeholder, route);
 	return body;
 }
 
 //Removes all {3vot} tags from internal js and css since they are not needed Static Resource uses relative paths
 function toSf( body, transformOptions ){
-	body = _3vot.replaceAll(body, transformOptions.placeholder || placeholder + "/", "");
+	body = replaceAll(body, transformOptions.placeholder || placeholder + "/", "");
 	return body;
 }
 
@@ -51,7 +50,7 @@ function transformIndex(body, transformOptions, production){
 	if(!production) clay = '<script>window.clay = { path: "https://localhost:3000" }</script>'
 
 
-	//body = _3vot.replaceAll(body, "{3vot}", "" )
+	//body = replaceAll(body, "{3vot}", "" )
 	var cheerio = require('cheerio'),
   $ = cheerio.load(body,  { xmlMode: true });
 	
@@ -100,6 +99,12 @@ function readByType(path, transform, transformOptions){
   else body = fs.readFileSync(path)
   return body;
 }
+
+  
+ function replaceAll(str, find, replace) {
+    return str.replace(new RegExp(find.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g'), replace);
+  }
+
 
 module.exports = {
 	toLocal: toLocal,

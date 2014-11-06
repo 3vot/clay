@@ -1,3 +1,8 @@
+var WalkDir = require("3vot-cloud/utils/walk")
+var AppBuild = require("3vot-cloud/app/build")
+var Packs = require("3vot-cloud/utils/packs")
+var Log = require("3vot-cloud/utils/log")
+
 var express = require('express');
 var fs = require("fs");
 var Path = require("path");
@@ -8,7 +13,6 @@ var prompt = require("prompt")
 var argv = require('optimist').argv;
 var request = require("superagent")
 var devDomain = null;
-var _3vot = require("3vot/utils")
 var send = require('send');
 var rimraf = require("rimraf")
 var Transform = require("./utils/transform")
@@ -16,16 +20,12 @@ var Transform = require("./utils/transform")
 var mime = require('mime');
 
 var Server = {}
-var WalkDir = require("3vot-cloud/utils/walk")
-var AppBuild = require("3vot-cloud/app/build")
 
 var Mock = require("./server_mock")
 
-var Packs = require("3vot-cloud/utils/packs")
 
 var Q = require("q")
 
-var Log = require("3vot-cloud/utils/log")
 
 Server.domain = "localhost:3000"
 Server.ssl = true;

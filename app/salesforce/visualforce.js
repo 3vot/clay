@@ -26,8 +26,9 @@ function execute(options, vars){
 
   publishPage()
   .then( function(){ 
-    var url = tempVars.session.instance_url + "/apex/" + promptOptions.package.name
+    var url = tempVars.session.instance_url + "/apex/" + promptOptions.package.name 
     if( promptOptions.promptValues.target == "localhost" ) url += "_dev"
+    else url += "_" + promptOptions.package.threevot.version
     tempVars.url = url;
     return Log.info("App Available at: " + url) } )
   .then (function(){ return deferred.resolve(tempVars) })
@@ -41,9 +42,8 @@ function publishPage(){
 
   if(promptOptions.promptValues.target == "localhost") name += "_dev"
 
-  var url = tempVars.session.instance_url + "/services/data/v30.0/sobjects/ApexPage/Name/" + name;
+  var url = tempVars.session.instance_url + "/services/data/v30.0/sobjects/ApexPage/Name/" + name + "_" + promptOptions.package.threevot.version;
   
-
   body = {
     Markup : tempVars.page,
     ControllerType : 3,
