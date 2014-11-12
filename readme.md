@@ -1,6 +1,6 @@
 ### Clay is the way to 100% JavaScript Apps for Salesforce
 
-> When I imagined Clay, I thought of the perfect developer experience**<br/>Let us know how close we did @rodriguezartav
+When I imagined Clay, I thought of the perfect developer experience<br/>Let us know how close we did [@rodriguezartav](http://twitter.com/rodriguezartav).
 
 * Develop JS/Visualforce in your own Computer, preview automatically in Salesforce.
 * Upload Visualforce and Apps with one command.
@@ -11,7 +11,7 @@
 
 **Clay is Awesome** to use when building standard HTML, CSS and JS **browser apps** while writing Enterprise Modular Code 
 
-**Clay is Open** - as a developer you can use Clay free to build robust JS Apps, you are free to choose your favorite framework, patterns and tools.
+**Clay is Open** - as a developer you can use Clay to build robust JS Apps, you are free to choose your favorite framework, patterns and tools.
 
 **Clay is an Automated Production Line of Apps** - organizations can use it to automate the production of apps. Just like a production line of cars, Clay has robots that improve manual processes and allows your org to reach farther.
 
@@ -28,7 +28,7 @@ Some users may need to run ```sudo npm install clay-cli -g```
 
 ## Documentation
 ### [Clay Docs and Wiki](https://github.com/3vot/clay/wiki)
-  * Getting Started in 5 Minutes
+  * [Getting Started in 5 Minutes](https://github.com/3vot/clay/wiki/Getting-Started)
 
 
 ## The next generation of JavaScript Apps
@@ -55,6 +55,6 @@ https://github.com/3vot/clayforsalesforce
 
 ## On the Shoulders of Giants ##
 
-Clay is built on top of lessons and/or code from the leading open source libraries and minds in the world. Special recognition to Alex Maccaw for his vision and work on modular code with Spine and Hem Server Specially and to Substack's Unix Mentality and it's Browserify Open Source Library. The amazing work by Visionmedia is all over the place in Express and SuperAgent. PLV8 powers ours backend thanks to mgutz concepts. Finally thanks to creationix for it's pair programming sessions.
+Clay is built on top of lessons and/or code from the leading open source libraries and minds in the world. Special recognition to Alex Maccaw for his vision and work on modular code with Spine and Hem Server Specially and to Substack's Unix Mentality and it's Browserify Open Source Library. The amazing work by Visionmedia is all over the place in Express and SuperAgent. Finally thanks to creationix for it's pair programming sessions.
 
 Lessons learned while using Grunt and Yeoman definitely shaped Clay, but those projects are not used on the CLI.
