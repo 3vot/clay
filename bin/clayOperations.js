@@ -49,8 +49,8 @@ function develop( cliOptions ){
 
 }
 
-function upload(  ){
-  Packs.get({ namespace: "clay" })
+function upload( publish ){
+  Packs.get({ namespace: "clay", publish: publish || false })
   .then( Deploy )
   .then( function(){ return Stats.track("site:server") } )
   .then( function(){ console.log("Upload Successful") })

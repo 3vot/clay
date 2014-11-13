@@ -19,8 +19,8 @@ var promptOptions = {
   password: null,
   app_name: null,
   target: null,
-  unmanned: null
-
+  unmanned: null,
+  publish: null
 }
 
 var tempVars = {

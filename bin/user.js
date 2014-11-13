@@ -22,7 +22,7 @@ function addUser(){
   prompt.get( options, function (err, result) {
     result.namespace = "clay";
     result.salesforce_host = result.salesforce_host || "login.salesforce.com"
-
+    if(!result.public_dev_key) result.public_dev_key = "default";
 
     Packs.get(result, false)
     .then( AddUser )
@@ -31,7 +31,6 @@ function addUser(){
     .then(function(){ process.exit() })
     .fail( function(err){ Log.error(err, "./prompt/profile",43); } );
   });
-
 }
 
 function removeUser(){

@@ -68,7 +68,9 @@ else if( argv.h ){
     "",
     "  server                 Create a development server. Local or inserted in Salesforce.",
     "",
-    "  upload                 Uploads and publishes the app to your Salesforce account.",
+    "  upload                 Uploads a staging version app to your Salesforce account.",
+    "",
+    "  publish                Publishes the production to your Salesforce account.",
     "",
     "  download               Downloads and app from a Profile",
     "",    
@@ -121,6 +123,8 @@ else{
   else if( argv._.indexOf("offline") > -1 ){  require("../app/server"); open("https://localhost:3000/index.html") }
  
   else if( argv._.indexOf("upload") > -1 ){  ClayOperations.upload(); }
+
+  else if( argv._.indexOf("publish") > -1 ){  ClayOperations.upload(true); }
   
   else if( argv._.indexOf("download") > -1 ){ App.download(); }
   
