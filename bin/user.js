@@ -17,7 +17,6 @@ function addUser(){
     { name: 'salesforce_token', description: 'Salesforce Token' } ,
   ];
 
-  
   prompt.start();
   prompt.get( options, function (err, result) {
     result.namespace = "clay";

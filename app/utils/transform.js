@@ -46,7 +46,10 @@ function transformIndex(body, transformOptions, production){
 	if(!transformOptions) transformOptions = {};
 
 	if(production == null || production == undefined) production=true;
-	var clay = '<script>window.clay = { path: "{!URLFOR($Resource.' + transformOptions.name + "_" + transformOptions.threevot.version + ')}" }</script>'
+	var clay = '<script>'
+	clay += 'window.clay = { path: "{!URLFOR($Resource.' + transformOptions.name + "_" + transformOptions.threevot.version + ')}" };'
+	clay += '\n window.clay.path = window.clay.path.split("?")[0]';
+	clay +='</script>'
 	if(!production) clay = '<script>window.clay = { path: "https://localhost:3000" }</script>'
 
 
