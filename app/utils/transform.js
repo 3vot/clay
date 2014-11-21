@@ -20,7 +20,7 @@ function toProduction(body, transformOptions){
 	if(transformOptions.package.threevot.domain ) route = transformOptions.package.threevot.domain
 	else route = production + "/" + transformOptions.user.user_name + "/" + transformOptions.package.name;
 	
-	if( !transformOptions.promptValues.publish ) route += "_" + transformOptions.version
+	if( !transformOptions.promptValues.publish ) route += "_" + transformOptions.package.threevot.version
 
 	body = replaceAll(body, transformOptions.placeholder || placeholder, route);
 	return body;
@@ -47,7 +47,7 @@ function transformIndex(body, transformOptions, production){
 	if(!transformOptions) transformOptions = {};
 
 	var name = transformOptions.name;
-	if( production == false ) name += "_" + transformOptions.version
+	if( production == false ) name += "_" + transformOptions.threevot.version
 	
 
 	if(production == null || production == undefined) production=true;
