@@ -25,7 +25,8 @@ function renderPage(options){
     //html = Transform.injectClay(html, promptOptions.package, false);
   }
   else if(promptOptions.promptValues.target == "production"){
-    html = Transform.transformIndex( templateBody, promptOptions.package);
+
+    html = Transform.transformIndex( templateBody, promptOptions.package, promptOptions.promptValues.publish);
     //html = Transform.injectClay(html, promptOptions.package);
   }
 

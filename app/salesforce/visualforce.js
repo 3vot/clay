@@ -29,7 +29,7 @@ function execute(options, vars){
   .then( function(){ 
     var url = tempVars.session.instance_url + "/apex/" + promptOptions.package.name 
     if( promptOptions.promptValues.target == "localhost" ) url += "_dev"
-    else if( promptOptions.publish == false ) url += "_" + promptOptions.package.threevot.version
+    else if( promptOptions.promptValues.publish == false ) url += "_" + promptOptions.package.threevot.version
     tempVars.url = url;
     return Log.info("App Available at: " + url) } )
   .then (function(){ return deferred.resolve(tempVars) })
@@ -42,7 +42,8 @@ function publishPage(){
   var name = promptOptions.package.name;
 
   if(promptOptions.promptValues.target == "localhost") name += "_dev"
-  else if( promptOptions.publish == false ) name += "_" + promptOptions.package.threevot.version;
+  else if( promptOptions.promptValues.publish == false ) name += "_" + promptOptions.package.threevot.version;
+
 
   var url = tempVars.session.instance_url + "/services/data/v30.0/sobjects/ApexPage/Name/" + name 
   

@@ -20,7 +20,8 @@ function toProduction(body, transformOptions){
 	if(transformOptions.package.threevot.domain ) route = transformOptions.package.threevot.domain
 	else route = production + "/" + transformOptions.user.user_name + "/" + transformOptions.package.name;
 	
-	if(!transformOptions.promptValues.production) route += "_" + transformOptions.version
+	if( !transformOptions.promptValues.publish ) route += "_" + transformOptions.version
+
 	body = replaceAll(body, transformOptions.placeholder || placeholder, route);
 	return body;
 }
@@ -45,9 +46,13 @@ function injectClay(body, pck, production){
 function transformIndex(body, transformOptions, production){
 	if(!transformOptions) transformOptions = {};
 
+	var name = transformOptions.name;
+	if( production == false ) name += "_" + transformOptions.version
+	
+
 	if(production == null || production == undefined) production=true;
 	var clay = '<script>'
-	clay += 'window.clay = { path: "{!URLFOR($Resource.' + transformOptions.name + "_" + transformOptions.threevot.version + ')}" };'
+	clay += 'window.clay = { path: "{!URLFOR($Resource.' + name + ')}" };'
 	clay += '\n window.clay.path = window.clay.path.split("?")[0]';
 	clay +='</script>'
 	if(!production) clay = '<script>window.clay = { path: "https://localhost:3000" }</script>'
@@ -64,7 +69,7 @@ function transformIndex(body, transformOptions, production){
 		var url = el.attr("href");
 		if(url && url.indexOf("{3vot}") > -1 ){
 			url = url.replace("{3vot}", "");
-			var transformed = "{!URLFOR($Resource." + transformOptions.name + "_" + transformOptions.threevot.version + ", '" +url +"')}"
+			var transformed = "{!URLFOR($Resource." + name + ", '" +url +"')}"
 			el.attr("href", transformed);
 		}	
 	});
@@ -74,7 +79,7 @@ function transformIndex(body, transformOptions, production){
 		var url = el.attr("src");
 		if(url && url.indexOf("{3vot}") > -1 ){
 			url = url.replace("{3vot}", "");
-			var transformed = "{!URLFOR($Resource." + transformOptions.name + "_" + transformOptions.threevot.version + ", '" +url +"')}"
+			var transformed = "{!URLFOR($Resource." + name + ", '" +url +"')}"
 			el.attr("src", transformed);
 			el.html(";");
 		}	

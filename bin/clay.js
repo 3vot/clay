@@ -122,7 +122,7 @@ else{
 
   else if( argv._.indexOf("offline") > -1 ){  require("../app/server"); open("https://localhost:3000/index.html") }
  
-  else if( argv._.indexOf("upload") > -1 ){  ClayOperations.upload(); }
+  else if( argv._.indexOf("upload") > -1 ){  ClayOperations.upload(false); }
 
   else if( argv._.indexOf("publish") > -1 ){  ClayOperations.upload(true); }
   

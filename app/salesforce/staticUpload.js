@@ -8,6 +8,8 @@ var WalkDir = require("3vot-cloud/utils/walk")
 var Transform = require("../utils/transform")
 var Log = require("3vot-cloud/utils/log")
 
+var jsforce = require("jsforce")
+
 var zipPath
 
 var promptOptions = {
@@ -28,7 +30,10 @@ function execute(options, vars){
 
   transform();
 
+	
+
   packApp()
+  .then( deleteSR )
   .then( upload )
   .then( deferred.resolve )
   .fail( deferred.reject );
@@ -75,6 +80,31 @@ function packApp(){
 	return deffered.promise;
 }
 
+function deleteSR(){
+	var deffered = Q.defer();
+
+	var conn = new jsforce.Connection({
+		accessToken: tempVars.session.access_token,
+		instanceUrl: tempVars.session.instance_url
+	});
+
+	var name = promptOptions.package.name
+
+
+	var fullNames = [ promptOptions.package.threevot.namespace + "__" + name, name ];
+	conn.metadata.delete('StaticResource', fullNames, function(err, results) {
+	  return deffered.resolve();
+	  if (err) { console.error(err); }
+	  for (var i=0; i < results.length; i++) {
+	    var result = results[i];
+	    console.log('success ? : ' + result.success);
+	    console.log('fullName : ' + result.fullName);
+	  }
+	});
+
+	return deffered.promise;
+}
+
 function upload(){
 
 	var deffered = Q.defer();
@@ -82,10 +112,14 @@ function upload(){
 	var zip64 =  new Buffer(zip).toString('base64');
 	var url = tempVars.session.instance_url + '/services/data/v30.0/tooling/sobjects/StaticResource/'
 
+	var name = promptOptions.package.name
+	if(promptOptions.promptValues.publish == false) name +=  "_" + promptOptions.package.threevot.version
+
+		
 	request.post(url)
 	.set('Authorization', 'Bearer ' + tempVars.session.access_token)
 	.set('Content-Type', 'application/json')
-	.send({ 'Name': promptOptions.package.name + "_" + promptOptions.package.threevot.version , Body: zip64, ContentType: "application/zip", CacheControl: "Public"  })
+	.send({ 'Name': name , Body: zip64, ContentType: "application/zip", CacheControl: "Public"  })
 
 	.end(function(err,res){
 		if(err){
