@@ -14,6 +14,7 @@ var promptOptions = {
 function renderPage(options){
   Log.debug("Rendering Page","actions/salesforce_upload", 43)
 
+
   promptOptions = options;
 
   var templatePath = Path.join( process.cwd(),  "index.html" );
@@ -22,7 +23,7 @@ function renderPage(options){
 
   if(promptOptions.promptValues.target == "localhost"){
     html = Transform["toLocal"]( templateBody, promptOptions, false)
-    //html = Transform.injectClay(html, promptOptions.package, false);
+    html = Transform.injectClay(html, promptOptions.package, false);
   }
   else if(promptOptions.promptValues.target == "production"){
 

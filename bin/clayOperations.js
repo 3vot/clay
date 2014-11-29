@@ -44,6 +44,13 @@ function develop( cliOptions ){
   Packs.get({ namespace: "clay" })
   .then( Develop )
   .then(function(options){ open('https://localhost:3000/validate?app=' + options.url); })
+
+  //.then(function(options){ 
+  // var url = options.session.instance_url + "/secur/frontdoor.jsp?sid=" 
+  // url += options.session.access_token+"&retURL="+options.relativeUrl
+   // open(url); //https://localhost:3000/validate?app=' + url ); 
+  //})
+
   .then( function(){ return Stats.track("site:server") } )
   .fail( function(err){ Log.error(err, "./prompt/profile",43); } );
 

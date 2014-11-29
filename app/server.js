@@ -3,6 +3,8 @@ var AppBuild = require("3vot-cloud/app/build")
 var Packs = require("3vot-cloud/utils/packs")
 var Log = require("3vot-cloud/utils/log")
 
+var gaze = require("gaze");
+
 var express = require('express');
 var fs = require("fs");
 var Path = require("path");
@@ -23,14 +25,7 @@ var Server = {}
 
 var Mock = require("./server_mock")
 
-
-var Q = require("q")
-
-
-Server.domain = "localhost:3000"
-Server.ssl = true;
-Server.lastBuild=0;
-
+var Q = require("q");
 
 var sslOptions = {
   key: fs.readFileSync( Path.join(Path.dirname(fs.realpathSync(__filename)), "..", 'ssl' , "server.key" )),
@@ -39,6 +34,16 @@ var sslOptions = {
   requestCert: true,
   rejectUnauthorized: false
 };
+
+var lr = require('tiny-lr')(sslOptions);
+lr.listen(35729);
+
+
+Server.domain = "localhost:3000"
+Server.ssl = true;
+Server.lastBuild=0;
+
+
 
 var app = express();    
 
@@ -55,6 +60,7 @@ app.use(app.router);
 setupCustomRoutes(app);
 
 Mock(app);
+
 
 app.get("/validate", function(req, res) {
   res.send('<script>window.location ="' + req.query.app + '";</script>')
@@ -142,5 +148,30 @@ function setupCustomRoutes(app){
   var Routes = require(posiblePath);
   Routes(app);
 }
+
+function notifyLivereload(file){
+  Log.debug("File Changed, live reload " + file, "server",221)
+
+  lr.changed({
+    body: {
+      files: [file]
+    }
+  });
+}
+
+// Also accepts an array of patterns
+gaze(['**/*.css','**/*.js', '!node_modules/**/*.*', '!dist', '!dist/**' ,'!dist/*.*', '!dist/**/*.*' ], function(err, watcher) {
+  // Add more patterns later to be watched
+  
+  this.watched(function(err, watched) {
+    //Log.debug("Watched Files " + watched , "server",235)
+  });
+
+
+  this.on('changed', function(filepath) {
+    notifyLivereload(filepath)
+  });
+});
+
 
 module.exports = Server

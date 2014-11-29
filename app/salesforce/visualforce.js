@@ -27,10 +27,12 @@ function execute(options, vars){
 
   publishPage()
   .then( function(){ 
-    var url = tempVars.session.instance_url + "/apex/" + promptOptions.package.name 
+    var url =  "/apex/" + promptOptions.package.name 
     if( promptOptions.promptValues.target == "localhost" ) url += "_dev"
     else if( promptOptions.promptValues.publish == false ) url += "_" + promptOptions.package.threevot.version
-    tempVars.url = url;
+    tempVars.relativeUrl = url;
+    tempVars.url =  tempVars.session.instance_url + url;
+
     return Log.info("App Available at: " + url) } )
   .then (function(){ return deferred.resolve(tempVars) })
   .fail( function(err){ return deferred.reject(err) } );
