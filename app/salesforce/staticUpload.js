@@ -30,7 +30,6 @@ function execute(options, vars){
 
   transform();
 
-
   packApp()
   .then( upload )
   .then( deferred.resolve )

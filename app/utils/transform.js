@@ -32,13 +32,14 @@ function toSf( body, transformOptions ){
 	return body;
 }
 
+//THIS IS NOT INJECT CLAY
 function injectClay(body, pck, production){
 	
 	var cheerio = require('cheerio'),
   $ = cheerio.load(body);
   
-	lr = '<script src="https://localhost:35729/livereload.js?snipver=1"></script>'
-	$("body").append( lr );
+	//lr = '<script src="https://localhost:35729/livereload.js?snipver=1"></script>'
+	//$("body").append( lr );
 
 	return $.xml();	
 }
@@ -57,10 +58,8 @@ function transformIndex(body, transformOptions, production){
 	clay += '\n window.clay.path = window.clay.path.split("?")[0]';
 	clay +='</script>'
 	if(!production){
-		clay = '<script>window.clay = { path: "https://localhost:3000" }</script>'
-		
+		clay = '<script>window.clay.path = "https://localhost:3000";</script>'
 	}
-
 
 	//body = replaceAll(body, "{3vot}", "" )
 	var cheerio = require('cheerio'),

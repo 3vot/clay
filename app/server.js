@@ -35,8 +35,8 @@ var sslOptions = {
   rejectUnauthorized: false
 };
 
-var lr = require('tiny-lr')(sslOptions);
-lr.listen(35729);
+//var lr = require('tiny-lr')(sslOptions);
+//lr.listen(35729);
 
 
 Server.domain = "localhost:3000"
@@ -51,6 +51,12 @@ var app = express();
 app.set('port', 3000);
 app.disable('etag');
 app.enable('strict routing');
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
@@ -159,10 +165,11 @@ function notifyLivereload(file){
   });
 }
 
+
 // Also accepts an array of patterns
-gaze(['**/*.css','**/*.js', '!node_modules/**/*.*', '!dist', '!dist/**' ,'!dist/*.*', '!dist/**/*.*' ], function(err, watcher) {
+//gaze(['**/*.css','**/*.js', '!node_modules/**/*.*', '!dist', '!dist/**' ,'!dist/*.*', '!dist/**/*.*' ], function(err, watcher) {
   // Add more patterns later to be watched
-  
+/*  
   this.watched(function(err, watched) {
     //Log.debug("Watched Files " + watched , "server",235)
   });
@@ -172,6 +179,6 @@ gaze(['**/*.css','**/*.js', '!node_modules/**/*.*', '!dist', '!dist/**' ,'!dist/
     notifyLivereload(filepath)
   });
 });
-
+*/
 
 module.exports = Server
