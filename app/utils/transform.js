@@ -54,8 +54,8 @@ function transformIndex(body, transformOptions, production){
 
 	if(production == null || production == undefined) production=true;
 	var clay = '<script>'
-	clay += 'window.clay = { path: "{!URLFOR($Resource.' + name + ')}" };'
-	clay += '\n window.clay.path = window.clay.path.split("?")[0]';
+	clay += 'var clayPath = "{!URLFOR($Resource.' + name + ')}" ;'
+	clay += '\n window.clay.path = clayPath.split("?")[0]';
 	clay +='</script>'
 	if(!production){
 		clay = '<script>window.clay.path = "https://localhost:3000";</script>'
