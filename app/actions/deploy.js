@@ -62,7 +62,7 @@ function uploadApp(){
 }
 
 function uploadStatic(app){
-  tempVars.app = App.find(app.id)
+  //tempVars.app = App.find(app.id)
   return UploadStatic( promptOptions, tempVars )
 }
 
