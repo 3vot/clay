@@ -38,8 +38,8 @@ function getProfile(){
     if (res.ok && responseOk(res.body) ) {
       res.body = JSON.parse(res.body)
       if(!res.body.Name) return deferred.reject("No User found with provided Key")
-      Log.user_name = res.body.user_name
-      promptOptions.promptValues.user_name = res.body.Org__r.Name;
+      Log.user_name = res.body.Name
+      promptOptions.promptValues.user_name = res.body.Name;
       tempVars.profile = res.body;
       return deferred.resolve( tempVars.profile ) ;
     } else {
@@ -49,7 +49,7 @@ function getProfile(){
     }
   }
 
-  Request.get(promptOptions.package.threevot.api)
+  Request.get("https://clay.secure.force.com/api/services/apexrest/clay-api")
   .set('Accept', 'application/json')
   .type("application/json")
   .query("dev_code=" + promptOptions.promptValues.public_dev_key)
