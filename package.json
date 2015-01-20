@@ -1,6 +1,6 @@
 {
   "name": "clay-cli",
-  "version": "0.10.11",
+  "version": "0.10.12",
   "description": "Clay Command Line Interface to build and deploy Salesforce Javascript Apps.",
   "main": "bin/clay.js",
   "bin": {
@@ -38,7 +38,7 @@
     "send": "~0.4.3",
     "rimraf": "~2.2.8",
     "cheerio": "~0.17.0",
-    "3vot-cloud": "0.0.69",
+    "3vot-cloud": "0.0.72",
     "open": "0.0.5",
     "jsforce": "~1.3.1",
     "tiny-lr": "~0.1.4",
