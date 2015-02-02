@@ -1,7 +1,0 @@
-<apex:page sidebar="false" showHeader="<%= @show_header || true %>" controller="<%= if(!@unmanned) then "threevot" %>.ThreeVotApiController">
-
-	<%- @clay %>
-
-  <%- @body %>
-  
-</apex:page>

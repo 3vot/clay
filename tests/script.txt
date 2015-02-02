@@ -1,4 +1,0 @@
-mocha ./tests/integration/action_profile_spec.coffee --compilers coffee:coffee-script/register
-mocha ./tests/integration/action_profile_setup_spec.coffee --compilers coffee:coffee-script/register
-mocha ./tests/integration/action_app_spec.coffee --compilers coffee:coffee-script/register
-mocha ./tests/integration/action_store_spec.coffee --compilers coffee:coffee-script/register
