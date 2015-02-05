@@ -1,0 +1,15 @@
+{
+  "name": "",
+  "version": "0.0.1",
+  "mandrillMessage":{
+  	"to": [
+  		{ "email":"" }
+  	],
+  	"subject" : ""
+  },
+  "dependencies": {
+    "gulp-handlebars-render": "0.0.1",
+    "superagent": "~0.21.0",
+    "q": "~1.1.2"
+  }
+}

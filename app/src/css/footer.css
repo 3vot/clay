@@ -1,0 +1,22 @@
+.footer{
+	margin-top: 100px;
+	border-top: 2px solid rgb( 7, 160,220 );
+	padding-top: 20px;
+}
+
+.footer .logo{
+	float: right;
+}
+
+.footer img{
+	width: 100%;
+	
+}
+
+@media screen and (max-width: 600px) {
+
+.footer img{
+	margin-bottom: 10px;
+}
+
+}

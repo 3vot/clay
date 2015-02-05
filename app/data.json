@@ -1,0 +1,104 @@
+{
+        "Name": "Roberto Rodriguez",
+        "MarcasPendientes": [
+            "coflex",
+            "condusal",
+            "tricircle",
+            "plyco"
+        ],
+        "FamiliaExists": {
+            "Plyco": {
+                "state": "disable",
+                "name": "Plyco"
+            },
+            "Coflex": {
+                "state": "disable",
+                "name": "Coflex"
+            },
+            "Hilco": {
+                "state": "enable",
+                "name": "Hilco"
+            },
+            "Yale": {
+                "state": "enable",
+                "name": "Yale"
+            },
+            "Condusal": {
+                "state": "disable",
+                "name": "Condusal"
+            },
+            "Tricicle": {
+                "state": "disable",
+                "name": "Tricicle"
+            }
+        },
+        "CantidadKilos": 50,
+        "Meta": 2000,
+        "PendingKilos": 1950,
+        "Familias": {
+            "Hilco": [
+                {
+                    "attributes": {
+                        "type": "Movimiento__c",
+                        "url": "/services/data/v33.0/sobjects/Movimiento__c/a02K00000041trDIAQ"
+                    },
+                    "ProductoCantidad__c": 100,
+                    "Cliente__c": "a00K0000002ycjEIAQ",
+                    "Id": "a02K00000041trDIAQ",
+                    "Producto__r": {
+                        "attributes": {
+                            "type": "Producto__c",
+                            "url": "/services/data/v33.0/sobjects/Producto__c/a04K000000A7fdtIAB"
+                        },
+                        "Name": "Soldadura Hilco 6013",
+                        "Familia__c": "101",
+                        "Id": "a04K000000A7fdtIAB",
+                        "FamiliaNombre__c": "Hilco"
+                    },
+                    "Producto__c": "a04K000000A7fdtIAB"
+                },
+                {
+                    "attributes": {
+                        "type": "Movimiento__c",
+                        "url": "/services/data/v33.0/sobjects/Movimiento__c/a02K0000003LsMOIA0"
+                    },
+                    "ProductoCantidad__c": 55,
+                    "Cliente__c": "a00K0000002ycjEIAQ",
+                    "Id": "a02K0000003LsMOIA0",
+                    "Producto__r": {
+                        "attributes": {
+                            "type": "Producto__c",
+                            "url": "/services/data/v33.0/sobjects/Producto__c/a04K000000A7SowIAF"
+                        },
+                        "Name": "MASCARA HILCO SOLDAR ELECTRONICA",
+                        "Familia__c": "101",
+                        "Id": "a04K000000A7SowIAF",
+                        "FamiliaNombre__c": "Hilco"
+                    },
+                    "Producto__c": "a04K000000A7SowIAF"
+                }
+            ],
+            "Yale": [
+                {
+                    "attributes": {
+                        "type": "Movimiento__c",
+                        "url": "/services/data/v33.0/sobjects/Movimiento__c/a02K0000003LsMTIA0"
+                    },
+                    "ProductoCantidad__c": 55,
+                    "Cliente__c": "a00K0000002ycjEIAQ",
+                    "Id": "a02K0000003LsMTIA0",
+                    "Producto__r": {
+                        "attributes": {
+                            "type": "Producto__c",
+                            "url": "/services/data/v33.0/sobjects/Producto__c/a04K000000A7SpDIAV"
+                        },
+                        "Name": "LLAVIN YALE DOBLE PASO 610-00501 DERECHO",
+                        "Familia__c": "010",
+                        "Id": "a04K000000A7SpDIAV",
+                        "FamiliaNombre__c": "Yale"
+                    },
+                    "Producto__c": "a04K000000A7SpDIAV"
+                }
+            ]
+        }
+    }

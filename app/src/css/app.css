@@ -1,0 +1,89 @@
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: white;
+  box-sizing: border-box;
+  background-color: #fff;
+  font-family:  'Arial';
+  font-size: 11px;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.container{
+  width: 90%;
+  overflow: hidden;
+  max-width: 600px;
+  margin: 20px auto;
+  background-color: #fff;
+  padding: 10px;
+  font-size: 11px;
+
+}
+
+.title{
+  font-size: 17px;
+  padding-bottom: 5px;
+  color: rgb(7,62,116);
+  margin-top: 20px;
+}
+
+.text{
+  font-size: 13px;
+  padding: 0px;
+  margin: 0px;
+  padding-bottom: 5px;
+  color: #333; 
+}
+
+.col{
+  float: left;
+  width: 40%;
+}
+
+.col__small{
+ width: 20%; 
+}
+
+.col__medium{
+ width: 60%;  
+}
+
+.col__large{
+ width: 70%; 
+}
+
+.col__space{
+  margin-left: 5%;
+}
+
+.clear{
+  clear: both;
+}
+
+
+@media screen and (max-width: 600px) {
+
+  .col__row{
+    float: none;
+    width: 100%;
+  }
+
+}
+
+@import url('header.css');
+
+@import url('intro.css');
+@import url('branding.css');
+
+@import url('vendedor.css');
+
+@import url('footer.css');
+
+@import url('reporte.css');
+
+@import url('goal.css');
+

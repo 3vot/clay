@@ -1,0 +1,17 @@
+.header{
+	margin-bottom: 30px;
+}
+
+.header img{
+	width: 150px;
+}
+
+
+@media screen and (max-width: 600px) {
+
+	.header img{
+		width: 90px;
+	}
+
+
+}

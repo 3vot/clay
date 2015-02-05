@@ -1,0 +1,53 @@
+.reporte{
+
+}
+
+.reporte ul{
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+.reporte .familia{
+	font-size: 20px;
+	color: #333;
+	margin: 5px 0px;
+	background-color: #fff;
+	text-transform: capitalize;
+}
+
+.reporte li{
+	background-color: rgb(248,248,248);
+	padding: 4px;
+	margin-bottom: 5px;
+}
+
+.reporte .cantidad{
+	font-size: 15px;
+	display: inline-block;
+	width: 50px;
+	color: rgb( 7,160,240 );
+}
+
+
+.reporte .nombre{
+	font-size: 14px;
+	color: rgb( 7, 160,220 );
+	font-weight: 100;
+}
+
+.reporte .details{
+	padding: 0px 10px;
+}
+
+@media screen and (max-width: 600px) {
+
+.reporte .cantidad{
+	font-size: 12px;
+}
+
+.reporte .nombre{
+	font-size: 12px;
+	}
+
+}

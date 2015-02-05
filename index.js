@@ -1,0 +1,29 @@
+global.threevot = {}
+
+var Path = require("path")
+var Fs = require("fs")
+var gulp = require('gulp');
+var gutil = require('gulp-util');
+var chalk = require('chalk');
+var requireDir = require('require-dir');
+
+var localPath = Path.join( process.cwd(), "gulpfile.js" )
+
+var localPath = process.cwd();
+var originalTaks = gulp.tasks;
+
+var dotenv = require("dotenv");
+dotenv.load();
+
+var p = require( Path.join( process.cwd() , "package.json" ) );
+
+if( !process.env.NAME ) process.env.NAME = p.name;
+if( !process.env.DIST_FOLDER ) process.env.DIST_FOLDER = "./dist";
+if( !process.env.ZIP_NAME ) process.env.ZIP_NAME = process.env.NAME;
+if( !process.env.ZIP_FOLDER ) process.env.ZIP_FOLDER = process.cwd();
+
+console.log( chalk.magenta('Welcome to 3VOT') );
+
+requireDir('./tasks', { recurse: true });
+
+

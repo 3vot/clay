@@ -1,0 +1,35 @@
+.vendedor{
+	
+}
+
+.vendedor .box{
+	background-color:  rgb( 7,160,240 );
+	padding: 7px 20px;
+	border: #ddd 4px solid;
+	color: #fff;
+	padding-bottom: 0px;
+}
+
+.vendedor .box p{
+	color: #fff;
+}
+
+.vendedor .vendedor-info{
+	margin-top: 5px;
+	font-size: 13px;
+	line-height: 18px;
+}
+
+.vendedor .vendedor-info a{
+	color: #fff;
+}
+
+.vendedor .callcenter{
+	margin-top: 10px;
+}
+
+.vendedor img{
+	width: 100%;
+	max-width: 120px;
+
+}
