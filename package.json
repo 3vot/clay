@@ -1,6 +1,6 @@
 {
   "name": "3vot-clay",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Web Tool to publish and manage Web Sites and Apps",
   "bin": {
     "clay": "bin/clay.js"
