@@ -1,7 +1,6 @@
 var Path    = require("path")
 var fs      = require("fs");
 var Q       = require("q");
-
 var jsforce = require("jsforce");
 
 function Login( username, password, host ){

@@ -90,6 +90,8 @@ function upload(  file , opts, cb ){
     
     gutil.log('Starting', gutil.colors.cyan( 'Static Resource Upload' ));
     conn.metadata.upsert( 'StaticResource', fullNames, function( err, results ) {
+      console.log(err)
+      console.log(results)
       if( err ) cb( err );
       gutil.log("Finished", gutil.colors.cyan( 'Static Resource Upload' ));
       return cb();
