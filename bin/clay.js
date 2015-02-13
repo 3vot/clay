@@ -11,7 +11,11 @@ var SfLogin      =  require("../plugins/login");
 var Q            =  require("q");
 var Util         =  require("util");
 
-var p = require("../package.json")
+try{
+	var p = require("../package.json")
+}catch(e){
+	console.log("Clay can only be used inside a valid project folder with package.json and .env files.")
+}
 
 require("../index");
 
@@ -150,14 +154,20 @@ function gulpCall( task){
   var spawn = require('child_process').spawn
   var npm;
   
-  if( task )  npm  = spawn( gulpcommand , task , {stdio: "inherit"} );
+  try{
+  	if( task )  npm  = spawn( gulpcommand , task , {stdio: "inherit"} );
 
-  else  npm  = spawn( gulpcommand );
-  var npmResponse = "";
-	
-  npm.on('close', function (code) {
-    deferred.resolve()
-  });
+	  else  npm  = spawn( gulpcommand );
+	  var npmResponse = "";
+		
+	  npm.on('close', function (code) {
+	    deferred.resolve()
+	  });
+	}catch(e){
+		console.log("NOTICE ");
+		console.log("Clay can't run gulp automatically in you system, please run gulp dist by hand and then deploy.");
+		process.nextTick(function(){ deferred.resolve(); })
+	}
 
   return deferred.promise;
 }

@@ -35,7 +35,6 @@
     "open": "0.0.5",
     "prompt": "~0.2.14",
     "q": "~1.1.2",
-    "r2-config": "~0.0.0",
     "require-dir": "~0.1.0",
     "rimraf": "~2.2.8",
     "run-sequence": "~1.0.2",
