@@ -7,9 +7,6 @@ var gutil      =   require( 'gulp-util' );
 
 var PluginError  = gutil.PluginError;
 
-var source     =   require( 'vinyl-source-stream' );
-var replace    =   require( 'gulp-replace' );
-var changed    =   require( 'gulp-changed' );
 var awspublish =   require( 'gulp-awspublish' );
 var rename     =   require( 'gulp-rename' );
 var zip        =   require( 'gulp-zip' );

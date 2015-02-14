@@ -151,7 +151,7 @@ function gulpCall( task){
 
   var gulpcommand = "gulp";
   
-  var spawn = require('child_process').spawn
+  var spawn = require("win-spawn");
   var npm;
   
   try{
@@ -165,7 +165,7 @@ function gulpCall( task){
 	  });
 	}catch(e){
 		console.log("NOTICE ");
-		console.log("Clay can't run gulp automatically in you system, please run gulp dist by hand and then deploy.");
+		console.log("Clay can't run gulp automatically in your system, please run gulp dist by hand and then deploy.");
 		process.nextTick(function(){ deferred.resolve(); })
 	}
 

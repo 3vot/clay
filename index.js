@@ -5,7 +5,6 @@ var Fs = require("fs")
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var chalk = require('chalk');
-var requireDir = require('require-dir');
 
 var localPath = Path.join( process.cwd(), "gulpfile.js" )
 
@@ -24,6 +23,6 @@ if( !process.env.ZIP_FOLDER ) process.env.ZIP_FOLDER = process.cwd();
 
 console.log( chalk.magenta('Welcome to 3VOT') );
 
-requireDir('./tasks', { recurse: true });
-
+require("./tasks/app")
+require("./tasks/dist")
 
