@@ -11,6 +11,8 @@ var SfLogin      =  require("../plugins/login");
 var Q            =  require("q");
 var Util         =  require("util");
 
+var isWin = /^win/.test(process.platform);
+
 try{
 	var p = require("../package.json")
 }catch(e){
