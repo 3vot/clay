@@ -21,7 +21,7 @@ if( !process.env.DIST_FOLDER ) process.env.DIST_FOLDER = "./dist";
 if( !process.env.ZIP_NAME ) process.env.ZIP_NAME = process.env.NAME;
 if( !process.env.ZIP_FOLDER ) process.env.ZIP_FOLDER = process.cwd();
 
-console.log( chalk.magenta('Welcome to 3VOT') );
+console.log( chalk.magenta('Welcome to CLAY by 3VOT.com') );
 
 require("./tasks/app")
 require("./tasks/dist")

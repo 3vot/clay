@@ -1,36 +1,67 @@
 #!/usr/bin/env node
 
 var glog         =  require('gulp-api-log');
-
+var fs = require("fs");
 var App          =  require("../tasks/app");
 var gutil        =  require('gulp-util');
 var PluginError  =  gutil.PluginError;
 var gulp         =  require("gulp")
-var argv         =  require('yargs').argv;
+
 var SfLogin      =  require("../plugins/login");
 var Q            =  require("q");
 var Util         =  require("util");
+require("../index");
 
-var isWin = /^win/.test(process.platform);
+
+//Validation 
 
 try{
 	var p = require("../package.json")
 }catch(e){
-	console.log("Clay can only be used inside a valid project folder with package.json and .env files.")
+	return console.log( gutil.colors.red( "Clay can only be used inside a valid project folder with package.json and .env files." ) )
 }
 
-require("../index");
+//var exists = fs.existsSync(process.cwd() + "/.env");
+//if(!exists) return console.log( gutil.colors.red( ".env files is missing - please create a .env file.\n CLAY_CODE=\n SF_USERNAME\n SF_PASSWORD\n SF_HOST\n ** SF_xxxxxx commands are only required for Clay for Salesforce.com") );
+
+
+// Argument Parsing and Construction
+var argv         =  require('yargs')
+ .usage( gutil.colors.cyan( 'Application Development and Publishing tool \nUsage: $0 command' ) )
+.describe('dev', 'Starts development Server using gulp default task')
+.describe('preview', 'Uploads a preview version of the app')
+.describe('publish', 'Uploads the production version of the app')
+.describe('salesforce dev', 'Starts the development server and uploads a development visualforce page to Salesforce')
+.describe('salesforce publish', 'Uploads the production version of the app as Static Resource + Visualforce Page to Salesforce')
+.describe('salesforce login', 'Tests salesforce login with current .env file credentials')
+.version( p.version )
+.argv;
+
+
 
 var showStack = false;
 if( argv.d ) showStack = true;
 //glog(gulp);
 
 //
-// Version
+// Show Help
 //
 
+if( argv.h ) return require('yargs').showHelp();
 
-if( argv.v ) return console.log( p.version );
+
+//
+// Server
+//
+
+else if( argv._[0] == "server" ){
+	process.env.ZIP_NAME = process.env.NAME 
+	process.env.ZIP_PATH =  process.env.ZIP_FOLDER + "/" + process.env.ZIP_NAME + ".zip" 
+
+	gulpCall()
+	.fail( doError ).done();
+	
+}
 
 //
 // Preview
@@ -109,7 +140,7 @@ else if( argv._[0] == "salesforce" && argv._[1] == "login" ){
 //
 // Salesforce
 //
-else if( argv._[0] == "salesforce" ){
+else if( argv._[0] == "salesforce" && argv._[1] == "dev" ){
 	App.check( process.env.NAME )
 	.then( function(){
 		SfLogin( process.env.SF_USERNAME, process.env.SF_PASSWORD, process.env.SF_HOST || "login.salesforce.com" )
