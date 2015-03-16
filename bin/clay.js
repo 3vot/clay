@@ -130,7 +130,7 @@ else if( argv._[0] == "salesforce" && argv._[1] == "publish" ){
 // Salesforce
 //
 else if( argv._[0] == "salesforce" && argv._[1] == "login" ){
-	SfLogin( process.env.SF_USERNAME, process.env.SF_PASSWORD, process.env.SF_HOST || "login.salesforce.com" )
+	SfLogin( process.env.SF_USERNAME, process.env.SF_PASSWORD + process.env.SF_TOKEN, process.env.SF_HOST || "login.salesforce.com" )
 	.then( function(res){ console.log("Login Success") } )
 	.fail( doError ).done();
 }
@@ -141,7 +141,7 @@ else if( argv._[0] == "salesforce" && argv._[1] == "login" ){
 else if( argv._[0] == "salesforce" && argv._[1] == "dev" ){
 	App.check( process.env.NAME )
 	.then( function(){
-		SfLogin( process.env.SF_USERNAME, process.env.SF_PASSWORD, process.env.SF_HOST || "login.salesforce.com" )
+		SfLogin( process.env.SF_USERNAME, process.env.SF_PASSWORD + process.env.SF_TOKEN, process.env.SF_HOST || "login.salesforce.com" )
 		.then( salesforce ).done();
 	})
 	.fail( doError ).done();
