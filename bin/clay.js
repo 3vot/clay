@@ -27,7 +27,7 @@ try{
 
 // Argument Parsing and Construction
 var argv         =  require('yargs')
- .usage( gutil.colors.cyan( 'Application Development and Publishing tool \nUsage: $0 command' ) )
+.usage( gutil.colors.cyan( 'Application Development and Publishing tool \nUsage: $0 command' ) )
 .describe('dev', 'Starts development Server using gulp default task')
 .describe('preview', 'Uploads a preview version of the app')
 .describe('publish', 'Uploads the production version of the app')
@@ -36,7 +36,6 @@ var argv         =  require('yargs')
 .describe('salesforce login', 'Tests salesforce login with current .env file credentials')
 .version( p.version )
 .argv;
-
 
 
 var showStack = false;
@@ -48,7 +47,6 @@ if( argv.d ) showStack = true;
 //
 
 if( argv.h ) return require('yargs').showHelp();
-
 
 //
 // Server

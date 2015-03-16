@@ -4,7 +4,6 @@ var chalk      =   require( 'chalk');
 var request    =   require( 'superagent' );
 var gutil      =   require( 'gulp-util' );
 
-
 var PluginError  = gutil.PluginError;
 
 var awspublish =   require( 'gulp-awspublish' );
@@ -23,6 +22,9 @@ gulp.task('CLAY_GET_KEY', function(cb) {
   .query( 'dev_code='+ process.env.CLAY_CODE )
   .end( function( res ){
     if( res.status > 200 ) return cb( res.text );
+
+    gutil.log( gutil.colors.cyan("Clay Credentials OK.") );
+
     process.env.AWS_ACCESS_KEY =  res.body.Aws_Keys.Credentials.AccessKeyId
     process.env.AWS_ACCESS_TOKEN = res.body.Aws_Keys.Credentials.SecretAccessKey
     process.env.AWS_BUCKET = '3votzips' 
@@ -40,6 +42,8 @@ gulp.task( 'CLAY_ZIP', [ 'CLAY_GET_KEY' ] , function () {
 
 gulp.task('CLAY_UPLOAD', [ 'CLAY_ZIP', 'CLAY_GET_KEY' ], function() {
   var headers = { 'Cache-Control': 'max-age=1, no-transform, public' };
+
+  gutil.log( gutil.colors.cyan("Uploading App") );
 
   var publisher = awspublish.create({ 
     key: process.env.AWS_ACCESS_KEY,
@@ -65,6 +69,7 @@ gulp.task('CLAY_UPLOAD', [ 'CLAY_ZIP', 'CLAY_GET_KEY' ], function() {
 
 gulp.task( 'CLAY_DIST', [ 'CLAY_UPLOAD' ], function(cb){
   //request.get('http://localhost:3000/unzip')
+  gutil.log( gutil.colors.cyan("Upload Complete") );
 
   request.get('http://unzipper.herokuapp.com/unzip')
   .query({ bucket: process.env.AWS_BUCKET })

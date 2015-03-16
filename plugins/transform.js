@@ -61,11 +61,11 @@ function transform(file, opts){
   claylocal += '\n window._sf.staticResource = window._sf.staticResource.split("?")[0]';
   claylocal +='</script></head>\n';
 
-  claylocal += "<script>\n"
-  claylocal += "var script = document.createElement('script');\n" 
-  claylocal += "script.src = '" + opts.host + "/browser-sync/browser-sync-client.2.0.0-rc6.js';\n "
-  claylocal += "document.head.appendChild(script)\n";
-  claylocal += "</script>";
+  //claylocal += "<script>\n"
+  //laylocal += "var script = document.createElement('script');\n" 
+  //claylocal += "script.src = '" + opts.host + "/browser-sync/browser-sync-client.2.0.0-rc6.js';\n "
+  //claylocal += "document.head.appendChild(script)\n";
+  //claylocal += "</script>";
 
   var cheerio = require('cheerio'),
   $ = cheerio.load( file.contents.toString(),  { xmlMode: true });
