@@ -1,6 +1,6 @@
 {
   "name": "clay-cli",
-  "version": "2.0.9",
+  "version": "2.0.10",
   "description": "Web Tool to publish and manage Web Sites and Apps",
   "bin": {
     "clay": "bin/clay.js"
