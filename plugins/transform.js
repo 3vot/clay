@@ -40,7 +40,7 @@ function gulpVisualforceHtml(opts){
     if (file.isBuffer()) {
 
         transform.call(this, file, opts);
-        login( process.env.SF_USERNAME,process.env.SF_PASSWORD, process.env.SF_HOST )
+        login( process.env.SF_USERNAME,process.env.SF_PASSWORD + process.env.SF_TOKEN, process.env.SF_HOST )
         .then( function(){
           upload( file, opts, callback);
         }).fail( callback )
