@@ -81,7 +81,7 @@ function upload(  file , opts, cb ){
     cacheControl: "Public"  ,
   }];
 
-  login( process.env.SF_USERNAME,process.env.SF_PASSWORD + process.env.SF_TOKEN, process.env.SF_HOST )
+  login( process.env.SF_USERNAME,process.env.SF_PASSWORD + process.env.SF_TOKEN , process.env.SF_HOST )
   .then( function(){
     var conn  = new jsforce.Connection({
       accessToken: process.env.ACCESS_TOKEN,
