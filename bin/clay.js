@@ -10,6 +10,9 @@ var gulp         =  require("gulp")
 var SfLogin      =  require("../plugins/login");
 var Q            =  require("q");
 var Util         =  require("util");
+var minimist = require('minimist');
+
+
 require("../index");
 
 
@@ -184,9 +187,9 @@ function gulpCall( task){
   
   var spawn = require("win-spawn");
   var npm;
-  
+
   try{
-  	if( task )  npm  = spawn( gulpcommand , task , {stdio: "inherit"} );
+  	if( task )  npm  = spawn( gulpcommand ,  [task].concat( process.argv.slice(2) )  , {stdio: "inherit"} );
 
 	  else  npm  = spawn( gulpcommand );
 	  var npmResponse = "";
