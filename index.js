@@ -11,8 +11,14 @@ var localPath = Path.join( process.cwd(), "gulpfile.js" )
 var localPath = process.cwd();
 var originalTaks = gulp.tasks;
 
-var dotenv = require("dotenv");
-dotenv.load();
+var minimist = require("minimist")
+var args = minimist( process.argv );
+
+var env = "";
+if( args.env ) env = "-" + args.env
+
+require('dotenv').config({path: './.env' + env});
+
 
 var p = require( Path.join( process.cwd() , "package.json" ) );
 
