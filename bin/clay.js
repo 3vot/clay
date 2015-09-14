@@ -189,7 +189,16 @@ function gulpCall( task){
   var npm;
 
   try{
-  	if( task )  npm  = spawn( gulpcommand ,  [task].concat( process.argv.slice(2) )  , {stdio: "inherit"} );
+  	var optionsStarted= false;
+  	for (var i = 0; i < process.argv.length; i++) {
+  		var arg = process.argv[i];
+  		if(arg.indexOf("--") > -1 || optionsStarted){
+  			optionsStarted=true
+  			task.push( arg )
+  		}
+  	};
+  	
+  	if( task )  npm  = spawn( gulpcommand ,  task  , {stdio: "inherit"} );
 
 	  else  npm  = spawn( gulpcommand );
 	  var npmResponse = "";

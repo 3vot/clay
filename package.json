@@ -1,6 +1,6 @@
 {
   "name": "clay-cli",
-  "version": "2.0.13",
+  "version": "2.0.14",
   "description": "Web Tool to publish and manage Web Sites and Apps",
   "bin": {
     "clay": "bin/clay.js"
@@ -31,7 +31,6 @@
     "yargs": "~1.3.3"
   },
   "devDependencies": {
-    "gulp-replace": "^0.5.4",
     "tap": "~0.4.13"
   },
   "scripts": {
@@ -39,11 +38,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/3vot/clay.git"
+    "url": "git+https://github.com/3vot/clay.git"
   },
   "author": "",
   "license": "BSD-2-Clause",
   "bugs": {
     "url": "https://github.com/3vot/clay/issues"
-  }
+  },
+  "readme": "Clay Command Line Tool\n========\n\nCommand Line tool to build and Publish Web and Mobile Applications\n\n\n## What is clay\n\nClay is used to publish pages, apps and content to the web fast and easy.\n\nClay can also be used to build javascript/html5 apps with a streamlined process that takes advantage of gulp plugins.\n\n## How can I use Clay\n\nFirst setup your project, then use clay and gulp plugin to automate the most repetitive tasks while building apps and finally use Clay to upload the project to the web.\n\n## Creating an App\nAfter registering with Clay - create and app using `clay create APP_NAME` where APP_NAME is the name of your app.\n\nOnce you are ready to `clay preview` your app - it will be available in APP_NAME.3votapp.com - where APP_NAME is the name of your app.\n\nThen from your domain - simply create a CNAME record that points to APP_NAME.3votapp.com. Once that's done you'll be able to run apps from http://smile.cocacola.com for example.\n\n## Gulp and Plugins\nUse project http://github.com/3vot/r3_demo to setup your new project.\n\nGulp is optional and completely under developers control - in the end what Clay does is it gets the contents of the `dist` folder and uploads it. \n\n\n\n## Salesforce\nClay is useful to build Salesforce Applications based in Visualforce - it contains a set of plugins to login, run a local server, upload visualforce pages and static resources.\n\nIt operates the whole livecycle of the app from development to deployment - apps can be build like regular HTML5/Javascript apps and then published to Salesforce/Salesforce1 as Visualforce Pages.\n\nUse project http://github.com/3vot/vf_demo to setup your new project.\n\n## Commands\n\n### clay\nRuns the default Gulp task - is similar as running gulp.\n\n### clay preview\nRuns the `gulp dist` task if it exists and then uploads the contents of the `dist` folder into APP_NAME_stage.3votapp.com. \n\nThe preview adds a _stage suffix to APP_NAME, this is done so we are able to have a staging sharable version.\n\n### clay publish\nRuns the `gulp dist` task if it exists and then uploads the contents of the `dist` folder into APP_NAME.3votapp.com. \n\n## Salesforce Commands\n\nSalesforce commands are similar - just add the salesforce keyword\n\n`clay salesforce` - starts local development server\n\n`clay salesforce publish` - published contents of `dist` folder as visualforce page + static resources\n\n\n## Gulp Tasks\nTo run a gulp task from Clay - simply type the task name after clay. `clay images` - just make sure the task's name is not salesforce, preview or publish.\n\n## .env file\nEvery project needs to have a .env file - this file contains project specific information. Here is an example:\n```\n```\n\nMake sure to add the `.env` file entry to `.gitignore` file on the projects root.\n\n## .env file for Salesforce\nWhen used in Salesforce the .env file also requires the options SF_USERNAME, SF_PASSWORD AND SF_HOST. SF_PASSWORD may include the security token right after the password.\n\n\n",
+  "readmeFilename": "README.md",
+  "gitHead": "8907b2e63ac93e616981d4add9f747554f928c82",
+  "homepage": "https://github.com/3vot/clay#readme",
+  "_id": "clay-cli@2.0.12",
+  "_shasum": "760b4ce1f82eb5bb91e3cc3723bda91d9db611aa",
+  "_from": "clay-cli@*"
 }

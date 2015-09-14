@@ -19,10 +19,12 @@ if( args.env ) env = "-" + args.env
 
 require('dotenv').config({path: './.env' + env});
 
-
 var p = require( Path.join( process.cwd() , "package.json" ) );
 
+if( args.platform ) process.env.NAME = args.platform
 if( !process.env.NAME ) process.env.NAME = p.name;
+
+
 if( !process.env.DIST_FOLDER ) process.env.DIST_FOLDER = "./dist";
 if( !process.env.ZIP_NAME ) process.env.ZIP_NAME = process.env.NAME;
 if( !process.env.ZIP_FOLDER ) process.env.ZIP_FOLDER = process.cwd();
