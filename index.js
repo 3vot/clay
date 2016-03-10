@@ -17,7 +17,9 @@ var args = minimist( process.argv );
 var env = "";
 if( args.env ) env = "-" + args.env
 
-require('dotenv').config({path: './.env' + env});
+try{
+	require('dotenv').config({path: './.env' + env});
+}catch(e){ console.warning('Could not load .env file - vars should be loaded externally') }
 
 var p = require( Path.join( process.cwd() , "package.json" ) );
 
