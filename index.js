@@ -23,7 +23,9 @@ try{
 
 var p = require( Path.join( process.cwd() , "package.json" ) );
 
-if( args.platform ) process.env.NAME = args.platform
+var platform = args.platform || process.env.platform;
+
+if( platform ) process.env.NAME = platform;
 if( !process.env.NAME ) process.env.NAME = p.name;
 
 
