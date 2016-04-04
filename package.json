@@ -6,7 +6,7 @@
     "clay": "bin/clay.js"
   },
   "dependencies": {
-    "chalk": "~0.5.1",
+    "chalk": "~1.0.0",
     "cheerio": "~0.18.0",
     "dotenv": "^1.2.0",
     "gulp": "~3.8.10",
